@@ -1,40 +1,40 @@
 # LinkedIn Post Draft
 
-Attach `org-chart.png` (1080 x 1350). Anything in [brackets] is yours to fill in or cut. Do not add a result you can't back up. The Fact Checker would not let you.
+Attach `org-chart.png` (1080 x 1350). Read it out loud before posting and change any word you wouldn't say yourself.
 
 ---
 
-My job search has an org chart.
+A job search is a full-time job with no staff.
 
-When my search started, I did what everyone does. Scrolled job boards, rewrote my resume for every posting, sent emails into the void, and lost track of who I'd contacted.
+I keep watching good people burn weeks on it. Scrolling boards. Rewriting the same resume for every posting. Sending emails to inboxes nobody checks. Losing track of who they already reached out to.
 
-So I built a team instead. Every role is a Claude skill:
+So I built them a staff. It's called Recruit Rocket, a full-service recruiting team made of AI agents that works for the job seeker, not the employer.
 
-→ A Talent Scout scans job boards three times a day and grades each posting A, B, or C on what I can prove, not on the title.
-→ A Market Intel Analyst finds companies about to hire before they post: a new CEO, fresh funding, an acquisition that needs an operator.
-→ A Research Analyst reads what each company says about itself and confirms who to contact, with a dated source.
-→ A Brand Builder tailors my resume, a one-page baseball card, and my LinkedIn profile.
-→ An Outreach Writer drafts emails in my voice, built on the company's own words.
-→ An Interview Coach predicts the questions and builds answers from my real results.
-→ A Head Headhunter runs the tracker and tells me every morning what's due.
+Here's what it does:
 
-[One or two lines on what changed for you. For example: how many conversations started, or how much time you got back each week. Only real numbers.]
+It scans the job boards every weekday and grades each posting on whether your background actually fits. Not the title. The work.
 
-The most important hire? The Fact Checker.
+It finds companies about to hire before the job is posted. New CEO, fresh funding, an acquisition that needs an operator. Then it finds the right exec to talk to, and confirms they're still in the seat.
 
-It checks every number in every draft against a file of facts I verified myself. It caught my AI calling "resolution time" "wait time." It caught a number I'd rounded up. It flags any email address that's a guess. One wrong number in a cold email ends the conversation, and it can follow you into a reference check.
+For every target it builds the package: a tailored resume that reads clean in any ATS, a short cover letter, and a one-page stat sheet with your best numbers up front. Think baseball card. That's the page hiring managers remember.
 
-And the rule over all of it: nothing goes out without my yes. The team drafts. I send.
+It writes the outreach. An email to the decision maker and a LinkedIn connect note, built on what the company says about itself.
 
-I cleaned it up into a kit anyone can use, at any level. I call it Rocket Recruiter. Setup is one message you paste into Claude.
+It preps you for the interview and tracks every follow-up, so nothing slips.
+
+And it fact-checks everything against your own record before you see it. Every number on the resume matches the email, the stat sheet, and what you'll say in the room.
+
+Nothing goes out without your yes. It drafts. You send.
+
+Setup is one message you paste into Claude, then a 10-minute interview.
 
 Comment ROCKET and I'll send it to you.
 
-#JobSearch #AI #Careers #Claude
+#JobSearch #Careers #AI #Recruiting
 
 ---
 
-## Notes before posting
-- The arrows (→) are fine on LinkedIn. Swap them for plain dashes if you prefer.
-- Reply to each ROCKET comment with the repo link or a DM, per your plan for sharing.
-- If the repo is private at posting time, make it public (or share the `dist/skills` zips and the README another way) before sending links.
+## Before posting
+- Make the GitHub repo public so the link works for people who comment.
+- Reply to each ROCKET comment with the repo link, or send it by DM.
+- Optional: replace one line with a real example from someone who tried it (with their permission).

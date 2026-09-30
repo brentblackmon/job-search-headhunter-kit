@@ -2,7 +2,7 @@
 
 Last reviewed: YYYY-MM-DD
 
-This is the single source of truth for Rocket Recruiter. Every skill reads it. Nothing goes into a resume, email, or interview answer unless it is here. `FROM RESUME` facts are confirmed with a quick yes the first time a draft uses them.
+This is the single source of truth for Recruit Rocket. Every skill reads it. Nothing goes into a resume, email, or interview answer unless it is here. `FROM RESUME` facts are confirmed with a quick yes the first time a draft uses them.
 
 ## Identity and contact
 - Name (as on resume):

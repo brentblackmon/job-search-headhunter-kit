@@ -1,10 +1,10 @@
-# Rocket Recruiter
+# Recruit Rocket
 
-**An AI personal headhunter for your job search.** It's a team of Claude skills that works like a small recruiting firm with one client: you. It finds openings, spots companies about to hire, tailors your resume, fact-checks every word, drafts outreach, preps you for interviews, and keeps your tracker.
+**A full-service AI recruiting team that works for the job seeker.** It's a set of Claude skills that runs your whole search like a small recruiting firm with one client: you. It finds openings and grades them on real fit, spots companies about to hire before they post, builds a tailored ATS-ready resume, a cover letter, and a one-page stat sheet (a "baseball card") that puts your best numbers up front, writes the email and LinkedIn connect note to the right person, preps you for interviews, and tracks every follow-up.
 
 **Nothing goes out without your yes.** The kit drafts. You approve, and you send.
 
-It was built and proven in a real executive job search. This is the clean, generic version you can set up for yourself at any career level.
+Built to take the busywork out of a job search, so you spend your time on conversations, not formatting. Works at any career level.
 
 ---
 
@@ -70,7 +70,7 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 1. Open the Claude desktop app and switch to **Cowork**. Choose your **Documents** folder.
 2. Copy this whole message, paste it in, and press Enter:
 
-> Please set up Rocket Recruiter for me. Install these 13 skills from these links:
+> Please set up Recruit Rocket for me. Install these 13 skills from these links:
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/intake.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/headhunter-chief-of-staff.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/fact-check.zip
@@ -90,16 +90,16 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 > (use only the "templates" folder from that zip). Tell me when you're done.
 
 3. Click **approve** when Claude asks for permission.
-4. Start a new task, choose the **My Job Search** folder, attach your resume, and say: **"Set me up with Rocket Recruiter."** The `intake` skill reads what you share and asks about 5 easy questions, one at a time, like a first call with a recruiter.
+4. Start a new task, choose the **My Job Search** folder, attach your resume, and say: **"Set me up with Recruit Rocket."** The `intake` skill reads what you share and asks about 5 easy questions, one at a time, like a first call with a recruiter.
 
 **If Claude says it can't install skills,** do it by hand: in Claude go to **Settings, Skills, Upload skill** and drag in the 13 `.zip` files from the kit's `dist/skills` folder (GitHub page, **Code**, **Download ZIP**, then unzip). You can drop them all in at once.
 
 ### Option B: Claude Code
 ```
 /plugin marketplace add brentblackmon/job-search-headhunter-kit
-/plugin install rocket-recruiter@job-search-headhunter-kit
+/plugin install recruit-rocket@job-search-headhunter-kit
 ```
-Then clone the repo (or copy `templates/`) into your working folder and say "Set me up with Rocket Recruiter."
+Then clone the repo (or copy `templates/`) into your working folder and say "Set me up with Recruit Rocket."
 
 To build resumes and baseball cards as PDFs on your own computer, see [generators/README.md](generators/README.md). In Cowork and Claude Code, Claude can run these for you.
 
@@ -109,7 +109,7 @@ To build resumes and baseball cards as PDFs on your own computer, see [generator
 
 | Day | Do this | Say to Claude |
 |---|---|---|
-| 1 | A 10-minute interview, then the kit scans jobs and builds resumes, cards, cover letters, and emails for your top 3 matches on its own | "Set me up with Rocket Recruiter. My resume is attached." |
+| 1 | A 10-minute interview, then the kit scans jobs and builds resumes, cards, cover letters, and emails for your top 3 matches on its own | "Set me up with Recruit Rocket. My resume is attached." |
 | 2 | Master resume and baseball card | "Build my master resume and baseball card." |
 | 2 | LinkedIn headline and About | "Review my LinkedIn." |
 | 3 | First job scan, then schedule it | "Run my first job scan." then "Set up my scheduled scan." |
