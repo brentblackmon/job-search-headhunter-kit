@@ -1,6 +1,6 @@
 ---
 name: intake
-description: Builds or updates the job seeker's facts file (facts.md) through a short, friendly interview, like a first call with a recruiter. Reads only what the user shares (resume, LinkedIn PDF, work examples, cover letters), drafts everything silently, then asks about 5 easy questions one at a time. Use when the user is starting the Headhunter Kit, says "set me up," "build my facts file," "update my facts," shares a resume to start from, or when any other skill finds a fact missing. Every other skill in the kit reads from this file.
+description: Builds or updates the job seeker's facts file (facts.md) through a short, friendly interview, like a first call with a recruiter. Reads only what the user shares (resume, LinkedIn PDF, work examples, cover letters), drafts everything silently, then asks about 5 easy questions one at a time. Use when the user is starting Rocket Recruiter, says "set me up," "build my facts file," "update my facts," shares a resume to start from, or when any other skill finds a fact missing. Every other skill in the kit reads from this file.
 ---
 
 # Intake
