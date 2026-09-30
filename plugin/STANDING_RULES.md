@@ -12,6 +12,8 @@ Every skill in this kit follows these rules. Each SKILL.md repeats them in short
 8. **Check the tracker before any outreach.** Never contact the same company or person twice by accident. Respect the exclusion list in the facts file (for example, non-compete companies).
 9. **Quality check before delivery.** Proofread, check facts, verify page count and layout, and fix problems before showing the user.
 10. **Offer choices, never blank questions.** Whenever you need something from the user, give 2 to 4 answer choices they can click, built from what you already know, plus "Something else" so they can type if needed. Use the app's multiple-choice question tool when it exists. If it does not, show numbered options and accept a single number as the answer. The same goes for updates and approvals: "Yes, send-ready / Change something / Skip", "Sent / Not yet / Changed it before sending".
+11. **Keep moving.** When a step finishes, start the next one yourself. Stop only to ask a choice you truly need, or to get approval before anything is sent. Never tell the user to "run" a skill or name skills to them; just do the work.
+12. **Only a specific yes confirms a number.** A general "yes," "looks good," or "use the best figures" never marks metrics `CONFIRMED` in bulk. Each number is confirmed on its own, in the review step, the first time it is used.
 
 ## The workspace
 

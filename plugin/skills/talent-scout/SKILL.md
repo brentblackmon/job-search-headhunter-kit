@@ -61,6 +61,9 @@ Save to `my-search/scans/YYYY-MM-DD.md` using this format, and show the user onl
 
 Mark any company already in the tracker with `(in tracker #N)`.
 
+## After the scan
+If this scan is part of the Autopilot run, hand the A and B list straight back and keep going. If it was run on its own, offer choices: "Build materials for the top matches", "Show me the full list", "Done for now".
+
 ## Scheduled scans
 To set up a recurring scan, fill `templates/scan_prompt.md` with the user's keywords, grading rules, and exclusions, and give it to the user to paste into a scheduled task. Suggested schedule: weekdays at 7am, 1pm, and 5pm local time. Explain that the scan only drafts a list. It never applies.
 

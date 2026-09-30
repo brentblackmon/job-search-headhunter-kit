@@ -24,7 +24,7 @@ Built by `generators/baseball-card/render-card.js` from `card-template.html`. La
    - When tailoring, order proof cards so the company's top priorities come first.
    - Each result sentence: 18 words or fewer, approved phrasing.
 3. Photo: ask the user for a headshot file. If none, the template shows initials. Never use a stock or generated face.
-4. Render:
+4. Render. If the kit's `generators/` folder is not available, build the same layout as HTML and save it as a one-page landscape PDF with whatever tools you have. Do not stop to ask the user to install anything.
 ```
 cd generators/baseball-card
 npm install        # first time only
