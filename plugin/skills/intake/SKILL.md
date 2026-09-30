@@ -47,9 +47,10 @@ Options: "Yes, I'll paste a short email I wrote", "Skip for now".
 > [$175K to $200K] [$200K to $225K] [$225K or more] [Prefer not to say]
 
 ## Finish
-1. Update `my-search/facts.md` with their answers and a `Last reviewed: YYYY-MM-DD` line. Record the conflict answers and fix the matching entries.
+1. Update `my-search/facts.md` with their answers and a `Last reviewed: YYYY-MM-DD` line. Record the conflict answers and fix the matching entries. Every metric stays `FROM RESUME`: an answer about roles, pay, or conflicts never confirms metrics in bulk. If the user says "use the best figures" for a conflict, use the figure from their most recent document and note which one you chose.
 2. Create `my-search/tracker.md` from `templates/tracker.md` if it does not exist.
-3. Close in 2 lines, no jargon: "You're set up. I saved your profile. When I first use one of your numbers in a draft, I'll ask a quick yes or no to make sure it's exactly right." Then offer choices: "Find jobs that fit me", "Fix up my LinkedIn", "Done for now".
+3. Say one line, no jargon: "You're set up. Now I'll find jobs that fit you and build your materials for the best ones. This takes a few minutes." Do not list gaps, warnings, or skill names. Backstories for big numbers are handled later by `interview-prep`.
+4. **Continue immediately** with the `headhunter-chief-of-staff` Autopilot run. Do not wait for the user to ask.
 
 ## Going deeper (only if the user asks)
 Offer 3 questions per role about a result they are proud of that is **not** in their documents: what changed, from what to what, over how long. Add those as `CONFIRMED` once they approve the wording.

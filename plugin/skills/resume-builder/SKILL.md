@@ -36,6 +36,8 @@ Built by `generators/resume/build-resume.js`. Do not hand-format in Word.
 4. Never add a keyword the facts do not support. Keyword stuffing is a false claim.
 
 ## Generate
+If the kit's `generators/` folder is not available (common in Cowork), build the .docx and PDF with whatever document tools you have, following the same format rules above, and do the QA checks by looking at the result. Do not stop to ask the user to install anything.
+
 ```
 cd generators/resume
 npm install            # first time only

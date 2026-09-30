@@ -14,6 +14,27 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 - `my-search/tracker.md` (format in `templates/tracker.md`). You are the only skill that restructures it. Others append entries.
 - You read `facts.md` (exclusions, targets) and the latest `scans/` and `signals/` files.
 
+## Autopilot (first run after intake, and each morning)
+The user should never have to name the next step. Run the whole pipeline, then stop once for review.
+
+1. **Scan.** Use `talent-scout` (last 14 days on the first run, 3 days after that). Save the scan file.
+2. **Pick.** Take the top 3 A-grade postings not already in the tracker. If there are fewer than 3 A's, fill with the best B's and say so. Skip excluded companies.
+3. **Build a package for each pick**, in order, without stopping:
+   - `company-research` (who to contact, dated sources, their own words)
+   - `resume-builder` tailored resume (.docx and PDF)
+   - `baseball-card` tailored card (PDF)
+   - `cover-letter`
+   - `outreach-package` email and LinkedIn note
+   - `fact-check` on all of it. Collect any `FROM RESUME` numbers that need a yes; do not ask yet.
+   Save everything to `companies/<company>/`.
+4. **Log.** Add each company to the tracker as `Drafted`, with links to its files.
+5. **One review screen.** Show a short card per company: role, grade and why, who to contact, and links to the resume, card, cover letter, and email. Then:
+   - Ask the number confirmations, one per question, with choices ("Yes, exactly right", "Close, let me fix it", "Leave it out"). Fix drafts to match the answers.
+   - For each company, offer: "Looks good, I'll send it", "Change something", "Skip this one".
+6. **After sending**, ask "Sent it as is", "Sent it with changes", or "Not yet", log the exact text, and set follow-up dates.
+
+If a step fails (no postings found, a generator is missing), say so in one line, do what you can, and keep going. On later mornings, start with the Daily briefing items below, then run steps 1 to 5 for any new A-grade postings.
+
 ## Daily briefing ("what should I do today?")
 1. Read the tracker. List, in this order:
    - **Due today or overdue**: follow-ups whose `Next follow-up` date is today or past.

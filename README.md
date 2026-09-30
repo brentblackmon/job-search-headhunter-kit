@@ -109,7 +109,7 @@ To build resumes and baseball cards as PDFs on your own computer, see [generator
 
 | Day | Do this | Say to Claude |
 |---|---|---|
-| 1 | Build your facts file from your resume (about 10 minutes) | "Set me up with the Headhunter Kit. My resume is attached." |
+| 1 | A 10-minute interview, then the kit scans jobs and builds resumes, cards, cover letters, and emails for your top 3 matches on its own | "Set me up with the Headhunter Kit. My resume is attached." |
 | 2 | Master resume and baseball card | "Build my master resume and baseball card." |
 | 2 | LinkedIn headline and About | "Review my LinkedIn." |
 | 3 | First job scan, then schedule it | "Run my first job scan." then "Set up my scheduled scan." |
