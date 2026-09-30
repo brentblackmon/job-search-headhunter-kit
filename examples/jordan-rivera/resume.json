@@ -1,0 +1,125 @@
+{
+  "_note": "FICTIONAL SAMPLE. Jordan Rivera is not a real person. All companies, numbers, and contact details are invented.",
+  "name": "Jordan Rivera",
+  "headline": "Operations Executive | SaaS Implementation, Support, and Scale | Logistics Technology",
+  "contact": [
+    "Charlotte, NC",
+    "(704) 555-0142",
+    "jordan.rivera@example.com",
+    "linkedin.com/in/jordan-rivera-example"
+  ],
+  "stats": [
+    {
+      "value": "16 to 9 wks",
+      "label": "implementation time"
+    },
+    {
+      "value": "95%",
+      "label": "revenue retention"
+    },
+    {
+      "value": "$11.2M",
+      "label": "budget, 64 people"
+    },
+    {
+      "value": "31 to 12 hrs",
+      "label": "ticket resolution"
+    }
+  ],
+  "summary": [
+    "Operations leader with 14 years in logistics and supply chain software, most recently running implementation, support, and training for a 420-person transportation software company. I build the post-sale engine that turns new customers into long-term ones.",
+    "Known for plain metrics, weekly operating rhythms, and teams that keep their best people. Comfortable with acquisitions, fast growth, and boards that want the numbers straight."
+  ],
+  "achievements": [
+    "Cut average implementation time from 16 weeks to 9 weeks at Tidewater Freight Systems by rebuilding onboarding around three standard tiers.",
+    "Helped raise gross revenue retention from 89% to 95% in three years by pairing implementation leads with account owners through the first renewal.",
+    "Integrated an acquired company's 38 employees and 120 customers onto one support platform in 7 months and kept 97% of acquired customers through year one.",
+    "Built Kestrel Route Software's implementation team from 6 to 23 people and onboarded 140 new customers in 2017 and 2018.",
+    "Raised on-time shipment rate from 91% to 98.5% across two distribution centers at Brightpine Distribution."
+  ],
+  "competencies": [
+    "SaaS Operations",
+    "Implementation",
+    "Customer Support",
+    "Revenue Retention",
+    "M&A Integration",
+    "Process Design",
+    "Budget Ownership",
+    "KPI Design",
+    "Team Building"
+  ],
+  "experience": [
+    {
+      "company": "Tidewater Freight Systems",
+      "location": "Charlotte, NC",
+      "dates": "03/2019 to Present",
+      "roles": [
+        {
+          "title": "Director of Operations",
+          "dates": "01/2021 to Present"
+        },
+        {
+          "title": "Senior Manager, Customer Operations",
+          "dates": "03/2019 to 12/2020"
+        }
+      ],
+      "blurb": "Transportation management software for mid-market shippers and carriers. About 420 employees.",
+      "bullets": [
+        "Lead implementation, support, and training: 64 people and an $11.2M operating budget. Report to the COO.",
+        "Rebuilt onboarding around three standard tiers with fixed scopes and go-live checklists; average implementation time fell from 16 weeks to 9 weeks.",
+        "Paired each implementation lead with an account owner through the first renewal, which helped raise gross revenue retention from 89% to 95% in three years.",
+        "Ran the operations integration of Lanternfish Yard Systems (acquired 2023): 38 employees and 120 customers moved onto one support platform in 7 months, with 97% of acquired customers kept through year one.",
+        "Cut average ticket resolution time from 31 hours to 12 hours with tiered routing and a searchable fix library.",
+        "Reduced cost to serve per customer 22% from FY2022 to FY2024 while the customer base grew.",
+        "Launched a customer training academy that certified 1,100 customer users in 2024.",
+        "Consolidated support and training tools from 7 vendors to 3, saving $640K per year.",
+        "Built the headcount capacity model finance now uses to plan post-sale hiring each quarter."
+      ]
+    },
+    {
+      "company": "Kestrel Route Software",
+      "location": "Atlanta, GA",
+      "dates": "06/2015 to 02/2019",
+      "roles": [
+        {
+          "title": "Senior Manager, Implementation",
+          "dates": "06/2015 to 02/2019"
+        }
+      ],
+      "blurb": "Route planning software for regional distributors.",
+      "bullets": [
+        "Built the implementation team from 6 to 23 people and onboarded 140 new customers in 2017 and 2018.",
+        "Wrote the standard implementation playbook that cut go-live defects 45%.",
+        "Set up the first customer health score, used by sales and support to plan renewals.",
+        "Hired and trained the first two implementation managers promoted from within."
+      ]
+    },
+    {
+      "company": "Brightpine Distribution",
+      "location": "Charlotte, NC",
+      "dates": "07/2012 to 05/2015",
+      "roles": [
+        {
+          "title": "Operations Manager",
+          "dates": "09/2013 to 05/2015"
+        },
+        {
+          "title": "Logistics Analyst",
+          "dates": "07/2012 to 08/2013"
+        }
+      ],
+      "blurb": "Third-party logistics provider with two distribution centers.",
+      "bullets": [
+        "Ran daily operations for two distribution centers and 85 hourly associates.",
+        "Raised on-time shipment rate from 91% to 98.5% across both distribution centers.",
+        "Cut overtime cost by $410K per year with demand-based shift planning.",
+        "As a logistics analyst, built the weekly carrier scorecard used in rate negotiations."
+      ]
+    }
+  ],
+  "education": [
+    "B.S. Industrial Engineering, Carolina Lakes University (fictional), 2012",
+    "Certified Supply Chain Professional (CSCP), 2016",
+    "Lean Six Sigma Green Belt, 2014"
+  ]
+}
