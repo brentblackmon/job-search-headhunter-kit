@@ -8,7 +8,7 @@ description: Brand Builder, baseball card. Makes a one-page landscape "baseball 
 A baseball card lets a busy executive see the user's value in 10 seconds. It rides along with direct email and gets handed across the table. It never goes into an applicant tracking system, which cannot read it well.
 
 ## Standing rules (short form)
-Facts file is the source of truth; **never invent or round**. **Use approved phrasing.** Dated sources for people. No guessed emails as real. The user sends everything. Human voice: no em dashes, no filler. Research first. Check the tracker. **QA before delivery.** Full text: `STANDING_RULES.md`.
+Facts file is the source of truth; **never invent or round**. **Use approved phrasing.** Dated sources for people. No guessed emails as real. The user sends everything. Human voice: no em dashes, no filler. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md`.
 
 ## Layout (fixed)
 Built by `generators/baseball-card/render-card.js` from `card-template.html`. Landscape US Letter, one page.

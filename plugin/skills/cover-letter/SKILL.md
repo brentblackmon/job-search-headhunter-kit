@@ -8,7 +8,7 @@ description: Brand Builder, cover letter. Writes a one-page, 120 to 250 word cov
 Short, specific, and human. It should read like a note from a person who did their homework, not a template.
 
 ## Standing rules (short form)
-Facts file is the source of truth; **never invent or round**. **Use approved phrasing.** Dated sources for people. No guessed emails as real. The user sends everything. **Human voice: no em dashes, no filler ("leverage," "unlock," "seamless," "I'm excited to," "I am writing to apply"), no stacked adjectives.** Research first. Check the tracker. QA before delivery. Full text: `STANDING_RULES.md`.
+Facts file is the source of truth; **never invent or round**. **Use approved phrasing.** Dated sources for people. No guessed emails as real. The user sends everything. **Human voice: no em dashes, no filler ("leverage," "unlock," "seamless," "I'm excited to," "I am writing to apply"), no stacked adjectives.** Research first. Check the tracker. QA before delivery. **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md`.
 
 ## Inputs
 `facts.md`, the posting, and `companies/<slug>/research.md` (run `company-research` first if missing).
