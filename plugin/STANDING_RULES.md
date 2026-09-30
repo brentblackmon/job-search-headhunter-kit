@@ -25,3 +25,7 @@ my-search/
   signals/YYYY-MM-DD.md    signal-search results
   companies/<company>/     research, tailored materials, prep sheets
 ```
+
+## Where the kit files live
+
+Skills refer to `templates/` and `generators/`. Those folders are in the kit repository, next to `plugin/`. If a skill cannot see them (for example, when skills were uploaded one at a time), ask the user to add the kit's `templates` folder to the project. Until then, follow the format described in the skill itself.

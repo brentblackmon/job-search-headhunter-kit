@@ -5,6 +5,11 @@
   "author": {
     "name": "Job Search Headhunter Kit"
   },
-  "license": "MIT",
-  "keywords": ["job-search", "resume", "outreach", "interview", "career"]
+  "keywords": [
+    "job-search",
+    "resume",
+    "outreach",
+    "interview",
+    "career"
+  ]
 }
