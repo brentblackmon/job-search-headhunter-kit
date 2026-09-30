@@ -23,6 +23,7 @@ For every number, percentage, dollar amount, team size, title, company name, and
 - Compare to the **approved phrasing**, not just the number. "Cut ticket wait time 40%" is wrong if the approved phrasing is "cut average resolution time 40%."
 - Rounding up is an error. "Nearly $50M" when the fact is $46M is an error.
 - Anything marked `UNCONFIRMED` in the facts file is an error until the user confirms it.
+- Anything marked `FROM RESUME` needs a one-line yes before it goes out. Ask it as a single quick question, for example: "Your resume says you cut resolution time from 31 to 12 hours. Still exactly right? (yes / fix it)". Ask all such questions for one draft together. On yes, change the status in `facts.md` to `CONFIRMED`. This is how the facts file gets verified without a long interview.
 - A claim with no match in the facts file is an error. Do not guess. Ask.
 
 **2. Claims about the company or person**

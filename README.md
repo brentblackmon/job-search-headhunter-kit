@@ -33,7 +33,7 @@ It was built and proven in a real executive job search. This is the clean, gener
 
 | Role | Skill | What it does | When |
 |---|---|---|---|
-| Intake | `intake` | Interviews you and builds your **facts file**, the single source of truth | Once, then when things change |
+| Intake | `intake` | Reads your resume, asks 5 quick questions, and builds your **facts file**, the single source of truth | Once, then when things change |
 | Head Headhunter | `headhunter-chief-of-staff` | Daily briefing, tracker, follow-up schedule, prevents contacting anyone twice | Every morning |
 | Talent Scout | `talent-scout` | Scans job boards and grades postings A/B/C against what you can prove, not job titles | Weekdays 7am, 1pm, 5pm |
 | Market Intel Analyst | `signal-search` | Finds companies likely to hire before they post (new CEO, funding, acquisitions) and lists the hidden-market channels for your field | On call |
@@ -60,7 +60,7 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 
 ---
 
-## Setup (about 30 minutes)
+## Setup (about 20 minutes, including a 10-minute intake)
 
 ### What you need
 - A Claude account with skills enabled (the Claude app, Cowork, or Claude Code).
@@ -71,7 +71,7 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 2. Open the `dist/skills` folder. There is one `.zip` file per skill.
 3. In Claude, open **Settings**, find **Skills** (under Capabilities), and upload each `.zip`. Start with `intake`, `fact-check`, and `headhunter-chief-of-staff`, then add the rest.
 4. Create a project (or Cowork folder) for your search and add the kit's `templates` folder to it. The skills use those templates.
-5. Start a chat in that project and say: **"Set me up with the Headhunter Kit."** The `intake` skill takes it from there.
+5. Start a chat in that project, attach your resume, and say: **"Set me up with the Headhunter Kit."** The `intake` skill drafts your facts file from the resume and asks you 5 quick questions.
 
 ### Option B: Claude Code
 ```
@@ -88,7 +88,7 @@ To build resumes and baseball cards as PDFs on your own computer, see [generator
 
 | Day | Do this | Say to Claude |
 |---|---|---|
-| 1 | Build your facts file (45 to 60 minutes of questions) | "Set me up with the Headhunter Kit." |
+| 1 | Build your facts file from your resume (about 10 minutes) | "Set me up with the Headhunter Kit. My resume is attached." |
 | 2 | Master resume and baseball card | "Build my master resume and baseball card." |
 | 2 | LinkedIn headline and About | "Review my LinkedIn." |
 | 3 | First job scan, then schedule it | "Run my first job scan." then "Set up my scheduled scan." |

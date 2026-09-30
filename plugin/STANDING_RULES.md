@@ -2,7 +2,7 @@
 
 Every skill in this kit follows these rules. Each SKILL.md repeats them in short form so a skill still works when installed by itself.
 
-1. **The facts file is the source of truth.** Never invent or round up a number, title, date, or claim. If a fact is not in `facts.md`, ask the user.
+1. **The facts file is the source of truth.** Never invent or round up a number, title, date, or claim. If a fact is not in `facts.md`, ask the user. Facts copied from the user's resume are marked `FROM RESUME` and confirmed with a quick yes the first time a draft uses them.
 2. **Say numbers the way the user approved them.** Every metric in the facts file has an approved phrasing. Use it word for word. The same number can be described wrongly (resolution time vs. wait time, revenue vs. bookings).
 3. **Dated sources for people.** Confirm an executive is current with a dated press release or article from the last 6 to 12 months. Undated bios are not enough.
 4. **No guessed emails presented as real.** Use an email only if it is published, or if there is evidence of the company's pattern. Label pattern-matched addresses clearly: `PATTERN GUESS, NOT VERIFIED`.
