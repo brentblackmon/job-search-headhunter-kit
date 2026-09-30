@@ -60,18 +60,39 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 
 ---
 
-## Setup (about 20 minutes, including a 10-minute intake)
+## Setup (about 15 minutes, including a 10-minute intake)
 
 ### What you need
 - A Claude account with skills enabled (the Claude app, Cowork, or Claude Code).
 - Optional but helpful connectors: **Gmail** (so Claude can save drafts for you to send), **Google Drive** (to keep your job search folder), a browser connection for **LinkedIn**, and any **job board** connectors available to you.
 
-### Option A: The Claude app or Cowork (no coding)
-1. On this GitHub page, click **Code**, then **Download ZIP**. Unzip it.
-2. Open the `dist/skills` folder. There is one `.zip` file per skill.
-3. In Claude, open **Settings**, find **Skills** (under Capabilities), and upload each `.zip`. Start with `intake`, `fact-check`, and `headhunter-chief-of-staff`, then add the rest.
-4. Create a project (or Cowork folder) for your search and add the kit's `templates` folder to it. The skills use those templates.
-5. Start a chat in that project, attach your resume, and say: **"Set me up with the Headhunter Kit."** The `intake` skill drafts your facts file from the resume and asks you 5 quick questions.
+### Option A: Let Claude set it up (easiest, no file handling)
+1. Open the Claude desktop app and switch to **Cowork**. Choose your **Documents** folder.
+2. Copy this whole message, paste it in, and press Enter:
+
+> Please set up the Job Search Headhunter Kit for me. Install these 13 skills from these links:
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/intake.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/headhunter-chief-of-staff.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/fact-check.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/talent-scout.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/signal-search.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/company-research.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/resume-builder.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/baseball-card.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/cover-letter.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/linkedin-review.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/outreach-package.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/interview-prep.zip
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/offer-negotiation.zip
+>
+> Then create a folder called "My Job Search" in this folder, and put the kit's templates in it from:
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/Headhunter-Test.zip
+> (use only the "templates" folder from that zip). Tell me when you're done.
+
+3. Click **approve** when Claude asks for permission.
+4. Start a new task, choose the **My Job Search** folder, attach your resume, and say: **"Set me up with the Headhunter Kit."** The `intake` skill drafts your facts file from your resume and asks you 5 quick questions.
+
+**If Claude says it can't install skills,** do it by hand: in Claude go to **Settings, Skills, Upload skill** and drag in the 13 `.zip` files from the kit's `dist/skills` folder (GitHub page, **Code**, **Download ZIP**, then unzip). You can drop them all in at once.
 
 ### Option B: Claude Code
 ```
