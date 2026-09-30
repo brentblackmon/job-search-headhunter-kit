@@ -1,0 +1,10 @@
+{
+  "name": "headhunter-kit",
+  "version": "1.0.0",
+  "description": "An AI personal headhunter: a team of Claude skills that scans jobs, finds hiring signals, tailors materials, fact-checks, preps interviews, and tracks outreach. You approve and send everything.",
+  "author": {
+    "name": "Job Search Headhunter Kit"
+  },
+  "license": "MIT",
+  "keywords": ["job-search", "resume", "outreach", "interview", "career"]
+}

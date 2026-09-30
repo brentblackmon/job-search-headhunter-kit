@@ -1,0 +1,13 @@
+{
+  "name": "job-search-headhunter-kit",
+  "owner": {
+    "name": "Job Search Headhunter Kit"
+  },
+  "plugins": [
+    {
+      "name": "headhunter-kit",
+      "source": "./plugin",
+      "description": "A team of Claude skills that works like a small recruiting firm for one job seeker."
+    }
+  ]
+}
