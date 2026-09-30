@@ -1,14 +1,14 @@
 {
   "name": "job-search-headhunter-kit",
   "owner": {
-    "name": "Job Search Headhunter Kit"
+    "name": "Rocket Recruiter"
   },
   "metadata": {
-    "description": "The Job Search Headhunter Kit: a team of Claude skills that works like a small recruiting firm for one job seeker."
+    "description": "Rocket Recruiter: a team of Claude skills that works like a small recruiting firm for one job seeker."
   },
   "plugins": [
     {
-      "name": "headhunter-kit",
+      "name": "rocket-recruiter",
       "source": "./plugin",
       "description": "A team of Claude skills that works like a small recruiting firm for one job seeker."
     }

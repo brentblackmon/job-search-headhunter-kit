@@ -26,9 +26,9 @@ It checks every number in every draft against a file of facts I verified myself.
 
 And the rule over all of it: nothing goes out without my yes. The team drafts. I send.
 
-I cleaned it up into a kit anyone can use, at any level, with a full sample run.
+I cleaned it up into a kit anyone can use, at any level. I call it Rocket Recruiter. Setup is one message you paste into Claude.
 
-Comment HEADHUNTER and I'll send you the playbook.
+Comment ROCKET and I'll send it to you.
 
 #JobSearch #AI #Careers #Claude
 
@@ -36,5 +36,5 @@ Comment HEADHUNTER and I'll send you the playbook.
 
 ## Notes before posting
 - The arrows (→) are fine on LinkedIn. Swap them for plain dashes if you prefer.
-- Reply to each HEADHUNTER comment with the repo link or a DM, per your plan for sharing.
+- Reply to each ROCKET comment with the repo link or a DM, per your plan for sharing.
 - If the repo is private at posting time, make it public (or share the `dist/skills` zips and the README another way) before sending links.
