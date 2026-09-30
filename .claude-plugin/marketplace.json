@@ -3,6 +3,9 @@
   "owner": {
     "name": "Job Search Headhunter Kit"
   },
+  "metadata": {
+    "description": "The Job Search Headhunter Kit: a team of Claude skills that works like a small recruiting firm for one job seeker."
+  },
   "plugins": [
     {
       "name": "headhunter-kit",
