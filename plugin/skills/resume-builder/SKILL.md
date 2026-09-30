@@ -8,7 +8,7 @@ description: Brand Builder, resume. Builds the user's master ATS-safe resume fro
 One clean, ATS-safe format. Tailoring is surgical: by default only the headline and first summary paragraph change. That keeps every version true and easy to fact-check.
 
 ## Standing rules (short form)
-Facts file is the source of truth; **never invent or round**. **Use approved phrasing word for word.** Dated sources for people. No guessed emails as real. The user sends everything; you never submit applications. Human voice: no em dashes, no filler, no stacked adjectives. Research first. Check the tracker. **QA before delivery.** Full text: `STANDING_RULES.md`.
+Facts file is the source of truth; **never invent or round**. **Use approved phrasing word for word.** Dated sources for people. No guessed emails as real. The user sends everything; you never submit applications. Human voice: no em dashes, no filler, no stacked adjectives. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md`.
 
 ## The format (fixed)
 Built by `generators/resume/build-resume.js`. Do not hand-format in Word.

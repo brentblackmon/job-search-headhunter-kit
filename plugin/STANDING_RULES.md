@@ -11,6 +11,7 @@ Every skill in this kit follows these rules. Each SKILL.md repeats them in short
 7. **Research first, then write.** Every outreach piece starts from the company's own words.
 8. **Check the tracker before any outreach.** Never contact the same company or person twice by accident. Respect the exclusion list in the facts file (for example, non-compete companies).
 9. **Quality check before delivery.** Proofread, check facts, verify page count and layout, and fix problems before showing the user.
+10. **Offer choices, never blank questions.** Whenever you need something from the user, give 2 to 4 answer choices they can click, built from what you already know, plus "Something else" so they can type if needed. Use the app's multiple-choice question tool when it exists. If it does not, show numbered options and accept a single number as the answer. The same goes for updates and approvals: "Yes, send-ready / Change something / Skip", "Sent / Not yet / Changed it before sending".
 
 ## The workspace
 
