@@ -104,6 +104,9 @@ To build resumes and baseball cards as PDFs on your own computer, see [generator
 
 ---
 
+## Try it first with a test folder
+Download [dist/Headhunter-Test.zip](dist/Headhunter-Test.zip), unzip it, and open `START HERE.txt`. It has a ready-made job search folder for the fictional Jordan Rivera and four tests to run in Cowork.
+
 ## See a full example
 [examples/jordan-rivera/](examples/jordan-rivera/) is a complete sample run for a **fictional** job seeker: facts file, graded scan, signal search, tailored resume and baseball card PDFs, cover letter, outreach, the Fact Checker's catches, interview prep, follow-ups, a negotiation, and the tracker.
 
