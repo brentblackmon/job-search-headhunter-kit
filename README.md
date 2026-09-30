@@ -33,7 +33,7 @@ It was built and proven in a real executive job search. This is the clean, gener
 
 | Role | Skill | What it does | When |
 |---|---|---|---|
-| Intake | `intake` | Reads your resume, asks 5 quick questions, and builds your **facts file**, the single source of truth | Once, then when things change |
+| Intake | `intake` | Reads your resume and work samples, asks about 5 easy questions, and builds your **facts file**, the single source of truth | Once, then when things change |
 | Head Headhunter | `headhunter-chief-of-staff` | Daily briefing, tracker, follow-up schedule, prevents contacting anyone twice | Every morning |
 | Talent Scout | `talent-scout` | Scans job boards and grades postings A/B/C against what you can prove, not job titles | Weekdays 7am, 1pm, 5pm |
 | Market Intel Analyst | `signal-search` | Finds companies likely to hire before they post (new CEO, funding, acquisitions) and lists the hidden-market channels for your field | On call |
@@ -90,7 +90,7 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 > (use only the "templates" folder from that zip). Tell me when you're done.
 
 3. Click **approve** when Claude asks for permission.
-4. Start a new task, choose the **My Job Search** folder, attach your resume, and say: **"Set me up with the Headhunter Kit."** The `intake` skill drafts your facts file from your resume and asks you 5 quick questions.
+4. Start a new task, choose the **My Job Search** folder, attach your resume, and say: **"Set me up with the Headhunter Kit."** The `intake` skill reads what you share and asks about 5 easy questions, one at a time, like a first call with a recruiter.
 
 **If Claude says it can't install skills,** do it by hand: in Claude go to **Settings, Skills, Upload skill** and drag in the 13 `.zip` files from the kit's `dist/skills` folder (GitHub page, **Code**, **Download ZIP**, then unzip). You can drop them all in at once.
 
