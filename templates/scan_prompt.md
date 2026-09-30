@@ -26,7 +26,7 @@ Read my facts file at `[path]/my-search/facts.md` and my tracker at `[path]/my-s
 
 **Grade**
 Read the full description. Grade A, B, or C using the talent-scout rules:
-- A: 4 or 5 of the top 5 requirements proven by CONFIRMED lines in facts.md, level fits, no hard miss.
+- A: 4 or 5 of the top 5 requirements proven by CONFIRMED or FROM RESUME lines in facts.md, level fits, no hard miss.
 - B: 3 proven, or a level stretch, or one soft miss.
 - C: 2 or fewer proven, or a hard miss.
 Never grade on title alone. Every grade lists "Proves:" with facts lines and "Gap:".

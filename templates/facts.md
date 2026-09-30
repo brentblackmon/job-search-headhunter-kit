@@ -2,7 +2,7 @@
 
 Last reviewed: YYYY-MM-DD
 
-This is the single source of truth for the Headhunter Kit. Every skill reads it. Nothing goes into a resume, email, or interview answer unless it is here and marked `CONFIRMED`.
+This is the single source of truth for the Headhunter Kit. Every skill reads it. Nothing goes into a resume, email, or interview answer unless it is here. `FROM RESUME` facts are confirmed with a quick yes the first time a draft uses them.
 
 ## Identity and contact
 - Name (as on resume):
@@ -53,7 +53,7 @@ Copy the block for each metric. The **approved phrasing** is what every skill wi
   - Baseline, result, timeframe:
   - Approved phrasing: "..."
   - Proof if asked:
-  - Status: CONFIRMED | UNCONFIRMED
+  - Status: CONFIRMED | FROM RESUME | UNCONFIRMED
 
 ## Stories I'm proudest of
 For STAR answers and receipts. 2 or 3.

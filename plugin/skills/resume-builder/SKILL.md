@@ -18,7 +18,7 @@ Built by `generators/resume/build-resume.js`. Do not hand-format in Word.
 - Length: 2 pages for experienced users (8+ years), 1 page for early career.
 
 ## Build the master resume
-1. Read `facts.md`. Every line of the resume must trace to a facts line marked `CONFIRMED`.
+1. Read `facts.md`. Every line of the resume must trace to a facts line marked `CONFIRMED` or `FROM RESUME`. Before delivery, `fact-check` asks the user to confirm any `FROM RESUME` numbers in one quick batch.
 2. Write `my-search/resume.json` following `generators/resume/sample-data/resume.json`:
    - `stats`: 4 numbers that best prove the target role, in approved phrasing, shortened to a value and a 2 to 4 word label.
    - `summary`: paragraph 1 is who they are for the target role (2 sentences). Paragraph 2 is how they work and what they are known for (2 sentences).

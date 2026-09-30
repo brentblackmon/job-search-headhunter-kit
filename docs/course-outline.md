@@ -10,11 +10,13 @@ Throughline: **run your job search like a small recruiting firm with one client,
 - "Nothing goes out without my yes." What the kit does and never does.
 - Demo: the Jordan Rivera sample run, start to finish in 5 minutes.
 
-## Module 1: Intake and the facts file (45 min)
+## Module 1: Intake and the facts file (20 min)
 Skill: `intake`
 - Why a verified facts file beats a resume as your source of truth.
 - Approved phrasing: same number, different claim (resolution time vs. wait time; gross vs. net retention).
-- Exercise: write 5 metrics with baseline, result, timeframe, and approved phrasing.
+- The 10-minute intake: resume in, 5 questions, facts file out.
+- FROM RESUME vs. CONFIRMED: numbers get confirmed one at a time, when a draft uses them.
+- Optional exercise: strengthen 3 metrics with baseline, result, timeframe, and approved phrasing.
 - Exclusions: non-competes and former employers.
 
 ## Module 2: The Fact Checker (30 min)
