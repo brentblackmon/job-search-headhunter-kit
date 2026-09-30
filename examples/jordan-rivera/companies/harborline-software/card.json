@@ -1,0 +1,73 @@
+{
+  "_note": "FICTIONAL SAMPLE. Tailored for Harborline Software (fictional). Proof cards ordered to Harborline's priorities: time to value, retention, education, scale.",
+  "name": "Jordan Rivera",
+  "headline": "VP Operations | SaaS Implementation, Support, and Retention",
+  "positioning": "14 years building the post-sale engine for logistics software. Ready for \"live in 60 days, every customer.\"",
+  "photo": "",
+  "stats": [
+    {
+      "value": "16 to 9",
+      "label": "weeks to implement"
+    },
+    {
+      "value": "95%",
+      "label": "gross revenue retention"
+    },
+    {
+      "value": "$11.2M",
+      "label": "budget, 64 people"
+    },
+    {
+      "value": "97%",
+      "label": "acquired customers kept"
+    }
+  ],
+  "proof": [
+    {
+      "title": "Faster go-lives",
+      "result": "Cut average implementation time from 16 weeks to 9 weeks.",
+      "where": "Tidewater Freight Systems, 2021 to 2023"
+    },
+    {
+      "title": "Customers stay",
+      "result": "Helped raise gross revenue retention from 89% to 95% in three years.",
+      "where": "Tidewater Freight Systems, FY2021 to FY2024"
+    },
+    {
+      "title": "Customer education",
+      "result": "Launched a training academy that certified 1,100 customer users in 2024.",
+      "where": "Tidewater Freight Systems, 2024"
+    },
+    {
+      "title": "Lower cost to serve",
+      "result": "Reduced cost to serve per customer 22% while the base grew.",
+      "where": "Tidewater Freight Systems, FY2022 to FY2024"
+    },
+    {
+      "title": "Faster support",
+      "result": "Cut average ticket resolution time from 31 hours to 12 hours.",
+      "where": "Tidewater Freight Systems, 2021 to 2024"
+    },
+    {
+      "title": "Acquisition integration",
+      "result": "Moved 38 employees and 120 customers onto one platform in 7 months.",
+      "where": "Tidewater Freight Systems, 2023"
+    },
+    {
+      "title": "Team built from 6",
+      "result": "Grew implementation from 6 to 23 people; onboarded 140 customers.",
+      "where": "Kestrel Route Software, 2017 to 2018"
+    },
+    {
+      "title": "Fewer defects",
+      "result": "Standard implementation playbook cut go-live defects 45%.",
+      "where": "Kestrel Route Software, 2016"
+    }
+  ],
+  "contact": [
+    "Charlotte, NC",
+    "(704) 555-0142",
+    "jordan.rivera@example.com",
+    "linkedin.com/in/jordan-rivera-example"
+  ]
+}

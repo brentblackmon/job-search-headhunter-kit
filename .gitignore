@@ -1,0 +1,4 @@
+# Your personal job search folder never belongs in a shared repo.
+my-search/
+node_modules/
+.DS_Store

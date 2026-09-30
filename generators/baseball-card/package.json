@@ -1,0 +1,14 @@
+{
+  "name": "headhunter-baseball-card",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Renders a one-page landscape baseball card PDF from card.json with Playwright.",
+  "main": "render-card.js",
+  "scripts": {
+    "sample": "node render-card.js --data sample-data/card.json --out out/Jordan_Rivera_Card_Sample.pdf"
+  },
+  "dependencies": {
+    "playwright": "1.56.1"
+  },
+  "license": "UNLICENSED"
+}
