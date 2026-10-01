@@ -1,0 +1,205 @@
+<title>Recruit Rocket Flight Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,800&family=Public+Sans:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  /* Layout: a launch sequence. Eight stages snake across the board; a lit trail runs through them in order and loops. */
+  :root {
+    --bg: #EEF3F8;
+    --panel: #FFFFFF;
+    --ink: #13213A;
+    --muted: #5A6880;
+    --line: #C9D4E2;
+    --lit: #138A8A;
+    --flame: #F08A24;
+    --lit-soft: #DDF1F0;
+    --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+    --body: "Public Sans", "Segoe UI", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1729; --panel: #15233B; --ink: #EAF0F8; --muted: #93A3BC;
+      --line: #2A3B58; --lit: #3CC7C2; --flame: #FFA040; --lit-soft: #12343F;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1729; --panel: #15233B; --ink: #EAF0F8; --muted: #93A3BC;
+    --line: #2A3B58; --lit: #3CC7C2; --flame: #FFA040; --lit-soft: #12343F;
+    color-scheme: dark;
+  }
+
+  html, body { background: var(--bg); color: var(--ink); }
+  body { font-family: var(--body); padding-inline: 16px; padding-block: 28px 36px; }
+  .wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+
+  header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
+  .brand { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lit); }
+  h1 { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(28px, 5vw, 46px); line-height: 1.02; margin: 6px 0 0; text-wrap: balance; letter-spacing: -0.01em; }
+  .ctrl { font-family: var(--mono); font-size: 13px; color: var(--ink); background: var(--panel); border: 1.5px solid var(--line); border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+  .ctrl:focus-visible, .stage:focus-visible { outline: 3px solid var(--flame); outline-offset: 3px; }
+
+  .board { position: relative; }
+  .board svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .grid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 34px; }
+  @media (max-width: 720px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 26px; } }
+
+  .stage { position: relative; z-index: 1; text-align: left; font: inherit; color: inherit; background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 14px 14px 16px; min-width: 0; cursor: pointer; display: flex; flex-direction: column; gap: 6px; transition: border-color .35s, box-shadow .35s, transform .35s; }
+  .stage .num { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+  .stage .name { font-family: var(--display); font-weight: 600; font-stretch: 112%; font-size: clamp(16px, 2.1vw, 20px); line-height: 1.1; }
+  .stage .who { font-size: 13px; color: var(--muted); }
+  .stage.done { border-color: var(--lit); }
+  .stage.done .num { color: var(--lit); }
+  .stage.on { border-color: var(--flame); box-shadow: 0 0 0 5px color-mix(in srgb, var(--flame) 22%, transparent); transform: translateY(-2px); }
+  .stage.on .num { color: var(--flame); }
+
+  .trail-base { stroke: var(--line); stroke-width: 3; fill: none; stroke-linecap: round; }
+  .trail-lit { stroke: var(--lit); stroke-width: 4; fill: none; stroke-linecap: round; }
+  .spark { fill: var(--flame); }
+
+  .readout { background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 18px 20px; display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: baseline; min-height: 96px; }
+  .readout .rnum { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: 40px; color: var(--flame); line-height: 1; grid-row: span 2; }
+  .readout .rtitle { font-family: var(--display); font-weight: 600; font-stretch: 112%; font-size: 21px; }
+  .readout .rtext { font-size: 16px; line-height: 1.5; max-width: 65ch; color: var(--ink); min-width: 0; }
+
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 14px; color: var(--muted); }
+  footer strong { color: var(--ink); font-family: var(--display); font-stretch: 112%; font-size: 17px; }
+  footer strong span { color: var(--lit); }
+
+  /* Video mode: square frame, no controls */
+  body.video .ctrl { display: none; }
+  body.video { min-height: 100vh; display: flex; align-items: center; box-sizing: border-box; }
+  body.video .wrap { max-width: 1000px; width: 100%; gap: 34px; }
+  @media (prefers-reduced-motion: reduce) { .stage { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brand">Recruit Rocket · Flight plan</div>
+      <h1>From resume to offer, in eight stages.</h1>
+    </div>
+    <button class="ctrl" id="play" type="button" aria-pressed="true">Pause</button>
+  </header>
+
+  <div class="board" id="board">
+    <svg id="trail" aria-hidden="true"></svg>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <section class="readout" aria-live="polite">
+    <div class="rnum" id="rnum">1</div>
+    <div class="rtitle" id="rtitle"></div>
+    <div class="rtext" id="rtext"></div>
+  </section>
+
+  <footer>
+    <strong>Nothing goes out without <span>your yes.</span></strong>
+    <span>AI does the grunt work. You bring the talent.</span>
+  </footer>
+</div>
+
+<script>
+const STAGES = [
+  { name: "Intake", who: "10-minute interview", text: "Reads your resume, asks about five quick questions, and builds the facts file every other step works from." },
+  { name: "Find the jobs", who: "Talent Scout", text: "Scans the job boards every weekday and grades each posting A, B, or C on real fit, not job title." },
+  { name: "Spot who's hiring", who: "Market Intel", text: "Flags companies about to hire before they post: a new CEO, fresh funding, an acquisition that needs an operator." },
+  { name: "Research", who: "Research Analyst", text: "Reads what each company says about itself and confirms the right executive to contact, with a dated source." },
+  { name: "Build the package", who: "Brand Builder", text: "A tailored ATS-ready resume, a short cover letter, and a one-page stat sheet with your best numbers up front." },
+  { name: "Write the outreach", who: "Outreach Writer", text: "An email to the decision maker and a LinkedIn connect note, written in your voice." },
+  { name: "Fact check", who: "Always on", text: "Every number is checked against your own record, so the resume, the stat sheet, and the email all match." },
+  { name: "You send. It follows up.", who: "Head Headhunter", text: "You approve and send. It tracks every follow-up, preps you for the interview, and helps you negotiate the offer." }
+];
+
+const grid = document.getElementById("grid");
+const svg = document.getElementById("trail");
+const board = document.getElementById("board");
+const rnum = document.getElementById("rnum"), rtitle = document.getElementById("rtitle"), rtext = document.getElementById("rtext");
+const playBtn = document.getElementById("play");
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const NS = "http://www.w3.org/2000/svg";
+
+const els = STAGES.map((s, i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "stage"; b.id = "stage-" + (i + 1);
+  b.innerHTML = `<span class="num">Stage ${i + 1}</span><span class="name">${s.name}</span><span class="who">${s.who}</span>`;
+  b.addEventListener("click", () => { stop(); show(i); });
+  grid.appendChild(b);
+  return b;
+});
+
+// Snake placement: left-to-right, then right-to-left on the next row.
+function place() {
+  const cols = getComputedStyle(grid).gridTemplateColumns.split(" ").length;
+  els.forEach((el, i) => {
+    const row = Math.floor(i / cols), pos = i % cols;
+    el.style.gridRow = row + 1;
+    el.style.gridColumn = (row % 2 === 0 ? pos : cols - 1 - pos) + 1;
+  });
+}
+
+let segs = [];
+function drawTrail() {
+  const bb = board.getBoundingClientRect();
+  svg.setAttribute("viewBox", `0 0 ${bb.width} ${bb.height}`);
+  svg.innerHTML = "";
+  const c = els.map(el => { const r = el.getBoundingClientRect(); return [r.left - bb.left + r.width / 2, r.top - bb.top + r.height / 2]; });
+  segs = [];
+  for (let i = 0; i < c.length - 1; i++) {
+    const [x1, y1] = c[i], [x2, y2] = c[i + 1];
+    const d = `M${x1},${y1} L${x2},${y2}`;
+    const base = document.createElementNS(NS, "path"); base.setAttribute("d", d); base.setAttribute("class", "trail-base");
+    const lit = document.createElementNS(NS, "path"); lit.setAttribute("d", d); lit.setAttribute("class", "trail-lit");
+    svg.append(base, lit);
+    const len = Math.hypot(x2 - x1, y2 - y1);
+    lit.style.strokeDasharray = len; lit.style.strokeDashoffset = len;
+    segs.push({ lit, len, x1, y1, x2, y2 });
+  }
+  const spark = document.createElementNS(NS, "circle"); spark.setAttribute("r", 7); spark.setAttribute("class", "spark"); spark.style.opacity = 0;
+  svg.appendChild(spark); segs.spark = spark;
+}
+
+function show(i) {
+  els.forEach((el, k) => { el.classList.toggle("done", k < i); el.classList.toggle("on", k === i); });
+  segs.forEach((s, k) => { s.lit.style.strokeDashoffset = k < i ? 0 : s.len; });
+  rnum.textContent = i + 1; rtitle.textContent = STAGES[i].name; rtext.textContent = STAGES[i].text;
+}
+
+let playing = !reduce, cur = 0, timer = null, raf = null;
+const HOLD = 1700, TRAVEL = 700;
+
+function travel(i, done) {
+  const s = segs[i], spark = segs.spark, t0 = performance.now();
+  spark.style.opacity = 1;
+  const step = now => {
+    const p = Math.min(1, (now - t0) / TRAVEL);
+    s.lit.style.strokeDashoffset = s.len * (1 - p);
+    spark.setAttribute("cx", s.x1 + (s.x2 - s.x1) * p);
+    spark.setAttribute("cy", s.y1 + (s.y2 - s.y1) * p);
+    if (p < 1) raf = requestAnimationFrame(step); else { spark.style.opacity = 0; done(); }
+  };
+  raf = requestAnimationFrame(step);
+}
+
+function tick() {
+  if (!playing) return;
+  show(cur);
+  timer = setTimeout(() => {
+    if (!playing) return;
+    if (cur < STAGES.length - 1) travel(cur, () => { cur++; tick(); });
+    else { timer = setTimeout(() => { cur = 0; tick(); }, 1400); }
+  }, cur === STAGES.length - 1 ? HOLD + 600 : HOLD);
+}
+
+function stop() { playing = false; clearTimeout(timer); cancelAnimationFrame(raf); if (segs.spark) segs.spark.style.opacity = 0; playBtn.textContent = "Play"; playBtn.setAttribute("aria-pressed", "false"); }
+function start() { playing = true; playBtn.textContent = "Pause"; playBtn.setAttribute("aria-pressed", "true"); cur = Math.max(0, cur); tick(); }
+playBtn.addEventListener("click", () => playing ? stop() : start());
+
+function layout() { place(); drawTrail(); show(Math.min(cur, STAGES.length - 1)); }
+window.addEventListener("resize", () => { const was = playing; stop(); layout(); if (was) start(); });
+if (location.hash === "#video") document.body.classList.add("video");
+
+layout();
+if (reduce) { playBtn.textContent = "Play"; show(0); } else { tick(); }
+document.fonts && document.fonts.ready.then(() => { const was = playing; if (was) { stop(); } layout(); if (was) start(); });
+</script>
