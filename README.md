@@ -85,9 +85,9 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/interview-prep.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/offer-negotiation.zip
 >
-> Then create a folder called "My Job Search" in this folder, and put the kit's templates in it from:
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/Headhunter-Test.zip
-> (use only the "templates" folder from that zip). Tell me when you're done.
+> Then create a folder called "My Job Search" in this folder, and unzip this into it (it holds a "templates" folder):
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket-templates.zip
+> Tell me when you're done.
 
 3. Click **approve** when Claude asks for permission.
 4. Start a new task, choose the **My Job Search** folder, attach your resume, and say: **"Set me up with Recruit Rocket."** The `intake` skill reads what you share and asks about 5 easy questions, one at a time, like a first call with a recruiter.
@@ -124,6 +124,9 @@ To build resumes and baseball cards as PDFs on your own computer, see [generator
 4. **Before any interview:** "Prep me for my interview with Priya at Harborline on Thursday."
 
 ---
+
+## Testing Recruit Rocket
+Testers: start with [TESTING.md](TESTING.md). It has the one-message setup, what to try, and the feedback questions.
 
 ## Try it first with a test folder
 Download [dist/Headhunter-Test.zip](dist/Headhunter-Test.zip), unzip it, and open `START HERE.txt`. It has a ready-made job search folder for the fictional Jordan Rivera and four tests to run in Cowork.

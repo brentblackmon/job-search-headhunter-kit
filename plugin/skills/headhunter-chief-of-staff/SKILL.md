@@ -18,22 +18,32 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 The user should never have to name the next step. Run the whole pipeline, then stop once for review.
 
 1. **Scan.** Use `talent-scout` (last 14 days on the first run, 3 days after that). Save the scan file.
-2. **Pick.** Take the top 3 A-grade postings not already in the tracker. If there are fewer than 3 A's, fill with the best B's and say so. Skip excluded companies.
-3. **Build a package for each pick**, in order, without stopping:
+2. **Signals.** Use `signal-search` on the first run and then once a week (Mondays): find companies likely to hire before they post. Take the top 2 that are not in the tracker or excluded.
+3. **Pick.** Take the top 3 A-grade postings not already in the tracker. If there are fewer than 3 A's, fill with the best B's and say so. Add the 2 signal companies. Skip excluded companies.
+4. **Build a package for each pick**, in order, without stopping:
    - `company-research` (who to contact, dated sources, their own words)
    - `resume-builder` tailored resume (.docx and PDF)
    - `baseball-card` tailored card (PDF)
    - `cover-letter`
    - `outreach-package` email and LinkedIn note
    - `fact-check` on all of it. Collect any `FROM RESUME` numbers that need a yes; do not ask yet.
+   For signal companies there is no posting: tailor to the company's own stated priorities and send outreach only (resume and stat sheet attached), no cover letter.
    Save everything to `companies/<company>/`.
-4. **Log.** Add each company to the tracker as `Drafted`, with links to its files.
-5. **One review screen.** Show a short card per company: role, grade and why, who to contact, and links to the resume, card, cover letter, and email. Then:
+5. **Log.** Add each company to the tracker as `Drafted`, with links to its files.
+6. **One review screen.** Show a short card per company: role, grade and why, who to contact, and links to the resume, card, cover letter, and email. Then:
    - Ask the number confirmations, one per question, with choices ("Yes, exactly right", "Close, let me fix it", "Leave it out"). Fix drafts to match the answers.
    - For each company, offer: "Looks good, I'll send it", "Change something", "Skip this one".
-6. **After sending**, ask "Sent it as is", "Sent it with changes", or "Not yet", log the exact text, and set follow-up dates.
+7. **After sending**, ask "Sent it as is", "Sent it with changes", or "Not yet", log the exact text, and set follow-up dates.
+8. **Put it on a schedule** (first run only). Offer: "Run this for me every weekday morning", "Not now". On yes, create a scheduled task that runs this Autopilot each weekday at 7am in the user's time zone (ask the time zone once if unknown), with extra job scans at 1pm and 5pm using `templates/scan_prompt.md`. If the app cannot create scheduled tasks, give the user the prompt to paste into a scheduled task and say where to find that setting.
 
-If a step fails (no postings found, a generator is missing), say so in one line, do what you can, and keep going. On later mornings, start with the Daily briefing items below, then run steps 1 to 5 for any new A-grade postings.
+## When an interview is booked
+Whenever the user mentions an interview ("I have an interview with X on Thursday", a calendar invite, a recruiter email):
+1. Log it in the tracker with date, time, and interviewer.
+2. Run `interview-prep` right away to build the prep sheet. Do not wait to be asked.
+3. Offer: "Start a mock interview", "Remind me the day before", "Just the prep sheet".
+4. The day after the interview, start the debrief in `interview-prep` and schedule the 24-hour thank-you and 3-day value-add follow-ups.
+
+If a step fails (no postings found, a generator is missing), say so in one line, do what you can, and keep going. On later mornings, start with the Daily briefing items below, then run steps 1 to 6 for any new A-grade postings (signals on Mondays).
 
 ## Daily briefing ("what should I do today?")
 1. Read the tracker. List, in this order:

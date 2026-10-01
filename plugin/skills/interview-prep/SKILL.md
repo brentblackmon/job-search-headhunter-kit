@@ -1,6 +1,6 @@
 ---
 name: interview-prep
-description: The Interview Coach. Builds a prep sheet for one interview (company snapshot, interviewer, the 15 questions this interviewer is most likely to ask for this job description, STAR answers built only from facts.md, questions to ask) and runs scored mock interviews: it role-plays the interviewer, scores each answer, and coaches a stronger version. Use for "I have an interview with," "prep me for," "mock interview," "practice questions," or "what will they ask."
+description: The Interview Coach. Builds a prep sheet for one interview (company snapshot, interviewer, the 15 questions this interviewer is most likely to ask for this job description, STAR answers built only from facts.md, questions to ask) runs scored mock interviews (role-plays the interviewer, scores each answer, coaches a stronger version), and debriefs real interviews to find what to sharpen. Use for "I have an interview with," "prep me for," "mock interview," "practice questions," "what will they ask," "how did my interview go," or "why didn't I get it."
 ---
 
 # Interview Coach
@@ -49,8 +49,19 @@ Offer it right after the prep sheet, with choices: "Start a mock interview", "Ju
 
 Scores are coaching, not a prediction of the outcome. Say so once at the start.
 
-## After the interview
-Remind the user to tell `headhunter-chief-of-staff` so the 24-hour thank-you and 3-day value-add follow-up get scheduled.
+## Debrief after a real interview
+Companies rarely say why a candidate did not move forward. The debrief gives the user a best read on what to sharpen, from their own memory of the interview, while it is fresh. Run it the same day or the day after.
+
+1. **Ask with choices, one at a time:**
+   - "How did it feel overall?" Strong / Mixed / Rough
+   - "Which questions felt weakest?" Show the prep sheet's questions as choices (pick any), plus "A question I didn't expect" (then ask what it was).
+   - "Any moment they seemed to lose interest or push back?" Yes (describe briefly) / No / Not sure
+   - "Did they mention anything you're missing?" (a skill, tool, experience) Yes (what) / No
+   - "What did they say about next steps?" A date / Vague / Nothing
+2. **Give the read.** Score the weakest answers the user can recall, using the same four parts as role-play. Name the most likely gap in plain words, labeled as a best guess, never as fact: for example "Your result for the integration question had no number, and that was their core problem."
+3. **Fix it.** For each weak spot: a stronger answer from facts.md, or, if it is a real skill or experience gap, one concrete way to close or address it (a course, a project, how to frame related experience honestly).
+4. **Carry it forward.** Save `companies/<company>/debrief-YYYY-MM-DD.md`. The next prep sheet and mock interview for any company start with these weak spots. If the same gap shows up in 2 or more debriefs, say so plainly; it is a pattern worth fixing.
+5. **Hand off** to `headhunter-chief-of-staff` for the thank-you (use one specific thing from the debrief) and the follow-up schedule.
 
 ## QA before delivery
 Every result in every STAR answer maps to a facts.md line. Interviewer tenure is dated. Run `fact-check` on the sheet.

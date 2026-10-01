@@ -29,6 +29,9 @@ my-search/
   companies/<company>/     research, tailored materials, prep sheets
 ```
 
+## Running the kit for someone else
+When the user runs the kit on behalf of another job seeker (a tester, a friend, a client), keep a separate folder per person (for example `searches/<first-last>/`, each with its own facts.md and tracker.md). Never mix two people's facts. Write outreach in that person's voice, and mark every draft as theirs to send from their own email or LinkedIn.
+
 ## Where the kit files live
 
 Skills refer to `templates/` and `generators/`. Those folders are in the kit repository, next to `plugin/`. If a skill cannot see them (for example, when skills were uploaded one at a time), ask the user to add the kit's `templates` folder to the project. Until then, follow the format described in the skill itself.
