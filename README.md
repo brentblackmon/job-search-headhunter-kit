@@ -41,7 +41,7 @@ Built to take the busywork out of a job search, so you spend your time on conver
 | Brand Builder | `resume-builder`, `baseball-card`, `cover-letter`, `linkedin-review` | ATS-safe resume, one-page baseball card, short cover letter, LinkedIn headline and About rewrite | On call |
 | Outreach Writer | `outreach-package` | "Receipts" email and LinkedIn note in your voice | On call |
 | Fact Checker | `fact-check` | Checks every number against your facts file, catches typos and filler, flags guessed emails | **Always on** |
-| Interview Coach | `interview-prep` | The 15 questions you're most likely to get, answers built from your real results, and practice | On call |
+| Interview Coach | `interview-prep` | The 15 questions you're most likely to get, answers built from your real results, and scored mock interviews with suggestions to improve | On call |
 | Offer Negotiator | `offer-negotiation` | A calm script and email that ask for one specific thing | On call |
 
 ## The rules every skill follows
