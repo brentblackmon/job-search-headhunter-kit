@@ -10,7 +10,7 @@
 <body>
 <style>
   /* Layout: brentblackmon.github.io system. Dark hero, cream stat strip, then the team board:
-     ten agents across eight stages in a snake, with a red trail that lights each hand-off in order.
+     ten agents across nine stages in a 3 by 3 snake, with a red trail that lights each hand-off in order.
      Single deliberate look (the site has no dark mode); #video switches the board to the dark hero palette. */
   :root {
     --dark: #111113;
@@ -67,7 +67,7 @@
 
   .board { position: relative; }
   .board svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-  .grid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 36px 28px; }
+  .grid { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 34px 40px; }
   @media (max-width: 720px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 22px; } }
 
   .agent { position: relative; z-index: 1; text-align: center; font: inherit; color: inherit; background: var(--card); border: 1.5px solid var(--border); border-top: 3px solid var(--border); padding: 16px 14px; min-width: 0; min-height: 118px; height: 100%; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; transition: border-color .3s, box-shadow .3s; }
@@ -158,7 +158,8 @@ const AGENTS = [
   { name: "Brand Builder", job: "Builds your package", when: "On call", text: "A tailored ATS-ready resume, a short cover letter, and a one-page stat sheet with your best numbers up front." },
   { name: "Outreach Writer", job: "Gets you in front of people", when: "On call", text: "Writes the email to the decision maker and the LinkedIn connect note, in your voice." },
   { name: "Fact Checker", job: "Checks every number", when: "Always on", text: "Checks every claim against your own record, so the resume, stat sheet, and email all say the same thing." },
-  { name: "Head Headhunter, Interview Coach, Offer Negotiator", job: "Follows up, preps, and negotiates", when: "Every morning", text: "You approve and send. The team tracks every follow-up, preps you for each interview, and helps you ask for the right offer." }
+  { name: "Interview Coach", job: "Role-plays and scores you", when: "Before every interview", text: "Role-plays your real interviewer, scores every answer on structure, proof, and fit, and shows you a stronger version to practice." },
+  { name: "Head Headhunter & Offer Negotiator", job: "Follows up and closes", when: "Every morning", text: "You approve and send. The team tracks every follow-up so nothing slips, and helps you ask for the right offer when it comes." }
 ];
 
 const grid = document.getElementById("grid"), svg = document.getElementById("trail"), board = document.getElementById("board");
@@ -171,8 +172,8 @@ if (location.hash === "#video") document.body.classList.add("video");
 const els = AGENTS.map((a, i) => {
   const b = document.createElement("button");
   b.type = "button"; b.className = "agent"; b.id = "agent-" + (i + 1);
-  const short = i === 7 ? "3 agents" : "Agent";
-  b.innerHTML = `<span class="tag">Stage ${i + 1} · ${short}</span><h3>${i === 7 ? "Headhunter, Coach &amp; Negotiator" : a.name}</h3><p>${a.job}</p>`;
+  const last = i === AGENTS.length - 1, short = last ? "2 agents" : "Agent";
+  b.innerHTML = `<span class="tag">Stage ${i + 1} · ${short}</span><h3>${last ? "Headhunter &amp; Negotiator" : a.name}</h3><p>${a.job}</p>`;
   b.addEventListener("click", () => { stop(); cur = i; show(i); });
   grid.appendChild(b);
   return b;
