@@ -1,4 +1,13 @@
-<title>Recruit Rocket Headhunter Team</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recruit Rocket | Brent Blackmon</title>
+<meta name="description" content="Recruit Rocket: ten AI agents that run a job search like a small recruiting firm with one client. The AI does the grunt work; the job seeker brings the talent.">
+<script data-goatcounter="https://brentblackmon.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
 <style>
   /* Layout: brentblackmon.github.io system. Dark hero, cream stat strip, then the team board:
      ten agents across eight stages in a snake, with a red trail that lights each hand-off in order.
@@ -94,8 +103,14 @@
 </style>
 
 <nav class="site-nav"><div class="wrap">
-  <div class="brand"><span class="mark">BB</span>Brent Blackmon</div>
-  <div class="nav-note">Recruit Rocket</div>
+  <a class="brand" href="../index.html"><span class="mark">BB</span>Brent Blackmon</a>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../writing/index.html">Writing</a>
+    <a href="../work/index.html">Work</a>
+    <a href="../recruit-rocket/index.html" class="active">Recruit Rocket</a>
+    <a href="../about/index.html">About</a>
+  </div>
 </div></nav>
 
 <header class="hero"><div class="wrap">
@@ -234,3 +249,15 @@ window.addEventListener("resize", () => { const was = playing; if (was) stop(); 
 layout();
 if (reduce) { playBtn.textContent = "Play the team"; show(0); } else { tick(); }
 </script>
+
+<style>
+  .nav-links { display: flex; flex-wrap: wrap; gap: 22px; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+  .nav-links a { color: var(--on-dark-2); padding-bottom: 3px; border-bottom: 2px solid transparent; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-links a.active { color: #fff; border-bottom-color: var(--red); }
+  a.brand { color: inherit; text-decoration: none; }
+  body { margin: 0; }
+  @media (max-width: 720px) { .site-nav .wrap { flex-wrap: wrap; } }
+</style>
+</body>
+</html>
