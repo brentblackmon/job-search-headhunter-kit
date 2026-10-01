@@ -36,7 +36,7 @@
   .mark { width: 30px; height: 30px; background: var(--red); color: #fff; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
   .nav-note { font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--on-dark-2); }
 
-  .hero { background: var(--dark); color: var(--on-dark-1); padding-block: 48px 52px; }
+  .hero { background: var(--dark); color: var(--on-dark-1); padding-block: 36px 40px; }
   .eyebrow { font-size: 11px; letter-spacing: 2px; font-weight: 700; color: var(--on-dark-3); text-transform: uppercase; margin-bottom: 16px; }
   .eyebrow b { color: var(--red); }
   h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 800; line-height: 1.15; max-width: 900px; margin: 0 0 18px; text-wrap: balance; }
@@ -46,22 +46,22 @@
   .pill:hover { background: #c01834; }
   .pill:focus-visible, .agent:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
 
-  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; padding-block: 36px 8px; }
-  .stat-card { border-top: 3px solid var(--red); background: var(--cream); padding: 18px 20px; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding-block: 28px 0; }
+  .stat-card { border-top: 3px solid var(--red); background: var(--cream); padding: 14px 16px; text-align: center; }
   .stat-num { font-size: 26px; font-weight: 800; line-height: 1; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
   .stat-label { font-size: 12.5px; color: var(--gray); line-height: 1.4; }
   @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
 
-  .section-head { padding-block: 36px 20px; }
+  .section-head { padding-block: 28px 18px; }
   .section-head h2 { font-size: 13px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; display: flex; align-items: center; gap: 12px; margin: 0; }
   .section-head h2::before { content: ""; width: 30px; height: 3px; background: var(--red); }
 
   .board { position: relative; }
   .board svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-  .grid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 30px; }
+  .grid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 36px 28px; }
   @media (max-width: 720px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 22px; } }
 
-  .agent { position: relative; z-index: 1; text-align: left; font: inherit; color: inherit; background: var(--card); border: 1.5px solid var(--border); border-top: 3px solid var(--border); padding: 14px 16px 16px; min-width: 0; cursor: pointer; display: flex; flex-direction: column; gap: 5px; transition: border-color .3s, box-shadow .3s; }
+  .agent { position: relative; z-index: 1; text-align: center; font: inherit; color: inherit; background: var(--card); border: 1.5px solid var(--border); border-top: 3px solid var(--border); padding: 16px 14px; min-width: 0; min-height: 118px; height: 100%; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; transition: border-color .3s, box-shadow .3s; }
   .agent .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--gray); }
   .agent h3 { font-size: clamp(15px, 1.9vw, 17px); font-weight: 800; line-height: 1.2; margin: 0; }
   .agent p { font-size: 13px; color: var(--gray); line-height: 1.45; margin: 0; }
@@ -73,7 +73,7 @@
   .trail-lit { stroke: var(--red); stroke-width: 3.5; fill: none; }
   .spark { fill: var(--red); filter: drop-shadow(0 0 6px var(--red)); }
 
-  .readout { margin-block: 30px 44px; border-left: 3px solid var(--red); background: var(--cream); padding: 18px 22px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 18px; align-items: baseline; min-height: 104px; }
+  .readout { margin-block: 26px 36px; border-left: 3px solid var(--red); background: var(--cream); padding: 18px 22px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 18px; align-items: baseline; min-height: 104px; }
   .rnum { font-size: 40px; font-weight: 800; color: var(--red); line-height: 1; grid-row: span 3; font-variant-numeric: tabular-nums; }
   .rname { font-size: 19px; font-weight: 800; }
   .rwhen { font-size: 10.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--red); }
@@ -87,9 +87,10 @@
 
   body.video .site-nav, body.video .pill, body.video .hero-sub, body.video .site-footer { display: none; }
   html:has(body.video) { background: #111113; }
-  body.video { min-height: 100vh; }
+  body.video { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
   body.video .hero { padding-block: 44px 6px; }
-  body.video .readout { margin-bottom: 0; }
+  body.video .readout { margin-bottom: 0; min-height: 150px; }
+  body.video .agent { min-height: 170px; }
   @media (prefers-reduced-motion: reduce) { .agent { transition: none; } }
 </style>
 
@@ -101,7 +102,7 @@
 <header class="hero"><div class="wrap">
   <div class="eyebrow"><b>Recruit Rocket</b> · Your AI headhunter team</div>
   <h1>An entire headhunter team, <span class="accent">working for you.</span></h1>
-  <p class="hero-sub">Ten AI agents run your search like a small recruiting firm with one client. They do the grunt work so you can spend your time sharpening skills, networking, and preparing. You still have to be the talent. And nothing goes out without your yes.</p>
+  <p class="hero-sub">Ten AI agents run your search like a small recruiting firm with one client. They do the grunt work. You bring the talent. Nothing goes out without your yes.</p>
   <button class="pill" id="play" type="button" aria-pressed="true">Pause the team</button>
 </div></header>
 
@@ -156,7 +157,7 @@ const els = AGENTS.map((a, i) => {
   const b = document.createElement("button");
   b.type = "button"; b.className = "agent"; b.id = "agent-" + (i + 1);
   const short = i === 7 ? "3 agents" : "Agent";
-  b.innerHTML = `<span class="tag">Stage ${i + 1} · ${short}</span><h3>${i === 7 ? "Head Headhunter + Coach + Negotiator" : a.name}</h3><p>${a.job}</p>`;
+  b.innerHTML = `<span class="tag">Stage ${i + 1} · ${short}</span><h3>${i === 7 ? "Headhunter, Coach &amp; Negotiator" : a.name}</h3><p>${a.job}</p>`;
   b.addEventListener("click", () => { stop(); cur = i; show(i); });
   grid.appendChild(b);
   return b;
