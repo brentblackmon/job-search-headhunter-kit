@@ -4,13 +4,13 @@
     "name": "Recruit Rocket"
   },
   "metadata": {
-    "description": "Recruit Rocket: a team of Claude skills that works like a small recruiting firm for one job seeker."
+    "description": "Recruit Rocket: one Claude skill that works like a small recruiting firm for one job seeker."
   },
   "plugins": [
     {
       "name": "recruit-rocket",
       "source": "./plugin",
-      "description": "A team of Claude skills that works like a small recruiting firm for one job seeker."
+      "description": "One Claude skill that works like a small recruiting firm for one job seeker."
     }
   ]
 }
