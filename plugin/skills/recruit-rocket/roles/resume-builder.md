@@ -47,7 +47,7 @@ node keyword-check.js --keywords <company folder>/keywords.json --resume <compan
    - **Yes:** ask where, with choices built from their roles ("At [most recent company]", "At [the company before]", "Somewhere else (I'll type it)"). Add it to `facts.md` as `CONFIRMED`, with where they used it. Rebuild the resume with the keyword in Core Competencies and, where it fits a real result, in that role's bullet. Then rerun the check.
    - **No:** leave it out. Add it to the posting's `Gap:` line in the scan file and the tracker entry, and list it under the user's gaps for `interview-prep`.
    - **Never add a keyword the user has not confirmed.** A posting asking for it is not a reason to claim it.
-4. **Report the count** on the review screen, for example "ATS keywords: 9 of 14 matched." Use the count from the last run, after any rebuild.
+4. **Report the count** on the review screen, for example "ATS keywords: 9 of 14 matched." After the keyword questions and any rebuild, rerun the check and show the new count on the final package card, for example "ATS keywords: 10 of 14 matched (Intune added)."
 
 ## Generate
 **First, check the layout files installed.** Look for `generators/resume/build-resume.js` in this skill's folder. If it is missing, the skill was installed without its files. Tell the user once, in plain words: "Recruit Rocket installed without its layout files, so I'll build the resume by hand this time. To get the exact layout, delete Recruit Rocket in Customize, Skills, and upload recruit-rocket.zip again." Then keep going with the fallback below.
