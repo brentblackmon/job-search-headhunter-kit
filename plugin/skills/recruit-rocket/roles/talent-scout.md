@@ -40,6 +40,8 @@ Read the full description, not the title. Score four things:
 - **B**: 3 proven, or a level stretch, or one soft miss. Worth a quick apply or a watch.
 - **C**: 2 or fewer proven, or a hard miss. Note why and move on.
 
+**No full description, no grade.** A search result with only a title, company, and pay is listed under "Not graded: paste the full posting" with one line on why it might fit. Never give it a letter, not even "B, unverified".
+
 Every grade needs a reason written as "Proves: X, Y, Z (facts lines). Gap: W." Never write "strong fit" without saying why.
 
 If a posting lists a salary range below the floor, grade C and say so. If no range is posted, say "range not posted."
