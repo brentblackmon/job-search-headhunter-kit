@@ -7,17 +7,17 @@ Facts file is the source of truth; **never invent or round**. **Use approved phr
 
 ## Layout (fixed)
 Built by `generators/baseball-card/render-card.js` in this skill's folder from `card-template.html`. The script fills the template itself; the page has no JavaScript. Landscape US Letter, one page.
-- **Header band (dark):** name in spaced capitals; role line in orange (target title / company, for example "Chief Operating Officer / Velosio", or just the title for the master card); a two-part headline where the second half is in orange; a 2 to 3 sentence intro; headshot on the right (initials if none).
+- **Header band (dark):** name in spaced capitals; role line in orange (target title / company, for example "VP Operations / Harborline Software", or just the title for the master card); a two-part headline where the second half is in orange; a 2 to 3 sentence intro; headshot on the right (required; with no photo, the card waits for one).
 - **4 stat tiles:** a big number and a short caption that says what it measures.
-- **Two themed sections**, each with an orange numbered eyebrow ("01 / Running the partner business"), a bold one-line title, and 4 proof cards. Each card: a short tag, a title, an italic proof line (the number), and 1 to 3 sentences of body.
+- **Two themed sections**, each with an orange numbered eyebrow ("01 / Running the post-sale team"), a bold one-line title, and 4 proof cards. Each card: a short tag, a title, an italic proof line (the number), and 1 to 3 sentences of body.
 - **Footer band (dark):** a two-part tagline (second half orange) on the left, phone, email and LinkedIn on the right.
 
 ## Steps
 1. Read `facts.md` and, if tailoring, `companies/<company-slug>/research.md`.
 2. Write `card.json` in the same shape as `generators/baseball-card/sample-data/card.json` in this skill's folder (a fictional example). Save it in `My Job Search/` (master) or `My Job Search/companies/<company-slug>/` (tailored).
    - `name`, `role`, `headline` + `headlineAccent`, `intro`, `photo`, `stats` (4), `sections` (2, each with `eyebrow`, `title`, and 4 `cards` of `tag`, `title`, `proof`, `body`), `footer` (`tagline` + `accent`), `contact`.
-   - **Headline:** two short sentences that name the target's problem and the user's answer. For a tailored card, tie it to the company's situation ("Three acquired teams." + "One way to run the business."). One line, about 70 characters for both parts together.
-   - **Sections:** group the 8 strongest proof points into two themes that match what the target role needs (for example "Running the partner business" and "Data, AI and recurring revenue"). Section titles are one plain sentence.
+   - **Headline:** two short sentences that name the target's problem and the user's answer. For a tailored card, tie it to the company's situation ("Faster go-lives." + "Customers who stay."). One line, about 70 characters for both parts together.
+   - **Sections:** group the 8 strongest proof points into two themes that match what the target role needs (for example "Running the post-sale team" and "Building teams that last"). Section titles are one plain sentence.
    - **Cards:** tag is 1 to 3 words in the theme's language; title 2 to 5 words (about 32 characters); proof line is the number in approved phrasing (about 45 characters); body is 1 to 3 short sentences (about 150 characters) on what the user did.
    - **Stat captions:** say what the number measures, in a short sentence (about 60 characters, two lines at most).
    - When tailoring, put the company's top priority in section 01 and order cards so the most relevant one comes first.

@@ -102,7 +102,7 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   add("Voice lint (no em or en dashes)", voice.length === 0, voice.join(", ") || "clean");
 
   // 4b. AI-tell words, in every word form. Company, school, and product names are never
-  // the user's word choice ("WM Synergy Resources", "Microsoft Dynamics"), so they are
+  // the user's word choice ("Synergy Ridge Logistics", "Microsoft Dynamics"), so they are
   // skipped, and so are words the user said they really use (resume.json "keepWords").
   const names = [data.name, ...data.experience.map((j) => j.company), ...(data.education || []), ...(data.properNames || [])].filter(Boolean);
   const tells = aiTells(text, { names, keep: data.keepWords || [] });
