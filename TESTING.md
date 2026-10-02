@@ -1,36 +1,15 @@
 # Test Recruit Rocket
 
-Thanks for testing. Recruit Rocket is a team of ten AI agents that runs your job search like a small recruiting firm with one client: you. It finds jobs that fit, spots companies about to hire, builds your resume, stat sheet, cover letter, and outreach, preps you for interviews, and tracks every follow-up.
+Thanks for testing. Recruit Rocket is a team of ten AI agents that runs your job search like a small recruiting firm with one client: you. **Nothing is ever sent for you.** It drafts. You decide and send.
 
-**Nothing is ever sent for you.** It drafts. You decide and send.
+## Three steps
 
-Plan on about 30 minutes for the first run, then 15 minutes a day.
+**1. Open Claude and attach your files.**
+Open the Claude desktop app, switch to **Cowork**, and choose your **Documents** folder. Attach your **resume**, plus anything else that shows your work: a LinkedIn PDF (on LinkedIn: **More**, then **Save to PDF**), cover letters, or project write-ups.
 
-## Ten agents, thirteen skills
-Each agent is one or more Claude skills. The Brand Builder uses four, which is why you install 13 skills for 10 agents.
+**2. Paste this one message and press Enter.**
 
-| Agent | Skill(s) |
-|---|---|
-| Intake Agent | intake |
-| Head Headhunter | headhunter-chief-of-staff |
-| Talent Scout | talent-scout |
-| Market Intel Analyst | signal-search |
-| Research Analyst | company-research |
-| Brand Builder | resume-builder, baseball-card (the one-page stat sheet), cover-letter, linkedin-review |
-| Outreach Writer | outreach-package |
-| Fact Checker | fact-check |
-| Interview Coach | interview-prep |
-| Offer Negotiator | offer-negotiation |
-
-## What you need
-- The **Claude desktop app** (Windows or Mac) with a plan that includes **Cowork**.
-- Your **resume** (Word or PDF). A LinkedIn PDF helps too: on your LinkedIn profile, click **More**, then **Save to PDF**.
-
-## Setup (one message)
-1. Open the Claude desktop app and switch to **Cowork**. Choose your **Documents** folder.
-2. Copy this whole message, paste it in, and press Enter:
-
-> Please set up Recruit Rocket for me. Install these 13 skills:
+> Set me up with Recruit Rocket. First install these 13 skills:
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/intake.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/headhunter-chief-of-staff.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/fact-check.zip
@@ -45,31 +24,19 @@ Each agent is one or more Claude skills. The Brand Builder uses four, which is w
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/interview-prep.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/offer-negotiation.zip
 >
-> Then create a folder called "My Job Search" here and unzip this into it (it holds a "templates" folder):
+> Then create a folder called "My Job Search" here and unzip this into it:
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket-templates.zip
-> Tell me when you're done.
+>
+> Then use the intake skill to set me up from the files I attached, save everything in My Job Search, and keep going from there.
 
-3. Click **Approve** whenever Claude asks for permission. Claude may show the skills on review cards a few at a time, so expect about five rounds of approving. That's normal.
+**3. Approve, answer, and let it run.**
+- Click **Approve** when Claude asks. It may show the skills a few at a time, so expect several rounds. That's normal.
+- Answer about five quick questions. Most are one click.
+- Then it runs on its own: finds jobs that fit, spots companies about to hire, builds your resume, stat sheet, cover letter, and outreach for the best ones, checks every number, and shows you one review screen.
 
-**If that gets tedious, install them all at once instead:**
-1. Download https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/all-skills.zip and unzip it. You'll get 13 small zip files.
-2. In Claude, go to **Settings**, then **Skills**, then **Upload skill**, and drag all 13 files into the box at once. Click **Upload**.
-3. Then paste only the last part of the setup message (the "My Job Search" folder step) into Cowork.
+That's it. Each morning after that, just say **"What should I do today?"**
 
-## Run it
-1. Start a **new task**, choose the **My Job Search** folder, attach your resume, and say:
-   > Set me up with Recruit Rocket.
-2. Answer about five quick questions. Most are one click.
-3. Let it run. It scans for jobs, picks your best matches, builds the materials for each, and then shows you one review screen. That takes a few minutes.
-4. Review what it made. Send anything you like from your own email or LinkedIn, then tell it what you sent.
-
-**Outside the US?** Tell it your country and cities during setup. Some job board connections only cover the US, so it will search the web and any job boards you name (for example Naukri or LinkedIn Jobs).
-
-## Try these during the week
-- Each morning: **"What should I do today?"**
-- When an interview is booked: **"I have an interview with [company] on [day]."** It builds a prep sheet and offers a scored mock interview.
-- After an interview: **"Let's debrief my interview with [company]."**
-- **"Review my LinkedIn."**
+**Outside the US?** Tell it your country and cities when it asks where you want to work.
 
 ## Send your feedback
 After your first run, and again after about a week, reply to Brent on LinkedIn with your answers. Short answers are perfect.
@@ -84,3 +51,29 @@ After your first run, and again after about a week, reply to Brent on LinkedIn w
 
 ## Your privacy
 Your resume, facts file, and tracker stay in the **My Job Search** folder on your own computer. Nothing is shared with Brent unless you send it yourself.
+
+## More, if you need it
+
+**Other things to try during the week**
+- When an interview is booked: "I have an interview with [company] on [day]." It builds a prep sheet and offers a scored mock interview.
+- After an interview: "Let's debrief my interview with [company]."
+- "Review my LinkedIn."
+
+**If installing the skills one card at a time gets tedious**
+Download https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/all-skills.zip and unzip it. In Claude, go to **Settings**, **Skills**, **Upload skill**, drag in all 13 files at once, and click **Upload**. Then paste the message from step 2 again; it will skip what's already installed.
+
+**Ten agents, thirteen skills**
+Each agent is one or more Claude skills. The Brand Builder uses four, which is why you install 13 skills for 10 agents.
+
+| Agent | Skill(s) |
+|---|---|
+| Intake Agent | intake |
+| Head Headhunter | headhunter-chief-of-staff |
+| Talent Scout | talent-scout |
+| Market Intel Analyst | signal-search |
+| Research Analyst | company-research |
+| Brand Builder | resume-builder, baseball-card (the one-page stat sheet), cover-letter, linkedin-review |
+| Outreach Writer | outreach-package |
+| Fact Checker | fact-check |
+| Interview Coach | interview-prep |
+| Offer Negotiator | offer-negotiation |
