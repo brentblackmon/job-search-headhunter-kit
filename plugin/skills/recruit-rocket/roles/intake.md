@@ -14,13 +14,21 @@ Facts file is the source of truth; never invent or round. Store approved phrasin
 Draft `My Job Search/facts.md` from their documents using the `templates/facts.md` headings:
 - Every role: company, title, MM/YYYY dates, location, scope.
 - Every number becomes a metric whose approved phrasing matches **their own words exactly**. Mark it `FROM RESUME`. Do not round, combine, or improve anything.
-- Note conflicts between documents (different dates, titles, or numbers for the same thing). Keep the two most important ones for the interview (dates and titles first). Leave number conflicts for the Fact Checker, which asks about each number the first time a draft uses it.
+- Note conflicts between documents (different dates, titles, or numbers for the same thing). Leave number conflicts for the Fact Checker, which asks about each number the first time a draft uses it.
+- **Check the user's own timeline too, even when there is only one document.** Recruiters read these as red flags:
+  - **Overlapping full-time roles:** a full-time role that ends more than a month after the next full-time role starts (for example a team lead role ending 08/2023 while the next full-time job started 08/2022). Roles that are clearly part-time, contract, freelance, board, volunteer, or a promotion inside the same company are not overlaps.
+  - **Gaps over 6 months** between the end of one role and the start of the next.
+  Count each overlap or gap as a date conflict. Keep the two most important date and title conflicts for the quick check, most recent first. If there are more than two, list the rest in `facts.md` under `## Open date checks` (role, dates, what looks wrong) so the Fact Checker asks before a draft uses those dates.
+- **Contact details.** Note whether the documents give a phone number and an email address. LinkedIn PDFs often have neither.
+- **Never write placeholders** such as "[phone]", "[email]", or "[degree and year to confirm]" into `facts.md` or any draft. Ask for the detail, or leave the line out. The resume and card generators fail QA on any text in square brackets.
 - Guess their targets from their recent roles and documents.
 
 ## The interview
 **One question per message, answered by clicking.** Use the app's multiple-choice question tool when available (2 to 4 options plus "Something else"). If there is none, show numbered options and accept a single number. Build every option from what their documents show, so the right answer is usually already on the list. Show progress, like "(2 of 5)". Accept short or messy typed answers too, and never ask the same thing twice. React briefly ("Got it.") and move on.
 
 Before the first question, work out the user's **country and city** from their documents. The pay question, the start-date question, and the job boards all depend on it. If the documents do not make it clear, ask it as the first question ("Which country and city are you job hunting in?") and count it in the total.
+
+**If the documents have no phone number or no email address**, ask for them in that same first question: "Which city are you job hunting in, and what phone and email should go on your resume?" If the city is already clear, ask only "What phone and email should go on your resume?" Either way it is one question; take a typed answer. Never leave placeholders for the generators.
 
 The interview is 4 to 6 questions, depending on where they live and what they pick. Number them as you go, for example "(2 of 5)".
 
@@ -31,6 +39,7 @@ The interview is 4 to 6 questions, depending on where they live and what they pi
    - India: annual CTC in lakhs, for example "18 to 22 LPA", "22 to 28 LPA", "28 LPA or more".
    - Elsewhere: annual pay in the local currency, the way local job postings show it (gross salary, CTC, or day rate for contractors).
    Options: 3 brackets sized to their level, plus "Prefer not to say". Record the bracket bottom as the floor, **with the currency and the terms** (for example "Salary floor: 22 LPA, CTC, INR"). Do not ask for a target separately; note "target: not given" and let `offer-negotiation` ask later if an offer comes.
+   **US only, one follow-up: contract work.** Many US IT and operations postings pay hourly. Ask: "Would you take contract work? If so, what's the lowest hourly rate?" Options: 3 hourly floors sized to their level (for example "$35/hr or more", "$45/hr or more", "$55/hr or more"), plus "Full-time only". Record it as "Contract work: yes, hourly floor $45/hr" or "Contract work: no (full-time only)".
 3. **Where.** "Where do you want to work?"
    Options: "Remote only", "Remote or hybrid near [their city]", "Open to relocating in [their country]", "Open to relocating abroad", "Something else".
    Only if they pick "Open to relocating abroad", ask one follow-up: "Which countries, and do you already have the right to work there?" Options: "Yes, I'm authorized", "I'd need sponsorship", "Not sure". Do not ask about work authorization otherwise.
@@ -38,8 +47,11 @@ The interview is 4 to 6 questions, depending on where they live and what they pi
    Options: "Immediately", "Within 15 days", "30 days", "60 to 90 days", "Something else". Record it as the notice period. Skip this question for US candidates.
 5. **Anyone to avoid.** "Anyone I should never reach out to?"
    Options: "Just my current employer ([name from resume])", "Current employer plus a few others (I'll name them)", "No one", "Something else". If they pick the second, ask one follow-up for the names.
-6. **One quick check** (only if you found a date or title conflict; otherwise end at the previous question). "Quick one: your [thing] shows two ways. Which is right?"
-   Options: "[A]", "[B]", "Neither (I'll type it)". At most 2 of these, one per message. Never ask whether they can "defend" a number.
+6. **One quick check** (only if you found a date or title conflict, including an overlap or gap in their own timeline; otherwise end at the previous question). "Quick one: your [thing] shows two ways. Which is right?"
+   Options: "[A]", "[B]", "Neither (I'll type it)". Ask exactly 2 when you found 2 or more conflicts (1 when you found 1), one per message, the most recent first. These checks do not count toward the 6-question limit, so never skip the second one to save a question. Never ask whether they can "defend" a number.
+   - For an overlap: "Your profile shows [Role A] at [Company A] until [MM/YYYY], but [Role B] at [Company B] started [MM/YYYY]. Which is right?" Options: "[Role A] ended [MM/YYYY of B's start]", "I did both at the same time (part-time or contract)", "Neither (I'll type the dates)".
+   - For a gap: "There's a gap from [MM/YYYY] to [MM/YYYY]. How should it read?" Options: "Leave it as is", "I was doing something worth listing (I'll type it)", "The dates are wrong (I'll type them)".
+   Record each answer in the matching role in `facts.md`. Any date conflicts you did not ask about stay under `## Open date checks`.
 
 Optional, only after the last question: "Want the drafts to sound more like you?"
 Options: "Yes, I'll paste a short email I wrote", "Skip for now".
@@ -66,5 +78,7 @@ Offer 3 questions per role about a result they are proud of that is **not** in t
 - Every `FROM RESUME` phrasing matches the source document exactly.
 - No number was rounded, combined, or invented.
 - Exclusions section is filled (even if "none").
-- The user was asked no more than 6 questions in total (7 only when a relocation-abroad follow-up or a date check was needed).
+- The user was asked no more than 6 questions in total, plus only the follow-ups this file allows (relocating abroad, contract work in the US, missing phone or email, a second date check).
+- No placeholder in square brackets anywhere in `facts.md`. Phone and email are filled in, or the user chose to leave them off.
+- Every overlap and gap over 6 months in the timeline was either asked about or listed under `## Open date checks`.
 - Pay is recorded in the user's own currency and terms, and the country, city, and notice period (outside the US) are filled in.

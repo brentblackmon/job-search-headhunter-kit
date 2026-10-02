@@ -22,7 +22,9 @@ Read the user's country and city from `facts.md` before searching.
 1. Build queries from target titles **and** from what the user actually does (for example "operations" + "SaaS" + "implementation" rather than only "VP Operations").
 2. Include adjacent titles the facts support (Head of, Senior Director, General Manager of a unit, Chief of Staff to COO).
 3. Default window: postings from the last 3 days on scheduled runs, 14 days on a first run.
-4. Drop anything at an excluded company. Drop duplicates across boards.
+4. **If a title search returns nothing, retry with a shorter core term.** Drop the level and the modifiers and keep the function: "desktop support team lead" becomes "desktop support", "IT support manager" becomes "IT support". Then sort the results by level yourself.
+5. **Drop junk before grading.** Keep a result only if its title is in the target role family (the target titles, the adjacent titles above, or the core term). Boards often return unrelated jobs for a broad title (an "IT Support Manager" search can return nurses and pharmacists). Drop those silently and count them in the scan header ("12 off-target results dropped").
+6. Drop anything at an excluded company. Drop duplicates across boards.
 
 ## Grade each posting
 Read the full description, not the title. Score four things:
@@ -38,15 +40,22 @@ Read the full description, not the title. Score four things:
 - **B**: 3 proven, or a level stretch, or one soft miss. Worth a quick apply or a watch.
 - **C**: 2 or fewer proven, or a hard miss. Note why and move on.
 
+**No full description, no grade.** A search result with only a title, company, and pay is listed under "Not graded: paste the full posting" with one line on why it might fit. Never give it a letter, not even "B, unverified".
+
 Every grade needs a reason written as "Proves: X, Y, Z (facts lines). Gap: W." Never write "strong fit" without saying why.
 
 If a posting lists a salary range below the floor, grade C and say so. If no range is posted, say "range not posted."
+
+**Hourly and contract postings** (common for US IT and operations roles, for example "$22 to $55/hr"):
+- Compare the top of the hourly range to the user's hourly floor in `facts.md`. If there is no hourly floor, use the salary floor divided by 2,080 hours (for example $90,000 / 2,080 = $43.27/hr) and say that is how you compared.
+- Say "contract" in the grade line, for example "B, contract, $22 to $55/hr (your floor: $45/hr)".
+- If the user chose "full-time only", grade contract postings C and say so. Contract-to-hire roles are graded on their merits, still marked "contract".
 
 ## Output
 Save to `My Job Search/scans/YYYY-MM-DD.md` using this format, and show the user only A and B items plus a count of C items:
 
 ```
-# Scan YYYY-MM-DD (window: last N days, sources: ...)
+# Scan YYYY-MM-DD (window: last N days, sources: ..., N off-target results dropped)
 
 ## A
 1. **Title**, Company (Location, posted YYYY-MM-DD, range or "not posted")

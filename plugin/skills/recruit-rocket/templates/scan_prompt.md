@@ -25,6 +25,10 @@ Read my facts file at `[path]/My Job Search/facts.md` and my tracker at `[path]/
 - Postings with a stated range whose top is below [$180,000 base salary] (use the currency and terms from facts.md, for example 22 LPA CTC): grade C and note it.
 - Staffing agency reposts where the client is not named.
 
+**Hourly postings**
+- Compare hourly ranges to my hourly floor of [$45/hr] (or my salary floor divided by 2,080) and write "contract" in the grade line. If I said full-time only, grade contract roles C.
+- If a title search returns nothing, retry with the shorter core term (for example "desktop support"). Drop results whose titles are outside my role family before grading.
+
 **Grade**
 Read the full description. Grade A, B, or C using the talent-scout rules:
 - A: 4 or 5 of the top 5 requirements proven by CONFIRMED or FROM RESUME lines in facts.md, level fits, no hard miss.

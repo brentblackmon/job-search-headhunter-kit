@@ -20,6 +20,7 @@ This is the single source of truth for Recruit Rocket. Every skill reads it. Not
 - Pay currency and terms: (for example USD base salary, or INR CTC in LPA)
 - Salary floor (will not go below):
 - Salary target:
+- Contract work and hourly floor: (US; for example "yes, $45/hr" or "no, full-time only")
 - Notice period / earliest start: (outside the US; for example 15 days)
 - Locations: (remote / hybrid / onsite; cities; relocation in country or abroad)
 - Work authorization: (only if relocating abroad)
@@ -36,6 +37,10 @@ Companies and people the kit must never contact.
 - Sample of my own writing (paste a short email I sent):
 
 > 
+
+## Open date checks
+Overlaps, gaps over 6 months, and date conflicts intake did not ask about. The Fact Checker asks before a draft uses these dates.
+- (none)
 
 ## Experience
 Most recent first. Copy the block for each role.

@@ -13,8 +13,10 @@ find build/recruit-rocket -name .gitignore -delete
 for f in SKILL.md STANDING_RULES.md generators/resume/build-resume.js generators/baseball-card/render-card.js templates/facts.md; do
   [ -f "build/recruit-rocket/$f" ] || { echo "missing $f"; exit 1; }
 done
-# The skill zip has no tests, so drop the test script from its package.json
-node -e 'const f=process.argv[1],p=require(f);delete p.scripts.test;require("fs").writeFileSync(f,JSON.stringify(p,null,2)+"\n")' "$PWD/build/recruit-rocket/generators/resume/package.json"
+# The skill zip has no tests, so drop the test scripts from the package.json files
+for g in resume baseball-card; do
+  node -e 'const f=process.argv[1],p=require(f);delete p.scripts.test;require("fs").writeFileSync(f,JSON.stringify(p,null,2)+"\n")' "$PWD/build/recruit-rocket/generators/$g/package.json"
+done
 # Fixed timestamps so an unchanged skill builds a byte-identical zip
 find build/recruit-rocket -exec touch -t 202601010000 {} +
 (cd build && find recruit-rocket | sort | zip -qX -@ ../dist/recruit-rocket.zip)
