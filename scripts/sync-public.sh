@@ -7,6 +7,8 @@ DEST="$1"
 TMP="$(mktemp -d)"
 git archive HEAD | tar -x -C "$TMP"
 rm -f "$TMP/docs/BUILD_BRIEF.md" "$TMP/marketing/linkedin-preview.png" "$TMP/scripts/sync-public.sh"
+# Workshop-only automation stays out of the public repo
+rm -rf "$TMP/.github"
 python3 - "$TMP" <<'PY'
 import sys, pathlib, json
 root = pathlib.Path(sys.argv[1])
