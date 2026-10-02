@@ -15,6 +15,14 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 - `My Job Search/tracker.md`: to mark postings already in progress.
 - Sources: whatever job search tools are connected (job board connectors, web search, LinkedIn in a browser). If none are connected, ask the user to paste postings.
 
+## Country and job boards
+Read the user's country and city from `facts.md` before searching.
+1. **Always pass the user's country** to every job board connector that takes a country or location (for example Indeed's country code: `IN` for India, `GB` for the UK). Never let a connector default to the US for a user who is not in the US.
+2. **Know what each connected board covers.** ZipRecruiter and Dice return US and Canada jobs only. Indeed covers many countries when the country code is passed. Web search covers everything, but less precisely.
+3. **Tell the user once, in one line,** which connected boards cover their country, for example: "For India I can search Indeed and the web. Naukri and LinkedIn Jobs are not connected."
+4. **When the main local boards are not connected** (for India: Naukri and LinkedIn Jobs), offer choices: "Paste postings from Naukri or LinkedIn", "Search with what's connected", "Both". Grade pasted postings exactly like the ones you find.
+5. Show pay in the user's currency and terms from `facts.md` (for example LPA), and compare against their floor in those terms.
+
 ## Search
 1. Build queries from target titles **and** from what the user actually does (for example "operations" + "SaaS" + "implementation" rather than only "VP Operations").
 2. Include adjacent titles the facts support (Head of, Senior Director, General Manager of a unit, Chief of Staff to COO).

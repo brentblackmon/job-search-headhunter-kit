@@ -27,7 +27,9 @@ Built by `generator/render-card.js` in this skill's folder from `card-template.h
    - **Stat captions:** say what the number measures, in a short sentence (about 60 characters, two lines at most).
    - When tailoring, put the company's top priority in section 01 and order cards so the most relevant one comes first.
 3. Photo: ask the user for a headshot file. If none, the template shows initials. Never use a stock or generated face.
-4. Render with the locked layout in this skill's `generator/` folder (in a full kit checkout it is also at `generators/baseball-card/`):
+4. **Check the layout files installed.** Look for `generator/render-card.js` in this skill's folder. If it is missing, tell the user once: "Your baseball-card skill installed without its layout files, so I'll build the card by hand this time. To get the exact layout, reinstall the skills with Settings, Skills, Upload skill, using the zip files." Then use the fallback at the end of this step.
+
+   Render with the locked layout in this skill's `generator/` folder (in a full kit checkout it is also at `generators/baseball-card/`):
 ```
 cd <this skill's folder>/generator
 npm install        # first time only

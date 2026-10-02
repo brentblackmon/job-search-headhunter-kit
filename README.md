@@ -60,17 +60,30 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 
 ---
 
-## Setup (about 15 minutes, including a 10-minute intake)
+## Setup (about 30 minutes the first time, including a 10-minute intake)
 
 ### What you need
 - A Claude account with skills enabled (the Claude app, Cowork, or Claude Code).
 - Optional but helpful connectors: **Gmail** (so Claude can save drafts for you to send), **Google Drive** (to keep your job search folder), a browser connection for **LinkedIn**, and any **job board** connectors available to you.
 
-### Option A: Let Claude set it up (easiest, no file handling)
-1. Open the Claude desktop app and switch to **Cowork**. Choose your **Documents** folder.
-2. Copy this whole message, paste it in, and press Enter:
+### Option A: The Claude app (Cowork)
+You need Claude Pro or higher (Cowork is not on the free plan) and the Claude desktop app from claude.com/download. Testers can follow [TESTING.md](TESTING.md) step by step.
 
-> Please set up Recruit Rocket for me. Install these 13 skills from these links:
+1. **Install the skills with Upload skill.** Download https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/all-skills.zip and unzip it (you get 13 zip files; leave those zipped). In Claude, go to **Settings**, **Skills**, **Upload skill**, select all 13, and click **Upload**. This is the route that keeps each skill's layout files, so the resume and stat sheet come out in the designed format.
+2. **Open Cowork** in a folder that holds your resume, attach the resume, and paste:
+
+> Set me up with Recruit Rocket. Create a folder called "My Job Search" here and unzip this into it:
+> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket-templates.zip
+>
+> Then use the intake skill to set me up from the files I attached, save everything in My Job Search, and keep going from there.
+
+3. Click **Approve** when Claude asks, answer about five quick questions, and let it run.
+
+Outside the US? Add your country, city, and the currency you think in, for example "Hyderabad, India. Show pay as CTC in LPA."
+
+**Fallback: let Claude install the skills.** If you can't use Upload skill, paste this into Cowork and approve each skill. Some versions of Claude save only part of each skill this way; if the resume or stat sheet reports missing layout files, reinstall with Upload skill.
+
+> Install these 13 skills:
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/intake.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/headhunter-chief-of-staff.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/fact-check.zip
@@ -84,15 +97,6 @@ Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/outreach-package.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/interview-prep.zip
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/offer-negotiation.zip
->
-> Then create a folder called "My Job Search" in this folder, and unzip this into it (it holds a "templates" folder):
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket-templates.zip
-> Tell me when you're done.
-
-3. Click **approve** when Claude asks for permission.
-4. Start a new task, choose the **My Job Search** folder, attach your resume, and say: **"Set me up with Recruit Rocket."** The `intake` skill reads what you share and asks about 5 easy questions, one at a time, like a first call with a recruiter.
-
-**If Claude says it can't install skills,** do it by hand: in Claude go to **Settings, Skills, Upload skill** and drag in the 13 `.zip` files from the kit's `dist/skills` folder (GitHub page, **Code**, **Download ZIP**, then unzip). You can drop them all in at once.
 
 ### Option B: Claude Code
 ```

@@ -12,6 +12,7 @@ Facts file is the source of truth; **never invent or round**. **Use approved phr
 
 ## The format (fixed)
 Built by `generator/build-resume.js` in this skill's folder. Do not hand-format in Word.
+- Paper: A4 for anyone outside the US and Canada, US Letter inside. The generator picks this from the contact location; override with `--paper a4` or `--paper letter`, or add `"paper": "a4"` to resume.json. Same margins and layout on both.
 - Single column. No tables, text boxes, columns, images, or header or footer content (ATS parsers skip or scramble them).
 - Arial. Navy `1A2B4A` for the name, section heads, role titles and competencies; near-black body text; gray dates and company descriptions.
 - Order: name (capitals), headline (target title in capitals, then themes), contact line with live email and LinkedIn links, navy rule, shaded stat line with a navy bar and 4 numbers, SUMMARY (2 paragraphs), KEY ACHIEVEMENTS (bold lead-in on each bullet), CORE COMPETENCIES (one bold navy line of terms), PROFESSIONAL EXPERIENCE, EDUCATION AND CERTIFICATIONS.
@@ -25,6 +26,7 @@ Built by `generator/build-resume.js` in this skill's folder. Do not hand-format 
    - `stats`: 4 numbers that best prove the target role, in approved phrasing, shortened to a value (about 12 characters) and a 1 to 3 word label. The whole stat line must fit on one line; the QA check fails if it wraps.
    - `summary`: paragraph 1 is who they are for the target role (2 sentences). Paragraph 2 is how they work and what they are known for (2 sentences).
    - `achievements`: 4 to 6 bullets, strongest numbers, each as `{"lead": "Short claim.", "text": "What you did and the result."}`. The lead prints in bold.
+     Achievements **summarize across roles**: each one names the pattern or the biggest result, with a bold lead-in. **Never repeat a role bullet word for word.** The same number may appear in both places only if the wording differs. Before writing the file, compare every achievement against every role bullet and rewrite any that match.
    - `competencies`: 6 to 9 short terms that match how recruiters search.
    - `experience`: most recent first; 3 to 6 bullets for recent roles, 1 to 2 for older ones. Each bullet: action, scope, result with number. Per company: `company`, `location`, optional `blurb` (what the company does, size) and optional `mandate` (why the user was hired), then `roles`.
    - Promotions inside one company: list each title in `roles` and put that title's bullets in `roles[].bullets`, so a reader can tell which results came from which job. Use job-level `bullets` only when the company has one role. See the first job in the sample.
@@ -39,12 +41,15 @@ Built by `generator/build-resume.js` in this skill's folder. Do not hand-format 
 4. Never add a keyword the facts do not support. Keyword stuffing is a false claim.
 
 ## Generate
+**First, check the layout files installed.** Look for `generator/build-resume.js` in this skill's folder. If it is missing, the skill was installed without its files (this happens with some install methods). Tell the user once, in plain words: "Your resume-builder skill installed without its layout files, so I'll build the resume by hand this time. To get the exact layout, reinstall the skills with Settings, Skills, Upload skill, using the zip files." Then keep going with the fallback below.
+
 The locked layout lives in this skill's `generator/` folder (in a full kit checkout it is also at `generators/resume/`). Always try it first, so every resume matches the same format:
 ```
 cd <this skill's folder>/generator
 npm install            # first time only; installs the docx package
 node build-resume.js --data <path>/resume.json [--tailor <path>/tailor.json] --out <dir>/<First_Last>_Resume_<Company> --pages 2
 ```
+Add `--paper a4` or `--paper letter` only if the automatic choice is wrong for the user.
 This writes the .docx and the PDF, then runs QA. The PDF step needs LibreOffice (`soffice`); the QA step needs poppler (`pdfinfo`, `pdftotext`, `pdftoppm`).
 
 If Node is not available, or the PDF or QA tools are missing: still use the generator for the .docx if you can, then make the PDF with whatever tools you have. If you cannot run the generator at all, build the .docx yourself and copy the layout in `generator/build-resume.js` exactly (fonts, sizes, colors, order of sections, single column, shaded stat line). Then do the QA checks by looking at the result. Never stop to ask the user to install anything.

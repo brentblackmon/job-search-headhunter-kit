@@ -2,10 +2,13 @@
 // Builds an ATS-safe resume (.docx + PDF) from resume.json, then runs layout QA.
 //
 // Usage:
-//   node build-resume.js --data resume.json [--tailor tailor.json] --out out/First_Last_Resume_Company [--pages 2]
+//   node build-resume.js --data resume.json [--tailor tailor.json] --out out/First_Last_Resume_Company [--pages 2] [--paper a4|letter]
+//
+// Paper: --paper wins, then resume.json "paper", then the contact location. US and Canada
+// get Letter; everywhere else gets A4. Margins and layout are the same on both.
 //
 // Locked layout (matches the kit's reference resume):
-//   US Letter, 0.625in side margins, Arial, navy 1A2B4A, ink 1A1A1A, gray 666666.
+//   US Letter or A4, 0.625in side margins, Arial, navy 1A2B4A, ink 1A1A1A, gray 666666.
 //   Name, headline, contact line with live links, navy rule, shaded stat line with a
 //   navy bar, then SUMMARY, KEY ACHIEVEMENTS, CORE COMPETENCIES, PROFESSIONAL
 //   EXPERIENCE, EDUCATION AND CERTIFICATIONS. Single column. No tables, text boxes,
@@ -35,10 +38,12 @@ const GRAY = "666666";
 const SEP = "9AA3B8";
 const TINT = "F3F5FA";
 const FONT = "Arial";
-const PAGE_W = 12240;            // 8.5in in twips
+const PAPER = {
+  letter: { w: 12240, h: 15840 }, // 8.5 x 11in in twips
+  a4: { w: 11906, h: 16838 },     // 210 x 297mm in twips
+};
 const SIDE = 900;                // 0.625in
 const TOP = 720;                 // 0.5in
-const RIGHT_TAB = PAGE_W - SIDE * 2;
 const LINE = 270;                // 13.5pt line height for 10pt body text
 
 // ---------- args ----------
@@ -56,13 +61,33 @@ function parseArgs(argv) {
 
 const args = parseArgs(process.argv);
 if (!args.data || !args.out) {
-  console.error("Usage: node build-resume.js --data resume.json [--tailor tailor.json] --out out/Name [--pages 2]");
+  console.error("Usage: node build-resume.js --data resume.json [--tailor tailor.json] --out out/Name [--pages 2] [--paper a4|letter]");
   process.exit(2);
 }
 const targetPages = parseInt(args.pages || "2", 10);
 
 // ---------- data ----------
 const data = JSON.parse(fs.readFileSync(args.data, "utf8"));
+
+// ---------- paper ----------
+// US states, DC, and Canadian provinces and territories, as two-letter codes.
+const NA_CODES = new Set(("AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC " +
+  "AB BC MB NB NL NS NT NU ON PE QC SK YT").split(" "));
+function paperFor(location) {
+  const loc = String(location || "");
+  if (/\b(USA|U\.S\.A?\.?|United States|Canada)\b/i.test(loc)) return "letter";
+  const code = (loc.match(/,\s*([A-Za-z]{2})\s*$/) || [])[1];
+  if (code && NA_CODES.has(code.toUpperCase())) return "letter";
+  return loc.trim() ? "a4" : "letter";
+}
+const paper = String(args.paper || data.paper || paperFor((data.contact || [])[0])).toLowerCase();
+if (!PAPER[paper]) {
+  console.error(`Unknown --paper "${paper}". Use a4 or letter.`);
+  process.exit(2);
+}
+const PAGE_W = PAPER[paper].w;
+const PAGE_H = PAPER[paper].h;
+const RIGHT_TAB = PAGE_W - SIDE * 2;
 const changes = [];
 if (args.tailor) {
   const t = JSON.parse(fs.readFileSync(args.tailor, "utf8"));
@@ -265,7 +290,7 @@ const doc = new Document({
   sections: [{
     properties: {
       page: {
-        size: { width: PAGE_W, height: 15840 },
+        size: { width: PAGE_W, height: PAGE_H },
         margin: { top: TOP, bottom: TOP, left: SIDE, right: SIDE },
       },
     },
@@ -308,7 +333,8 @@ async function main() {
     changes.forEach(([f, from, to]) => console.log(`  ${f}\n    was: ${from}\n    now: ${to}`));
   }
 
-  const ok = require("./qa").runQa({ pdfPath, targetPages, data });
+  console.log(`Paper: ${paper === "a4" ? "A4" : "US Letter"}`);
+  const ok = require("./qa").runQa({ pdfPath, targetPages, data, paper });
   process.exit(ok ? 0 : 1);
 }
 

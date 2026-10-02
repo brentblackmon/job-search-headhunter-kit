@@ -5,7 +5,8 @@
   "description": "Builds an ATS-safe resume (.docx and PDF) from resume.json and runs layout QA.",
   "main": "build-resume.js",
   "scripts": {
-    "sample": "node build-resume.js --data sample-data/resume.json --tailor sample-data/tailor.json --out out/Jordan_Rivera_Resume_Sample --pages 2"
+    "sample": "node build-resume.js --data sample-data/resume.json --tailor sample-data/tailor.json --out out/Jordan_Rivera_Resume_Sample --pages 2",
+    "test": "node test/run-tests.js"
   },
   "dependencies": {
     "docx": "^9.5.1"
