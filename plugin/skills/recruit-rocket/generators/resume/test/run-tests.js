@@ -64,6 +64,18 @@ function expect(caseName, actual, wanted) {
   expect("a stat line that wraps still fails", r.check("Stat line fits on one line"), "FAIL");
 }
 
+// 5. An achievement that copies a role bullet word for word fails; the sample passes.
+{
+  const ok = build("achievements-ok", () => {});
+  expect("sample achievements pass the copy check", ok.check("Achievements do not copy role bullets"), "PASS");
+  const r = build("achievement-copies-bullet", (d) => {
+    const role = d.experience[0].roles ? d.experience[0].roles[0] : d.experience[0];
+    const b = role.bullets[0];
+    d.achievements[0] = { lead: "Copied.", text: typeof b === "object" ? b.text : b };
+  });
+  expect("an achievement copied from a role bullet fails", r.check("Achievements do not copy role bullets"), "FAIL");
+}
+
 fs.rmSync(work, { recursive: true, force: true });
 let failed = 0;
 for (const r of results) {

@@ -50,13 +50,14 @@ This writes the .docx and the PDF, then runs QA. The PDF step needs LibreOffice 
 
 If Node is not available, or the PDF or QA tools are missing: still use the generator for the .docx if you can, then make the PDF with whatever tools you have. If you cannot run the generator at all, build the .docx yourself and copy the layout in `generators/resume/build-resume.js` exactly (fonts, sizes, colors, order of sections, single column, shaded stat line). Then do the QA checks by looking at the result. Never stop to ask the user to install anything.
 
-## QA before delivery (the generator runs 1 to 3; you do 4 to 6)
+## QA before delivery (the generator runs 1 to 4; you do 5 to 7)
 1. Page count equals `--pages`.
 2. Each page rendered to PNG. Look at them. No orphan lines (a heading or 1 to 2 lines alone at the top or bottom of a page).
 3. `pdftotext` output reads in the right order: name, headline, contact, stats, summary, and so on.
-4. Run `fact-check` on the tailored text.
-5. File name: `First_Last_Resume_Company.pdf` for a tailored resume, `First_Last_Resume.pdf` for the master. No "final," "v3," or dates.
-6. If QA fails, fix and rerun. Common fixes: trim an older role's bullets, shorten the summary, drop one achievement.
+4. No key achievement copies a role bullet word for word. If this fails, rewrite the achievement it names as a summary across roles.
+5. Run `fact-check` on the tailored text.
+6. File name: `First_Last_Resume_Company.pdf` for a tailored resume, `First_Last_Resume.pdf` for the master. No "final," "v3," or dates.
+7. If QA fails, fix and rerun. Common fixes: trim an older role's bullets, shorten the summary, drop one achievement.
 
 ## Output
 Tell the user: file paths, page count, what was tailored (old vs. new headline and summary paragraph), and QA results. Remind them the resume PDF is for ATS uploads; the baseball card is for direct email.

@@ -6,6 +6,7 @@
 //      a section heading or job header as the last line of a page, or a near-empty last page.
 //   3. pdftotext output reads in the right order.
 //   4. Voice lint: em dashes and banned filler words.
+//   5. Key achievements summarize; none copies a role bullet word for word.
 // Writes <name>-QA.md next to the PDF.
 
 const fs = require("fs");
@@ -106,6 +107,13 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
     if (new RegExp("(^|[^a-z])" + esc(w) + "($|[^a-z])").test(lower)) voice.push(`"${w}"`);
   });
   add("Voice lint (no em or en dashes, no filler)", voice.length === 0, voice.join(", ") || "clean");
+
+  // 5. Achievements must not copy a role bullet word for word (the same number is fine
+  // when the wording differs). Compare lowercase words only, ignoring punctuation.
+  const words = (x) => String(typeof x === "object" && x ? x.text || "" : x || "").toLowerCase().replace(/[^a-z0-9%$]+/g, " ").trim();
+  const roleBullets = data.experience.flatMap((j) => [...(j.bullets || []), ...(j.roles || []).flatMap((r) => r.bullets || [])]).map(words).filter((w) => w.length >= 30);
+  const copies = (data.achievements || []).map(words).filter((t) => t && roleBullets.some((bw) => t.includes(bw) || bw.includes(t)));
+  add("Achievements do not copy role bullets", copies.length === 0, copies.length ? copies.map((t) => `"${t.slice(0, 60)}"`).join("; ") : "none copied");
 
   // Report
   const allPass = results.every((r) => r.pass);
