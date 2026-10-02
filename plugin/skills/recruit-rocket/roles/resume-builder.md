@@ -34,6 +34,20 @@ Built by `generators/resume/build-resume.js` in this skill's folder. Do not hand
    - `summary1`: first paragraph rewritten around the company's top 2 priorities, using the posting's own terms where the facts support them.
 3. Change anything else (bullet order, competencies) only if the user asks, and list what changed.
 4. Never add a keyword the facts do not support. Keyword stuffing is a false claim.
+5. After the tailored resume is built and passes QA, run the ATS keyword check below.
+
+## ATS keyword check (every tailored resume)
+1. **Pull the keywords.** From the posting, list the required and preferred skills, tools, platforms, and certifications (for example Intune, SCCM, Microsoft 365, Active Directory, Entra ID, ITIL, CompTIA A+). Skip soft skills and generic phrases ("team player", "fast-paced"). Write them to `companies/<company-slug>/keywords.json`: `{"posting": "Company, Title", "required": [...], "preferred": [...]}`.
+2. **Run the check** against the tailored PDF, from the same work folder as the generator:
+```
+node keyword-check.js --keywords <company folder>/keywords.json --resume <company folder>/<First_Last>_Resume_<Company>.pdf --out <company folder>/keyword-check.md
+```
+   It counts common variants as matches (SCCM and MECM, Microsoft 365 and Office 365, Active Directory and AD, Entra ID and Azure AD) and writes `keyword-check.md` with matched and missing keywords. If the script cannot run, do the same check by reading the resume text, and write `keyword-check.md` in the same format.
+3. **Ask about each missing keyword**, one yes/no click per message: "The posting asks for Intune. Have you used it?" Options: "Yes, I've used it", "No". Ask these in the review step, alongside the number confirmations.
+   - **Yes:** ask where, with choices built from their roles ("At [most recent company]", "At [the company before]", "Somewhere else (I'll type it)"). Add it to `facts.md` as `CONFIRMED`, with where they used it. Rebuild the resume with the keyword in Core Competencies and, where it fits a real result, in that role's bullet. Then rerun the check.
+   - **No:** leave it out. Add it to the posting's `Gap:` line in the scan file and the tracker entry, and list it under the user's gaps for `interview-prep`.
+   - **Never add a keyword the user has not confirmed.** A posting asking for it is not a reason to claim it.
+4. **Report the count** on the review screen, for example "ATS keywords: 9 of 14 matched." After the keyword questions and any rebuild, rerun the check and show the new count on the final package card, for example "ATS keywords: 10 of 14 matched (Intune added)."
 
 ## Generate
 **First, check the layout files installed.** Look for `generators/resume/build-resume.js` in this skill's folder. If it is missing, the skill was installed without its files. Tell the user once, in plain words: "Recruit Rocket installed without its layout files, so I'll build the resume by hand this time. To get the exact layout, delete Recruit Rocket in Customize, Skills, and upload recruit-rocket.zip again." Then keep going with the fallback below.

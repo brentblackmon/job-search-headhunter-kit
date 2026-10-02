@@ -17,16 +17,17 @@ The user should never have to name the next step. Run the whole pipeline, then s
 3. **Pick.** Take the top 3 A-grade postings not already in the tracker. If there are fewer than 3 A's, fill with the best B's and say so. Add the 2 signal companies. Skip excluded companies.
 4. **Build a package for each pick**, in order, without stopping:
    - `company-research` (who to contact, dated sources, their own words)
-   - `resume-builder` tailored resume (.docx and PDF)
-   - `baseball-card` tailored card (PDF)
+   - `resume-builder` tailored resume (.docx and PDF), then its ATS keyword check. Collect the missing keywords; do not ask yet.
+   - `baseball-card` tailored card (PDF). If `facts.md` has no headshot yet, skip the card and mark it "waiting for a photo".
    - `cover-letter`
    - `outreach-package` email and LinkedIn note
    - `fact-check` on all of it. Collect any `FROM RESUME` numbers that need a yes; do not ask yet.
    For signal companies there is no posting: tailor to the company's own stated priorities and send outreach only (resume attached; baseball card optional), no cover letter.
    Save everything to `companies/<company-slug>/`.
 5. **Log.** Add each company to the tracker as `Drafted`, with links to its files.
-6. **One review screen.** Show a short card per company: role, grade and why, who to contact, and links to the resume, card, cover letter, and email. Then:
+6. **One review screen.** Show a short card per company: role, grade and why, who to contact, the ATS keyword count (for example "ATS keywords: 9 of 14 matched"), and links to the resume, card, cover letter, and email. If the card is waiting for a photo, say so on that line: "Card: waiting for a photo. Add one to your folder and say: use [file] as my headshot." Then:
    - Ask the number confirmations, one per question, with choices ("Yes, exactly right", "Close, let me fix it", "Leave it out"). Fix drafts to match the answers.
+   - Ask about each missing ATS keyword, one yes/no question at a time ("The posting asks for Intune. Have you used it?"), and follow the ATS keyword check in `roles/resume-builder.md` for the answers. The final package card always repeats the ATS keyword count from the last run, for example "ATS keywords: 10 of 14 matched (Intune added)."
    - For each company, offer: "Looks good, I'll send it", "Change something", "Skip this one".
 7. **After sending**, ask "Sent it as is", "Sent it with changes", or "Not yet", log the exact text, and set follow-up dates.
 8. **Put it on a schedule** (first run only). Offer: "Run this for me every weekday morning", "Not now". On yes, create a scheduled task that runs this Autopilot each weekday at 7am in the user's time zone (ask the time zone once if unknown), with extra job scans at 1pm and 5pm using `templates/scan_prompt.md`. If the app cannot create scheduled tasks, give the user the prompt to paste into a scheduled task and say where to find that setting.

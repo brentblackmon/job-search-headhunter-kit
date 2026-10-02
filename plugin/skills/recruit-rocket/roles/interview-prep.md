@@ -19,7 +19,7 @@ Save to `companies/<company-slug>/interview-prep-YYYY-MM-DD.md` using `templates
 3. **The 15 questions**: the questions this interviewer is most likely to ask for this job description. Build them from:
    - The JD's top requirements (one question each, 5 to 7 questions).
    - The interviewer's seat (3 to 4 questions).
-   - The user's gaps against the JD (2 to 3 honest questions they must be ready for).
+   - The user's gaps against the JD (2 to 3 honest questions they must be ready for). Include the keywords the user said "No" to in `companies/<company-slug>/keyword-check.md`, with an honest way to answer (related experience, how fast they would learn it).
    - Standard openers and closers (tell me about yourself, why this role, why leaving, salary).
    Give each question a one-line "why they'll ask."
 4. **STAR answers**: for each question, a short Situation, Task, Action, Result built **only** from facts.md. Result uses approved phrasing. If no fact fits a question, say so and suggest how to answer honestly (a related experience, or how they would approach it). Never fabricate a story.

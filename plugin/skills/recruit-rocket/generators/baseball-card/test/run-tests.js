@@ -15,7 +15,8 @@ const work = fs.mkdtempSync(path.join(os.tmpdir(), "rr-card-test-"));
 function render(name, change) {
   const data = JSON.parse(JSON.stringify(sample));
   change(data);
-  if (data.photo) data.photo = path.join(root, "sample-data", data.photo);
+  // The sample photo lives next to the sample card; point to it from the temp folder.
+  if (data.photo && fs.existsSync(path.join(root, "sample-data", data.photo))) data.photo = path.join(root, "sample-data", data.photo);
   const dataPath = path.join(work, `${name}.json`);
   fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
   const out = spawnSync("node", [path.join(root, "render-card.js"), "--data", dataPath, "--out", path.join(work, `${name}.pdf`)], { encoding: "utf8" });
@@ -38,7 +39,19 @@ function expect(caseName, actual, wanted) {
   expect("sample card passes the placeholder check", r.check("No unfilled placeholders"), "PASS");
 }
 
-// 2. Placeholders left in the contact line fail QA.
+// 2. The headshot is required: an empty photo or a missing file fails, with the fix in the message.
+{
+  const ok = render("with-photo", () => {});
+  expect("sample card with a photo passes the headshot check", ok.check("Headshot"), "PASS");
+  const none = render("no-photo", (d) => { d.photo = ""; });
+  expect("an empty photo fails the headshot check", none.check("Headshot"), "FAIL");
+  expect("the message says how to add one", none.text.includes("Add a photo to your folder and say: use [file] as my headshot.") ? "says" : "missing", "says");
+  const gone = render("missing-photo", (d) => { d.photo = "not-here.jpg"; });
+  expect("a photo file that does not exist fails", gone.check("Headshot"), "FAIL");
+  expect("a missing photo makes the script exit with an error", gone.status === 0 ? "exit 0" : "exit 1", "exit 1");
+}
+
+// 3. Placeholders left in the contact line fail QA.
 {
   const r = render("placeholders", (d) => {
     d.contact = ["[phone]", "[email]", "linkedin.com/in/tester-example"];

@@ -88,6 +88,24 @@ function expect(caseName, actual, wanted) {
   expect("all three placeholders are named", ["[phone]", "[email]", "[degree and year to confirm]"].every((p) => r.text.includes(p)) ? "named" : "missing", "named");
 }
 
+// 7. ATS keyword check: variants count as matches, near misses do not.
+{
+  const { check } = require("../keyword-check");
+  const resume = "Managed 1,100 endpoints with MECM and Office 365. Built Azure AD join for new laptops. Led the ADP payroll cutover.";
+  const rows = check({ required: ["SCCM", "Microsoft 365", "Entra ID", "Active Directory", "Intune"], preferred: [{ keyword: "Autopilot", variants: ["zero-touch"] }] }, resume);
+  const hit = (name) => (rows.find((r) => r.name === name).hit ? "matched" : "missing");
+  expect("MECM counts for SCCM", hit("SCCM"), "matched");
+  expect("Office 365 counts for Microsoft 365", hit("Microsoft 365"), "matched");
+  expect("Azure AD counts for Entra ID", hit("Entra ID"), "matched");
+  expect("ADP does not count for Active Directory", hit("Active Directory"), "missing");
+  expect("Intune is missing", hit("Intune"), "missing");
+  expect("a missing preferred keyword stays missing", hit("Autopilot"), "missing");
+  const ad = check({ required: ["Active Directory"] }, "Administered AD and Group Policy for 3 sites.");
+  expect("AD counts for Active Directory", ad[0].hit ? "matched" : "missing", "matched");
+  const lower = check({ required: ["Active Directory"] }, "Read every ad for the role and lead the team.");
+  expect("lowercase ad and lead do not count", lower[0].hit ? "matched" : "missing", "missing");
+}
+
 fs.rmSync(work, { recursive: true, force: true });
 let failed = 0;
 for (const r of results) {

@@ -10,7 +10,7 @@ This is the single source of truth for Recruit Rocket. Every skill reads it. Not
 - Phone:
 - Email:
 - LinkedIn URL:
-- Headshot file (optional):
+- Headshot file: (required for the card; a JPG or PNG in My Job Search, for example headshot.jpg, or "none yet")
 
 ## Targets
 - Target titles: (2 to 4, e.g. VP Operations; COO)
