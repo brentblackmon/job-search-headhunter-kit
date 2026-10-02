@@ -8,7 +8,7 @@ description: Brand Builder, baseball card. Makes a one-page landscape "baseball 
 A baseball card lets a busy executive see the user's value in 10 seconds. It rides along with direct email and gets handed across the table. It never goes into an applicant tracking system, which cannot read it well.
 
 ## Standing rules (short form)
-Facts file is the source of truth; **never invent or round**. **Use approved phrasing.** Dated sources for people. No guessed emails as real. The user sends everything. Human voice: no em dashes, no filler. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md`.
+Facts file is the source of truth; **never invent or round**. **Use approved phrasing.** Dated sources for people. No guessed emails as real. The user sends everything. Human voice: no em dashes, no filler. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md` in this skill's folder.
 
 ## Layout (fixed)
 Built by `generators/baseball-card/render-card.js` from `card-template.html`. Landscape US Letter, one page.
@@ -24,12 +24,13 @@ Built by `generators/baseball-card/render-card.js` from `card-template.html`. La
    - When tailoring, order proof cards so the company's top priorities come first.
    - Each result sentence: 18 words or fewer, approved phrasing.
 3. Photo: ask the user for a headshot file. If none, the template shows initials. Never use a stock or generated face.
-4. Render. If the kit's `generators/` folder is not available, build the same layout as HTML and save it as a one-page landscape PDF with whatever tools you have. Do not stop to ask the user to install anything.
+4. Render with the locked layout in this skill's `generator/` folder (in a full kit checkout it is also at `generators/baseball-card/`):
 ```
-cd generators/baseball-card
-npm install        # first time only
+cd <this skill's folder>/generator
+npm install        # first time only; Playwright also needs a browser: npx playwright install chromium
 node render-card.js --data <path>/card.json --out <dir>/<First_Last>_Card_<Company>.pdf
 ```
+If you cannot run it, fill `generator/card-template.html` with the card data yourself (the template's script shows the exact markup) and save that page as a one-page landscape US Letter PDF with whatever tools you have. Keep the template's layout and colors unchanged. Never stop to ask the user to install anything.
 
 ## QA before delivery
 1. PDF is exactly 1 page, landscape (the script checks this).
