@@ -20,7 +20,7 @@ I've spent the last five years on that exact problem at Tidewater Freight System
 - I launched a customer training academy that certified 1,100 customer users in 2024.
 - I lead 64 people and an $11.2M operating budget across implementation, support, and training.
 
-Your posting describes "one customer team, from signature to renewal." That is how I run operations today.
+Your posting asks for "one customer team." That is how I run operations today: one group from signed contract to renewal.
 
 I'd welcome 20 minutes to talk about how I'd approach the path to 60 days.
 
@@ -29,4 +29,4 @@ Jordan Rivera
 
 ---
 
-Word count (salutation to sign-off): 163. Facts used: T1, T2, T4, T7. Sources: CEO letter 2026-06-02; Q2 investor update 2026-07-15; posting 2026-08-14.
+Word count (salutation to sign-off): 167. Facts used: T1, T2, T4, T7. Sources: CEO letter 2026-06-02; Q2 investor update 2026-07-15; posting 2026-08-14.

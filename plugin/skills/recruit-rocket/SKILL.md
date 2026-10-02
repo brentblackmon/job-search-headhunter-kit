@@ -1,6 +1,6 @@
 ---
 name: recruit-rocket
-description: Recruit Rocket, an AI recruiting team for one job seeker. Sets up a job search from a resume ("Set me up with Recruit Rocket"), builds the facts file, scans and grades job postings, finds companies about to hire, researches companies, builds a tailored ATS resume, baseball card (one-page stat sheet), cover letter, LinkedIn review, outreach email and LinkedIn note, fact-checks every draft, preps and runs mock interviews, negotiates offers, and runs the daily routine and follow-ups from a tracker. Use for "set me up," "what should I do today," "run my job scan," "find me jobs," "grade this posting," "build my package," "build my resume," "tailor my resume," "make my baseball card," "write a cover letter," "review my LinkedIn," "write outreach to," "find companies about to hire," "research this company," "check this," "I sent it," "I have an interview with," "mock interview," "I got an offer," or anything about the user's job search. Drafts only; the user sends everything.
+description: Recruit Rocket, an AI recruiting team for one job seeker. Sets up a job search from a resume ("Set me up with Recruit Rocket"), builds the facts file, scans and grades job postings, finds companies about to hire, researches companies, builds a tailored ATS resume, baseball card (one-page stat sheet), cover letter, LinkedIn review, outreach email and LinkedIn note, fact-checks every draft, preps and runs mock interviews, negotiates offers, and runs the daily routine and follow-ups from a tracker. Use for "set me up," "what should I do today," "run my job scan," "find me jobs," "grade this posting," "build my package," "build my resume," "tailor my resume," "review my resume," "make my baseball card," "write a cover letter," "review my LinkedIn," "write outreach to," "find companies about to hire," "research this company," "check this," "I sent it," "I have an interview with," "mock interview," "I got an offer," or anything about the user's job search. Drafts only; the user sends everything.
 ---
 
 Recruit Rocket, Copyright (c) 2026 Brent Blackmon. All rights reserved. Personal use by invited testers only.
@@ -33,6 +33,7 @@ If `My Job Search/facts.md` already exists, the user is already set up: say so i
 | Companies likely to hire before they post, hidden market, search firms, channels | `roles/signal-search.md` |
 | Research one company, who runs a function there | `roles/company-research.md` |
 | Build, tailor, or update the resume, ATS keyword check | `roles/resume-builder.md` |
+| "Review my resume" against a posting: list fixes without rewriting it | `roles/resume-review.md` |
 | Baseball card, one-pager, stat sheet, leave-behind, "use [file] as my headshot" | `roles/baseball-card.md` |
 | Cover letter | `roles/cover-letter.md` |
 | LinkedIn headline, About section, why recruiters are not finding them | `roles/linkedin-review.md` |
@@ -47,6 +48,6 @@ If a request fits no row, use `roles/headhunter-chief-of-staff.md`.
 ## Files inside this skill
 - `roles/`: one file per role, with its steps and QA.
 - `templates/`: facts file, tracker, scan prompt, email, LinkedIn note, cover letter, follow-ups, negotiation, interview prep.
-- `generators/resume/`: the locked resume layout (`build-resume.js`, `qa.js`, sample data) and the ATS keyword check (`keyword-check.js`).
+- `generators/resume/`: the locked resume layout (`build-resume.js`, `qa.js`, sample data) the ATS keyword check (`keyword-check.js`), the copy check against the posting (`copy-check.js`), and the AI-tell word check (`voice.js`).
 - `generators/baseball-card/`: the locked card layout (`render-card.js`, `card-template.html`, sample data).
 - `STANDING_RULES.md`: the full rules and the `My Job Search/` folder layout.

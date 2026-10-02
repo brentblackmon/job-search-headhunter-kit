@@ -5,7 +5,8 @@
 //   2. Renders each page to PNG (for a human or Claude to look at) and flags orphans:
 //      a section heading or job header as the last line of a page, or a near-empty last page.
 //   3. pdftotext output reads in the right order.
-//   4. Voice lint: em dashes and banned filler words.
+//   4. Voice lint: no em or en dashes, and no AI-tell words (spearheaded, leveraged,
+//      utilize, and the rest in voice.js) unless the user chose to keep them.
 //   5. Key achievements summarize; none copies a role bullet word for word.
 //   6. No unfilled placeholders like "[phone]" or "[degree and year to confirm]".
 // Writes <name>-QA.md next to the PDF.
@@ -15,7 +16,7 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 
 const SECTIONS = ["SUMMARY", "KEY ACHIEVEMENTS", "CORE COMPETENCIES", "PROFESSIONAL EXPERIENCE", "EDUCATION AND CERTIFICATIONS"];
-const BANNED = ["leverage", "unlock", "seamless", "synergy", "robust", "cutting-edge", "passionate", "i'm excited to", "results-driven"];
+const { aiTells } = require("./voice");
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: "utf8" });
 const norm = (s) => s.replace(/\s+/g, " ").trim();
@@ -94,20 +95,18 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   add("Text reads in the right order (pdftotext)", misses.length === 0, misses.join("; ") || order.length + " anchors in order");
 
   // 4. Voice lint
-  // Proper names (companies, schools) are not the user's word choice, so blank them
-  // out before the banned-word check. "WM Synergy Resources" is a company, not filler.
-  let lower = text.toLowerCase();
-  const names = [data.name, ...data.experience.map((j) => j.company)].filter(Boolean);
-  names.forEach((n) => { lower = lower.split(n.toLowerCase()).join(" "); });
   const voice = [];
   if (text.includes("\u2014")) voice.push("em dash found");
   // En dashes too, including in number ranges: the kit writes ranges as "2019 to 2021".
   if (text.includes("\u2013")) voice.push("en dash found");
-  const esc = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  BANNED.forEach((w) => {
-    if (new RegExp("(^|[^a-z])" + esc(w) + "($|[^a-z])").test(lower)) voice.push(`"${w}"`);
-  });
-  add("Voice lint (no em or en dashes, no filler)", voice.length === 0, voice.join(", ") || "clean");
+  add("Voice lint (no em or en dashes)", voice.length === 0, voice.join(", ") || "clean");
+
+  // 4b. AI-tell words, in every word form. Company, school, and product names are never
+  // the user's word choice ("WM Synergy Resources", "Microsoft Dynamics"), so they are
+  // skipped, and so are words the user said they really use (resume.json "keepWords").
+  const names = [data.name, ...data.experience.map((j) => j.company), ...(data.education || []), ...(data.properNames || [])].filter(Boolean);
+  const tells = aiTells(text, { names, keep: data.keepWords || [] });
+  add("AI-tell words", tells.length === 0, tells.length ? tells.map((h) => `"${h.found}"`).join(", ") + " (ask once: keep it, or swap for a plain verb)" : "none");
 
   // 5. Achievements must not copy a role bullet word for word (the same number is fine
   // when the wording differs). Compare lowercase words only, ignoring punctuation.

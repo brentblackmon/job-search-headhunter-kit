@@ -36,7 +36,9 @@ For every number, percentage, dollar amount, team size, title, company name, and
 
 **4. Voice and hygiene**
 - Em dashes (—) and en dashes used as dashes: replace with a period, comma, or colon.
-- Banned words: leverage, unlock, seamless, synergy, robust, cutting-edge, passionate, "I'm excited to," "I hope this finds you well," "just checking in," "circling back." Rewrite the sentence.
+- AI-tell words, in any form (leveraged, spearheading, utilizing): spearhead, orchestrate, leverage, utilize, delve, synergy, seamless, robust, cutting-edge, transformative, game-changer, results-driven, passionate, dynamic, fast-paced, unlock, "proven track record," "I'm excited to". Company and product names do not count. Ask the user once per word: keep it (a word they really use; record it under `Voice` in `facts.md` as a word they use, and add it to `keepWords` in resume.json) or swap it for a plain verb (led, ran, built, cut, grew, fixed). Never ask again about a word they kept.
+- Also banned in outreach: "I hope this finds you well," "just checking in," "circling back." Rewrite the sentence.
+- Copied posting phrases: no sentence may share 6 or more words in a row with the job posting (tool, product, company, and job title names do not count). Run `generators/resume/copy-check.js` on resumes and cover letters, and rewrite any flagged sentence in the user's own words from `facts.md`.
 - Stacked adjectives ("dynamic, results-driven, strategic leader"): cut to zero or one.
 - Typos, doubled words, wrong company name (a common copy-paste error), wrong recipient name.
 - Length limits: LinkedIn connection note under 300 characters; cover letter 120 to 250 words; receipts email 4 to 6 bullets.
