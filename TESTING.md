@@ -6,6 +6,22 @@ Thanks for testing. Recruit Rocket is a team of ten AI agents that runs your job
 
 Plan on about 30 minutes for the first run, then 15 minutes a day.
 
+## Ten agents, thirteen skills
+Each agent is one or more Claude skills. The Brand Builder uses four, which is why you install 13 skills for 10 agents.
+
+| Agent | Skill(s) |
+|---|---|
+| Intake Agent | intake |
+| Head Headhunter | headhunter-chief-of-staff |
+| Talent Scout | talent-scout |
+| Market Intel Analyst | signal-search |
+| Research Analyst | company-research |
+| Brand Builder | resume-builder, baseball-card (the one-page stat sheet), cover-letter, linkedin-review |
+| Outreach Writer | outreach-package |
+| Fact Checker | fact-check |
+| Interview Coach | interview-prep |
+| Offer Negotiator | offer-negotiation |
+
 ## What you need
 - The **Claude desktop app** (Windows or Mac) with a plan that includes **Cowork**.
 - Your **resume** (Word or PDF). A LinkedIn PDF helps too: on your LinkedIn profile, click **More**, then **Save to PDF**.
@@ -33,7 +49,12 @@ Plan on about 30 minutes for the first run, then 15 minutes a day.
 > https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket-templates.zip
 > Tell me when you're done.
 
-3. Click **Approve** whenever Claude asks for permission.
+3. Click **Approve** whenever Claude asks for permission. Claude may show the skills on review cards a few at a time, so expect about five rounds of approving. That's normal.
+
+**If that gets tedious, install them all at once instead:**
+1. Download https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/all-skills.zip and unzip it. You'll get 13 small zip files.
+2. In Claude, go to **Settings**, then **Skills**, then **Upload skill**, and drag all 13 files into the box at once. Click **Upload**.
+3. Then paste only the last part of the setup message (the "My Job Search" folder step) into Cowork.
 
 ## Run it
 1. Start a **new task**, choose the **My Job Search** folder, attach your resume, and say:

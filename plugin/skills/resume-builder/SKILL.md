@@ -8,7 +8,7 @@ description: Brand Builder, resume. Builds the user's master ATS-safe resume fro
 One clean, ATS-safe format. Tailoring is surgical: by default only the headline and first summary paragraph change. That keeps every version true and easy to fact-check.
 
 ## Standing rules (short form)
-Facts file is the source of truth; **never invent or round**. **Use approved phrasing word for word.** Dated sources for people. No guessed emails as real. The user sends everything; you never submit applications. Human voice: no em dashes, no filler, no stacked adjectives. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md`.
+Facts file is the source of truth; **never invent or round**. **Use approved phrasing word for word.** Dated sources for people. No guessed emails as real. The user sends everything; you never submit applications. Human voice: no em dashes, no filler, no stacked adjectives. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md` in this skill's folder.
 
 ## The format (fixed)
 Built by `generators/resume/build-resume.js`. Do not hand-format in Word.
@@ -36,14 +36,15 @@ Built by `generators/resume/build-resume.js`. Do not hand-format in Word.
 4. Never add a keyword the facts do not support. Keyword stuffing is a false claim.
 
 ## Generate
-If the kit's `generators/` folder is not available (common in Cowork), build the .docx and PDF with whatever document tools you have, following the same format rules above, and do the QA checks by looking at the result. Do not stop to ask the user to install anything.
-
+The locked layout lives in this skill's `generator/` folder (in a full kit checkout it is also at `generators/resume/`). Always try it first, so every resume matches the same format:
 ```
-cd generators/resume
-npm install            # first time only
+cd <this skill's folder>/generator
+npm install            # first time only; installs the docx package
 node build-resume.js --data <path>/resume.json [--tailor <path>/tailor.json] --out <dir>/<First_Last>_Resume_<Company> --pages 2
 ```
-This writes the .docx and the PDF, then runs QA.
+This writes the .docx and the PDF, then runs QA. The PDF step needs LibreOffice (`soffice`); the QA step needs poppler (`pdfinfo`, `pdftotext`, `pdftoppm`).
+
+If Node is not available, or the PDF or QA tools are missing: still use the generator for the .docx if you can, then make the PDF with whatever tools you have. If you cannot run the generator at all, build the .docx yourself and copy the layout in `generator/build-resume.js` exactly (fonts, sizes, colors, order of sections, single column, shaded stat line). Then do the QA checks by looking at the result. Never stop to ask the user to install anything.
 
 ## QA before delivery (the generator runs 1 to 3; you do 4 to 6)
 1. Page count equals `--pages`.
