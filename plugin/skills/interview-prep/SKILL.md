@@ -12,12 +12,12 @@ Facts file is the source of truth; **never invent or round**. **STAR answers use
 
 ## Inputs
 - The job description.
-- `companies/<slug>/research.md` (run `company-research` if missing or older than 30 days).
+- `companies/<company-slug>/research.md` (run `company-research` if missing or older than 30 days).
 - Interviewer name and title, and the interview stage (screen, hiring manager, panel, CEO, final).
 - `facts.md`, especially the proud stories.
 
 ## Build the prep sheet
-Save to `companies/<slug>/interview-prep-YYYY-MM-DD.md` using `templates/interview_prep.md`.
+Save to `companies/<company-slug>/interview-prep-YYYY-MM-DD.md` using `templates/interview_prep.md`.
 
 1. **Snapshot (5 lines)**: what they sell, their top 3 priorities in their words, recent news, the problem this role solves.
 2. **The interviewer**: role, tenure (dated source), what they likely care about given their seat. A CFO asks about cost and forecasting; a CEO about judgment and pace; an HR screen about fit, level, and pay.
@@ -45,7 +45,7 @@ Offer it right after the prep sheet, with choices: "Start a mock interview", "Ju
 3. **Then coach**: one line on what worked, one line on the biggest thing to fix, and a stronger version of the same answer built only from facts.md. Never add a result the facts do not support.
 4. **Follow up like a real interviewer** when an answer is vague ("What was your part, specifically?" "What would you do differently?"). Score the follow-up too.
 5. **Offer choices after each round**: "Next question", "Try that one again", "End and see my scorecard".
-6. **Scorecard at the end**: average score per part, the 3 answers that need the most work with a one-line fix for each, and the one habit to change (for example "lead with the result" or "say the number"). Save it to `companies/<company>/mock-interview-YYYY-MM-DD.md` so the next session can compare progress.
+6. **Scorecard at the end**: average score per part, the 3 answers that need the most work with a one-line fix for each, and the one habit to change (for example "lead with the result" or "say the number"). Save it to `companies/<company-slug>/mock-interview-YYYY-MM-DD.md` so the next session can compare progress.
 
 Scores are coaching, not a prediction of the outcome. Say so once at the start.
 
@@ -60,7 +60,7 @@ Companies rarely say why a candidate did not move forward. The debrief gives the
    - "What did they say about next steps?" A date / Vague / Nothing
 2. **Give the read.** Score the weakest answers the user can recall, using the same four parts as role-play. Name the most likely gap in plain words, labeled as a best guess, never as fact: for example "Your result for the integration question had no number, and that was their core problem."
 3. **Fix it.** For each weak spot: a stronger answer from facts.md, or, if it is a real skill or experience gap, one concrete way to close or address it (a course, a project, how to frame related experience honestly).
-4. **Carry it forward.** Save `companies/<company>/debrief-YYYY-MM-DD.md`. The next prep sheet and mock interview for any company start with these weak spots. If the same gap shows up in 2 or more debriefs, say so plainly; it is a pattern worth fixing.
+4. **Carry it forward.** Save `companies/<company-slug>/debrief-YYYY-MM-DD.md`. The next prep sheet and mock interview for any company start with these weak spots. If the same gap shows up in 2 or more debriefs, say so plainly; it is a pattern worth fixing.
 5. **Hand off** to `headhunter-chief-of-staff` for the thank-you (use one specific thing from the debrief) and the follow-up schedule.
 
 ## QA before delivery

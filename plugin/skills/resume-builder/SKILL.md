@@ -25,11 +25,12 @@ Built by `generator/build-resume.js` in this skill's folder. Do not hand-format 
    - `achievements`: 3 to 5 bullets, strongest numbers.
    - `competencies`: 6 to 9 short terms that match how recruiters search.
    - `experience`: most recent first; 3 to 6 bullets for recent roles, 1 to 2 for older ones. Each bullet: action, scope, result with number.
+   - Promotions inside one company: list each title in `roles` and put that title's bullets in `roles[].bullets`, so a reader can tell which results came from which job. Use job-level `bullets` only when the company has one role. See the first job in the sample.
 3. Run the generator (see below) and QA.
 
 ## Tailor to a posting
-1. Read the posting and `companies/<slug>/research.md` (run `company-research` first if it is missing).
-2. Write `companies/<slug>/tailor.json` with only:
+1. Read the posting and `companies/<company-slug>/research.md` (run `company-research` first if it is missing).
+2. Write `companies/<company-slug>/tailor.json` with only:
    - `headline`: mirrors the posting's title and top 2 themes, still true to the facts.
    - `summary1`: first paragraph rewritten around the company's top 2 priorities, using the posting's own terms where the facts support them.
 3. Change anything else (bullet order, competencies) only if the user asks, and list what changed.
@@ -51,7 +52,7 @@ If Node is not available, or the PDF or QA tools are missing: still use the gene
 2. Each page rendered to PNG. Look at them. No orphan lines (a heading or 1 to 2 lines alone at the top or bottom of a page).
 3. `pdftotext` output reads in the right order: name, headline, contact, stats, summary, and so on.
 4. Run `fact-check` on the tailored text.
-5. File name: `First_Last_Resume_Company.pdf`. No "final," "v3," or dates.
+5. File name: `First_Last_Resume_Company.pdf` for a tailored resume, `First_Last_Resume.pdf` for the master. No "final," "v3," or dates.
 6. If QA fails, fix and rerun. Common fixes: trim an older role's bullets, shorten the summary, drop one achievement.
 
 ## Output

@@ -13,7 +13,7 @@ You need:
 - **Node.js 18 or newer**
 - **LibreOffice** with Writer (turns the .docx into a PDF). On Ubuntu: `sudo apt-get install libreoffice-writer`. On a Mac: install LibreOffice from libreoffice.org.
 - **Poppler** (`pdfinfo`, `pdftotext`, `pdftoppm`) for resume QA. Ubuntu: `sudo apt-get install poppler-utils`. Mac: `brew install poppler`.
-- **Chromium for Playwright** (baseball card). Run once: `npx playwright install chromium` inside `baseball-card/`.
+- **A PDF renderer for the baseball card.** Either Chromium for Playwright (`npx playwright install chromium` inside `baseball-card/`) or WeasyPrint (`pip install weasyprint`). If the browser is missing, `render-card.js` falls back to WeasyPrint and installs it with pip on its own.
 
 Then:
 ```

@@ -15,7 +15,7 @@ Status values: Researching, Drafted, Sent, Replied, Interviewing, Offer, Negotia
 - Status:
 - Source: scan YYYY-MM-DD (grade A/B) | signal YYYY-MM-DD | referral
 - Role: (posting link, or "no posting: signal-based")
-- Research: companies/<slug>/research.md
+- Research: companies/<company-slug>/research.md
 - Next follow-up: YYYY-MM-DD (what: thank-you / value-add / close-the-loop)
 
 ### Contacts

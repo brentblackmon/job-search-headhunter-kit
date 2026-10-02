@@ -72,11 +72,20 @@ function runQa({ pdfPath, targetPages, data }) {
   add("Text reads in the right order (pdftotext)", misses.length === 0, misses.join("; ") || order.length + " anchors in order");
 
   // 4. Voice lint
-  const lower = text.toLowerCase();
+  // Proper names (companies, schools) are not the user's word choice, so blank them
+  // out before the banned-word check. "WM Synergy Resources" is a company, not filler.
+  let lower = text.toLowerCase();
+  const names = [data.name, ...data.experience.map((j) => j.company)].filter(Boolean);
+  names.forEach((n) => { lower = lower.split(n.toLowerCase()).join(" "); });
   const voice = [];
-  if (text.includes("—")) voice.push("em dash found");
-  BANNED.forEach((w) => { if (lower.includes(w)) voice.push(`"${w}"`); });
-  add("Voice lint (no em dashes, no filler)", voice.length === 0, voice.join(", ") || "clean");
+  if (text.includes("\u2014")) voice.push("em dash found");
+  // En dashes too, including in number ranges: the kit writes ranges as "2019 to 2021".
+  if (text.includes("\u2013")) voice.push("en dash found");
+  const esc = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  BANNED.forEach((w) => {
+    if (new RegExp("(^|[^a-z])" + esc(w) + "($|[^a-z])").test(lower)) voice.push(`"${w}"`);
+  });
+  add("Voice lint (no em or en dashes, no filler)", voice.length === 0, voice.join(", ") || "clean");
 
   // Report
   const allPass = results.every((r) => r.pass);

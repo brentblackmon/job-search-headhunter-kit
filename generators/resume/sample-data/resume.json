@@ -56,25 +56,27 @@
       "roles": [
         {
           "title": "Director of Operations",
-          "dates": "01/2021 to Present"
+          "dates": "01/2021 to Present",
+          "bullets": [
+            "Lead implementation, support, and training: 64 people and an $11.2M operating budget. Report to the COO.",
+            "Rebuilt onboarding around three standard tiers with fixed scopes and go-live checklists; average implementation time fell from 16 weeks to 9 weeks.",
+            "Paired each implementation lead with an account owner through the first renewal, which helped raise gross revenue retention from 89% to 95% in three years.",
+            "Ran the operations integration of Lanternfish Yard Systems (acquired 2023): 38 employees and 120 customers moved onto one support platform in 7 months, with 97% of acquired customers kept through year one.",
+            "Cut average ticket resolution time from 31 hours to 12 hours with tiered routing and a searchable fix library.",
+            "Reduced cost to serve per customer 22% from FY2022 to FY2024 while the customer base grew.",
+            "Launched a customer training academy that certified 1,100 customer users in 2024.",
+            "Consolidated support and training tools from 7 vendors to 3, saving $640K per year."
+          ]
         },
         {
           "title": "Senior Manager, Customer Operations",
-          "dates": "03/2019 to 12/2020"
+          "dates": "03/2019 to 12/2020",
+          "bullets": [
+            "Built the headcount capacity model finance now uses to plan post-sale hiring each quarter."
+          ]
         }
       ],
-      "blurb": "Transportation management software for mid-market shippers and carriers. About 420 employees.",
-      "bullets": [
-        "Lead implementation, support, and training: 64 people and an $11.2M operating budget. Report to the COO.",
-        "Rebuilt onboarding around three standard tiers with fixed scopes and go-live checklists; average implementation time fell from 16 weeks to 9 weeks.",
-        "Paired each implementation lead with an account owner through the first renewal, which helped raise gross revenue retention from 89% to 95% in three years.",
-        "Ran the operations integration of Lanternfish Yard Systems (acquired 2023): 38 employees and 120 customers moved onto one support platform in 7 months, with 97% of acquired customers kept through year one.",
-        "Cut average ticket resolution time from 31 hours to 12 hours with tiered routing and a searchable fix library.",
-        "Reduced cost to serve per customer 22% from FY2022 to FY2024 while the customer base grew.",
-        "Launched a customer training academy that certified 1,100 customer users in 2024.",
-        "Consolidated support and training tools from 7 vendors to 3, saving $640K per year.",
-        "Built the headcount capacity model finance now uses to plan post-sale hiring each quarter."
-      ]
+      "blurb": "Transportation management software for mid-market shippers and carriers. About 420 employees."
     },
     {
       "company": "Kestrel Route Software",

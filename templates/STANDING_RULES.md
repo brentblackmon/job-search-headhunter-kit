@@ -17,7 +17,7 @@ Every skill in this kit follows these rules. Each SKILL.md repeats them in short
 
 ## The workspace
 
-All skills read and write one folder, called the job search folder. Its name is always `My Job Search/`. Never create a second folder inside it with a different name. It can live in a Cowork project, a Google Drive folder, or a local directory.
+All skills read and write one folder, called the job search folder. Its name is always `My Job Search/`. Never create a second folder inside it with a different name. Company folders use a slug: the company name in lowercase, spaces and punctuation turned into single hyphens ("Net at Work" becomes `net-at-work`). Every skill uses the same slug, so one company never gets two folders. It can live in a Cowork project, a Google Drive folder, or a local directory.
 
 ```
 My Job Search/
@@ -27,7 +27,7 @@ My Job Search/
   channels.md              hidden-market channels (built by signal-search)
   scans/YYYY-MM-DD.md      talent-scout results
   signals/YYYY-MM-DD.md    signal-search results
-  companies/<company>/     research, tailored materials, prep sheets
+  companies/<company-slug>/  research, tailored materials, prep sheets
 ```
 
 ## Running the kit for someone else

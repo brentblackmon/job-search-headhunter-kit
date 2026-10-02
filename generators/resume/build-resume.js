@@ -10,6 +10,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { execFileSync } = require("child_process");
 const {
   Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle,
@@ -146,27 +147,42 @@ data.experience.forEach((job) => {
       run("\t" + job.dates, { size: 19 }),
     ],
   }));
-  job.roles.forEach((r) => {
-    children.push(new Paragraph({
-      keepNext: true,
-      keepLines: true,
-      spacing: { after: 0 },
-      tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
-      children: [
-        run(r.title, { bold: true, italics: true }),
-        ...(job.roles.length > 1 ? [run("\t" + r.dates, { italics: true, size: 18 })] : []),
-      ],
-    }));
+  // Each role can carry its own bullets (roles[].bullets), so a promotion shows which
+  // results came from which title. Job-level bullets (job.bullets) still work and are
+  // printed after the role lines, as before.
+  const perRole = job.roles.some((r) => Array.isArray(r.bullets) && r.bullets.length);
+  const roleLine = (r, spaceBefore) => new Paragraph({
+    keepNext: true,
+    keepLines: true,
+    spacing: { before: spaceBefore, after: 0 },
+    tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
+    children: [
+      run(r.title, { bold: true, italics: true }),
+      ...(job.roles.length > 1 ? [run("\t" + r.dates, { italics: true, size: 18 })] : []),
+    ],
   });
-  if (job.blurb) {
+  const blurb = () => {
+    if (!job.blurb) return;
     children.push(new Paragraph({
       keepNext: true,
       spacing: { after: 40 },
       children: [run(job.blurb, { italics: true, size: 18, color: "444444" })],
     }));
+  };
+  if (perRole) {
+    blurb();
+    job.roles.forEach((r, ri) => {
+      children.push(roleLine(r, ri === 0 ? 0 : 60));
+      // Keep the first bullet with its role line so a title never sits alone.
+      (r.bullets || []).forEach((b, i) => children.push(bullet(b, i === 0)));
+    });
+    (job.bullets || []).forEach((b) => children.push(bullet(b)));
+  } else {
+    job.roles.forEach((r) => children.push(roleLine(r, 0)));
+    blurb();
+    // Keep the first bullet with the job header so a header never sits alone.
+    (job.bullets || []).forEach((b, i) => children.push(bullet(b, i === 0)));
   }
-  // Keep the first bullet with the job header so a header never sits alone.
-  job.bullets.forEach((b, i) => children.push(bullet(b, i === 0)));
 });
 
 children.push(heading("Education and Certifications"));
@@ -208,11 +224,25 @@ async function main() {
   const docxPath = outBase + ".docx";
   const pdfPath = outBase + ".pdf";
 
-  fs.writeFileSync(docxPath, await Packer.toBuffer(doc));
+  const buffer = await Packer.toBuffer(doc);
+  fs.writeFileSync(docxPath, buffer);
   console.log("Wrote " + docxPath);
 
-  execFileSync("soffice", ["--headless", "--convert-to", "pdf", "--outdir", outDir, docxPath], { stdio: "pipe" });
-  if (!fs.existsSync(pdfPath)) throw new Error("PDF conversion failed. Is LibreOffice installed (soffice on PATH)?");
+  // Convert in a private temp folder, then copy the PDF over. LibreOffice leaves
+  // lock and .tmp files behind in its output folder, especially on synced or
+  // mounted folders, and those should never land in the user's job search folder.
+  const work = fs.mkdtempSync(path.join(os.tmpdir(), "rr-resume-"));
+  try {
+    const tmpDocx = path.join(work, path.basename(docxPath));
+    fs.writeFileSync(tmpDocx, buffer);
+    const profile = require("url").pathToFileURL(path.join(work, "lo-profile")).href;
+    execFileSync("soffice", ["-env:UserInstallation=" + profile, "--headless", "--convert-to", "pdf", "--outdir", work, tmpDocx], { stdio: "pipe" });
+    const tmpPdf = tmpDocx.replace(/\.docx$/, ".pdf");
+    if (!fs.existsSync(tmpPdf)) throw new Error("PDF conversion failed. Is LibreOffice installed (soffice on PATH)?");
+    fs.copyFileSync(tmpPdf, pdfPath);
+  } finally {
+    fs.rmSync(work, { recursive: true, force: true });
+  }
   console.log("Wrote " + pdfPath);
 
   if (changes.length) {

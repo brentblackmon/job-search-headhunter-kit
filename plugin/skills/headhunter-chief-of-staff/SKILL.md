@@ -27,8 +27,8 @@ The user should never have to name the next step. Run the whole pipeline, then s
    - `cover-letter`
    - `outreach-package` email and LinkedIn note
    - `fact-check` on all of it. Collect any `FROM RESUME` numbers that need a yes; do not ask yet.
-   For signal companies there is no posting: tailor to the company's own stated priorities and send outreach only (resume and stat sheet attached), no cover letter.
-   Save everything to `companies/<company>/`.
+   For signal companies there is no posting: tailor to the company's own stated priorities and send outreach only (resume attached; baseball card optional), no cover letter.
+   Save everything to `companies/<company-slug>/`.
 5. **Log.** Add each company to the tracker as `Drafted`, with links to its files.
 6. **One review screen.** Show a short card per company: role, grade and why, who to contact, and links to the resume, card, cover letter, and email. Then:
    - Ask the number confirmations, one per question, with choices ("Yes, exactly right", "Close, let me fix it", "Leave it out"). Fix drafts to match the answers.

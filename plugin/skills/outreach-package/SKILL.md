@@ -12,7 +12,7 @@ Facts file is the source of truth; **never invent or round**. **Use approved phr
 
 ## Before drafting (all required)
 1. **Tracker check**: company and person not already contacted in the last 14 days, not excluded. If they are, stop and tell the user.
-2. **Research**: `companies/<slug>/research.md` exists with quotes, a dated executive confirmation, and an email status. If not, run `company-research`.
+2. **Research**: `companies/<company-slug>/research.md` exists with quotes, a dated executive confirmation, and an email status. If not, run `company-research`.
 3. **Voice sample**: read the voice sample in `facts.md` and match its sentence length and warmth.
 
 ## The receipts email

@@ -11,7 +11,7 @@ Short, specific, and human. It should read like a note from a person who did the
 Facts file is the source of truth; **never invent or round**. **Use approved phrasing.** Dated sources for people. No guessed emails as real. The user sends everything. **Human voice: no em dashes, no filler ("leverage," "unlock," "seamless," "I'm excited to," "I am writing to apply"), no stacked adjectives.** Research first. Check the tracker. QA before delivery. **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md` in this skill's folder.
 
 ## Inputs
-`facts.md`, the posting, and `companies/<slug>/research.md` (run `company-research` first if missing).
+`facts.md`, the posting, and `companies/<company-slug>/research.md` (run `company-research` first if missing).
 
 ## Structure
 1. **Salutation**: the hiring executive by name if confirmed current. Otherwise "Dear [Team] hiring team."
