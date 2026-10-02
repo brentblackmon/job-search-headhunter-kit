@@ -106,6 +106,25 @@ function expect(caseName, actual, wanted) {
   expect("lowercase ad and lead do not count", lower[0].hit ? "matched" : "missing", "missing");
 }
 
+// 8. Word forms and multi-word keywords count as partial matches, not full ones.
+{
+  const { check, report } = require("../keyword-check");
+  const resume = "Core: Desktop Support | Hardware Lifecycle | Windows 11\nMentor new Tier 1 technicians.\nLed a team of 6 on the hospital help desk.";
+  const rows = check({ required: ["Mentoring", "Lifecycle Management", "Teams", "Mobile Device Management"], preferred: ["Leadership"] }, resume);
+  const state = (name) => { const r = rows.find((x) => x.name === name); return r.hit ? "matched" : r.partial ? "partial" : "missing"; };
+  expect("Mentor is a partial match for Mentoring", state("Mentoring"), "partial");
+  expect("Hardware Lifecycle is a partial match for Lifecycle Management", state("Lifecycle Management"), "partial");
+  expect("the partial match shows the resume's wording", rows.find((r) => r.name === "Lifecycle Management").partial, "Hardware Lifecycle");
+  expect("Led is a partial match for Leadership", state("Leadership"), "partial");
+  const lines = check({ required: ["Lifecycle Management"] }, "Hardware Lifecycle\nPROFESSIONAL EXPERIENCE");
+  expect("a partial match stops at the end of its line", lines[0].partial, "Hardware Lifecycle");
+  expect("team is not a match for the Teams product", state("Teams"), "missing");
+  expect("Mobile Device Management stays missing without mobile", state("Mobile Device Management"), "missing");
+  const out = report({ posting: "Test" }, rows);
+  expect("the count line names the partial matches", out.line, "ATS keywords: 0 of 5 matched, 3 partial.");
+  expect("keyword-check.md has a Partial match section", out.md.includes("## Partial match") && out.md.includes("| Mentoring | Mentor | required |") ? "yes" : "no", "yes");
+}
+
 fs.rmSync(work, { recursive: true, force: true });
 let failed = 0;
 for (const r of results) {
