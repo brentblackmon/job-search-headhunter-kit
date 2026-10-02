@@ -38,6 +38,10 @@ Companies and people the kit must never contact.
 
 > 
 
+## Not used
+Tools and skills the user said they have not used (from ATS keyword checks). Never add these to a draft, and do not ask about them again.
+- (none)
+
 ## Open date checks
 Overlaps, gaps over 6 months, and date conflicts intake did not ask about. The Fact Checker asks before a draft uses these dates.
 - (none)

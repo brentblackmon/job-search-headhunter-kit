@@ -12,7 +12,13 @@
 //     "preferred": ["Jamf", {"keyword": "Autopilot", "variants": ["Windows Autopilot"]}] }
 // --resume takes the resume PDF (read with pdftotext, the way an ATS reads it),
 // or a .json or .txt file when pdftotext is not installed.
-// Writes keyword-check.md (matched and missing) and prints the count line.
+// Writes keyword-check.md (matched, partial match, and missing) and prints the count line.
+//
+// A partial match is a keyword whose words show up in another form: a different
+// word ending ("Mentor" for "Mentoring", "led" for "Leadership"), or the main word of
+// a multi-word keyword next to a related word ("Hardware Lifecycle" for "Lifecycle
+// Management"). The user can switch to the posting's exact wording. Product names in
+// the variant table below only match exactly, so "team" never counts as "Teams".
 
 const fs = require("fs");
 const path = require("path");
@@ -35,6 +41,7 @@ const VARIANTS = [
   ["ServiceNow", "Service Now"],
   ["PowerShell", "PowerShell scripting"],
   ["Exchange Online", "EXO"],
+  ["Microsoft Teams", "MS Teams", "Teams"],
   ["CompTIA A+", "A+"],
   ["CompTIA Network+", "Network+"],
   ["CompTIA Security+", "Security+"],
@@ -60,14 +67,57 @@ function variantsFor(entry) {
   return { name, variants: [...new Set([name, ...group, ...extra])] };
 }
 
+// Product names that are also everyday words match only with a capital letter.
+const CAPITALIZED_ONLY = new Set(["Teams"]);
+
 // Short all-capital acronyms (AD, MEM, A+) must match in capitals, so "AD" does not
 // match "ad" inside other words or text. Everything else ignores case.
 function found(text, variant) {
   const v = clean(variant).trim();
   const esc = v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const caseSensitive = v.replace(/[^A-Za-z]/g, "").length <= 3 && v === v.toUpperCase();
+  const caseSensitive = CAPITALIZED_ONLY.has(v) || (v.replace(/[^A-Za-z]/g, "").length <= 3 && v === v.toUpperCase());
   const re = new RegExp(`(^|[^A-Za-z0-9])${esc}(?![A-Za-z0-9])`, caseSensitive ? "" : "i");
   return re.test(text);
+}
+
+// Word stems, so mentor, mentored, and mentoring compare equal, and so do manage,
+// managed, managing, and management. Irregular forms are listed by hand.
+const IRREGULAR = { led: "lead", leading: "lead", leader: "lead", leaders: "lead", leadership: "lead" };
+function stem(word) {
+  let w = word.toLowerCase();
+  if (IRREGULAR[w]) return IRREGULAR[w];
+  for (const suffix of ["ments", "ment", "ships", "ship", "ings", "ing", "ed", "ers", "er", "es", "s"]) {
+    if (w.endsWith(suffix) && w.length - suffix.length >= 3) { w = w.slice(0, -suffix.length); break; }
+  }
+  if (w.length > 3 && w.endsWith("e")) w = w.slice(0, -1);
+  return w;
+}
+
+// Words that only describe the main word in a multi-word keyword. "Lifecycle" is the
+// main word of "Lifecycle Management"; "Root" and "Cause" are the main words of
+// "Root Cause Analysis".
+const GENERIC = new Set(["management", "analysis", "administration", "support", "service", "services", "solution", "solutions", "system", "systems", "tool", "tools", "platform", "online", "experience", "skills"].map(stem));
+
+// Look for a keyword's words in another form. Returns the resume phrase it found, or "".
+function partial(text, keyword) {
+  const words = String(keyword).split(/[^A-Za-z0-9+#]+/).filter(Boolean);
+  const main = words.filter((w) => !GENERIC.has(stem(w)));
+  const need = (main.length ? main : words).map(stem);
+  // Search phrase by phrase, so a match never spans two lines or two list items.
+  for (const phrase of text.split(/[\n|,;:.\u2022()]+/)) {
+    const tokens = phrase.split(/[^A-Za-z0-9+#]+/).filter(Boolean);
+    const stems = tokens.map(stem);
+    const at = need.map((n) => stems.indexOf(n));
+    if (at.some((i) => i === -1)) continue;
+    const lo = Math.min(...at), hi = Math.max(...at);
+    if (hi - lo > 4) continue;
+    // A one-word keyword matches on its own; a longer one needs a related word next to
+    // its main words, which is the phrase's neighbors (or its own generic word).
+    const from = Math.max(0, lo - 1), to = Math.min(tokens.length - 1, hi + 1);
+    if (words.length > 1 && to - from + 1 < 2) continue;
+    return tokens.slice(words.length > 1 ? from : lo, (words.length > 1 ? to : hi) + 1).join(" ");
+  }
+  return "";
 }
 
 function resumeText(file) {
@@ -96,7 +146,11 @@ function check(keywords, text) {
         }
       }
       const hit = variants.find((v) => found(own, v));
-      rows.push({ name, kind, hit: hit || "" });
+      // Product names (anything in the variant table) only match exactly.
+      const product = VARIANTS.some((g) => g.some((v) => variants.includes(v)));
+      // Keep line breaks here: partial matching works one line or list item at a time.
+      const near = hit || product ? "" : partial(String(text).replace(/[-\u2010-\u2015/]+/g, " "), name);
+      rows.push({ name, kind, hit: hit || "", partial: near });
     }
   }
   return rows;
@@ -104,8 +158,9 @@ function check(keywords, text) {
 
 function report(keywords, rows) {
   const matched = rows.filter((r) => r.hit);
-  const missing = rows.filter((r) => !r.hit);
-  const line = `ATS keywords: ${matched.length} of ${rows.length} matched.`;
+  const partials = rows.filter((r) => !r.hit && r.partial);
+  const missing = rows.filter((r) => !r.hit && !r.partial);
+  const line = `ATS keywords: ${matched.length} of ${rows.length} matched` + (partials.length ? `, ${partials.length} partial.` : ".");
   const md = [
     `# ATS keyword check${keywords.posting ? `: ${keywords.posting}` : ""}`,
     "",
@@ -114,13 +169,18 @@ function report(keywords, rows) {
     "## Matched",
     matched.length ? "| Keyword | Found as | Posting lists it as |\n|---|---|---|\n" + matched.map((r) => `| ${r.name} | ${r.hit} | ${r.kind} |`).join("\n") : "None.",
     "",
+    "## Partial match",
+    "The resume says it another way. Using the posting's exact wording helps an ATS find it.",
+    "",
+    partials.length ? "| Keyword | Resume says | Posting lists it as |\n|---|---|---|\n" + partials.map((r) => `| ${r.name} | ${r.partial} | ${r.kind} |`).join("\n") : "None.",
+    "",
     "## Missing",
     missing.length ? missing.map((r) => `- ${r.name} (${r.kind})`).join("\n") : "None.",
     "",
-    "Ask the user about each missing keyword, one at a time. Add one to the resume only after the user confirms it in facts.md.",
+    "Ask the user about the missing keywords in one multi-select question, required first, then one question about where they used the ones they checked. Add a keyword to the resume only after the user confirms it in facts.md.",
     "",
   ].join("\n");
-  return { line, md, matched, missing };
+  return { line, md, matched, partials, missing };
 }
 
 if (require.main === module) {
@@ -134,8 +194,9 @@ if (require.main === module) {
   const outPath = typeof args.out === "string" ? args.out : path.join(path.dirname(args.keywords), "keyword-check.md");
   fs.writeFileSync(outPath, out.md);
   console.log(out.line);
+  if (out.partials.length) console.log("Partial: " + out.partials.map((r) => `${r.name} (resume says "${r.partial}")`).join(", "));
   if (out.missing.length) console.log("Missing: " + out.missing.map((r) => r.name).join(", "));
   console.log("Wrote " + outPath);
 }
 
-module.exports = { check, report, found, variantsFor };
+module.exports = { check, report, found, variantsFor, stem, partial };
