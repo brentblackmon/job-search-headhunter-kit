@@ -21,7 +21,10 @@ Built by `generators/baseball-card/render-card.js` in this skill's folder from `
    - **Cards:** tag is 1 to 3 words in the theme's language; title 2 to 5 words (about 32 characters); proof line is the number in approved phrasing (about 45 characters); body is 1 to 3 short sentences (about 150 characters) on what the user did.
    - **Stat captions:** say what the number measures, in a short sentence (about 60 characters, two lines at most).
    - When tailoring, put the company's top priority in section 01 and order cards so the most relevant one comes first.
-3. Photo: ask the user for a headshot file. If none, the template shows initials. Never use a stock or generated face.
+3. **Headshot (required).** Use the file named under `Headshot file` in `facts.md`. In `card.json`, `photo` is the path to that file relative to `card.json` (for a tailored card in `companies/<company-slug>/`, that is `../../headshot.jpg`). Never use a stock or generated face, and never ship a card with initials.
+   - If `facts.md` says `none yet`, do not build the card. Build everything else, and report the card as **waiting for a photo** so the review screen lists it.
+   - When the user says "use [file] as my headshot", copy that file into `My Job Search/`, update `Headshot file` in `facts.md`, and build every card that was waiting.
+   - The script fails QA when `photo` is empty or the file is missing, with the message "No headshot. Add a photo to your folder and say: use [file] as my headshot." Pass that message on to the user.
 4. **Check the layout files installed.** Look for `generators/baseball-card/render-card.js` in this skill's folder. If it is missing, tell the user once: "Recruit Rocket installed without its layout files, so I'll build the card by hand this time. To get the exact layout, delete Recruit Rocket in Customize, Skills, and upload recruit-rocket.zip again." Then use the fallback at the end of this step.
 
    Render with the locked layout in this skill's `generators/baseball-card/` folder. The skill folder can be read-only, so copy it to a work folder outside `My Job Search/` first:
@@ -36,7 +39,7 @@ The script prints with Playwright when a browser is available. If Playwright or 
 If Node is not available at all, copy `generators/baseball-card/card-template.html`, replace `<!--CARD-->` with the markup built by `buildCard` in `render-card.js`, and print it to a one-page landscape US Letter PDF with whatever HTML-to-PDF tool you have (`python3 -m weasyprint card.html card.pdf` works). Keep the template's layout and colors unchanged. Never stop to ask the user to install anything.
 
 ## QA before delivery
-1. PDF is exactly 1 page, landscape, with no overflow (the script checks the header, stat tiles, every card, and the footer, and fails if any text runs long). If it fails, shorten the text it names and rerun.
+1. PDF is exactly 1 page, landscape, with no overflow (the script checks the header, stat tiles, every card, and the footer, and fails if any text runs long), no placeholders, and the headshot embedded. If it fails, fix what it names and rerun.
 2. Look at the PNG preview the script writes. It should look like a finished design: headline on one line, cards evenly filled, photo framed and not stretched.
 3. Run `fact-check` on every number.
 4. Tell the user: use this with direct email and in person, not in application portals.

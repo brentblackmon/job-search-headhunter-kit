@@ -5,6 +5,7 @@ Two small tools that turn your facts into finished documents. Recruit Rocket run
 | Tool | Input | Output |
 |---|---|---|
 | `resume/build-resume.js` | `resume.json` (+ optional `tailor.json`) | ATS-safe `.docx` and `.pdf`, page images, `-QA.md` report |
+| `resume/keyword-check.js` | `keywords.json` (the posting's required and preferred skills) + the resume PDF | `keyword-check.md`: matched and missing keywords, with common variants counted |
 | `baseball-card/render-card.js` | `card.json` | one-page landscape `.pdf` and a `-preview.png` |
 
 ## One-time setup
@@ -40,5 +41,5 @@ node build-resume.js --data path/to/resume.json --tailor path/to/tailor.json --o
 ```
 node render-card.js --data path/to/card.json --out out/First_Last_Card_Company.pdf
 ```
-- `photo` in card.json is a path relative to card.json, or empty for initials.
+- `photo` in card.json is required: a JPG or PNG path relative to card.json. QA fails without one.
 - If Chromium is installed somewhere else, set `CHROMIUM_PATH=/path/to/chromium`.

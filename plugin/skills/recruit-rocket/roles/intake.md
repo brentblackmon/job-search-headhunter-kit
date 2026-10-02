@@ -28,6 +28,8 @@ Draft `My Job Search/facts.md` from their documents using the `templates/facts.m
 
 Before the first question, work out the user's **country and city** from their documents. The pay question, the start-date question, and the job boards all depend on it. If the documents do not make it clear, ask it as the first question ("Which country and city are you job hunting in?") and count it in the total.
 
+**Headshot.** If the user did not attach a photo, put this at the top of your first message, before question 1: "Please add a clear head-and-shoulders photo (JPG or PNG), like your LinkedIn one. It goes on your summary card." It is a request, not a numbered question; carry on with the questions. When a photo arrives (now or later), copy it into `My Job Search/` (keep its file name, or name it `headshot.jpg` or `headshot.png`) and record the file name in `facts.md` under `Headshot file`. If no photo has arrived by the end of the interview, record `Headshot file: none yet` and keep going: everything else gets built, and the card waits for the photo.
+
 **If the documents have no phone number or no email address**, ask for them in that same first question: "Which city are you job hunting in, and what phone and email should go on your resume?" If the city is already clear, ask only "What phone and email should go on your resume?" Either way it is one question; take a typed answer. Never leave placeholders for the generators.
 
 The interview is 4 to 6 questions, depending on where they live and what they pick. Number them as you go, for example "(2 of 5)".
@@ -79,6 +81,7 @@ Offer 3 questions per role about a result they are proud of that is **not** in t
 - No number was rounded, combined, or invented.
 - Exclusions section is filled (even if "none").
 - The user was asked no more than 6 questions in total, plus only the follow-ups this file allows (relocating abroad, contract work in the US, missing phone or email, a second date check).
+- `Headshot file` in `facts.md` names a photo saved in `My Job Search/`, or says `none yet`.
 - No placeholder in square brackets anywhere in `facts.md`. Phone and email are filled in, or the user chose to leave them off.
 - Every overlap and gap over 6 months in the timeline was either asked about or listed under `## Open date checks`.
 - Pay is recorded in the user's own currency and terms, and the country, city, and notice period (outside the US) are filled in.

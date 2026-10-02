@@ -30,8 +30,8 @@ If `My Job Search/facts.md` already exists, the user is already set up: say so i
 | Find jobs, run a scan, grade a posting, "is this job a fit", set up the scheduled scan | `roles/talent-scout.md` |
 | Companies likely to hire before they post, hidden market, search firms, channels | `roles/signal-search.md` |
 | Research one company, who runs a function there | `roles/company-research.md` |
-| Build, tailor, or update the resume | `roles/resume-builder.md` |
-| Baseball card, one-pager, stat sheet, leave-behind | `roles/baseball-card.md` |
+| Build, tailor, or update the resume, ATS keyword check | `roles/resume-builder.md` |
+| Baseball card, one-pager, stat sheet, leave-behind, "use [file] as my headshot" | `roles/baseball-card.md` |
 | Cover letter | `roles/cover-letter.md` |
 | LinkedIn headline, About section, why recruiters are not finding them | `roles/linkedin-review.md` |
 | Outreach email, LinkedIn connection note, cold email to an executive | `roles/outreach-package.md` |
@@ -45,6 +45,6 @@ If a request fits no row, use `roles/headhunter-chief-of-staff.md`.
 ## Files inside this skill
 - `roles/`: one file per role, with its steps and QA.
 - `templates/`: facts file, tracker, scan prompt, email, LinkedIn note, cover letter, follow-ups, negotiation, interview prep.
-- `generators/resume/`: the locked resume layout (`build-resume.js`, `qa.js`, sample data).
+- `generators/resume/`: the locked resume layout (`build-resume.js`, `qa.js`, sample data) and the ATS keyword check (`keyword-check.js`).
 - `generators/baseball-card/`: the locked card layout (`render-card.js`, `card-template.html`, sample data).
 - `STANDING_RULES.md`: the full rules and the `My Job Search/` folder layout.

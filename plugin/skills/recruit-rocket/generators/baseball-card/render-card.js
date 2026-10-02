@@ -6,13 +6,13 @@
 //
 // card.json shape (see sample-data/card.json):
 //   name, role ("Chief Operating Officer / Company"), headline, headlineAccent, intro,
-//   photo (optional path, relative to card.json), stats[4] {value, label},
+//   photo (required: path to a JPG or PNG headshot, relative to card.json), stats[4] {value, label},
 //   sections[2] {eyebrow, title, cards[4] {tag, title, proof, body}},
 //   footer {tagline, accent}, contact[] (phone, email, LinkedIn)
 //
 // Writes the PDF and a PNG preview next to it, then checks: exactly 1 page,
-// 4 stats, 2 sections of 4 cards, no text overflow, and no unfilled placeholders
-// like "[phone]" or "[email]".
+// 4 stats, 2 sections of 4 cards, no text overflow, no unfilled placeholders
+// like "[phone]" or "[email]", and a headshot photo (required).
 //
 // Renderer: Playwright (Chromium) when a browser is available. If Playwright or its
 // browser is missing (common in sandboxes that block the browser download), it falls
@@ -231,14 +231,18 @@ async function main() {
   const data = normalize(JSON.parse(fs.readFileSync(dataPath, "utf8")));
   const problems = checkShape(data);
 
-  // Embed a local photo as a data URI so the page has no external requests.
-  if (data.photo && !data.photo.startsWith("data:")) {
+  // The headshot is required. Embed it as a data URI so the page has no external requests.
+  // Without one the card still renders (initials) for preview, but QA fails.
+  let headshot = "";
+  if (!data.photo) {
+    headshot = "No headshot. Add a photo to your folder and say: use [file] as my headshot.";
+  } else if (!data.photo.startsWith("data:")) {
     const photoPath = path.resolve(path.dirname(dataPath), data.photo);
     if (fs.existsSync(photoPath)) {
       const ext = path.extname(photoPath).slice(1).toLowerCase().replace("jpg", "jpeg");
       data.photo = `data:image/${ext};base64,${fs.readFileSync(photoPath).toString("base64")}`;
     } else {
-      problems.push(`photo not found: ${photoPath} (showing initials instead)`);
+      headshot = `No headshot (${data.photo} not found). Add a photo to your folder and say: use [file] as my headshot.`;
       data.photo = "";
     }
   }
@@ -280,8 +284,9 @@ async function main() {
   console.log(`  [${pages === 1 ? "PASS" : "FAIL"}] Page count: ${pages} (landscape 11 x 8.5 in)`);
   console.log(`  [${problems.length ? "FAIL" : "PASS"}] Layout: ${problems.join("; ") || "4 stats, 2 sections of 4 cards, no overflow"}`);
   console.log(`  [${placeholders.length ? "FAIL" : "PASS"}] No unfilled placeholders: ${placeholders.join(", ") || "none"}`);
+  console.log(`  [${headshot ? "FAIL" : "PASS"}] Headshot: ${headshot || "photo embedded"}`);
   console.log("  Look at the preview PNG before sending.");
-  process.exit(problems.length || placeholders.length ? 1 : 0);
+  process.exit(problems.length || placeholders.length || headshot ? 1 : 0);
 }
 
 if (require.main === module) {
