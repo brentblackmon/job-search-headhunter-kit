@@ -1,0 +1,56 @@
+# Copies the kit to the public brentblackmon/recruit-rocket repo every time main changes.
+# Needs a repository secret named PUBLIC_REPO_TOKEN: a fine-grained token with
+# Contents: Read and write on brentblackmon/recruit-rocket only.
+name: Sync public repo
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: sync-public
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the token is set
+        env:
+          PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
+        run: |
+          if [ -z "$PUBLIC_REPO_TOKEN" ]; then
+            echo "::error::The PUBLIC_REPO_TOKEN secret is missing. Add it under Settings, Secrets and variables, Actions."
+            exit 1
+          fi
+
+      - name: Check out the workshop
+        uses: actions/checkout@v4
+
+      - name: Check out recruit-rocket
+        uses: actions/checkout@v4
+        with:
+          repository: brentblackmon/recruit-rocket
+          ref: main
+          token: ${{ secrets.PUBLIC_REPO_TOKEN }}
+          path: public
+
+      - name: Copy the kit into recruit-rocket
+        run: ./scripts/sync-public.sh "$GITHUB_WORKSPACE/public"
+
+      - name: Push the changes
+        working-directory: public
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "recruit-rocket is already up to date."
+            exit 0
+          fi
+          git config user.name "recruit-rocket sync"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Sync from workshop ${GITHUB_SHA::7}"
+          git push origin HEAD:main
