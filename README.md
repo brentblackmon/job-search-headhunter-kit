@@ -80,7 +80,7 @@ Outside the US? Add your country, city, and the currency you think in, for examp
 
 **Or install it as a plugin from GitHub** (gets updates without downloading again): in Claude, click **Customize**, then **Plugins**, then **Add marketplace**, enter `brentblackmon/job-search-headhunter-kit`, and click **Install** on Recruit Rocket. Then do steps 3 and 4.
 
-**Updating from the 13-skill version?** Delete the old skills (intake, talent-scout, resume-builder, and the rest) in **Skills** first, so Claude does not mix old and new instructions.
+**Installed an earlier version?** Delete the old Recruit Rocket skills (intake, talent-scout, resume-builder, and the rest) in **Skills** first, so Claude does not mix old and new instructions.
 
 ### Option B: Claude Code
 ```

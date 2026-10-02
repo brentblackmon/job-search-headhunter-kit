@@ -26,7 +26,7 @@ And it fact-checks everything against your own record before you see it. Every n
 
 Nothing goes out without your yes. It drafts. You send.
 
-Setup is one message you paste into Claude, then a 10-minute interview.
+Setup is one file you upload to Claude and one sentence, then a 10-minute interview.
 
 Comment ROCKET and I'll send it to you.
 
@@ -35,6 +35,5 @@ Comment ROCKET and I'll send it to you.
 ---
 
 ## Before posting
-- Make the GitHub repo public so the link works for people who comment.
-- Reply to each ROCKET comment with the repo link, or send it by DM.
+- Reply to each ROCKET comment with the link to TESTING.md in the public repo (https://github.com/brentblackmon/recruit-rocket/blob/main/TESTING.md), or send it by DM. It has the one-file download and the 5-minute setup.
 - Optional: replace one line with a real example from someone who tried it (with their permission).
