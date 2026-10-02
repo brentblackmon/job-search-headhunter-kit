@@ -21,7 +21,7 @@ Use `templates/cover_letter.md` as the skeleton.
 - 120 to 250 words in the body. Count them.
 - First sentence is about them, not the user. Never open with "I am writing to apply."
 - One idea per sentence. Most sentences under 20 words.
-- Use the company's own terms for their priorities, in quotes once, then plainly.
+- You may quote the company's own words once, in quotation marks and attributed, at 5 words or fewer. Everything else is in the user's own words: no sentence may share 6 or more words in a row with the posting (tool, product, company, and job title names do not count).
 
 ## QA before delivery
-Word count in range. Run `fact-check`. Company name and person name spelled right everywhere (copy-paste errors from another letter are common). Output as plain text for pasting, and as a one-page .docx if the user asks.
+Word count in range. Run the copy check (`node copy-check.js --posting <company folder>/posting.md --doc <company folder>/cover-letter.md --keywords <company folder>/keywords.json`) and rewrite any flagged sentence. Run `fact-check`. Company name and person name spelled right everywhere (copy-paste errors from another letter are common). Output as plain text for pasting, and as a one-page .docx if the user asks.

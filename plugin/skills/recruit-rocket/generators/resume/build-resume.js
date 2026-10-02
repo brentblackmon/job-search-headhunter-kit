@@ -21,6 +21,8 @@
 //   competencies [terms],
 //   experience [{company, location, blurb?, mandate?, roles: [{title, dates, blurb?, mandate?, bullets: [...]}]}],
 //   education [lines]
+//   keepWords [optional: AI-tell words the user said they really use, for example "leverage"]
+//   properNames [optional: product or program names that contain an AI-tell word]
 //   Older files with job-level "bullets" and "dates" still work.
 
 const fs = require("fs");

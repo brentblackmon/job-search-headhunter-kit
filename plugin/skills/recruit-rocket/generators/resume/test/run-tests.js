@@ -121,8 +121,38 @@ function expect(caseName, actual, wanted) {
   expect("team is not a match for the Teams product", state("Teams"), "missing");
   expect("Mobile Device Management stays missing without mobile", state("Mobile Device Management"), "missing");
   const out = report({ posting: "Test" }, rows);
-  expect("the count line names the partial matches", out.line, "ATS keywords: 0 of 5 matched, 3 partial.");
-  expect("keyword-check.md has a Partial match section", out.md.includes("## Partial match") && out.md.includes("| Mentoring | Mentor | required |") ? "yes" : "no", "yes");
+  expect("the headline counts required skills only, own words included", out.line, "Required skills covered: 2 of 4 (2 in your own words).");
+  expect("preferred skills are listed, not counted", out.md.includes("## Preferred skills (listed, not counted)") && out.md.includes("- Leadership: covered") ? "yes" : "no", "yes");
+  expect("the report never suggests copying the posting's wording", /posting's (exact )?wording/i.test(out.md) ? "suggests it" : "does not", "does not");
+}
+
+// 9. AI-tell words in every form; names and kept words are skipped.
+{
+  const { aiTells, weakVerbs } = require("../voice");
+  const found = (t, o) => aiTells(t, o).map((h) => h.word).sort().join(", ");
+  expect("leveraged, spearheaded, and orchestrating are caught", found("Leveraged data. Spearheaded the rollout and was orchestrating three teams."), "leverage, orchestrate, spearhead");
+  expect("utilizing, delved, fast-paced, and proven track record are caught", found("Utilizing Jira, I delved into a fast-paced backlog with a proven track record."), "delve, fast-paced, proven track record, utilize");
+  expect("a company name is never flagged", found("Ops lead at WM Synergy Resources.", { names: ["WM Synergy Resources"] }), "");
+  expect("a product name is not flagged (Microsoft Dynamics)", found("Ran the Microsoft Dynamics rollout."), "");
+  expect("a word the user keeps is not flagged", found("Leveraged vendor contracts.", { keep: ["leverage"] }), "");
+  expect("plain verbs pass", found("Led the team, built the playbook, cut costs 22%."), "");
+  expect("weak verbs are listed", weakVerbs("Responsible for onboarding. Helped the team.").join(", "), "responsible for, helped");
+  const r = build("ai-tell", (d) => { d.achievements[0] = { lead: "Faster go-lives.", text: "Spearheaded a new onboarding model." }; });
+  expect("the resume QA fails on an AI-tell word", r.check("AI-tell words"), "FAIL");
+  const kept = build("ai-tell-kept", (d) => { d.achievements[0] = { lead: "Faster go-lives.", text: "Spearheaded a new onboarding model." }; d.keepWords = ["spearhead"]; });
+  expect("the resume QA passes once the user keeps the word", kept.check("AI-tell words"), "PASS");
+}
+
+// 10. Copy check: 6 or more shared words in a row fail; tool names and titles do not count.
+{
+  const { copied } = require("../copy-check");
+  const posting = "Senior Desktop Engineer. Manage and secure devices in Microsoft Intune, including compliance and configuration policies. Work escalated tickets in ServiceNow and mentor Tier 1 and Tier 2 technicians.";
+  expect("a copied 8-word phrase fails", copied(posting, "I can work escalated tickets in ServiceNow and mentor Tier 1 staff.").length ? "flagged" : "clean", "flagged");
+  expect("the user's own wording passes", copied(posting, "Coached 4 new help desk techs and closed the hardest tickets myself.").length ? "flagged" : "clean", "clean");
+  expect("5 shared words pass", copied(posting, "Set compliance and configuration policies for 1,100 laptops.").length ? "flagged" : "clean", "clean");
+  const tools = ["Microsoft Intune", "Intune", "ServiceNow", "Senior Desktop Engineer"];
+  expect("tool names and the job title do not count toward 6", copied(posting, "Senior Desktop Engineer. Microsoft Intune, ServiceNow.", tools).length ? "flagged" : "clean", "clean");
+  expect("a copied phrase still fails when it contains a tool name", copied(posting, "Manage and secure devices in Microsoft Intune, including compliance and configuration policies.", tools).length ? "flagged" : "clean", "flagged");
 }
 
 fs.rmSync(work, { recursive: true, force: true });

@@ -12,12 +12,13 @@
 //     "preferred": ["Jamf", {"keyword": "Autopilot", "variants": ["Windows Autopilot"]}] }
 // --resume takes the resume PDF (read with pdftotext, the way an ATS reads it),
 // or a .json or .txt file when pdftotext is not installed.
-// Writes keyword-check.md (matched, partial match, and missing) and prints the count line.
+// Writes keyword-check.md and prints the headline: required skills covered (preferred
+// skills are listed but never counted).
 //
 // A partial match is a keyword whose words show up in another form: a different
 // word ending ("Mentor" for "Mentoring", "led" for "Leadership"), or the main word of
 // a multi-word keyword next to a related word ("Hardware Lifecycle" for "Lifecycle
-// Management"). The user can switch to the posting's exact wording. Product names in
+// Management"). These count as covered and keep the user's own wording. Product names in
 // the variant table below only match exactly, so "team" never counts as "Teams".
 
 const fs = require("fs");
@@ -156,31 +157,39 @@ function check(keywords, text) {
   return rows;
 }
 
+// The headline counts required skills only. A skill the resume shows in the user's own
+// words (a partial match) counts as covered. Preferred skills are listed, not counted,
+// so nobody is pushed to chase 100%.
 function report(keywords, rows) {
+  const required = rows.filter((r) => r.kind === "required");
+  const preferred = rows.filter((r) => r.kind === "preferred");
+  const covered = (r) => r.hit || r.partial;
+  const reqCovered = required.filter(covered);
+  const ownWords = reqCovered.filter((r) => !r.hit).length;
+  const line = `Required skills covered: ${reqCovered.length} of ${required.length}` + (ownWords ? ` (${ownWords} in your own words).` : ".");
   const matched = rows.filter((r) => r.hit);
   const partials = rows.filter((r) => !r.hit && r.partial);
-  const missing = rows.filter((r) => !r.hit && !r.partial);
-  const line = `ATS keywords: ${matched.length} of ${rows.length} matched` + (partials.length ? `, ${partials.length} partial.` : ".");
+  const missing = rows.filter((r) => !covered(r));
+  const table = (list, col) => "| Skill | " + col + " |\n|---|---|\n" + list.map((r) => `| ${r.name} | ${r.hit || r.partial} |`).join("\n");
   const md = [
     `# ATS keyword check${keywords.posting ? `: ${keywords.posting}` : ""}`,
     "",
     `**${line}**`,
     "",
-    "## Matched",
-    matched.length ? "| Keyword | Found as | Posting lists it as |\n|---|---|---|\n" + matched.map((r) => `| ${r.name} | ${r.hit} | ${r.kind} |`).join("\n") : "None.",
+    "## Required skills",
+    "### Covered",
+    reqCovered.length ? table(reqCovered, "Resume says") : "None.",
     "",
-    "## Partial match",
-    "The resume says it another way. Using the posting's exact wording helps an ATS find it.",
+    "### Missing",
+    required.filter((r) => !covered(r)).map((r) => `- ${r.name}`).join("\n") || "None.",
     "",
-    partials.length ? "| Keyword | Resume says | Posting lists it as |\n|---|---|---|\n" + partials.map((r) => `| ${r.name} | ${r.partial} | ${r.kind} |`).join("\n") : "None.",
+    "## Preferred skills (listed, not counted)",
+    preferred.length ? preferred.map((r) => `- ${r.name}: ${covered(r) ? `covered ("${r.hit || r.partial}")` : "not on the resume"}`).join("\n") : "None.",
     "",
-    "## Missing",
-    missing.length ? missing.map((r) => `- ${r.name} (${r.kind})`).join("\n") : "None.",
-    "",
-    "Ask the user about the missing keywords in one multi-select question, required first, then one question about where they used the ones they checked. Add a keyword to the resume only after the user confirms it in facts.md.",
+    "Skills shown in the user's own words count as covered; keep their wording. Ask only about missing required skills, at most 2 questions, and stop once every required skill the user has really used is in. Never add a keyword just to raise the count.",
     "",
   ].join("\n");
-  return { line, md, matched, partials, missing };
+  return { line, md, matched, partials, missing, required, preferred };
 }
 
 if (require.main === module) {
@@ -194,8 +203,9 @@ if (require.main === module) {
   const outPath = typeof args.out === "string" ? args.out : path.join(path.dirname(args.keywords), "keyword-check.md");
   fs.writeFileSync(outPath, out.md);
   console.log(out.line);
-  if (out.partials.length) console.log("Partial: " + out.partials.map((r) => `${r.name} (resume says "${r.partial}")`).join(", "));
-  if (out.missing.length) console.log("Missing: " + out.missing.map((r) => r.name).join(", "));
+  if (out.partials.length) console.log("In your own words: " + out.partials.map((r) => `${r.name} (resume says "${r.partial}")`).join(", "));
+  const missingRequired = out.required.filter((r) => !r.hit && !r.partial);
+  if (missingRequired.length) console.log("Missing required: " + missingRequired.map((r) => r.name).join(", "));
   console.log("Wrote " + outPath);
 }
 

@@ -23,34 +23,43 @@ Built by `generators/resume/build-resume.js` in this skill's folder. Do not hand
    - `achievements`: 4 to 6 bullets, strongest numbers, each as `{"lead": "Short claim.", "text": "What you did and the result."}`. The lead prints in bold.
      Achievements **summarize across roles**: each one names the pattern or the biggest result, with a bold lead-in. **Never repeat a role bullet word for word.** The same number may appear in both places only if the wording differs. Before writing the file, compare every achievement against every role bullet and rewrite any that match.
    - `competencies`: 6 to 9 short terms that match how recruiters search.
-   - `experience`: most recent first; 3 to 6 bullets for recent roles, 1 to 2 for older ones. Each bullet: action, scope, result with number. Per company: `company`, `location`, optional `blurb` (what the company does, size) and optional `mandate` (why the user was hired), then `roles`.
+   - `experience`: most recent first; 3 to 6 bullets for recent roles, 1 to 2 for older ones. Each bullet: action, scope, result with number.
+   - **Keep their voice.** Start every bullet from the user's own phrasing in their resume, LinkedIn, and writing sample when it is clear, and only tighten it (cut filler, lead with the verb, keep their numbers). Do not rewrite every line into the same polished style; two people's resumes should not sound alike. Use plain verbs (led, ran, built, cut, grew, fixed), never AI-tell words. Per company: `company`, `location`, optional `blurb` (what the company does, size) and optional `mandate` (why the user was hired), then `roles`.
    - Promotions inside one company: list each title in `roles` and put that title's bullets in `roles[].bullets`, so a reader can tell which results came from which job. Use job-level `bullets` only when the company has one role. See the first job in the sample.
 3. Run the generator (see below) and QA.
 
 ## Tailor to a posting
-1. Read the posting and `companies/<company-slug>/research.md` (run `company-research` first if it is missing).
+1. Read the posting and `companies/<company-slug>/research.md` (run `company-research` first if it is missing). Save the posting text as `companies/<company-slug>/posting.md`; the copy check reads it.
 2. Write `companies/<company-slug>/tailor.json` with only:
    - `headline`: mirrors the posting's title and top 2 themes, still true to the facts.
    - `summary1`: first paragraph rewritten around the company's top 2 priorities, using the posting's own terms where the facts support them.
 3. Change anything else (bullet order, competencies) only if the user asks, and list what changed.
 4. Never add a keyword the facts do not support. Keyword stuffing is a false claim.
-5. After the tailored resume is built and passes QA, run the ATS keyword check below.
+5. **Never copy the posting.** Write the headline and summary in the user's words; use the posting's names for tools and the job title, not its sentences. After the build, run the copy check from the generator's work folder:
+```
+node copy-check.js --posting <company folder>/posting.md --doc <company folder>/<First_Last>_Resume_<Company>.pdf --keywords <company folder>/keywords.json
+```
+   It fails any sentence that shares 6 or more words in a row with the posting (tool, product, company, and job title names do not count). Rewrite each flagged sentence in the user's own words from `facts.md`, rebuild, and rerun until it passes.
+6. **AI-tell words.** If the generator's "AI-tell words" check fails, ask the user once, listing every flagged word in one question: "Your resume uses "spearheaded". Keep it (it's a word you really use) or swap it for a plain verb (led, ran, built)?" Swap the ones they don't keep. Add the ones they keep to `keepWords` in resume.json and to `Voice` in `facts.md`, and never ask about them again.
+7. After the tailored resume passes QA and the copy check, run the ATS keyword check below.
 
 ## ATS keyword check (every tailored resume)
+The goal is that every required skill the user has really used shows up, in their own words. It is not 100%. Never add a keyword just to raise the count.
+
 1. **Pull the keywords.** From the posting, list the required and preferred skills, tools, platforms, and certifications (for example Intune, SCCM, Microsoft 365, Active Directory, Entra ID, ITIL, CompTIA A+). Skip soft skills and generic phrases ("team player", "fast-paced"). Write them to `companies/<company-slug>/keywords.json`: `{"posting": "Company, Title", "required": [...], "preferred": [...]}`.
 2. **Run the check** against the tailored PDF, from the same work folder as the generator:
 ```
 node keyword-check.js --keywords <company folder>/keywords.json --resume <company folder>/<First_Last>_Resume_<Company>.pdf --out <company folder>/keyword-check.md
 ```
-   It counts common variants as matches (SCCM and MECM, Microsoft 365 and Office 365, Active Directory and AD, Entra ID and Azure AD) and writes `keyword-check.md` with matched, partial, and missing keywords. A partial match is the same skill in another form: a different word ending ("Mentor" for "Mentoring") or the main word of a longer keyword next to a related word ("Hardware Lifecycle" for "Lifecycle Management"). If the script cannot run, do the same check by reading the resume text, and write `keyword-check.md` in the same format.
-3. **Ask about the gaps in at most 2 questions in total.** Ask these in the review step, after the number confirmations.
-   - **Skip what is already settled.** Keywords listed under `## Not used` in `facts.md` are gaps already; do not ask about them again.
-   - **Question 1, one multi-select list:** "The posting asks for these. Check every one you have used:" Number every missing keyword from `keyword-check.md` (all of them, none dropped), required first, then preferred. Continue the same numbering with each partial match as "Use the posting's wording: Lifecycle Management (your resume says "Hardware Lifecycle")". Partial matches are part of this one list, never a separate question. The app's question tool shows only a few options, so for a longer list show numbered lines and accept the numbers ("1, 4, 9"), "none", or "all". If only one keyword is missing and there are no partial matches, ask it as a yes/no question instead: "The posting asks for Intune. Have you used it?"
-   - **Question 2, only if they checked a missing keyword:** "Where did you use each one? One short answer each is fine, for example: Intune at [company], SharePoint Online at [company]." Take a typed answer. Do not ask about partial matches here; those are already in their facts.
-   - **Checked:** add each one to `facts.md` as `CONFIRMED`, with where they used it. For a checked partial match, use the posting's wording in the resume (for example "Mentoring" in place of "Mentor") without changing what the line claims. Rebuild the resume once with the confirmed keywords in Core Competencies and, where one fits a real result, in that role's bullet. Then rerun the check.
-   - **Not checked:** leave it out. Add it to `## Not used` in `facts.md`, to the posting's `Gap:` line in the scan file and the tracker entry, and to the user's gaps for `interview-prep`. A partial match that is not checked keeps the resume's wording.
-   - **Never add a keyword the user has not checked.** A posting asking for it is not a reason to claim it. Never ask more than these 2 questions about keywords.
-4. **Report the count** on the review screen, for example "ATS keywords: 3 of 20 matched, 2 partial." After the keyword questions and any rebuild, rerun the check and show the new count on the final package card, for example "ATS keywords: 10 of 14 matched (Intune added)."
+   It counts common variants (SCCM and MECM, Microsoft 365 and Office 365, Active Directory and AD, Entra ID and Azure AD) and the user's own wording of a skill (a different word ending, such as "Mentor" for "Mentoring", or the main word next to a related word, such as "Hardware Lifecycle" for "Lifecycle Management") as covered. **Keep the user's wording; never switch it to the posting's.** It writes `keyword-check.md` with a headline like "Required skills covered: 8 of 10." Preferred skills are listed but not counted. If the script cannot run, do the same check by reading the resume text, and write `keyword-check.md` in the same format.
+3. **Ask only about missing required skills, in at most 2 questions in total.** Ask in the review step, after the number confirmations. Never ask about preferred skills.
+   - **Skip what is already settled.** Skills under `## Not used` in `facts.md` are gaps already; do not ask about them again.
+   - **Question 1:** if 2 or more required skills are missing, one multi-select list: "The posting asks for these. Check every one you have used:" with numbered lines; accept the numbers ("1, 4"), "none", or "all". If exactly one is missing, a yes/no question: "The posting asks for Intune. Have you used it?"
+   - **Question 2, only if they checked any:** "Where did you use each one? One short answer each is fine, for example: Intune at [company], SharePoint Online at [company]." Take a typed answer.
+   - **Checked:** add each to `facts.md` as `CONFIRMED`, with where they used it. Rebuild the resume once with them in Core Competencies and, where one fits a real result, in that role's bullet, in the user's words. Rerun the check.
+   - **Not checked:** leave it out. Add it to `## Not used` in `facts.md`, to the posting's `Gap:` line in the scan file and the tracker entry, and to the user's gaps for `interview-prep`.
+   - **Then stop.** Once every required skill the user has really used is in, do not ask again or suggest more keywords.
+4. **Report the count** on the review screen as "Required skills covered: 8 of 10." After any rebuild, rerun the check and show the new count on the final package card.
 
 ## Generate
 **First, check the layout files installed.** Look for `generators/resume/build-resume.js` in this skill's folder. If it is missing, the skill was installed without its files. Tell the user once, in plain words: "Recruit Rocket installed without its layout files, so I'll build the resume by hand this time. To get the exact layout, delete Recruit Rocket in Customize, Skills, and upload recruit-rocket.zip again." Then keep going with the fallback below.
@@ -67,7 +76,7 @@ This writes the .docx and the PDF, then runs QA. The PDF step needs LibreOffice 
 
 If Node is not available, or the PDF or QA tools are missing: still use the generator for the .docx if you can, then make the PDF with whatever tools you have. If you cannot run the generator at all, build the .docx yourself and copy the layout in `generators/resume/build-resume.js` exactly (fonts, sizes, colors, order of sections, single column, shaded stat line). Then do the QA checks by looking at the result. Never stop to ask the user to install anything.
 
-## QA before delivery (the generator runs 1 to 4; you do 5 to 7)
+## QA before delivery (the generator runs 1 to 4 and the AI-tell check; you do 5 to 7)
 1. Page count equals `--pages`.
 2. Each page rendered to PNG. Look at them. No orphan lines (a heading or 1 to 2 lines alone at the top or bottom of a page).
 3. `pdftotext` output reads in the right order: name, headline, contact, stats, summary, and so on.
