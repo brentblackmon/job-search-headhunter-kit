@@ -18,7 +18,7 @@ Every Recruit Rocket role follows these rules. Each role file in `roles/` repeat
 
 ## The workspace
 
-All skills read and write one folder, called the job search folder. Its name is always `My Job Search/`. Never create a second folder inside it with a different name. Company folders use a slug: the company name in lowercase, spaces and punctuation turned into single hyphens ("Net at Work" becomes `net-at-work`). Every skill uses the same slug, so one company never gets two folders. It can live in a Cowork project, a Google Drive folder, or a local directory.
+All skills read and write one folder, called the job search folder. Its name is always `My Job Search/`. Never create a second folder inside it with a different name. Company folders use a slug: the company name in lowercase, spaces and punctuation turned into single hyphens ("Harbor & Pine Logistics" becomes `harbor-pine-logistics`). Every skill uses the same slug, so one company never gets two folders. It can live in a Cowork project, a Google Drive folder, or a local directory.
 
 ```
 My Job Search/

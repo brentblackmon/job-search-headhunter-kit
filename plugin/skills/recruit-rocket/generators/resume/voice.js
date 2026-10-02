@@ -9,7 +9,7 @@
 // Weak verbs: openings that hide what the person did ("responsible for", "helped").
 // The review lists them; the QA does not fail on them.
 //
-// CLI: node voice.js --doc resume.pdf|cover_letter.md [--names "Acme Corp,WM Synergy"] [--keep "leverage"]
+// CLI: node voice.js --doc resume.pdf|cover_letter.md [--names "Acme Corp,Synergy Ridge Logistics"] [--keep "leverage"]
 
 const fs = require("fs");
 const { execFileSync } = require("child_process");
@@ -41,7 +41,7 @@ const WEAK_VERBS = [
 ];
 
 // Company, school, and product names are never the user's word choice, so blank them
-// out first. "WM Synergy Resources" and "Microsoft Dynamics" are names, not filler.
+// out first. "Synergy Ridge Logistics" and "Microsoft Dynamics" are names, not filler.
 function blankNames(text, names) {
   let t = String(text).replace(/[‘’]/g, "'");
   for (const n of names || []) {

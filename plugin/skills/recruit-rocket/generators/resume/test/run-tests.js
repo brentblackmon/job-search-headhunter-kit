@@ -132,7 +132,7 @@ function expect(caseName, actual, wanted) {
   const found = (t, o) => aiTells(t, o).map((h) => h.word).sort().join(", ");
   expect("leveraged, spearheaded, and orchestrating are caught", found("Leveraged data. Spearheaded the rollout and was orchestrating three teams."), "leverage, orchestrate, spearhead");
   expect("utilizing, delved, fast-paced, and proven track record are caught", found("Utilizing Jira, I delved into a fast-paced backlog with a proven track record."), "delve, fast-paced, proven track record, utilize");
-  expect("a company name is never flagged", found("Ops lead at WM Synergy Resources.", { names: ["WM Synergy Resources"] }), "");
+  expect("a company name is never flagged", found("Ops lead at Synergy Ridge Logistics.", { names: ["Synergy Ridge Logistics"] }), "");
   expect("a product name is not flagged (Microsoft Dynamics)", found("Ran the Microsoft Dynamics rollout."), "");
   expect("a word the user keeps is not flagged", found("Leveraged vendor contracts.", { keep: ["leverage"] }), "");
   expect("plain verbs pass", found("Led the team, built the playbook, cut costs 22%."), "");
