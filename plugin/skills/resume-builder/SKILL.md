@@ -13,18 +13,20 @@ Facts file is the source of truth; **never invent or round**. **Use approved phr
 ## The format (fixed)
 Built by `generator/build-resume.js` in this skill's folder. Do not hand-format in Word.
 - Single column. No tables, text boxes, columns, images, or header or footer content (ATS parsers skip or scramble them).
-- Arial. Navy accent `1A2B4A`.
-- Order: Name, headline, contact line, shaded stat line with 4 numbers, 2-paragraph summary, key achievements, one-line competency list, experience, education.
+- Arial. Navy `1A2B4A` for the name, section heads, role titles and competencies; near-black body text; gray dates and company descriptions.
+- Order: name (capitals), headline (target title in capitals, then themes), contact line with live email and LinkedIn links, navy rule, shaded stat line with a navy bar and 4 numbers, SUMMARY (2 paragraphs), KEY ACHIEVEMENTS (bold lead-in on each bullet), CORE COMPETENCIES (one bold navy line of terms), PROFESSIONAL EXPERIENCE, EDUCATION AND CERTIFICATIONS.
+- Each role: title in navy with dates at the right, then "Company, City, ST" in bold, then an optional italic one-line company description and an optional "Mandate:" line, then bullets.
 - Length: 2 pages for experienced users (8+ years), 1 page for early career.
 
 ## Build the master resume
 1. Read `facts.md`. Every line of the resume must trace to a facts line marked `CONFIRMED` or `FROM RESUME`. Before delivery, `fact-check` asks the user to confirm any `FROM RESUME` numbers in one quick batch.
 2. Write `My Job Search/resume.json` in the same shape as `generator/sample-data/resume.json` in this skill's folder (a fictional example; a tailoring example is `generator/sample-data/tailor.json`):
-   - `stats`: 4 numbers that best prove the target role, in approved phrasing, shortened to a value and a 2 to 4 word label.
+   - `headline`: "Target Title | theme, theme and theme". The title before the bar prints in capitals.
+   - `stats`: 4 numbers that best prove the target role, in approved phrasing, shortened to a value (about 12 characters) and a 1 to 3 word label. The whole stat line must fit on one line; the QA check fails if it wraps.
    - `summary`: paragraph 1 is who they are for the target role (2 sentences). Paragraph 2 is how they work and what they are known for (2 sentences).
-   - `achievements`: 3 to 5 bullets, strongest numbers.
+   - `achievements`: 4 to 6 bullets, strongest numbers, each as `{"lead": "Short claim.", "text": "What you did and the result."}`. The lead prints in bold.
    - `competencies`: 6 to 9 short terms that match how recruiters search.
-   - `experience`: most recent first; 3 to 6 bullets for recent roles, 1 to 2 for older ones. Each bullet: action, scope, result with number.
+   - `experience`: most recent first; 3 to 6 bullets for recent roles, 1 to 2 for older ones. Each bullet: action, scope, result with number. Per company: `company`, `location`, optional `blurb` (what the company does, size) and optional `mandate` (why the user was hired), then `roles`.
    - Promotions inside one company: list each title in `roles` and put that title's bullets in `roles[].bullets`, so a reader can tell which results came from which job. Use job-level `bullets` only when the company has one role. See the first job in the sample.
 3. Run the generator (see below) and QA.
 

@@ -4,49 +4,68 @@
 <meta charset="utf-8">
 <title>Baseball Card</title>
 <style>
+  /* Locked layout. Landscape US Letter, one page. Sizes in px at 96 per inch.
+     Flex rows with fixed widths (no CSS grid) so Chromium and WeasyPrint print it the same way. */
   @page { size: 11in 8.5in; margin: 0; }
   :root {
-    --navy: #1A2B4A;
-    --accent: #1F8A8A;
-    --ink: #1d2433;
-    --muted: #5b6475;
-    --line: #dfe4ec;
-    --tile: #f3f5f9;
+    --ink: #14171c;      /* header band, footer band, tags */
+    --accent: #d9744f;   /* eyebrows, stat bars, photo frame, headline accent */
+    --paper: #faf9f6;    /* page background */
+    --tile: #eeece5;     /* stat tiles */
+    --line: #e2e0d8;     /* card borders */
+    --text: #1a1a1a;
+    --body: #333333;
+    --label: #555555;
+    --muted: #888888;
+    --intro: #cfd2d8;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 11in; height: 8.5in; }
   body {
     font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
-    color: var(--ink);
-    background: #ffffff;
+    color: var(--text);
+    background: var(--paper);
     -webkit-print-color-adjust: exact;
   }
-  .card { width: 11in; height: 8.5in; padding: 0.4in 0.45in 0.3in; display: flex; flex-direction: column; gap: 0.2in; overflow: hidden; }
+  .card { width: 11in; height: 8.5in; position: relative; overflow: hidden; background: var(--paper); }
 
-  .top { display: flex; align-items: center; gap: 0.3in; background: var(--navy); color: #fff; border-radius: 14px; padding: 0.22in 0.32in; }
-  .photo { width: 1.25in; height: 1.25in; border-radius: 50%; flex: none; border: 3px solid #fff; overflow: hidden; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 700; letter-spacing: 1px; }
-  .photo img { width: 100%; height: 100%; object-fit: cover; }
-  .name { font-size: 34px; font-weight: 700; line-height: 1.1; }
-  .headline { font-size: 16px; font-weight: 700; margin-top: 6px; color: #cfe8e8; }
-  .positioning { font-size: 14px; margin-top: 6px; opacity: 0.92; }
+  /* Header band */
+  .top { background: var(--ink); height: 200px; padding: 26px 48px 0; position: relative; }
+  .top .text { width: 745px; }
+  .name { color: #fff; font-size: 24px; font-weight: 700; letter-spacing: 0.42em; line-height: 1.15; text-transform: uppercase; }
+  .eyebrow { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 0.42em; line-height: 1.3; text-transform: uppercase; }
+  .top .eyebrow { margin-top: 10px; }
+  .headline { color: #fff; font-size: 21px; font-weight: 700; line-height: 1.25; margin-top: 12px; }
+  .headline .hl { color: var(--accent); }
+  .intro { color: var(--intro); font-size: 12.5px; line-height: 1.5; margin-top: 10px; }
+  .photo { position: absolute; top: 26px; right: 48px; width: 108px; height: 136px; border: 3px solid var(--accent); background: var(--accent); overflow: hidden; }
+  .photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .photo .initials { color: #fff; font-size: 34px; font-weight: 700; text-align: center; line-height: 130px; letter-spacing: 2px; }
 
-  .stats { display: flex; gap: 0.16in; height: 0.9in; }
-  .stat { flex: 1 1 0; min-width: 0; background: var(--tile); border-radius: 12px; padding: 0.14in 0.16in; border-top: 5px solid var(--accent); }
-  .stat .v { font-size: 30px; font-weight: 700; color: var(--navy); line-height: 1.1; }
-  .stat .l { font-size: 12.5px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.6px; }
+  /* Stat tiles */
+  .stats { display: flex; padding: 19px 48px 0; height: 95px; }
+  .stat { width: 218px; height: 76px; margin-right: 29px; background: var(--tile); border-top: 3px solid var(--accent); padding: 13px 15px 0; }
+  .stat:last-child { margin-right: 0; }
+  .stat .v { font-size: 24px; font-weight: 700; color: var(--ink); line-height: 1.1; white-space: nowrap; }
+  .stat .l { font-size: 9px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.3; margin-top: 5px; }
 
-  /* Flex rows with fixed heights (no CSS grid) so Chromium and WeasyPrint lay the page out the same way. */
-  .top, .stats, .foot { flex: none; }
-  .proof { flex: none; height: 4.25in; display: flex; flex-direction: column; gap: 0.14in; }
-  .prow { display: flex; gap: 0.14in; height: 2.055in; }
-  .pc { flex: 1 1 0; min-width: 0; height: 2.055in; overflow: hidden; position: relative; border: 1px solid var(--line); border-radius: 12px; padding: 0.13in 0.15in 0.5in; }
-  .pc .t { font-size: 13.5px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
-  .pc .r { font-size: 16px; line-height: 1.35; }
-  /* Company and years pinned to the bottom; the 0.5in bottom padding above keeps result text clear of it. */
-  .pc .w { position: absolute; left: 0.15in; right: 0.15in; bottom: 0.12in; font-size: 12px; line-height: 1.25; color: var(--muted); }
+  /* Proof sections */
+  .section { padding: 0 48px; margin-top: 30px; }
+  .section + .section { margin-top: 22px; }
+  .section .title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; margin-top: 3px; }
+  .row { display: flex; margin-top: 14px; }
+  .pc { width: 228px; height: 150px; margin-right: 16px; background: #fff; border: 1px solid var(--line); padding: 16px 12px 0; overflow: hidden; }
+  .pc:last-child { margin-right: 0; }
+  .tag { display: inline-block; background: var(--ink); color: #fff; font-size: 7.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 6px 3px; line-height: 1.1; }
+  .pc .t { font-size: 11px; font-weight: 700; color: var(--text); margin-top: 9px; line-height: 1.25; }
+  .pc .p { font-size: 9px; font-style: italic; color: var(--muted); margin-top: 5px; line-height: 1.3; }
+  .pc .b { font-size: 9.4px; color: var(--body); margin-top: 6px; line-height: 1.55; }
 
-  .foot { display: flex; justify-content: center; gap: 0.3in; font-size: 13px; color: var(--navy); border-top: 2px solid var(--navy); padding-top: 0.1in; }
-  .foot span + span::before { content: "|"; color: var(--accent); margin-right: 0.3in; }
+  /* Footer band */
+  .foot { position: absolute; left: 0; right: 0; bottom: 0; height: 34px; background: var(--ink); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; }
+  .foot .tagline { color: #fff; font-size: 10.5px; font-weight: 700; }
+  .foot .tagline .hl { color: var(--accent); }
+  .foot .contact { color: #fff; font-size: 10px; }
 </style>
 </head>
 <body>

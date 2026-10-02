@@ -4,19 +4,38 @@
 // Usage:
 //   node render-card.js --data card.json --out out/First_Last_Card_Company.pdf [--html out/card.html]
 //
+// card.json shape (see sample-data/card.json):
+//   name, role ("Chief Operating Officer / Company"), headline, headlineAccent, intro,
+//   photo (optional path, relative to card.json), stats[4] {value, label},
+//   sections[2] {eyebrow, title, cards[4] {tag, title, proof, body}},
+//   footer {tagline, accent}, contact[] (phone, email, LinkedIn)
+//
 // Writes the PDF and a PNG preview next to it, then checks: exactly 1 page,
-// landscape, 4 stats, 8 proof cards, no content overflow.
+// 4 stats, 2 sections of 4 cards, no text overflow.
 //
 // Renderer: Playwright (Chromium) when a browser is available. If Playwright or its
 // browser is missing (common in sandboxes that block the browser download), it falls
 // back to WeasyPrint (Python), installing it with pip if needed. Both print the same
-// filled HTML, so the layout matches. The overflow check needs a browser; under
-// WeasyPrint the script checks page count and text length instead.
+// filled HTML, so the layout matches.
 
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { execFileSync } = require("child_process");
+
+// Text limits that fit the locked layout. The browser check measures real overflow;
+// these limits are what the WeasyPrint path checks, and what drafts should aim for.
+const LIMITS = {
+  headline: 70,          // headline + headlineAccent together, one line
+  intro: 330,            // three lines
+  statValue: 12,
+  statLabel: 60,         // two lines
+  sectionTitle: 70,
+  tag: 22,
+  cardTitle: 32,         // one line
+  cardProof: 45,         // one line
+  cardBody: 150,         // four lines
+};
 
 function parseArgs(argv) {
   const args = {};
@@ -29,26 +48,90 @@ function parseArgs(argv) {
   return args;
 }
 
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+// Older card.json files used {headline, positioning, proof[8] {title, result, where}}.
+// Map them onto the current shape so they still render.
+function normalize(d) {
+  if (d.sections) return d;
+  const proof = d.proof || [];
+  const toCard = (p) => ({ tag: p.title, title: p.title, proof: p.where, body: p.result });
+  return {
+    ...d,
+    role: d.role || "",
+    intro: d.intro || d.positioning || "",
+    sections: [
+      { eyebrow: "01 / Results", title: "", cards: proof.slice(0, 4).map(toCard) },
+      { eyebrow: "02 / More results", title: "", cards: proof.slice(4, 8).map(toCard) },
+    ],
+  };
+}
 
 function buildCard(d) {
   const initials = d.name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+  const footer = d.footer || {};
   return `
     <section class="top">
-      <div class="photo">${d.photo ? `<img src="${esc(d.photo)}" alt="">` : esc(initials)}</div>
-      <div>
+      <div class="text">
         <div class="name">${esc(d.name)}</div>
-        <div class="headline">${esc(d.headline)}</div>
-        <div class="positioning">${esc(d.positioning)}</div>
+        ${d.role ? `<div class="eyebrow">${esc(d.role)}</div>` : ""}
+        <div class="headline">${esc(d.headline)}${d.headlineAccent ? ` <span class="hl">${esc(d.headlineAccent)}</span>` : ""}</div>
+        ${d.intro ? `<div class="intro">${esc(d.intro)}</div>` : ""}
       </div>
+      <div class="photo">${d.photo ? `<img src="${esc(d.photo)}" alt="">` : `<div class="initials">${esc(initials)}</div>`}</div>
     </section>
     <section class="stats">
       ${d.stats.map((s) => `<div class="stat"><div class="v">${esc(s.value)}</div><div class="l">${esc(s.label)}</div></div>`).join("")}
     </section>
-    <section class="proof">
-      ${[d.proof.slice(0, 4), d.proof.slice(4, 8)].map((row) => `<div class="prow">${row.map((p) => `<div class="pc"><div class="t">${esc(p.title)}</div><div class="r">${esc(p.result)}</div><div class="w">${esc(p.where)}</div></div>`).join("")}</div>`).join("")}
-    </section>
-    <footer class="foot">${d.contact.map((c) => `<span>${esc(c)}</span>`).join("")}</footer>`;
+    ${d.sections.map((sec) => `
+    <section class="section">
+      <div class="eyebrow">${esc(sec.eyebrow)}</div>
+      ${sec.title ? `<div class="title">${esc(sec.title)}</div>` : ""}
+      <div class="row">
+        ${sec.cards.map((c) => `<div class="pc">
+          ${c.tag ? `<span class="tag">${esc(c.tag)}</span>` : ""}
+          <div class="t">${esc(c.title)}</div>
+          ${c.proof ? `<div class="p">${esc(c.proof)}</div>` : ""}
+          <div class="b">${esc(c.body)}</div>
+        </div>`).join("")}
+      </div>
+    </section>`).join("")}
+    <footer class="foot">
+      <div class="tagline">${esc(footer.tagline || "")}${footer.accent ? ` <span class="hl">${esc(footer.accent)}</span>` : ""}</div>
+      <div class="contact">${(d.contact || []).map(esc).join("&nbsp;&nbsp;|&nbsp;&nbsp;")}</div>
+    </footer>`;
+}
+
+function checkShape(d) {
+  const problems = [];
+  if (!d.stats || d.stats.length !== 4) problems.push(`expected 4 stats, found ${(d.stats || []).length}`);
+  if (!d.sections || d.sections.length !== 2) problems.push(`expected 2 sections, found ${(d.sections || []).length}`);
+  (d.sections || []).forEach((s, i) => {
+    if (!s.cards || s.cards.length !== 4) problems.push(`section ${i + 1}: expected 4 cards, found ${(s.cards || []).length}`);
+  });
+  return problems;
+}
+
+function checkLengths(d) {
+  const out = [];
+  const over = (what, text, max) => {
+    const n = String(text || "").length;
+    if (n > max) out.push(`${what} is ${n} characters (max about ${max})`);
+  };
+  over("headline", `${d.headline || ""} ${d.headlineAccent || ""}`.trim(), LIMITS.headline);
+  over("intro", d.intro, LIMITS.intro);
+  (d.stats || []).forEach((s, i) => { over(`stat ${i + 1} value`, s.value, LIMITS.statValue); over(`stat ${i + 1} label`, s.label, LIMITS.statLabel); });
+  (d.sections || []).forEach((sec, si) => {
+    over(`section ${si + 1} title`, sec.title, LIMITS.sectionTitle);
+    (sec.cards || []).forEach((c, ci) => {
+      const w = `section ${si + 1} card ${ci + 1}`;
+      over(`${w} tag`, c.tag, LIMITS.tag);
+      over(`${w} title`, c.title, LIMITS.cardTitle);
+      over(`${w} proof line`, c.proof, LIMITS.cardProof);
+      over(`${w} body`, c.body, LIMITS.cardBody);
+    });
+  });
+  return out;
 }
 
 const has = (cmd, args = ["--version"]) => {
@@ -75,13 +158,23 @@ async function renderWithPlaywright(html, outPdf, outPng) {
     await page.setContent(html, { waitUntil: "load" });
     const overflow = await page.evaluate(() => {
       const bad = [];
-      const card = document.getElementById("card");
-      if (card.scrollHeight > card.clientHeight + 1) bad.push("card content taller than the page");
-      document.querySelectorAll(".pc").forEach((el, i) => {
-        const r = el.querySelector(".r").getBoundingClientRect();
-        const w = el.querySelector(".w").getBoundingClientRect();
-        if (el.scrollHeight > el.clientHeight + 1 || r.bottom > w.top - 2) bad.push(`proof card ${i + 1} text overflows`);
+      const fits = (el) => el.scrollHeight <= el.clientHeight + 1 && el.scrollWidth <= el.clientWidth + 1;
+      const top = document.querySelector(".top");
+      const text = document.querySelector(".top .text");
+      if (text.getBoundingClientRect().bottom > top.getBoundingClientRect().bottom - 8) bad.push("header text runs past the dark band (shorten headline or intro)");
+      const headline = document.querySelector(".headline");
+      if (headline.getBoundingClientRect().height > 30) bad.push("headline wraps to a second line (shorten it)");
+      document.querySelectorAll(".stat").forEach((el, i) => { if (!fits(el)) bad.push(`stat ${i + 1} text overflows its tile`); });
+      document.querySelectorAll(".section").forEach((sec, si) => {
+        sec.querySelectorAll(".pc").forEach((el, ci) => {
+          if (!fits(el)) bad.push(`section ${si + 1} card ${ci + 1} text overflows`);
+          const t = el.querySelector(".t");
+          if (t && t.getBoundingClientRect().height > 16) bad.push(`section ${si + 1} card ${ci + 1} title wraps (shorten it)`);
+        });
       });
+      const last = [...document.querySelectorAll(".section")].pop();
+      const foot = document.querySelector(".foot");
+      if (last && last.getBoundingClientRect().bottom > foot.getBoundingClientRect().top - 4) bad.push("proof cards run into the footer");
       return bad;
     });
     await page.screenshot({ path: outPng });
@@ -108,15 +201,8 @@ function renderWithWeasyPrint(htmlPath, outPdf, outPng, data) {
     const base = outPng.replace(/\.png$/, "");
     execFileSync("pdftoppm", ["-png", "-r", "96", "-singlefile", outPdf, base]);
   }
-  // No browser to measure overflow, so flag result lines long enough to risk it.
-  const overflow = [];
-  data.proof.forEach((p, i) => {
-    const text = String(p.result).trim();
-    const words = text.split(/\s+/).length;
-    if (words > 18) overflow.push(`proof card ${i + 1} result is ${words} words (max 18)`);
-    else if (text.length > 115) overflow.push(`proof card ${i + 1} result is ${text.length} characters (max about 115)`);
-  });
-  return { renderer: "WeasyPrint", overflow };
+  // No browser to measure with, so check text lengths against the layout's limits.
+  return { renderer: "WeasyPrint", overflow: checkLengths(data) };
 }
 
 async function main() {
@@ -126,16 +212,19 @@ async function main() {
     process.exit(2);
   }
   const dataPath = path.resolve(args.data);
-  const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-  const problems = [];
-  if (data.stats.length !== 4) problems.push(`expected 4 stats, found ${data.stats.length}`);
-  if (data.proof.length !== 8) problems.push(`expected 8 proof cards, found ${data.proof.length}`);
+  const data = normalize(JSON.parse(fs.readFileSync(dataPath, "utf8")));
+  const problems = checkShape(data);
 
   // Embed a local photo as a data URI so the page has no external requests.
   if (data.photo && !data.photo.startsWith("data:")) {
     const photoPath = path.resolve(path.dirname(dataPath), data.photo);
-    const ext = path.extname(photoPath).slice(1).toLowerCase().replace("jpg", "jpeg");
-    data.photo = `data:image/${ext};base64,${fs.readFileSync(photoPath).toString("base64")}`;
+    if (fs.existsSync(photoPath)) {
+      const ext = path.extname(photoPath).slice(1).toLowerCase().replace("jpg", "jpeg");
+      data.photo = `data:image/${ext};base64,${fs.readFileSync(photoPath).toString("base64")}`;
+    } else {
+      problems.push(`photo not found: ${photoPath} (showing initials instead)`);
+      data.photo = "";
+    }
   }
 
   const template = fs.readFileSync(path.join(__dirname, "card-template.html"), "utf8");
@@ -172,12 +261,16 @@ async function main() {
   if (fs.existsSync(outPng)) console.log("Wrote " + outPng);
   console.log("\nQA");
   console.log(`  [${pages === 1 ? "PASS" : "FAIL"}] Page count: ${pages} (landscape 11 x 8.5 in)`);
-  console.log(`  [${problems.length ? "FAIL" : "PASS"}] Layout: ${problems.join("; ") || "4 stats, 8 proof cards, no overflow"}`);
+  console.log(`  [${problems.length ? "FAIL" : "PASS"}] Layout: ${problems.join("; ") || "4 stats, 2 sections of 4 cards, no overflow"}`);
   console.log("  Look at the preview PNG before sending.");
   process.exit(problems.length ? 1 : 0);
 }
 
-main().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((e) => {
+    console.error(e.message);
+    process.exit(1);
+  });
+}
+
+module.exports = { buildCard, normalize, checkLengths, LIMITS };

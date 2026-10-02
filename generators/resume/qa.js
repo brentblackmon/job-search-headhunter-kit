@@ -12,7 +12,7 @@ const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 
-const SECTIONS = ["SUMMARY", "KEY ACHIEVEMENTS", "CORE COMPETENCIES", "EXPERIENCE", "EDUCATION AND CERTIFICATIONS"];
+const SECTIONS = ["SUMMARY", "KEY ACHIEVEMENTS", "CORE COMPETENCIES", "PROFESSIONAL EXPERIENCE", "EDUCATION AND CERTIFICATIONS"];
 const BANNED = ["leverage", "unlock", "seamless", "synergy", "robust", "cutting-edge", "passionate", "i'm excited to", "results-driven"];
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: "utf8" });
@@ -30,12 +30,15 @@ function runQa({ pdfPath, targetPages, data }) {
   // 2. Render pages + orphan checks
   const base = pdfPath.replace(/\.pdf$/, "");
   const imgDir = base + "-pages";
+  // Start clean so page images from an earlier, longer run never linger.
+  fs.rmSync(imgDir, { recursive: true, force: true });
   fs.mkdirSync(imgDir, { recursive: true });
   sh("pdftoppm", ["-png", "-r", "80", pdfPath, path.join(imgDir, "page")]);
   const images = fs.readdirSync(imgDir).filter((f) => f.endsWith(".png")).sort();
   add("Page images rendered", images.length === pages, images.map((f) => path.join(path.basename(imgDir), f)).join(", "));
 
   const jobHeaders = data.experience.map((j) => j.company);
+  const roleTitles = data.experience.flatMap((j) => (j.roles || []).map((r) => r.title)).filter(Boolean);
   const orphanNotes = [];
   for (let p = 1; p <= pages; p++) {
     const lines = sh("pdftotext", ["-f", String(p), "-l", String(p), "-layout", pdfPath, "-"])
@@ -43,11 +46,19 @@ function runQa({ pdfPath, targetPages, data }) {
     const last = lines[lines.length - 1] || "";
     if (p < pages) {
       if (SECTIONS.some((s) => last.toUpperCase().startsWith(s))) orphanNotes.push(`page ${p} ends with heading "${last}"`);
-      if (jobHeaders.some((c) => last.startsWith(c))) orphanNotes.push(`page ${p} ends with job header "${last}"`);
+      if (jobHeaders.some((c) => last.startsWith(c)) || roleTitles.some((t) => last.startsWith(t))) orphanNotes.push(`page ${p} ends with job header "${last}"`);
     }
     if (p === pages && pages > 1 && lines.length < 6) orphanNotes.push(`last page has only ${lines.length} line(s); trim to fit or add substance`);
   }
   add("No orphan headings or near-empty last page", orphanNotes.length === 0, orphanNotes.join("; ") || "clean");
+
+  // 2b. Stat line fits on one line (it wraps when values or labels run long).
+  const page1 = sh("pdftotext", ["-f", "1", "-l", "1", "-layout", pdfPath, "-"]).split("\n");
+  const statLine = page1.find((l) => l.includes(data.stats[0].value)) || "";
+  const lastLabel = String(data.stats[data.stats.length - 1].label || "").trim();
+  const lastWord = lastLabel.split(/\s+/).pop() || "";
+  const statOk = statLine.includes(data.stats[data.stats.length - 1].value) && (!lastWord || statLine.includes(lastWord));
+  add("Stat line fits on one line", statOk, statOk ? "one line" : "stat line wraps; shorten values to about 12 characters and labels to 1 to 3 words");
 
   // 3. Reading order
   const text = norm(sh("pdftotext", [pdfPath, "-"]));
@@ -60,7 +71,7 @@ function runQa({ pdfPath, targetPages, data }) {
     ...jobHeaders.map((c) => c.toUpperCase()),
   ];
   // Job headers belong between EXPERIENCE and EDUCATION.
-  const order = [anchors[0], anchors[1], anchors[2], "SUMMARY", "KEY ACHIEVEMENTS", "CORE COMPETENCIES", "EXPERIENCE",
+  const order = [anchors[0], anchors[1], anchors[2], "SUMMARY", "KEY ACHIEVEMENTS", "CORE COMPETENCIES", "PROFESSIONAL EXPERIENCE",
     ...jobHeaders.map((c) => c.toUpperCase()), "EDUCATION AND CERTIFICATIONS"];
   let cursor = -1;
   const misses = [];
