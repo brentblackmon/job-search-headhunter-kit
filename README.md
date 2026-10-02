@@ -149,7 +149,7 @@ scripts/                  package-skills.sh rebuilds dist/skills
 ```
 
 ## Privacy
-Your facts file and tracker hold personal information. Keep your `my-search/` folder private. Never commit it to a public repository. This repo contains only fictional sample data.
+Your facts file and tracker hold personal information. Keep your `My Job Search/` folder private. Never commit it to a public repository. This repo contains only fictional sample data.
 
 ## License
 Not chosen yet. Audience, format, and pricing are decided later. Built with Claude.

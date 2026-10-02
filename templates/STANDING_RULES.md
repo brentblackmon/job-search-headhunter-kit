@@ -17,12 +17,13 @@ Every skill in this kit follows these rules. Each SKILL.md repeats them in short
 
 ## The workspace
 
-All skills read and write one folder, called the job search folder. The default name is `my-search/`. It can live in a Cowork project, a Google Drive folder, or a local directory.
+All skills read and write one folder, called the job search folder. Its name is always `My Job Search/`. Never create a second folder inside it with a different name. It can live in a Cowork project, a Google Drive folder, or a local directory.
 
 ```
-my-search/
+My Job Search/
   facts.md                 verified facts (built by intake)
   tracker.md               every company, contact, message, and next step
+  resume.json              master resume content (built by resume-builder)
   channels.md              hidden-market channels (built by signal-search)
   scans/YYYY-MM-DD.md      talent-scout results
   signals/YYYY-MM-DD.md    signal-search results
@@ -34,4 +35,8 @@ When the user runs the kit on behalf of another job seeker (a tester, a friend, 
 
 ## Where the kit files live
 
-Skills refer to `templates/` and `generators/`. Those folders are in the kit repository, next to `plugin/`. If a skill cannot see them (for example, when skills were uploaded one at a time), ask the user to add the kit's `templates` folder to the project. Until then, follow the format described in the skill itself.
+- **Templates** (`templates/...` in any skill) are in `My Job Search/templates/`. Setup puts them there. In a full kit checkout they are also in the repo's `templates/` folder.
+- **Generators** for the resume and stat sheet ship inside the `resume-builder` and `baseball-card` skill folders, in `generator/`, with fictional sample data in `generator/sample-data/`.
+- **These rules** are in `STANDING_RULES.md` in every skill's folder.
+
+If a file is missing, follow the format described in the skill itself and keep going. Never stop to ask the user to find or install files.

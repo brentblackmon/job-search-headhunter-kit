@@ -11,7 +11,7 @@ One clean, ATS-safe format. Tailoring is surgical: by default only the headline 
 Facts file is the source of truth; **never invent or round**. **Use approved phrasing word for word.** Dated sources for people. No guessed emails as real. The user sends everything; you never submit applications. Human voice: no em dashes, no filler, no stacked adjectives. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md` in this skill's folder.
 
 ## The format (fixed)
-Built by `generators/resume/build-resume.js`. Do not hand-format in Word.
+Built by `generator/build-resume.js` in this skill's folder. Do not hand-format in Word.
 - Single column. No tables, text boxes, columns, images, or header or footer content (ATS parsers skip or scramble them).
 - Arial. Navy accent `1A2B4A`.
 - Order: Name, headline, contact line, shaded stat line with 4 numbers, 2-paragraph summary, key achievements, one-line competency list, experience, education.
@@ -19,7 +19,7 @@ Built by `generators/resume/build-resume.js`. Do not hand-format in Word.
 
 ## Build the master resume
 1. Read `facts.md`. Every line of the resume must trace to a facts line marked `CONFIRMED` or `FROM RESUME`. Before delivery, `fact-check` asks the user to confirm any `FROM RESUME` numbers in one quick batch.
-2. Write `my-search/resume.json` following `generators/resume/sample-data/resume.json`:
+2. Write `My Job Search/resume.json` in the same shape as `generator/sample-data/resume.json` in this skill's folder (a fictional example; a tailoring example is `generator/sample-data/tailor.json`):
    - `stats`: 4 numbers that best prove the target role, in approved phrasing, shortened to a value and a 2 to 4 word label.
    - `summary`: paragraph 1 is who they are for the target role (2 sentences). Paragraph 2 is how they work and what they are known for (2 sentences).
    - `achievements`: 3 to 5 bullets, strongest numbers.

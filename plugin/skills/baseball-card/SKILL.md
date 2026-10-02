@@ -11,7 +11,7 @@ A baseball card lets a busy executive see the user's value in 10 seconds. It rid
 Facts file is the source of truth; **never invent or round**. **Use approved phrasing.** Dated sources for people. No guessed emails as real. The user sends everything. Human voice: no em dashes, no filler. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md` in this skill's folder.
 
 ## Layout (fixed)
-Built by `generators/baseball-card/render-card.js` from `card-template.html`. Landscape US Letter, one page.
+Built by `generator/render-card.js` in this skill's folder from `card-template.html`. Landscape US Letter, one page.
 - Top band: photo (or initials if no photo), name, headline, one-line positioning.
 - 4 stat tiles: the same 4 numbers as the resume stat line unless tailoring calls for different ones.
 - 8 proof cards in a 4 by 2 grid: each has a short title (2 to 4 words), one result sentence with a number, and the company and years.
@@ -19,7 +19,7 @@ Built by `generators/baseball-card/render-card.js` from `card-template.html`. La
 
 ## Steps
 1. Read `facts.md` and, if tailoring, `companies/<slug>/research.md`.
-2. Write `card.json` following `generators/baseball-card/sample-data/card.json`.
+2. Write `card.json` in the same shape as `generator/sample-data/card.json` in this skill's folder (a fictional example). Save it in `My Job Search/` (master) or `My Job Search/companies/<company>/` (tailored).
    - Choose proof cards that cover the target role's range (for an operations leader: cost, speed, quality, people, scale, integration, customers, systems).
    - When tailoring, order proof cards so the company's top priorities come first.
    - Each result sentence: 18 words or fewer, approved phrasing.

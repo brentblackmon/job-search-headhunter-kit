@@ -13,8 +13,8 @@ for dir in plugin/skills/*/; do
   cp plugin/STANDING_RULES.md "build/skills/$name/STANDING_RULES.md"
 done
 mkdir -p build/skills/resume-builder/generator build/skills/baseball-card/generator
-cp generators/resume/{build-resume.js,qa.js,package.json} build/skills/resume-builder/generator/
-cp generators/baseball-card/{card-template.html,render-card.js,package.json} build/skills/baseball-card/generator/
+cp -r generators/resume/{build-resume.js,qa.js,package.json,sample-data} build/skills/resume-builder/generator/
+cp -r generators/baseball-card/{card-template.html,render-card.js,package.json,sample-data} build/skills/baseball-card/generator/
 for dir in build/skills/*/; do
   name="$(basename "$dir")"
   (cd build/skills && zip -qr "../../dist/skills/${name}.zip" "$name")

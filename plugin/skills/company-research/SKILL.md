@@ -27,7 +27,7 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 8. **Fit map.** Match 3 to 5 of the company's priorities to specific lines in `facts.md`, using approved phrasing.
 
 ## Output
-Save to `my-search/companies/<company-slug>/research.md`:
+Save to `My Job Search/companies/<company-slug>/research.md`:
 
 ```
 # Company: research (YYYY-MM-DD)
