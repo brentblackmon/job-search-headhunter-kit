@@ -13,10 +13,10 @@ Facts file is the source of truth; never invent or round. Store approved phrasin
 ## What to read
 - **Only what the user shares or points to**: resume, LinkedIn PDF, cover letters, work samples, portfolio. Never browse the rest of their folder or drive on your own.
 - If they shared nothing, ask once: "Could you drop in your resume? A LinkedIn PDF or anything you've written about your work helps too." If they have nothing, the interview still works; ask them to describe their last role in a few sentences.
-- If `my-search/facts.md` already exists, you are updating. Ask one question: "What's changed since we last set this up?"
+- If `My Job Search/facts.md` already exists, you are updating. Ask one question: "What's changed since we last set this up?"
 
 ## Before the first question (silent, no output to the user)
-Draft `my-search/facts.md` from their documents using the `templates/facts.md` headings:
+Draft `My Job Search/facts.md` from their documents using the `templates/facts.md` headings:
 - Every role: company, title, MM/YYYY dates, location, scope.
 - Every number becomes a metric whose approved phrasing matches **their own words exactly**. Mark it `FROM RESUME`. Do not round, combine, or improve anything.
 - Note conflicts between documents (different dates, titles, or numbers for the same thing). Keep the two most important ones for the interview (dates and titles first). Leave number conflicts for the Fact Checker, which asks about each number the first time a draft uses it.
@@ -47,8 +47,8 @@ Options: "Yes, I'll paste a short email I wrote", "Skip for now".
 > [$175K to $200K] [$200K to $225K] [$225K or more] [Prefer not to say]
 
 ## Finish
-1. Update `my-search/facts.md` with their answers and a `Last reviewed: YYYY-MM-DD` line. Record the conflict answers and fix the matching entries. Every metric stays `FROM RESUME`: an answer about roles, pay, or conflicts never confirms metrics in bulk. If the user says "use the best figures" for a conflict, use the figure from their most recent document and note which one you chose.
-2. Create `my-search/tracker.md` from `templates/tracker.md` if it does not exist.
+1. Update `My Job Search/facts.md` with their answers and a `Last reviewed: YYYY-MM-DD` line. Record the conflict answers and fix the matching entries. Every metric stays `FROM RESUME`: an answer about roles, pay, or conflicts never confirms metrics in bulk. If the user says "use the best figures" for a conflict, use the figure from their most recent document and note which one you chose.
+2. Create `My Job Search/tracker.md` from `templates/tracker.md` if it does not exist.
 3. Say one line, no jargon: "You're set up. Now I'll find jobs that fit you and build your materials for the best ones. This takes a few minutes." Do not list gaps, warnings, or skill names. Backstories for big numbers are handled later by `interview-prep`.
 4. **Continue immediately** with the `headhunter-chief-of-staff` Autopilot run. Do not wait for the user to ask.
 

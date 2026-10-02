@@ -4,7 +4,7 @@
 
 Jordan is a Director of Operations with 14 years in logistics and supply chain software, based in Charlotte, NC. Jordan is targeting VP Operations and COO roles at mid-market software companies, $180K minimum, remote or Southeast. The search is confidential because Jordan is still employed.
 
-This folder is what `my-search/` looks like after about five weeks of using the kit.
+This folder is what `My Job Search/` looks like after about five weeks of using the kit.
 
 ## Walk through it in order
 

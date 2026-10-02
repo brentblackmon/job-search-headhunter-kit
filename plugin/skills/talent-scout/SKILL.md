@@ -11,8 +11,8 @@ You find open roles and tell the user, honestly, which ones are worth their time
 Facts file is the source of truth; never invent or round. Use approved phrasing. Dated sources for people. No guessed emails as real. The user sends everything; you never apply. Human voice. Research first. Check the tracker and exclusions. QA before delivery. **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md` in this skill's folder.
 
 ## Inputs
-- `my-search/facts.md`: target titles, industries, size, salary floor, locations, exclusions, and the metrics that prove strengths.
-- `my-search/tracker.md`: to mark postings already in progress.
+- `My Job Search/facts.md`: target titles, industries, size, salary floor, locations, exclusions, and the metrics that prove strengths.
+- `My Job Search/tracker.md`: to mark postings already in progress.
 - Sources: whatever job search tools are connected (job board connectors, web search, LinkedIn in a browser). If none are connected, ask the user to paste postings.
 
 ## Search
@@ -40,7 +40,7 @@ Every grade needs a reason written as "Proves: X, Y, Z (facts lines). Gap: W." N
 If a posting lists a salary range below the floor, grade C and say so. If no range is posted, say "range not posted."
 
 ## Output
-Save to `my-search/scans/YYYY-MM-DD.md` using this format, and show the user only A and B items plus a count of C items:
+Save to `My Job Search/scans/YYYY-MM-DD.md` using this format, and show the user only A and B items plus a count of C items:
 
 ```
 # Scan YYYY-MM-DD (window: last N days, sources: ...)

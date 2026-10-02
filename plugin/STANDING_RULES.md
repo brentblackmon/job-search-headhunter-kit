@@ -17,12 +17,13 @@ Every skill in this kit follows these rules. Each SKILL.md repeats them in short
 
 ## The workspace
 
-All skills read and write one folder, called the job search folder. The default name is `my-search/`. It can live in a Cowork project, a Google Drive folder, or a local directory.
+All skills read and write one folder, called the job search folder. Its name is always `My Job Search/`. Never create a second folder inside it with a different name. It can live in a Cowork project, a Google Drive folder, or a local directory.
 
 ```
-my-search/
+My Job Search/
   facts.md                 verified facts (built by intake)
   tracker.md               every company, contact, message, and next step
+  resume.json              master resume content (built by resume-builder)
   channels.md              hidden-market channels (built by signal-search)
   scans/YYYY-MM-DD.md      talent-scout results
   signals/YYYY-MM-DD.md    signal-search results

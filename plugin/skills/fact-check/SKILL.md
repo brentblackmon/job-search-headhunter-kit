@@ -12,7 +12,7 @@ Facts file is the source of truth; never invent or round. Use approved phrasing 
 
 ## Inputs
 - The draft.
-- `my-search/facts.md`.
+- `My Job Search/facts.md`.
 - For outreach: the company research notes and the tracker.
 
 ## The checks, in order

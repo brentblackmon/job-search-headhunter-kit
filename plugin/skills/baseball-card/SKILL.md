@@ -19,7 +19,7 @@ Built by `generators/baseball-card/render-card.js` from `card-template.html`. La
 
 ## Steps
 1. Read `facts.md` and, if tailoring, `companies/<slug>/research.md`.
-2. Write `card.json` following `generators/baseball-card/sample-data/card.json`.
+2. Write `card.json` in the same shape as `generator/sample-data/card.json` in this skill's folder (a fictional example). Save it in `My Job Search/` (master) or `My Job Search/companies/<company>/` (tailored).
    - Choose proof cards that cover the target role's range (for an operations leader: cost, speed, quality, people, scale, integration, customers, systems).
    - When tailoring, order proof cards so the company's top priorities come first.
    - Each result sentence: 18 words or fewer, approved phrasing.

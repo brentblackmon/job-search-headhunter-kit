@@ -34,7 +34,7 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 5. Rank the top 5 by strength of signal times fit.
 
 ### Output
-Save to `my-search/signals/YYYY-MM-DD.md`:
+Save to `My Job Search/signals/YYYY-MM-DD.md`:
 
 ```
 ## 1. Company (HQ, size)
@@ -47,7 +47,7 @@ Next: company-research, then outreach-package
 ```
 
 ## Part 2: Hidden-market channels
-Maintain `my-search/channels.md`: 5 to 10 channels specific to the user's field and level.
+Maintain `My Job Search/channels.md`: 5 to 10 channels specific to the user's field and level.
 
 Categories to cover:
 - Industry communities (associations, Slack groups, forums) where roles are shared before posting.
