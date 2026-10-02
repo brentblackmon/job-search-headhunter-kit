@@ -10,7 +10,9 @@ mkdir -p build dist
 cp -r "$SRC" build/recruit-rocket
 find build/recruit-rocket \( -name node_modules -o -name out -o -name test -o -name '*-pages' \) -prune -exec rm -rf {} +
 find build/recruit-rocket -name .gitignore -delete
-for f in SKILL.md STANDING_RULES.md generators/resume/build-resume.js generators/baseball-card/render-card.js templates/facts.md; do
+# The license travels inside the zip; the skill's copy must match the repo's.
+cmp -s LICENSE "$SRC/LICENSE" || { echo "LICENSE and $SRC/LICENSE differ"; exit 1; }
+for f in LICENSE SKILL.md STANDING_RULES.md generators/resume/build-resume.js generators/baseball-card/render-card.js templates/facts.md; do
   [ -f "build/recruit-rocket/$f" ] || { echo "missing $f"; exit 1; }
 done
 # The skill zip has no tests, so drop the test scripts from the package.json files

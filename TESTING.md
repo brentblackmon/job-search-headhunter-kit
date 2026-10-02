@@ -1,5 +1,7 @@
 # Test Recruit Rocket
 
+Recruit Rocket, Copyright (c) 2026 Brent Blackmon. All rights reserved. Personal use by invited testers only.
+
 Thanks for testing. Recruit Rocket is a team of ten AI agents that runs your job search like a small recruiting firm with one client: you. **Nothing is ever sent for you.** It drafts. You decide and send.
 
 Setup takes about 5 minutes if you already have Claude, plus a 10-minute interview about your background.
