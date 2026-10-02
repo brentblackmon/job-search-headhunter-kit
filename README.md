@@ -1,6 +1,6 @@
 # Recruit Rocket
 
-**A full-service AI recruiting team that works for the job seeker.** It's a set of Claude skills that runs your whole search like a small recruiting firm with one client: you. It finds openings and grades them on real fit, spots companies about to hire before they post, builds a tailored ATS-ready resume, a cover letter, and a one-page stat sheet (a "baseball card") that puts your best numbers up front, writes the email and LinkedIn connect note to the right person, preps you for interviews, and tracks every follow-up.
+**A full-service AI recruiting team that works for the job seeker.** It's one Claude skill that runs your whole search like a small recruiting firm with one client: you. It finds openings and grades them on real fit, spots companies about to hire before they post, builds a tailored ATS-ready resume, a cover letter, and a one-page stat sheet (a "baseball card") that puts your best numbers up front, writes the email and LinkedIn connect note to the right person, preps you for interviews, and tracks every follow-up.
 
 **Nothing goes out without your yes.** The kit drafts. You approve, and you send.
 
@@ -31,7 +31,7 @@ Built to take the busywork out of a job search, so you spend your time on conver
   FOUNDATION: Intake builds your facts file. Everyone reads from it.
 ```
 
-| Role | Skill | What it does | When |
+| Role | Name inside the skill | What it does | When |
 |---|---|---|---|
 | Intake | `intake` | Reads your resume and work samples, asks about 5 easy questions, and builds your **facts file**, the single source of truth | Once, then when things change |
 | Head Headhunter | `headhunter-chief-of-staff` | Daily briefing, tracker, follow-up schedule, prevents contacting anyone twice | Every morning |
@@ -44,7 +44,7 @@ Built to take the busywork out of a job search, so you spend your time on conver
 | Interview Coach | `interview-prep` | The 15 questions you're most likely to get, answers built from your real results, and scored mock interviews with suggestions to improve | On call |
 | Offer Negotiator | `offer-negotiation` | A calm script and email that ask for one specific thing | On call |
 
-## The rules every skill follows
+## The rules every role follows
 
 1. **Your facts file is the source of truth.** No invented or rounded-up numbers, titles, or dates. If it's not in the file, Claude asks you.
 2. **Numbers are said the way you approved them.** "Resolution time" and "wait time" are not the same claim.
@@ -56,56 +56,40 @@ Built to take the busywork out of a job search, so you spend your time on conver
 8. **Check the tracker first.** No accidental double contact. Your exclusion list (non-competes, former employers) is respected.
 9. **Quality check before you see it.** Proofread, fact-checked, page count verified.
 
-Full text: [plugin/STANDING_RULES.md](plugin/STANDING_RULES.md)
+Full text: [STANDING_RULES.md](plugin/skills/recruit-rocket/STANDING_RULES.md)
 
 ---
 
-## Setup (about 30 minutes the first time, including a 10-minute intake)
+## Setup (about 5 minutes if you already have Claude, plus a 10-minute intake)
 
 ### What you need
-- A Claude account with skills enabled (the Claude app, Cowork, or Claude Code).
+- Claude Pro or higher and the Claude desktop app from claude.com/download (Cowork is not on the free plan). Claude Code works too.
 - Optional but helpful connectors: **Gmail** (so Claude can save drafts for you to send), **Google Drive** (to keep your job search folder), a browser connection for **LinkedIn**, and any **job board** connectors available to you.
 
 ### Option A: The Claude app (Cowork)
-You need Claude Pro or higher (Cowork is not on the free plan) and the Claude desktop app from claude.com/download. Testers can follow [TESTING.md](TESTING.md) step by step.
+Testers can follow [TESTING.md](TESTING.md) step by step.
 
-1. **Install the skills with Upload skill.** Download https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/all-skills.zip and unzip it (you get 13 zip files; leave those zipped). In Claude, go to **Settings**, **Skills**, **Upload skill**, select all 13, and click **Upload**. This is the route that keeps each skill's layout files, so the resume and stat sheet come out in the designed format.
-2. **Open Cowork** in a folder that holds your resume, attach the resume, and paste:
+1. Download https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket.zip (one file; leave it zipped).
+2. In Claude, click **Customize** (in some versions, **Settings**), then **Skills**, then **Upload skill**, and pick **recruit-rocket.zip**.
+3. Switch to **Cowork** and pick a folder for your job search.
+4. Attach your resume and say: **Set me up with Recruit Rocket.**
 
-> Set me up with Recruit Rocket. Create a folder called "My Job Search" here and unzip this into it:
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket-templates.zip
->
-> Then use the intake skill to set me up from the files I attached, save everything in My Job Search, and keep going from there.
+Claude creates the **My Job Search** folder, copies the templates into it, asks about five quick questions, and keeps going. Click **Approve** when it asks for permission.
 
-3. Click **Approve** when Claude asks, answer about five quick questions, and let it run.
+Outside the US? Add your country, city, and the currency you think in, for example "I am in Hyderabad, India. Show pay as CTC in LPA."
 
-Outside the US? Add your country, city, and the currency you think in, for example "Hyderabad, India. Show pay as CTC in LPA."
+**Or install it as a plugin from GitHub** (gets updates without downloading again): in Claude, click **Customize**, then **Plugins**, then **Add marketplace**, enter `brentblackmon/job-search-headhunter-kit`, and click **Install** on Recruit Rocket. Then do steps 3 and 4.
 
-**Fallback: let Claude install the skills.** If you can't use Upload skill, paste this into Cowork and approve each skill. Some versions of Claude save only part of each skill this way; if the resume or stat sheet reports missing layout files, reinstall with Upload skill.
-
-> Install these 13 skills:
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/intake.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/headhunter-chief-of-staff.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/fact-check.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/talent-scout.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/signal-search.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/company-research.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/resume-builder.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/baseball-card.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/cover-letter.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/linkedin-review.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/outreach-package.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/interview-prep.zip
-> https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/skills/offer-negotiation.zip
+**Updating from the 13-skill version?** Delete the old skills (intake, talent-scout, resume-builder, and the rest) in **Skills** first, so Claude does not mix old and new instructions.
 
 ### Option B: Claude Code
 ```
 /plugin marketplace add brentblackmon/job-search-headhunter-kit
 /plugin install recruit-rocket@job-search-headhunter-kit
 ```
-Then clone the repo (or copy `templates/`) into your working folder and say "Set me up with Recruit Rocket."
+Then, in your working folder, say "Set me up with Recruit Rocket."
 
-To build resumes and baseball cards as PDFs on your own computer, see [generators/README.md](generators/README.md). In Cowork and Claude Code, Claude can run these for you.
+To build resumes and baseball cards as PDFs on your own computer, see the [generators README](plugin/skills/recruit-rocket/generators/README.md). In Cowork and Claude Code, Claude runs these for you.
 
 ---
 
@@ -143,13 +127,13 @@ Download [dist/Headhunter-Test.zip](dist/Headhunter-Test.zip), unzip it, and ope
 README.md                 you are here
 docs/BUILD_BRIEF.md       the original build brief
 docs/course-outline.md    draft course modules mapped to the team
-plugin/                   the Claude plugin: 13 skills + manifest + standing rules
-templates/                facts file, tracker, scan prompt, email, note, letters, prep sheet
-generators/               resume (.docx + PDF with QA) and baseball card (PDF)
+plugin/                   the Claude plugin: manifest + the recruit-rocket skill
+  skills/recruit-rocket/   SKILL.md (routes each request), roles/ (one file per role),
+                           STANDING_RULES.md, templates/, generators/ (resume and card)
 examples/jordan-rivera/   full fictional sample run
 marketing/                org chart graphic + LinkedIn post draft
-dist/skills/              one zip per skill, ready to upload
-scripts/                  package-skills.sh rebuilds dist/skills
+dist/recruit-rocket.zip   the one file to upload in Customize > Skills
+scripts/                  package-skills.sh rebuilds dist/recruit-rocket.zip
 ```
 
 ## Privacy

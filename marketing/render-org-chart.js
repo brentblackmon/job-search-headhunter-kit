@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Renders org-chart.html to org-chart.png at 1080 x 1350 (LinkedIn portrait).
-// Uses the Playwright install from generators/baseball-card (run npm install there first).
+// Uses the Playwright install from plugin/skills/recruit-rocket/generators/baseball-card (run npm install there first).
 const path = require("path");
-const { chromium } = require(path.join(__dirname, "../generators/baseball-card/node_modules/playwright"));
+const { chromium } = require(path.join(__dirname, "../plugin/skills/recruit-rocket/generators/baseball-card/node_modules/playwright"));
 
 (async () => {
   const launch = process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {};

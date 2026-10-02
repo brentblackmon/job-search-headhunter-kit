@@ -38,14 +38,14 @@ This folder is what `My Job Search/` looks like after about five weeks of using 
 - **Nothing was sent by the kit.** Every "sent" entry in the tracker is Jordan's action.
 
 ## Rebuild the documents yourself
-From the repo root, after the one-time setup in [generators/README.md](../../generators/README.md):
+From the repo root, after the one-time setup in [the generators README](../../plugin/skills/recruit-rocket/generators/README.md):
 ```
-cd generators/resume
-node build-resume.js --data ../../examples/jordan-rivera/resume.json \
-  --tailor ../../examples/jordan-rivera/companies/harborline-software/tailor.json \
-  --out ../../examples/jordan-rivera/companies/harborline-software/Jordan_Rivera_Resume_Harborline --pages 2
+cd plugin/skills/recruit-rocket/generators/resume
+node build-resume.js --data ../../../../../examples/jordan-rivera/resume.json \
+  --tailor ../../../../../examples/jordan-rivera/companies/harborline-software/tailor.json \
+  --out ../../../../../examples/jordan-rivera/companies/harborline-software/Jordan_Rivera_Resume_Harborline --pages 2
 
 cd ../baseball-card
-node render-card.js --data ../../examples/jordan-rivera/companies/harborline-software/card.json \
-  --out ../../examples/jordan-rivera/companies/harborline-software/Jordan_Rivera_Card_Harborline.pdf
+node render-card.js --data ../../../../../examples/jordan-rivera/companies/harborline-software/card.json \
+  --out ../../../../../examples/jordan-rivera/companies/harborline-software/Jordan_Rivera_Card_Harborline.pdf
 ```

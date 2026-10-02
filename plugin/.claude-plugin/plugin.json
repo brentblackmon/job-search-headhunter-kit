@@ -1,7 +1,7 @@
 {
   "name": "recruit-rocket",
   "version": "1.0.0",
-  "description": "Recruit Rocket: a full-service AI recruiting team of Claude skills that scans jobs, finds hiring signals, tailors materials, fact-checks, preps interviews, and tracks outreach. You approve and send everything.",
+  "description": "Recruit Rocket: a full-service AI recruiting team in one Claude skill that scans jobs, finds hiring signals, tailors materials, fact-checks, preps interviews, and tracks outreach. You approve and send everything.",
   "author": {
     "name": "Recruit Rocket"
   },

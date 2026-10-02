@@ -2,37 +2,25 @@
 
 Thanks for testing. Recruit Rocket is a team of ten AI agents that runs your job search like a small recruiting firm with one client: you. **Nothing is ever sent for you.** It drafts. You decide and send.
 
-Setup takes about 30 minutes the first time.
+Setup takes about 5 minutes if you already have Claude, plus a 10-minute interview about your background.
 
-## Before you start (one time)
+## Before you start (only if you don't have Claude yet)
 1. **Get Claude Pro or higher.** Recruit Rocket runs in Cowork, which is not on the free plan. Sign up at claude.ai and upgrade to Pro. Check the current price for your country on the upgrade page.
 2. **Install the Claude desktop app** from **claude.com/download** (Windows or Mac) and sign in with the same account.
-3. **Make a folder** in Documents called **Recruit Rocket**. Put your resume in it (Word or PDF). If you can, add your LinkedIn profile as a PDF too: on LinkedIn, open your profile, click **More**, then **Save to PDF**.
 
-## Three steps
+## Set up in 5 minutes
+1. **Download** https://github.com/brentblackmon/recruit-rocket/raw/main/dist/recruit-rocket.zip (one file; do not unzip it).
+2. **Upload it.** In the Claude app, click **Customize** (in some versions, **Settings**), then **Skills**, then **Upload skill**, and pick **recruit-rocket.zip**. If it shows an on/off switch, turn it on.
+3. **Switch to Cowork** in the Claude app.
+4. **Pick a folder.** When it asks, choose a folder on your computer for your job search (for example a new folder in Documents called **Recruit Rocket**).
+5. **Attach your resume** (Word or PDF). A LinkedIn PDF helps too: on LinkedIn, open your profile, click **More**, then **Save to PDF**.
+6. **Say:** **Set me up with Recruit Rocket.**
 
-**1. Install the skills.**
-1. Download https://github.com/brentblackmon/recruit-rocket/raw/main/dist/all-skills.zip and unzip it. You will see 13 smaller zip files. Do not unzip those.
-2. In the Claude app, go to **Settings**, then **Skills**, then **Upload skill**. Select all 13 zip files at once and click **Upload**.
+**Outside the US?** Add your country, city, and the currency you think in, for example: "Set me up with Recruit Rocket. I am in Hyderabad, India. Show pay as CTC in LPA."
 
-This is the install route that keeps each skill's layout files, so your resume and stat sheet come out in the designed format.
+Then click **Allow** or **Approve** when Claude asks, and answer about five quick questions (most are one click). It runs on its own from there: it finds jobs that fit, spots companies about to hire, builds your resume, stat sheet, cover letter, and outreach for the best ones, checks every number, and shows you one review screen.
 
-**2. Open Cowork and paste one message.**
-In the Claude app, choose **Cowork** and pick your **Recruit Rocket** folder. Attach your resume and any other files that show your work (cover letters, project write-ups), then paste this and press Enter:
-
-> Set me up with Recruit Rocket. Create a folder called "My Job Search" here and unzip this into it:
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/recruit-rocket-templates.zip
->
-> Then use the intake skill to set me up from the files I attached, save everything in My Job Search, and keep going from there.
-
-**Outside the US?** Add one line to that message with your country, city, and the currency you think in, for example: "I am in Hyderabad, India. Show pay as CTC in LPA."
-
-**3. Approve, answer, and let it run.**
-- Click **Allow** or **Approve** when Claude asks for permission.
-- Answer about five quick questions. Most are one click.
-- Then it runs on its own: finds jobs that fit, spots companies about to hire, builds your resume, stat sheet, cover letter, and outreach for the best ones, checks every number, and shows you one review screen.
-
-That's it. Each morning after that, just say **"What should I do today?"**
+Each morning after that, just say **"What should I do today?"**
 
 **Found a job on a board Claude can't search** (for example Naukri or LinkedIn Jobs)? Paste the link or the job text and say: **"Grade this posting and build my package."**
 
@@ -58,38 +46,23 @@ Your resume, facts file, and tracker stay in the **My Job Search** folder on you
 - "Review my LinkedIn."
 
 **Installed an earlier version?**
-In Claude, go to **Settings**, **Skills** and delete the old Recruit Rocket skills (intake, talent-scout, and the rest) before installing. Otherwise Claude keeps using the old versions, which are missing the resume and baseball card generators.
+In Claude, go to **Customize** (or **Settings**), then **Skills**, and delete the old Recruit Rocket skills (intake, talent-scout, resume-builder, and the other ten) before you upload recruit-rocket.zip. Otherwise Claude may use the old versions.
 
-**If you can't use Upload skill: let Claude install them**
-In Cowork, paste this message and approve each skill when Claude asks (it may show them a few at a time). Some versions of Claude save only part of each skill this way. If your resume or stat sheet later says its "layout files" are missing, delete the skills and use Upload skill instead.
+**Updating later**
+Delete Recruit Rocket in **Skills**, download recruit-rocket.zip again, and upload it. Your **My Job Search** folder is not touched.
 
-> Install these 13 skills:
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/intake.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/headhunter-chief-of-staff.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/fact-check.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/talent-scout.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/signal-search.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/company-research.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/resume-builder.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/baseball-card.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/cover-letter.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/linkedin-review.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/outreach-package.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/interview-prep.zip
-> https://github.com/brentblackmon/recruit-rocket/raw/main/dist/skills/offer-negotiation.zip
+**The ten agents**
+All ten live inside the one Recruit Rocket skill. You never have to name them; just say what you need.
 
-**Ten agents, thirteen skills**
-Each agent is one or more Claude skills. The Brand Builder uses four, which is why you install 13 skills for 10 agents.
-
-| Agent | Skill(s) |
+| Agent | What it does |
 |---|---|
-| Intake Agent | intake |
-| Head Headhunter | headhunter-chief-of-staff |
-| Talent Scout | talent-scout |
-| Market Intel Analyst | signal-search |
-| Research Analyst | company-research |
-| Brand Builder | resume-builder, baseball-card (the one-page stat sheet), cover-letter, linkedin-review |
-| Outreach Writer | outreach-package |
-| Fact Checker | fact-check |
-| Interview Coach | interview-prep |
-| Offer Negotiator | offer-negotiation |
+| Intake Agent | Reads your resume, asks about five questions, builds your facts file |
+| Head Headhunter | Daily briefing, tracker, follow-ups, runs the whole pipeline |
+| Talent Scout | Finds jobs and grades them A, B, or C on what you can prove |
+| Market Intel Analyst | Finds companies likely to hire before they post |
+| Research Analyst | One-page company deep dive and the right person to contact |
+| Brand Builder | Resume, one-page stat sheet, cover letter, LinkedIn review |
+| Outreach Writer | Email and LinkedIn note to the hiring executive |
+| Fact Checker | Checks every number against your facts before you see a draft |
+| Interview Coach | Prep sheet, likely questions, scored mock interviews |
+| Offer Negotiator | A calm script and email for your counter |
