@@ -21,6 +21,8 @@ Facts file is the source of truth; **never invent or round**. Use approved phras
 - The posted range if it was public (from the scan or posting). Note the source and date.
 - Market data the user provides or that you can find with a dated source. Label it and its date.
 
+Use the pay currency and terms recorded in `facts.md` everywhere (for example CTC in LPA for India), never US dollars by default.
+
 ## Steps
 1. **Read the offer back** in a small table and flag anything missing (bonus basis, equity vesting, start date).
 2. **Pick the ask.** One primary ask (usually base), and at most one secondary (sign-on, extra PTO, title, review at 6 months, remote terms). A specific number, never a range. Explain the reasoning:

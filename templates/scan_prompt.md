@@ -15,13 +15,14 @@ Read my facts file at `[path]/My Job Search/facts.md` and my tracker at `[path]/
 - Also search these skill terms with the titles: [SaaS operations; implementation; customer operations; supply chain software]
 - Industries: [B2B software; logistics technology]
 - Company size: [100 to 1,500 employees]
+- Country: [United States] (pass this country to every job board connector that takes one, for example Indeed's country code)
 - Locations: [Remote (US); Charlotte, NC; Atlanta, GA; Raleigh, NC]
 - Posted within: [last 3 days] (first run: last 14 days)
-- Sources: [every job board connector available, plus web search]
+- Sources: [every job board connector that covers this country, plus web search] (ZipRecruiter and Dice cover only the US and Canada)
 
 **Exclude**
 - Companies on the Exclusions list in facts.md.
-- Postings with a stated range whose top is below [$180,000]: grade C and note it.
+- Postings with a stated range whose top is below [$180,000 base salary] (use the currency and terms from facts.md, for example 22 LPA CTC): grade C and note it.
 - Staffing agency reposts where the client is not named.
 
 **Grade**

@@ -25,15 +25,25 @@ Draft `My Job Search/facts.md` from their documents using the `templates/facts.m
 ## The interview
 **One question per message, answered by clicking.** Use the app's multiple-choice question tool when available (2 to 4 options plus "Something else"). If there is none, show numbered options and accept a single number. Build every option from what their documents show, so the right answer is usually already on the list. Show progress, like "(2 of 5)". Accept short or messy typed answers too, and never ask the same thing twice. React briefly ("Got it.") and move on.
 
-1. **What's next** (1 of 5). "I've read through your background. What kind of role are you going after next?"
-   Options: 2 or 3 title groups inferred from their recent roles and seniority (for example "COO or VP Operations", "VP Professional Services", "Interim or fractional executive"), plus "Something else". Allow picking more than one.
-2. **Pay floor** (2 of 5). "What's the lowest base salary you'd consider?"
-   Options: 3 brackets sized to their level, based on their most recent title and scope (for example "$150K to $175K", "$175K to $200K", "$200K or more"), plus "Prefer not to say". Record the bracket bottom as the floor. Do not ask for a target separately; note "target: not given" and let `offer-negotiation` ask later if an offer comes.
-3. **Where** (3 of 5). "Where do you want to work?"
-   Options: "Remote only", "Remote or hybrid near [their city]", "Open to relocating", "Something else".
-4. **Anyone to avoid** (4 of 5). "Anyone I should never reach out to?"
+Before the first question, work out the user's **country and city** from their documents. The pay question, the start-date question, and the job boards all depend on it. If the documents do not make it clear, ask it as the first question ("Which country and city are you job hunting in?") and count it in the total.
+
+The interview is 4 to 6 questions, depending on where they live and what they pick. Number them as you go, for example "(2 of 5)".
+
+1. **What's next.** "I've read through your background. What kind of role are you going after next?"
+   Options: 2 or 3 title groups inferred from their recent roles and seniority (for example "COO or VP Operations", "QA Manager or Test Manager", "Delivery Manager"), plus "Something else". Allow picking more than one.
+2. **Pay floor, in their own currency and terms.** "What's the lowest pay you'd consider?" Use the way pay is quoted where they live, not US dollars by default:
+   - US: annual base salary, for example "$150K to $175K".
+   - India: annual CTC in lakhs, for example "18 to 22 LPA", "22 to 28 LPA", "28 LPA or more".
+   - Elsewhere: annual pay in the local currency, the way local job postings show it (gross salary, CTC, or day rate for contractors).
+   Options: 3 brackets sized to their level, plus "Prefer not to say". Record the bracket bottom as the floor, **with the currency and the terms** (for example "Salary floor: 22 LPA, CTC, INR"). Do not ask for a target separately; note "target: not given" and let `offer-negotiation` ask later if an offer comes.
+3. **Where.** "Where do you want to work?"
+   Options: "Remote only", "Remote or hybrid near [their city]", "Open to relocating in [their country]", "Open to relocating abroad", "Something else".
+   Only if they pick "Open to relocating abroad", ask one follow-up: "Which countries, and do you already have the right to work there?" Options: "Yes, I'm authorized", "I'd need sponsorship", "Not sure". Do not ask about work authorization otherwise.
+4. **Start date (outside the US only).** "How soon could you start a new job?" Indian and many other postings ask for this.
+   Options: "Immediately", "Within 15 days", "30 days", "60 to 90 days", "Something else". Record it as the notice period. Skip this question for US candidates.
+5. **Anyone to avoid.** "Anyone I should never reach out to?"
    Options: "Just my current employer ([name from resume])", "Current employer plus a few others (I'll name them)", "No one", "Something else". If they pick the second, ask one follow-up for the names.
-5. **One quick check** (5 of 5, only if you found a date or title conflict; otherwise end at 4 of 4). "Quick one: your [thing] shows two ways. Which is right?"
+6. **One quick check** (only if you found a date or title conflict; otherwise end at the previous question). "Quick one: your [thing] shows two ways. Which is right?"
    Options: "[A]", "[B]", "Neither (I'll type it)". At most 2 of these, one per message. Never ask whether they can "defend" a number.
 
 Optional, only after the last question: "Want the drafts to sound more like you?"
@@ -45,6 +55,8 @@ Options: "Yes, I'll paste a short email I wrote", "Skip for now".
 > **User:** *clicks COO or VP Operations*
 > **Claude:** Got it. (2 of 5) What's the lowest base salary you'd consider?
 > [$175K to $200K] [$200K to $225K] [$225K or more] [Prefer not to say]
+
+For a candidate in Hyderabad, the same question reads: "(2 of 6) What's the lowest CTC you'd consider?" [18 to 22 LPA] [22 to 28 LPA] [28 LPA or more] [Prefer not to say]
 
 ## Finish
 1. Update `My Job Search/facts.md` with their answers and a `Last reviewed: YYYY-MM-DD` line. Record the conflict answers and fix the matching entries. Every metric stays `FROM RESUME`: an answer about roles, pay, or conflicts never confirms metrics in bulk. If the user says "use the best figures" for a conflict, use the figure from their most recent document and note which one you chose.
@@ -59,4 +71,5 @@ Offer 3 questions per role about a result they are proud of that is **not** in t
 - Every `FROM RESUME` phrasing matches the source document exactly.
 - No number was rounded, combined, or invented.
 - Exclusions section is filled (even if "none").
-- The user was asked no more than 6 questions in total.
+- The user was asked no more than 6 questions in total (7 only when a relocation-abroad follow-up or a date check was needed).
+- Pay is recorded in the user's own currency and terms, and the country, city, and notice period (outside the US) are filled in.

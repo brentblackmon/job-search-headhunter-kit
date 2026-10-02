@@ -16,10 +16,14 @@ This is the single source of truth for Recruit Rocket. Every skill reads it. Not
 - Target titles: (2 to 4, e.g. VP Operations; COO)
 - Industries / company types:
 - Company size (employees or revenue):
-- Salary floor (will not go below): $
-- Salary target: $
-- Locations: (remote / hybrid / onsite; metros; relocation yes or no)
-- Work authorization / travel limits:
+- Country and city:
+- Pay currency and terms: (for example USD base salary, or INR CTC in LPA)
+- Salary floor (will not go below):
+- Salary target:
+- Notice period / earliest start: (outside the US; for example 15 days)
+- Locations: (remote / hybrid / onsite; cities; relocation in country or abroad)
+- Work authorization: (only if relocating abroad)
+- Travel limits:
 
 ## Exclusions
 Companies and people the kit must never contact.

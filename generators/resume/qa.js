@@ -1,7 +1,7 @@
 // Layout QA for a generated resume PDF. Needs poppler-utils (pdfinfo, pdftotext, pdftoppm).
 //
 // Checks:
-//   1. Page count equals the target.
+//   1. Page count equals the target, and the paper size is right (A4 or US Letter).
 //   2. Renders each page to PNG (for a human or Claude to look at) and flags orphans:
 //      a section heading or job header as the last line of a page, or a near-empty last page.
 //   3. pdftotext output reads in the right order.
@@ -18,7 +18,7 @@ const BANNED = ["leverage", "unlock", "seamless", "synergy", "robust", "cutting-
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: "utf8" });
 const norm = (s) => s.replace(/\s+/g, " ").trim();
 
-function runQa({ pdfPath, targetPages, data }) {
+function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   const results = [];
   const add = (name, pass, detail) => results.push({ name, pass, detail });
 
@@ -26,6 +26,12 @@ function runQa({ pdfPath, targetPages, data }) {
   const info = sh("pdfinfo", [pdfPath]);
   const pages = parseInt((info.match(/Pages:\s+(\d+)/) || [])[1], 10);
   add("Page count", pages === targetPages, `${pages} page(s), target ${targetPages}`);
+
+  // 1b. Paper size matches what was asked for (A4 is 595 x 842 pt, Letter is 612 x 792 pt).
+  const size = (info.match(/Page size:\s+([\d.]+) x ([\d.]+)/) || []).slice(1).map(Number);
+  const want = paper === "a4" ? [595, 842] : [612, 792];
+  const sizeOk = size.length === 2 && Math.abs(size[0] - want[0]) < 2 && Math.abs(size[1] - want[1]) < 2;
+  add("Paper size", sizeOk, `${size.map(Math.round).join(" x ")} pt, want ${paper === "a4" ? "A4" : "US Letter"}`);
 
   // 2. Render pages + orphan checks
   const base = pdfPath.replace(/\.pdf$/, "");
@@ -54,7 +60,10 @@ function runQa({ pdfPath, targetPages, data }) {
 
   // 2b. Stat line fits on one line (it wraps when values or labels run long).
   const page1 = sh("pdftotext", ["-f", "1", "-l", "1", "-layout", pdfPath, "-"]).split("\n");
-  const statLine = page1.find((l) => l.includes(data.stats[0].value)) || "";
+  // Match on the first stat's value AND the first word of its label, so a short value
+  // like "22" does not match the phone number on the contact line.
+  const firstLabelWord = String(data.stats[0].label || "").trim().split(/\s+/)[0] || "";
+  const statLine = page1.find((l) => l.includes(data.stats[0].value) && l.includes(firstLabelWord)) || "";
   const lastLabel = String(data.stats[data.stats.length - 1].label || "").trim();
   const lastWord = lastLabel.split(/\s+/).pop() || "";
   const statOk = statLine.includes(data.stats[data.stats.length - 1].value) && (!lastWord || statLine.includes(lastWord));
