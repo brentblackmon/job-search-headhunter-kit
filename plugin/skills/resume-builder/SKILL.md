@@ -11,7 +11,7 @@ One clean, ATS-safe format. Tailoring is surgical: by default only the headline 
 Facts file is the source of truth; **never invent or round**. **Use approved phrasing word for word.** Dated sources for people. No guessed emails as real. The user sends everything; you never submit applications. Human voice: no em dashes, no filler, no stacked adjectives. Research first. Check the tracker. **QA before delivery.** **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md` in this skill's folder.
 
 ## The format (fixed)
-Built by `generators/resume/build-resume.js`. Do not hand-format in Word.
+Built by `generator/build-resume.js` in this skill's folder. Do not hand-format in Word.
 - Single column. No tables, text boxes, columns, images, or header or footer content (ATS parsers skip or scramble them).
 - Arial. Navy accent `1A2B4A`.
 - Order: Name, headline, contact line, shaded stat line with 4 numbers, 2-paragraph summary, key achievements, one-line competency list, experience, education.
