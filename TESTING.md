@@ -4,25 +4,37 @@ Thanks for testing. Recruit Rocket is a team of ten AI agents that runs your job
 
 Setup takes about 5 minutes if you already have Claude, plus a 10-minute interview about your background.
 
-## Before you start (only if you don't have Claude yet)
+## Before you start
+
+**If you don't have Claude yet**
 1. **Get Claude Pro or higher.** Recruit Rocket runs in Cowork, which is not on the free plan. Sign up at claude.ai and upgrade to Pro. Check the current price for your country on the upgrade page.
 2. **Install the Claude desktop app** from **claude.com/download** (Windows or Mac) and sign in with the same account.
+
+**Have these ready**
+- Your resume (Word or PDF), or just your LinkedIn PDF if you have no current resume. To get it: on LinkedIn, open your profile, click **More**, then **Save to PDF**.
+- Your phone number and email, if they are not on your resume.
+- The roles you want.
+- Your lowest pay. US: yearly base salary, plus an hourly rate if you would take contract work. India: CTC in LPA.
+- Where you want to work.
+- Any companies not to contact (for example your current employer).
 
 ## Set up in 5 minutes
 1. **Download** https://github.com/brentblackmon/recruit-rocket/raw/main/dist/recruit-rocket.zip (one file; do not unzip it).
 2. **Upload it.** In the Claude app, click **Customize** (in some versions, **Settings**), then **Skills**, then **Upload skill**, and pick **recruit-rocket.zip**. If it shows an on/off switch, turn it on.
 3. **Switch to Cowork** in the Claude app.
 4. **Pick a folder.** When it asks, choose a folder on your computer for your job search (for example a new folder in Documents called **Recruit Rocket**).
-5. **Attach your resume** (Word or PDF). A LinkedIn PDF helps too: on LinkedIn, open your profile, click **More**, then **Save to PDF**.
-6. **Say:** **Set me up with Recruit Rocket.**
-
-**Outside the US?** Add your country, city, and the currency you think in, for example: "Set me up with Recruit Rocket. I am in Hyderabad, India. Show pay as CTC in LPA."
+5. **Attach your resume** (Word or PDF), or your LinkedIn PDF if you have no current resume. You can attach both.
+6. **Say:** **Set me up with Recruit Rocket. I am job hunting in [your city, your country].**
+   For example: "Set me up with Recruit Rocket. I am job hunting in Tulsa, Oklahoma, United States." or "Set me up with Recruit Rocket. I am job hunting in Hyderabad, India."
 
 Then click **Allow** or **Approve** when Claude asks, and answer about five quick questions (most are one click). It runs on its own from there: it finds jobs that fit, spots companies about to hire, builds your resume, stat sheet, cover letter, and outreach for the best ones, checks every number, and shows you one review screen.
 
 Each morning after that, just say **"What should I do today?"**
 
 **Found a job on a board Claude can't search** (for example Naukri or LinkedIn Jobs)? Paste the link or the job text and say: **"Grade this posting and build my package."**
+
+## Getting updates
+Delete Recruit Rocket in **Skills**, download recruit-rocket.zip again, and upload it. Your **My Job Search** folder is not touched.
 
 ## Send your feedback
 After your first run, and again after about a week, reply to Brent on LinkedIn with your answers. Short answers are perfect.
@@ -44,12 +56,6 @@ Your resume, facts file, and tracker stay in the **My Job Search** folder on you
 - When an interview is booked: "I have an interview with [company] on [day]." It builds a prep sheet and offers a scored mock interview.
 - After an interview: "Let's debrief my interview with [company]."
 - "Review my LinkedIn."
-
-**Installed an earlier version?**
-In Claude, go to **Customize** (or **Settings**), then **Skills**, and delete the old Recruit Rocket skills (intake, talent-scout, resume-builder, and the other ten) before you upload recruit-rocket.zip. Otherwise Claude may use the old versions.
-
-**Updating later**
-Delete Recruit Rocket in **Skills**, download recruit-rocket.zip again, and upload it. Your **My Job Search** folder is not touched.
 
 **The ten agents**
 All ten live inside the one Recruit Rocket skill. You never have to name them; just say what you need.

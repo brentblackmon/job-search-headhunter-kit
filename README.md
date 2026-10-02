@@ -72,15 +72,11 @@ Testers can follow [TESTING.md](TESTING.md) step by step.
 1. Download https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket.zip (one file; leave it zipped).
 2. In Claude, click **Customize** (in some versions, **Settings**), then **Skills**, then **Upload skill**, and pick **recruit-rocket.zip**.
 3. Switch to **Cowork** and pick a folder for your job search.
-4. Attach your resume and say: **Set me up with Recruit Rocket.**
+4. Attach your resume (or your LinkedIn PDF if you have no current resume) and say: **Set me up with Recruit Rocket. I am job hunting in [your city, your country].** For example: "I am job hunting in Tulsa, Oklahoma, United States."
 
 Claude creates the **My Job Search** folder, copies the templates into it, asks about five quick questions, and keeps going. Click **Approve** when it asks for permission.
 
-Outside the US? Add your country, city, and the currency you think in, for example "I am in Hyderabad, India. Show pay as CTC in LPA."
-
 **Or install it as a plugin from GitHub** (gets updates without downloading again): in Claude, click **Customize**, then **Plugins**, then **Add marketplace**, enter `brentblackmon/job-search-headhunter-kit`, and click **Install** on Recruit Rocket. Then do steps 3 and 4.
-
-**Installed an earlier version?** Delete the old Recruit Rocket skills (intake, talent-scout, resume-builder, and the rest) in **Skills** first, so Claude does not mix old and new instructions.
 
 ### Option B: Claude Code
 ```
