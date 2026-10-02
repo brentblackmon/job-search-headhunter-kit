@@ -11,7 +11,8 @@
 //   footer {tagline, accent}, contact[] (phone, email, LinkedIn)
 //
 // Writes the PDF and a PNG preview next to it, then checks: exactly 1 page,
-// 4 stats, 2 sections of 4 cards, no text overflow.
+// 4 stats, 2 sections of 4 cards, no text overflow, and no unfilled placeholders
+// like "[phone]" or "[email]".
 //
 // Renderer: Playwright (Chromium) when a browser is available. If Playwright or its
 // browser is missing (common in sandboxes that block the browser download), it falls
@@ -147,6 +148,21 @@ function countPages(pdfPath) {
   return (pdf.match(/\/Type\s*\/Page[^s]/g) || []).length;
 }
 
+// Any text in square brackets ("[phone]", "[email]") is a draft gap, not card text.
+// Reads the PDF text with pdftotext when it is installed, otherwise the card data.
+function findPlaceholders(pdfPath, data) {
+  let text;
+  try {
+    text = execFileSync("pdftotext", [pdfPath, "-"], { encoding: "utf8" });
+  } catch (e) {
+    const strings = [];
+    const walk = (v) => (typeof v === "string" ? strings.push(v) : v && typeof v === "object" && Object.values(v).forEach(walk));
+    walk(data);
+    text = strings.join("\n");
+  }
+  return [...new Set(text.replace(/\s+/g, " ").match(/\[[^\[\]]{1,80}\]/g) || [])];
+}
+
 async function renderWithPlaywright(html, outPdf, outPng) {
   let chromium;
   try { ({ chromium } = require("playwright")); } catch { throw new Error("playwright not installed"); }
@@ -255,6 +271,7 @@ async function main() {
 
   const pages = countPages(outPdf);
   if (pages !== 1) problems.push(`expected 1 page, found ${pages}`);
+  const placeholders = findPlaceholders(outPdf, data);
 
   console.log(`Rendered with ${result.renderer}`);
   console.log("Wrote " + outPdf);
@@ -262,8 +279,9 @@ async function main() {
   console.log("\nQA");
   console.log(`  [${pages === 1 ? "PASS" : "FAIL"}] Page count: ${pages} (landscape 11 x 8.5 in)`);
   console.log(`  [${problems.length ? "FAIL" : "PASS"}] Layout: ${problems.join("; ") || "4 stats, 2 sections of 4 cards, no overflow"}`);
+  console.log(`  [${placeholders.length ? "FAIL" : "PASS"}] No unfilled placeholders: ${placeholders.join(", ") || "none"}`);
   console.log("  Look at the preview PNG before sending.");
-  process.exit(problems.length ? 1 : 0);
+  process.exit(problems.length || placeholders.length ? 1 : 0);
 }
 
 if (require.main === module) {

@@ -20,6 +20,8 @@ For every number, percentage, dollar amount, team size, title, company name, and
 - Anything marked `UNCONFIRMED` in the facts file is an error until the user confirms it.
 - Anything marked `FROM RESUME` needs a one-line yes before it goes out. Ask it as a click, for example: "Your resume says you cut resolution time from 31 to 12 hours. Still exactly right?" with choices "Yes, exactly right", "Close, let me fix it", "Leave it out". One number per question, all of them for one draft in a row. On yes, change the status in `facts.md` to `CONFIRMED`. This is how the facts file gets verified without a long interview.
 - A claim with no match in the facts file is an error. Do not guess. Ask.
+- Dates for a role listed under `## Open date checks` in `facts.md` need a click before they go out, the same way as a `FROM RESUME` number. Fix the role in `facts.md` and remove it from the list once answered.
+- Any text in square brackets ("[phone]", "[email]", "[degree and year to confirm]") is an unfilled placeholder and an error. Ask the user for the detail or cut the line.
 
 **2. Claims about the company or person**
 - Every fact about the target company must trace to a source in the research notes, with a date.

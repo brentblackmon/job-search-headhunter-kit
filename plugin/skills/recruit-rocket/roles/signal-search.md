@@ -17,8 +17,9 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 | C-suite departure with no named replacement | last 90 days | An open seat, or a reshuffle below it |
 | Rapid job posting growth in the user's function | last 60 days | Team build-out, a leader may follow |
 | New or expanding tech center or GCC (global capability center) in the user's city | last 6 months | A new center hires managers and individual contributors in waves, often before every role is posted |
+| New site, plant, data center, or headquarters in the user's city | last 12 months | A new site needs IT support, facilities, and operations staff on the ground before it opens, often hired locally |
 
-**Match the signals to the user's level.** New CEO, funding, and C-suite moves fit executive searches. For managers and individual contributors, the strongest signal is a new or expanding tech center or GCC in the user's city: lead with those, and use the executive signals only when they clearly affect the user's function.
+**Match the signals to the user's level.** New CEO, funding, and C-suite moves fit executive searches. For managers and individual contributors, the strongest signal is a new or expanding tech center or GCC in the user's city: lead with those, and use the executive signals only when they clearly affect the user's function. **For IT support and operations roles**, also lead with new sites, plants, data centers, and headquarters in the user's city. In cities without a big tech scene, these are often the best signals there are.
 
 ### Method
 1. Pull targets from `facts.md`: industries, company size, country and city, the function the user leads, and their level.
@@ -27,7 +28,7 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
    - The signal, in one line.
    - **Source title, publisher, date, and URL.** No date, no signal.
    - Why it matters for the user's function specifically.
-   - The likely hiring executive, confirmed current by a source dated in the last 6 to 12 months. For a new or expanding tech center or GCC, that is the **center head** (site leader, managing director, or head of the India or regional center), or the head of the user's function at that center. If you cannot confirm, write `Executive not confirmed` and do not name a guess.
+   - The likely hiring executive, confirmed current by a source dated in the last 6 to 12 months. For a new or expanding tech center or GCC, that is the **center head** (site leader, managing director, or head of the India or regional center), or the head of the user's function at that center. For a new site, plant, data center, or headquarters, it is the **site IT lead or site manager** (plant manager, data center operations manager, or the head of IT for that location). If you cannot confirm, write `Executive not confirmed` and do not name a guess.
 4. Drop excluded companies and anything already in the tracker (or mark `(in tracker #N)`).
 5. Rank the top 5 by strength of signal times fit.
 

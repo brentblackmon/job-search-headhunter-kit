@@ -7,6 +7,7 @@
 //   3. pdftotext output reads in the right order.
 //   4. Voice lint: em dashes and banned filler words.
 //   5. Key achievements summarize; none copies a role bullet word for word.
+//   6. No unfilled placeholders like "[phone]" or "[degree and year to confirm]".
 // Writes <name>-QA.md next to the PDF.
 
 const fs = require("fs");
@@ -114,6 +115,10 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   const roleBullets = data.experience.flatMap((j) => [...(j.bullets || []), ...(j.roles || []).flatMap((r) => r.bullets || [])]).map(words).filter((w) => w.length >= 30);
   const copies = (data.achievements || []).map(words).filter((t) => t && roleBullets.some((bw) => t.includes(bw) || bw.includes(t)));
   add("Achievements do not copy role bullets", copies.length === 0, copies.length ? copies.map((t) => `"${t.slice(0, 60)}"`).join("; ") : "none copied");
+
+  // 6. Unfilled placeholders. Any text in square brackets is a draft gap, not resume text.
+  const placeholders = [...new Set(text.match(/\[[^\[\]]{1,80}\]/g) || [])];
+  add("No unfilled placeholders", placeholders.length === 0, placeholders.join(", ") || "none");
 
   // Report
   const allPass = results.every((r) => r.pass);

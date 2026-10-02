@@ -76,6 +76,18 @@ function expect(caseName, actual, wanted) {
   expect("an achievement copied from a role bullet fails", r.check("Achievements do not copy role bullets"), "FAIL");
 }
 
+// 6. Unfilled placeholders fail; the sample has none.
+{
+  const ok = build("no-placeholders", () => {});
+  expect("sample resume passes the placeholder check", ok.check("No unfilled placeholders"), "PASS");
+  const r = build("placeholders", (d) => {
+    d.contact = ["Tulsa, OK", "[phone]", "[email]", "linkedin.com/in/tester-example"];
+    d.education = ["[degree and year to confirm]"];
+  });
+  expect("[phone], [email] and [degree and year to confirm] fail", r.check("No unfilled placeholders"), "FAIL");
+  expect("all three placeholders are named", ["[phone]", "[email]", "[degree and year to confirm]"].every((p) => r.text.includes(p)) ? "named" : "missing", "named");
+}
+
 fs.rmSync(work, { recursive: true, force: true });
 let failed = 0;
 for (const r of results) {

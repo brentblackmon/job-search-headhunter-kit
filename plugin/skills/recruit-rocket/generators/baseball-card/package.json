@@ -5,7 +5,8 @@
   "description": "Renders a one-page landscape baseball card PDF from card.json with Playwright.",
   "main": "render-card.js",
   "scripts": {
-    "sample": "node render-card.js --data sample-data/card.json --out out/Jordan_Rivera_Card_Sample.pdf"
+    "sample": "node render-card.js --data sample-data/card.json --out out/Jordan_Rivera_Card_Sample.pdf",
+    "test": "node test/run-tests.js"
   },
   "dependencies": {
     "playwright": "1.56.1"
