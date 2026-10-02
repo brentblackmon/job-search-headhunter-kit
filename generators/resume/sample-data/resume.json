@@ -1,7 +1,7 @@
 {
   "_note": "FICTIONAL SAMPLE. Jordan Rivera is not a real person. All companies, numbers, and contact details are invented.",
   "name": "Jordan Rivera",
-  "headline": "Operations Executive | SaaS Implementation, Support, and Scale | Logistics Technology",
+  "headline": "Operations Executive | SaaS Implementation, Support, and Retention | Logistics Technology",
   "contact": [
     "Charlotte, NC",
     "(704) 555-0142",
@@ -11,7 +11,7 @@
   "stats": [
     {
       "value": "16 to 9 wks",
-      "label": "implementation time"
+      "label": "go-live time"
     },
     {
       "value": "95%",
@@ -19,11 +19,11 @@
     },
     {
       "value": "$11.2M",
-      "label": "budget, 64 people"
+      "label": "budget"
     },
     {
       "value": "31 to 12 hrs",
-      "label": "ticket resolution"
+      "label": "resolution"
     }
   ],
   "summary": [
@@ -31,11 +31,26 @@
     "Known for plain metrics, weekly operating rhythms, and teams that keep their best people. Comfortable with acquisitions, fast growth, and boards that want the numbers straight."
   ],
   "achievements": [
-    "Cut average implementation time from 16 weeks to 9 weeks at Tidewater Freight Systems by rebuilding onboarding around three standard tiers.",
-    "Helped raise gross revenue retention from 89% to 95% in three years by pairing implementation leads with account owners through the first renewal.",
-    "Integrated an acquired company's 38 employees and 120 customers onto one support platform in 7 months and kept 97% of acquired customers through year one.",
-    "Built Kestrel Route Software's implementation team from 6 to 23 people and onboarded 140 new customers in 2017 and 2018.",
-    "Raised on-time shipment rate from 91% to 98.5% across two distribution centers at Brightpine Distribution."
+    {
+      "lead": "Faster go-lives.",
+      "text": "Cut average implementation time from 16 weeks to 9 weeks at Tidewater Freight Systems by rebuilding onboarding around three standard tiers."
+    },
+    {
+      "lead": "Customers stay.",
+      "text": "Helped raise gross revenue retention from 89% to 95% in three years by pairing implementation leads with account owners through the first renewal."
+    },
+    {
+      "lead": "Acquisition integration.",
+      "text": "Integrated an acquired company's 38 employees and 120 customers onto one support platform in 7 months and kept 97% of acquired customers through year one."
+    },
+    {
+      "lead": "Team built from 6.",
+      "text": "Built Kestrel Route Software's implementation team from 6 to 23 people and onboarded 140 new customers in 2017 and 2018."
+    },
+    {
+      "lead": "On time, every day.",
+      "text": "Raised on-time shipment rate from 91% to 98.5% across two distribution centers at Brightpine Distribution."
+    }
   ],
   "competencies": [
     "SaaS Operations",
@@ -76,7 +91,8 @@
           ]
         }
       ],
-      "blurb": "Transportation management software for mid-market shippers and carriers. About 420 employees."
+      "blurb": "Transportation management software for mid-market shippers and carriers. About 420 employees.",
+      "mandate": "Hired to rebuild the post-sale team after a year of slow go-lives and rising churn."
     },
     {
       "company": "Kestrel Route Software",
@@ -103,20 +119,22 @@
       "roles": [
         {
           "title": "Operations Manager",
-          "dates": "09/2013 to 05/2015"
+          "dates": "09/2013 to 05/2015",
+          "bullets": [
+            "Ran daily operations for two distribution centers and 85 hourly associates.",
+            "Raised on-time shipment rate from 91% to 98.5% across both distribution centers.",
+            "Cut overtime cost by $410K per year with demand-based shift planning."
+          ]
         },
         {
           "title": "Logistics Analyst",
-          "dates": "07/2012 to 08/2013"
+          "dates": "07/2012 to 08/2013",
+          "bullets": [
+            "Built the weekly carrier scorecard used in rate negotiations."
+          ]
         }
       ],
-      "blurb": "Third-party logistics provider with two distribution centers.",
-      "bullets": [
-        "Ran daily operations for two distribution centers and 85 hourly associates.",
-        "Raised on-time shipment rate from 91% to 98.5% across both distribution centers.",
-        "Cut overtime cost by $410K per year with demand-based shift planning.",
-        "As a logistics analyst, built the weekly carrier scorecard used in rate negotiations."
-      ]
+      "blurb": "Third-party logistics provider with two distribution centers."
     }
   ],
   "education": [

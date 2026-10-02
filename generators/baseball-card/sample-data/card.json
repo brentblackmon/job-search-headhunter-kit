@@ -1,24 +1,39 @@
 {
   "_note": "FICTIONAL SAMPLE. Jordan Rivera is not a real person. All companies, numbers, and contact details are invented.",
   "name": "Jordan Rivera",
-  "headline": "VP Operations | SaaS Implementation, Support, and Retention",
-  "positioning": "14 years building the post-sale engine for logistics software companies.",
+  "role": "VP Operations / Harborline Software",
+  "headline": "Faster go-lives.",
+  "headlineAccent": "Customers who stay.",
+  "intro": "Most recently Director of Operations at Tidewater Freight Systems, a 420-person transportation software company. I run implementation, support, and training as one post-sale team, and I brought an acquired company's people and customers onto one platform without losing them.",
   "photo": "",
   "stats": [
-    { "value": "16 to 9", "label": "weeks to implement" },
-    { "value": "95%", "label": "gross revenue retention" },
-    { "value": "$11.2M", "label": "budget, 64 people" },
-    { "value": "97%", "label": "acquired customers kept" }
+    { "value": "16 to 9", "label": "Weeks to go live, after rebuilding onboarding." },
+    { "value": "95%", "label": "Gross revenue retention, up from 89%." },
+    { "value": "$11.2M", "label": "Operating budget, 64 people." },
+    { "value": "97%", "label": "Acquired customers kept through year one." }
   ],
-  "proof": [
-    { "title": "Faster go-lives", "result": "Cut average implementation time from 16 weeks to 9 weeks.", "where": "Tidewater Freight Systems, 2021 to 2023" },
-    { "title": "Customers stay", "result": "Helped raise gross revenue retention from 89% to 95% in three years.", "where": "Tidewater Freight Systems, FY2021 to FY2024" },
-    { "title": "Acquisition integration", "result": "Moved 38 employees and 120 customers onto one platform in 7 months.", "where": "Tidewater Freight Systems, 2023" },
-    { "title": "Faster support", "result": "Cut average ticket resolution time from 31 hours to 12 hours.", "where": "Tidewater Freight Systems, 2021 to 2024" },
-    { "title": "Lower cost to serve", "result": "Reduced cost to serve per customer 22% while the base grew.", "where": "Tidewater Freight Systems, FY2022 to FY2024" },
-    { "title": "Team built from 6", "result": "Grew implementation from 6 to 23 people; onboarded 140 customers.", "where": "Kestrel Route Software, 2017 to 2018" },
-    { "title": "Fewer defects", "result": "Standard implementation playbook cut go-live defects 45%.", "where": "Kestrel Route Software, 2016" },
-    { "title": "On time, every day", "result": "Raised on-time shipment rate from 91% to 98.5% across two DCs.", "where": "Brightpine Distribution, 2013 to 2015" }
+  "sections": [
+    {
+      "eyebrow": "01 / Running the post-sale team",
+      "title": "One team from signed contract to renewal.",
+      "cards": [
+        { "tag": "Implementation", "title": "Faster go-lives", "proof": "16 weeks to 9 weeks.", "body": "Rebuilt onboarding around three standard tiers with fixed scopes and go-live checklists." },
+        { "tag": "Support", "title": "Faster answers", "proof": "31 hours to 12 hours.", "body": "Cut average ticket resolution time with tiered routing and a searchable fix library." },
+        { "tag": "Cost", "title": "Lower cost to serve", "proof": "Down 22%, FY2022 to FY2024.", "body": "Reduced cost to serve per customer while the customer base grew." },
+        { "tag": "Integration", "title": "One platform after a deal", "proof": "38 people, 120 customers, 7 months.", "body": "Moved an acquired company's team and customers onto one support platform and kept 97% of them." }
+      ]
+    },
+    {
+      "eyebrow": "02 / Building teams that last",
+      "title": "Grow the team, keep the customers.",
+      "cards": [
+        { "tag": "Retention", "title": "Customers stay", "proof": "89% to 95% in three years.", "body": "Paired each implementation lead with an account owner through the first renewal." },
+        { "tag": "Team", "title": "Built from 6 to 23", "proof": "140 customers onboarded.", "body": "Grew the implementation team at Kestrel Route Software and hired the first two managers from within." },
+        { "tag": "Quality", "title": "Fewer defects", "proof": "Go-live defects down 45%.", "body": "Wrote the standard implementation playbook every project now follows." },
+        { "tag": "Operations", "title": "On time, every day", "proof": "91% to 98.5% on time.", "body": "Raised on-time shipment rate across two distribution centers at Brightpine Distribution." }
+      ]
+    }
   ],
-  "contact": ["Charlotte, NC", "(704) 555-0142", "jordan.rivera@example.com", "linkedin.com/in/jordan-rivera-example"]
+  "footer": { "tagline": "One post-sale team.", "accent": "Live fast, stay long." },
+  "contact": ["(704) 555-0142", "jordan.rivera@example.com", "linkedin.com/in/jordan-rivera-example"]
 }
