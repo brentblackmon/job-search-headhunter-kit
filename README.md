@@ -1,5 +1,7 @@
 # Recruit Rocket
 
+Recruit Rocket, Copyright (c) 2026 Brent Blackmon. All rights reserved. Personal use by invited testers only.
+
 **A full-service AI recruiting team that works for the job seeker.** It's one Claude skill that runs your whole search like a small recruiting firm with one client: you. It finds openings and grades them on real fit, spots companies about to hire before they post, builds a tailored ATS-ready resume, a cover letter, and a one-page stat sheet (a "baseball card") that puts your best numbers up front, writes the email and LinkedIn connect note to the right person, preps you for interviews, and tracks every follow-up.
 
 **Nothing goes out without your yes.** The kit drafts. You approve, and you send.
@@ -136,4 +138,4 @@ scripts/                  package-skills.sh rebuilds dist/recruit-rocket.zip
 Your facts file and tracker hold personal information. Keep your `My Job Search/` folder private. Never commit it to a public repository. This repo contains only fictional sample data.
 
 ## License
-Not chosen yet. Audience, format, and pricing are decided later. Built with Claude.
+Copyright (c) 2026 Brent Blackmon. All rights reserved. Licensed for personal, non-commercial use by invited testers only. See [LICENSE](LICENSE).
