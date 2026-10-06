@@ -4,13 +4,9 @@
   "headline": "Sports Broadcast Intern | live production, replay and graphics",
   "contact": ["Dayton, OH", "(937) 555-0148", "casey.morgan@example.com", "linkedin.com/in/casey-morgan-example"],
   "stats": [],
-  "summary": [
-    "Junior in sports media at Lakeview State University (fictional), looking for a summer 2027 broadcast production internship.",
-    "I run replay and camera for live college games and pick up new gear fast. Coaches and directors trust me with the shots that matter."
-  ],
+  "summary": [],
   "achievements": [],
   "competencies": [],
-  "skillsEquipment": ["Replay (EVS XT)", "Video switcher (Ross Carbonite)", "Live graphics (Chyron)", "Sony HDC cameras", "Adobe Premiere Pro", "Wireless audio"],
   "education": [
     {
       "degree": "B.A. Communication, Sports Media",
@@ -23,12 +19,13 @@
   ],
   "experience": [
     {
+      "group": "Sports Broadcast Experience",
       "company": "Lakeview Athletics Broadcast Network (student crew)",
       "location": "Dayton, OH",
       "roles": [
         {
           "title": "Replay and Camera Operator",
-          "dates": "08/2025 to Present",
+          "dates": "Aug 2025 to Present",
           "bullets": [
             "Run replay on EVS for 18 home football and basketball games streamed on the conference network.",
             "Shoot handheld sideline camera for 12 soccer and volleyball matches.",
@@ -38,18 +35,54 @@
       ]
     },
     {
+      "group": "Sports Broadcast Experience",
       "company": "Channel 12 Northfield (fictional)",
       "location": "Northfield, OH",
       "roles": [
         {
           "title": "Production Assistant (summer)",
-          "dates": "05/2025 to 08/2025",
+          "dates": "May 2025 to Aug 2025",
           "bullets": [
             "Set up cameras and audio for the Friday night high school football show, 10 broadcasts.",
             "Logged highlights for the 6pm sports segment."
           ]
         }
       ]
+    },
+    {
+      "group": "Business and Leadership Experience",
+      "company": "Riverside Coffee Co. (fictional)",
+      "location": "Dayton, OH",
+      "roles": [
+        {
+          "title": "Shift Lead",
+          "dates": "Jan 2024 to Present",
+          "bullets": [
+            "Open the store and run a crew of 4 on weekend shifts.",
+            "Train new baristas on the register and drink station."
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Business and Leadership Experience",
+      "company": "Sports Media Club, Lakeview State University (fictional)",
+      "location": "Dayton, OH",
+      "roles": [
+        {
+          "title": "Treasurer",
+          "dates": "Sep 2025 to Present",
+          "bullets": [
+            "Track the club budget and plan two trips to regional broadcast conferences."
+          ]
+        }
+      ]
     }
+  ],
+  "skillGroups": [
+    { "label": "Equipment and Software", "items": ["EVS XT replay", "Ross Carbonite switcher", "Chyron graphics", "Sony HDC cameras", "Adobe Premiere Pro"] },
+    { "label": "On-Air and Content", "items": ["Sideline reporting (student network)", "Social video for game days", "Highlight logging"] },
+    { "label": "Business", "items": ["Cash handling", "Scheduling", "Budget tracking"] },
+    { "label": "Languages", "items": ["English (native)", "Spanish (conversational)"] }
   ]
 }
