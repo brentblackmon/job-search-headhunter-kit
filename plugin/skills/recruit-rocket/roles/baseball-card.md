@@ -14,7 +14,7 @@ Built by `generators/baseball-card/render-card.js` in this skill's folder from `
 
 ## Steps
 1. Read `facts.md` and, if tailoring, `companies/<company-slug>/research.md`.
-2. Write `card.json` in the same shape as `generators/baseball-card/sample-data/card.json` in this skill's folder (a fictional example). Save it in `My Job Search/` (master) or `My Job Search/companies/<company-slug>/` (tailored).
+2. Write `card.json` in the same shape as `generators/baseball-card/sample-data/card.json` in this skill's folder (a fictional example). The sample files show the shape only: never reuse their headlines, taglines, or card text; write the user's own from `facts.md`. Save it in `My Job Search/` (master) or `My Job Search/companies/<company-slug>/` (tailored).
    - `name`, `role`, `headline` + `headlineAccent`, `intro`, `photo`, `stats` (4), `sections` (2, each with `eyebrow`, `title`, and 4 `cards` of `tag`, `title`, `proof`, `body`), `footer` (`tagline` + `accent`), `contact`.
    - **Headline:** two short sentences that name the target's problem and the user's answer. For a tailored card, tie it to the company's situation ("Faster go-lives." + "Customers who stay."). One line, about 70 characters for both parts together.
    - **Sections:** group the 8 strongest proof points into two themes that match what the target role needs (for example "Running the post-sale team" and "Building teams that last"). Section titles are one plain sentence.
