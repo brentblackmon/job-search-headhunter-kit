@@ -58,6 +58,18 @@ The interview is 4 to 6 questions, depending on where they live and what they pi
 Optional, only after the last question: "Want the drafts to sound more like you?"
 Options: "Yes, I'll paste a short email I wrote", "Skip for now".
 
+### Student or internship mode
+Switch to these questions when the resume shows a current student (an expected graduation date, "Class of", current enrollment) or the user asks for an internship. They replace questions 1 to 6 above; the photo request, the missing phone and email question, and the date checks still apply. Six clicks or fewer in total, numbered as usual.
+
+1. **Field and roles.** "What kind of internship are you after?" Options built from their major and jobs (for example "Sports broadcast production", "Sports media and social video", "Camera or replay operator"), plus "Something else". Allow more than one.
+2. **Term.** "Which internship term?" Options: the next terms that fit their calendar (for example "Summer 2027", "Fall 2027", "Spring 2027"), plus "Something else".
+3. **Graduation.** "When do you graduate?" Options from their resume (for example "May 2028", "December 2027"), plus "Something else".
+4. **GPA (optional).** "Want your GPA on your resume? Only add it if it's 3.0 or higher." Options: "Yes, I'll type it", "Leave it off". If they type a GPA below 3.0, leave it off and say so kindly.
+5. **Summer location.** "Would you move for the summer?" Options: "Yes, anywhere", "Within my region", "Only near home or school", "Something else".
+6. **What you do, per current job.** One question per current job (usually one). "At [job], what exactly do you do?" Options: the positions that fit their field, multi-select (for broadcast: "Camera", "Replay", "Graphics", "Audio", "Director or producer", "Something else"). Then ask them to type, in one line: the sports or events covered, the equipment or software they use, and roughly how many games or events. Accept a short answer ("football and basketball, EVS and Ross Carbonite, about 18 games").
+
+Record every answer in `facts.md` as `CONFIRMED`: target roles, internship term, expected graduation, GPA (only if 3.0 or higher), summer relocation, and for each job the positions, sports or events, equipment, and the count as the user said it. Skip the salary, contract, notice period, and work authorization questions in this mode. Set `Mode: student` under `Targets` so the other roles use the student layout and the internship search.
+
 ### Example
 > **Claude:** I've read your resume and the two work samples. (1 of 5) What kind of role are you going after next?
 > [COO or VP Operations] [VP Professional Services] [Interim or fractional] [Something else]
@@ -80,6 +92,7 @@ Offer 3 questions per role about a result they are proud of that is **not** in t
 - Every `FROM RESUME` phrasing matches the source document exactly.
 - No number was rounded, combined, or invented.
 - Exclusions section is filled (even if "none").
+- In student mode: at most 6 clicks, the student answers are in `facts.md` as `CONFIRMED`, and `Mode: student` is set.
 - The user was asked no more than 6 questions in total, plus only the follow-ups this file allows (relocating abroad, contract work in the US, missing phone or email, a second date check).
 - `Headshot file` in `facts.md` names a photo saved in `My Job Search/`, or says `none yet`.
 - No placeholder in square brackets anywhere in `facts.md`. Phone and email are filled in, or the user chose to leave them off.

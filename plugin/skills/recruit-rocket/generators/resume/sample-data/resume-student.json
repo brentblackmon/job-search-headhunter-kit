@@ -1,0 +1,55 @@
+{
+  "name": "Casey Morgan",
+  "layout": "student",
+  "headline": "Sports Broadcast Intern | live production, replay and graphics",
+  "contact": ["Dayton, OH", "(937) 555-0148", "casey.morgan@example.com", "linkedin.com/in/casey-morgan-example"],
+  "stats": [],
+  "summary": [
+    "Junior in sports media at Lakeview State University (fictional), looking for a summer 2027 broadcast production internship.",
+    "I run replay and camera for live college games and pick up new gear fast. Coaches and directors trust me with the shots that matter."
+  ],
+  "achievements": [],
+  "competencies": [],
+  "skillsEquipment": ["Replay (EVS XT)", "Video switcher (Ross Carbonite)", "Live graphics (Chyron)", "Sony HDC cameras", "Adobe Premiere Pro", "Wireless audio"],
+  "education": [
+    {
+      "degree": "B.A. Communication, Sports Media",
+      "school": "Lakeview State University (fictional)",
+      "location": "Dayton, OH",
+      "dates": "Expected May 2028",
+      "gpa": "3.5 / 4.0",
+      "coursework": ["Live Sports Production", "Broadcast Graphics", "Sports Writing", "Audio for Video"]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Lakeview Athletics Broadcast Network (student crew)",
+      "location": "Dayton, OH",
+      "roles": [
+        {
+          "title": "Replay and Camera Operator",
+          "dates": "08/2025 to Present",
+          "bullets": [
+            "Run replay on EVS for 18 home football and basketball games streamed on the conference network.",
+            "Shoot handheld sideline camera for 12 soccer and volleyball matches.",
+            "Build lower-third graphics in Chyron for 9 women's basketball games."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Channel 12 Northfield (fictional)",
+      "location": "Northfield, OH",
+      "roles": [
+        {
+          "title": "Production Assistant (summer)",
+          "dates": "05/2025 to 08/2025",
+          "bullets": [
+            "Set up cameras and audio for the Friday night high school football show, 10 broadcasts.",
+            "Logged highlights for the 6pm sports segment."
+          ]
+        }
+      ]
+    }
+  ]
+}

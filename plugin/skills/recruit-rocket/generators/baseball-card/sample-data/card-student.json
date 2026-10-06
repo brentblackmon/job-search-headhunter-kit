@@ -1,0 +1,39 @@
+{
+  "name": "Casey Morgan",
+  "role": "Sports Broadcast Intern / Summer 2027",
+  "headline": "Live games, every shot.",
+  "headlineAccent": "Ready for the truck.",
+  "intro": "Junior in sports media at Lakeview State University (fictional). I run replay and camera for live college broadcasts and pick up new gear fast.",
+  "photo": "headshot-sample.png",
+  "stats": [],
+  "tiles": [
+    { "title": "Replay operator", "detail": "EVS replay for home football and basketball." },
+    { "title": "Camera operator", "detail": "Handheld sideline camera for soccer and volleyball." },
+    { "title": "Live graphics", "detail": "Lower thirds in Chyron for women's basketball." },
+    { "title": "Field production", "detail": "Camera and audio setup for a weekly TV show." }
+  ],
+  "sections": [
+    {
+      "eyebrow": "01 / Live game production",
+      "title": "On the crew for college game days.",
+      "cards": [
+        { "tag": "Replay", "title": "Replay on EVS", "proof": "18 home games.", "body": "Run replay for football and basketball streams on the conference network." },
+        { "tag": "Camera", "title": "Sideline camera", "proof": "12 matches.", "body": "Shoot handheld sideline camera for soccer and volleyball." },
+        { "tag": "Graphics", "title": "Lower thirds", "proof": "9 games.", "body": "Build lower-third graphics in Chyron for women's basketball." },
+        { "tag": "Switcher", "title": "Ross Carbonite", "proof": "Trained on the student truck.", "body": "Learned the switcher on the student crew's truck." }
+      ]
+    },
+    {
+      "eyebrow": "02 / Field and studio",
+      "title": "Setup, logging and the gear that keeps a show on air.",
+      "cards": [
+        { "tag": "Field", "title": "Friday night football", "proof": "10 broadcasts.", "body": "Set up cameras and audio for the high school football show." },
+        { "tag": "Logging", "title": "Highlight logs", "proof": "Summer 2025.", "body": "Logged highlights for the 6pm sports segment." },
+        { "tag": "Editing", "title": "Premiere Pro", "proof": "Coursework and crew.", "body": "Cut game packages in Adobe Premiere Pro." },
+        { "tag": "Audio", "title": "Wireless audio", "proof": "Coursework.", "body": "Set up wireless mics for sideline and studio segments." }
+      ]
+    }
+  ],
+  "footer": { "tagline": "Every shot, every game.", "accent": "Summer 2027." },
+  "contact": ["(937) 555-0148", "casey.morgan@example.com", "linkedin.com/in/casey-morgan-example"]
+}

@@ -7,11 +7,13 @@
 // card.json shape (see sample-data/card.json):
 //   name, role ("Chief Operating Officer / Company"), headline, headlineAccent, intro,
 //   photo (required: path to a JPG or PNG headshot, relative to card.json), stats[4] {value, label},
+//   or, for a student card with no numbers yet, tiles[4] {title, detail} (skills and experience
+//   tiles, for example {"title": "Replay operator", "detail": "Home football and basketball games"}),
 //   sections[2] {eyebrow, title, cards[4] {tag, title, proof, body}},
 //   footer {tagline, accent}, contact[] (phone, email, LinkedIn)
 //
 // Writes the PDF and a PNG preview next to it, then checks: exactly 1 page,
-// 4 stats, 2 sections of 4 cards, no text overflow, no unfilled placeholders
+// 4 stats (or 4 skill tiles), 2 sections of 4 cards, no text overflow, no unfilled placeholders
 // like "[phone]" or "[email]", and a headshot photo (required).
 //
 // Renderer: Playwright (Chromium) when a browser is available. If Playwright or its
@@ -31,6 +33,8 @@ const LIMITS = {
   intro: 330,            // three lines
   statValue: 12,
   statLabel: 60,         // two lines
+  tileTitle: 22,         // one line, student tiles
+  tileDetail: 60,        // two lines
   sectionTitle: 70,
   tag: 22,
   cardTitle: 32,         // one line
@@ -68,6 +72,9 @@ function normalize(d) {
   };
 }
 
+// A student card with no numbers yet uses skills and experience tiles in place of stats.
+const useTiles = (d) => !(d.stats && d.stats.length) && Array.isArray(d.tiles) && d.tiles.length > 0;
+
 function buildCard(d) {
   const initials = d.name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
   const footer = d.footer || {};
@@ -82,7 +89,9 @@ function buildCard(d) {
       <div class="photo">${d.photo ? `<img src="${esc(d.photo)}" alt="">` : `<div class="initials">${esc(initials)}</div>`}</div>
     </section>
     <section class="stats">
-      ${d.stats.map((s) => `<div class="stat"><div class="v">${esc(s.value)}</div><div class="l">${esc(s.label)}</div></div>`).join("")}
+      ${useTiles(d)
+        ? d.tiles.map((t) => `<div class="stat word"><div class="v">${esc(t.title)}</div><div class="l">${esc(t.detail)}</div></div>`).join("")
+        : d.stats.map((s) => `<div class="stat"><div class="v">${esc(s.value)}</div><div class="l">${esc(s.label)}</div></div>`).join("")}
     </section>
     ${d.sections.map((sec) => `
     <section class="section">
@@ -105,7 +114,9 @@ function buildCard(d) {
 
 function checkShape(d) {
   const problems = [];
-  if (!d.stats || d.stats.length !== 4) problems.push(`expected 4 stats, found ${(d.stats || []).length}`);
+  if (useTiles(d)) {
+    if (d.tiles.length !== 4) problems.push(`expected 4 tiles, found ${d.tiles.length}`);
+  } else if (!d.stats || d.stats.length !== 4) problems.push(`expected 4 stats (or 4 tiles for a student card), found ${(d.stats || []).length}`);
   if (!d.sections || d.sections.length !== 2) problems.push(`expected 2 sections, found ${(d.sections || []).length}`);
   (d.sections || []).forEach((s, i) => {
     if (!s.cards || s.cards.length !== 4) problems.push(`section ${i + 1}: expected 4 cards, found ${(s.cards || []).length}`);
@@ -122,6 +133,7 @@ function checkLengths(d) {
   over("headline", `${d.headline || ""} ${d.headlineAccent || ""}`.trim(), LIMITS.headline);
   over("intro", d.intro, LIMITS.intro);
   (d.stats || []).forEach((s, i) => { over(`stat ${i + 1} value`, s.value, LIMITS.statValue); over(`stat ${i + 1} label`, s.label, LIMITS.statLabel); });
+  if (useTiles(d)) d.tiles.forEach((t, i) => { over(`tile ${i + 1} title`, t.title, LIMITS.tileTitle); over(`tile ${i + 1} detail`, t.detail, LIMITS.tileDetail); });
   (d.sections || []).forEach((sec, si) => {
     over(`section ${si + 1} title`, sec.title, LIMITS.sectionTitle);
     (sec.cards || []).forEach((c, ci) => {
@@ -282,7 +294,7 @@ async function main() {
   if (fs.existsSync(outPng)) console.log("Wrote " + outPng);
   console.log("\nQA");
   console.log(`  [${pages === 1 ? "PASS" : "FAIL"}] Page count: ${pages} (landscape 11 x 8.5 in)`);
-  console.log(`  [${problems.length ? "FAIL" : "PASS"}] Layout: ${problems.join("; ") || "4 stats, 2 sections of 4 cards, no overflow"}`);
+  console.log(`  [${problems.length ? "FAIL" : "PASS"}] Layout: ${problems.join("; ") || `4 ${useTiles(data) ? "skill tiles" : "stats"}, 2 sections of 4 cards, no overflow`}`);
   console.log(`  [${placeholders.length ? "FAIL" : "PASS"}] No unfilled placeholders: ${placeholders.join(", ") || "none"}`);
   console.log(`  [${headshot ? "FAIL" : "PASS"}] Headshot: ${headshot || "photo embedded"}`);
   console.log("  Look at the preview PNG before sending.");

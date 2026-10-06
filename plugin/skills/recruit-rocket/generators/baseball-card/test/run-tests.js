@@ -60,6 +60,17 @@ function expect(caseName, actual, wanted) {
   expect("the script exits with an error", r.status === 0 ? "exit 0" : "exit 1", "exit 1");
 }
 
+// 4. Student card: skills and experience tiles in place of numeric stats.
+{
+  const stu = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "card-student.json"), "utf8"));
+  const renderStudent = (name, change) => render(name, (d) => { Object.keys(d).forEach((k) => delete d[k]); Object.assign(d, JSON.parse(JSON.stringify(stu))); change(d); });
+  const ok = renderStudent("student", () => {});
+  expect("a student card with 4 tiles passes the layout check", ok.check("Layout"), "PASS");
+  expect("the layout line says skill tiles", ok.text.includes("4 skill tiles") ? "tiles" : "other", "tiles");
+  const three = renderStudent("student-3", (d) => { d.tiles = d.tiles.slice(0, 3); });
+  expect("3 tiles fail the layout check", three.check("Layout"), "FAIL");
+}
+
 fs.rmSync(work, { recursive: true, force: true });
 let failed = 0;
 for (const r of results) {

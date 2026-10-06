@@ -28,6 +28,14 @@ Read the user's country and city from `facts.md` before searching.
 6. Drop anything at an excluded company. Drop duplicates across boards.
 7. **Flag likely fake postings.** No real company named or linked, no company description, and generic boilerplate duties with no product, region or pay: list it as "Likely fake, skip" with one line why. Never grade it A or B.
 
+## Internships (students)
+When `facts.md` says `Mode: student`:
+1. **Search by term and field**, not by title alone: "summer 2027 sports broadcast internship", "sports production intern summer 2027", "[field] internship [term]". Also check the internship or early-careers page of the networks, leagues, and teams in their field, because many programs are listed only there.
+2. **Note each program's application window**: when applications open and the deadline, from the program's own page, with the date you read it. Many network, league, and team programs (for example ESPN and NASCAR) open in the fall for the next summer, so a summer program can close before winter. If this year's window is not posted, write "window not posted yet" and, if the page shows it, when it opened last year. Never guess a date.
+3. **Flag timing in the grade line**: "Open now, deadline YYYY-MM-DD", "Opens soon (about YYYY-MM-DD)", "Closed for [term]", or "Window not posted yet".
+4. **Put upcoming windows on the tracker** as `Watching` entries with a reminder date: 7 days before a window opens, and 7 days before a deadline (or 3 days if the deadline is closer than that). The daily briefing lists them when the reminder date arrives.
+5. Grade internships on what the student can show (coursework, campus jobs, equipment, events covered), not on years of experience. Unpaid or school-credit programs are fine unless the user said otherwise.
+
 ## Grade each posting
 Read the full description, not the title. Score four things:
 

@@ -43,7 +43,7 @@ If a step fails (no postings found, a generator is missing), say so in one line,
 
 ## Daily briefing ("what should I do today?")
 1. Read the tracker. List, in this order:
-   - **Due today or overdue**: follow-ups whose `Next follow-up` date is today or past.
+   - **Due today or overdue**: follow-ups whose `Next follow-up` date is today or past, and `Watching` entries whose `Reminder` date is today or past ("The [program] internship opens next week", "The [program] deadline is in 7 days").
    - **Waiting on the user**: drafts ready for approval.
    - **New from the pipeline**: A-grade postings from the latest scan and new signal companies not yet in the tracker.
 2. Keep it to one screen. Each item: company, what is due, which skill will draft it.
@@ -78,7 +78,7 @@ Rules for every follow-up:
 - After the close-the-loop note, set status to `Closed - no response` unless the user says otherwise. Do not send a fourth message.
 
 ## Status values
-`Researching`, `Drafted`, `Sent`, `Replied`, `Interviewing`, `Offer`, `Negotiating`, `Accepted`, `Declined`, `Closed - no response`, `Excluded`.
+`Watching` (an internship window not open yet, or open with a deadline coming), `Researching`, `Drafted`, `Sent`, `Replied`, `Interviewing`, `Offer`, `Negotiating`, `Accepted`, `Declined`, `Closed - no response`, `Excluded`.
 
 ## Routing
 | Need | Skill |

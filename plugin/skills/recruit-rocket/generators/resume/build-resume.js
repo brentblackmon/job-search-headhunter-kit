@@ -20,7 +20,10 @@
 //   achievements [{lead, text}] (a plain string also works),
 //   competencies [terms],
 //   experience [{company, location, blurb?, mandate?, roles: [{title, dates, blurb?, mandate?, bullets: [...]}]}],
-//   education [lines]
+//   education [lines, or objects {degree, school, location, dates, gpa, coursework: [...], honors}]
+//   skillsEquipment [optional: terms for a "Skills and Equipment" line, for technical roles]
+//   layout [optional: "student" puts Education right after Summary and prints "Experience"]
+//   stats and achievements may be empty: the stat bar and Key Achievements then do not print.
 //   keepWords [optional: AI-tell words the user said they really use, for example "leverage"]
 //   properNames [optional: product or program names that contain an AI-tell word]
 //   Older files with job-level "bullets" and "dates" still work.
@@ -29,6 +32,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { execFileSync } = require("child_process");
+const { sections, has } = require("./layout");
 const {
   Document, Packer, Paragraph, TextRun, ExternalHyperlink, AlignmentType, BorderStyle,
   LevelFormat, ShadingType, TabStopType,
@@ -70,6 +74,8 @@ const targetPages = parseInt(args.pages || "2", 10);
 
 // ---------- data ----------
 const data = JSON.parse(fs.readFileSync(args.data, "utf8"));
+// Optional sections may be missing or empty; they then do not print.
+for (const k of ["stats", "achievements", "competencies", "skillsEquipment", "education", "summary"]) if (!Array.isArray(data[k])) data[k] = [];
 
 // ---------- paper ----------
 // US states, DC, and Canadian provinces and territories, as two-letter codes.
@@ -96,7 +102,7 @@ if (args.tailor) {
   if (t.headline) { changes.push(["headline", data.headline, t.headline]); data.headline = t.headline; }
   if (t.summary1) { changes.push(["summary[0]", data.summary[0], t.summary1]); data.summary[0] = t.summary1; }
   // Anything beyond headline and summary1 must be explicit and is reported.
-  for (const key of ["summary2", "achievements", "competencies", "stats"]) {
+  for (const key of ["summary2", "achievements", "competencies", "skillsEquipment", "stats"]) {
     if (t[key] === undefined) continue;
     const field = key === "summary2" ? "summary[1]" : key;
     if (key === "summary2") data.summary[1] = t[key]; else data[key] = t[key];
@@ -191,84 +197,113 @@ children.push(new Paragraph({
 }));
 
 // Shaded stat line: one paragraph (not a table) so ATS parsers read it as text.
-const statRuns = [];
-data.stats.forEach((s, i) => {
-  if (i > 0) statRuns.push(run("   |   ", { size: 19, color: SEP }));
-  statRuns.push(run(s.value, { bold: true, size: 22, color: NAVY }));
-  statRuns.push(run(" " + s.label, { size: 18, color: GRAY }));
-});
-children.push(new Paragraph({
-  shading: { type: ShadingType.CLEAR, color: "auto", fill: TINT },
-  spacing: { before: 60, after: 0 },
-  indent: { left: 140, right: 140 },
-  border: {
-    left: { style: BorderStyle.SINGLE, size: 24, color: NAVY, space: 8 },
-    top: { style: BorderStyle.SINGLE, size: 4, color: TINT, space: 2 },
-    bottom: { style: BorderStyle.SINGLE, size: 4, color: TINT, space: 2 },
-  },
-  children: statRuns,
-}));
-
-children.push(heading("Summary"));
-data.summary.forEach((p) => children.push(body(p)));
-
-children.push(heading("Key Achievements"));
-data.achievements.forEach((a) => children.push(bullet(achievementRuns(a))));
-
-children.push(heading("Core Competencies"));
-// Non-breaking spaces keep each term on one line.
-const compRuns = [];
-data.competencies.forEach((c, i) => {
-  if (i > 0) compRuns.push(run("  |  ", { bold: true, size: 19, color: NAVY }));
-  compRuns.push(run(c.replace(/ /g, " "), { bold: true, size: 19, color: NAVY }));
-});
-children.push(body(compRuns, { spacing: { after: 40, line: 280 } }));
-
-children.push(heading("Professional Experience"));
-data.experience.forEach((job, ji) => {
-  job.roles.forEach((r, ri) => {
-    const first = ri === 0;
-    children.push(new Paragraph({
-      keepNext: true,
-      keepLines: true,
-      spacing: { before: ji === 0 && first ? 0 : 140, after: 0 },
-      tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
-      children: [
-        run(r.title, { bold: true, color: NAVY }),
-        ...(r.dates ? [run("\t" + r.dates, { size: 19, color: GRAY })] : []),
-      ],
-    }));
-    children.push(new Paragraph({
-      keepNext: true,
-      keepLines: true,
-      spacing: { after: 30 },
-      children: [run(job.company + (job.location ? ", " + job.location : ""), { bold: true })],
-    }));
-    const blurb = r.blurb || (first ? job.blurb : "");
-    if (blurb) {
-      children.push(new Paragraph({
-        keepNext: true,
-        keepLines: true,
-        spacing: { after: 40, line: 250 },
-        children: [run(blurb, { italics: true, size: 19, color: GRAY })],
-      }));
-    }
-    const mandate = r.mandate || (first ? job.mandate : "");
-    if (mandate) {
-      children.push(new Paragraph({
-        keepNext: true,
-        keepLines: true,
-        spacing: { after: 50, line: 250 },
-        children: [run("Mandate: ", { bold: true, size: 19 }), run(mandate, { italics: true, size: 19 })],
-      }));
-    }
-    // The header lines above carry keepNext, so the first bullet always stays with its title.
-    (r.bullets || []).forEach((b) => children.push(bullet(achievementRuns(b))));
+// No stats (common for students): no stat bar at all.
+if (has(data.stats)) {
+  const statRuns = [];
+  data.stats.forEach((s, i) => {
+    if (i > 0) statRuns.push(run("   |   ", { size: 19, color: SEP }));
+    statRuns.push(run(s.value, { bold: true, size: 22, color: NAVY }));
+    statRuns.push(run(" " + s.label, { size: 18, color: GRAY }));
   });
-});
+  children.push(new Paragraph({
+    shading: { type: ShadingType.CLEAR, color: "auto", fill: TINT },
+    spacing: { before: 60, after: 0 },
+    indent: { left: 140, right: 140 },
+    border: {
+      left: { style: BorderStyle.SINGLE, size: 24, color: NAVY, space: 8 },
+      top: { style: BorderStyle.SINGLE, size: 4, color: TINT, space: 2 },
+      bottom: { style: BorderStyle.SINGLE, size: 4, color: TINT, space: 2 },
+    },
+    children: statRuns,
+  }));
+}
 
-children.push(heading("Education and Certifications"));
-data.education.forEach((e) => children.push(body(e, { spacing: { after: 0, line: 280 } })));
+// A line of terms in bold navy, separated by bars. Non-breaking spaces keep each term
+// on one line.
+function termLine(terms) {
+  const out = [];
+  terms.forEach((c, i) => {
+    if (i > 0) out.push(run("  |  ", { bold: true, size: 19, color: NAVY }));
+    out.push(run(String(c).replace(/ /g, "\u00a0"), { bold: true, size: 19, color: NAVY }));
+  });
+  return body(out, { spacing: { after: 40, line: 280 } });
+}
+
+// Education lines: a plain string, or for students an object
+// {degree, school, location, dates ("Expected May 2028"), gpa, coursework: [...], honors}.
+function educationBlock(e) {
+  if (typeof e !== "object" || !e) return [body(String(e), { spacing: { after: 0, line: 280 } })];
+  const out = [new Paragraph({
+    keepNext: true,
+    keepLines: true,
+    spacing: { after: 0 },
+    tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
+    children: [run(e.degree || "", { bold: true, color: NAVY }), ...(e.dates ? [run("\t" + e.dates, { size: 19, color: GRAY })] : [])],
+  })];
+  if (e.school) out.push(new Paragraph({ keepLines: true, spacing: { after: 30 }, children: [run(e.school + (e.location ? ", " + e.location : ""), { bold: true })] }));
+  const extra = [];
+  if (e.gpa) extra.push([run("GPA: ", { bold: true, size: 19 }), run(String(e.gpa), { size: 19 })]);
+  if (has(e.coursework)) extra.push([run("Relevant coursework: ", { bold: true, size: 19 }), run(e.coursework.join(", "), { size: 19 })]);
+  if (e.honors) extra.push([run("Honors: ", { bold: true, size: 19 }), run(String(e.honors), { size: 19 })]);
+  extra.forEach((r) => out.push(body(r, { spacing: { after: 20, line: 260 } })));
+  return out;
+}
+
+const SECTION = {
+  summary() { data.summary.forEach((p) => children.push(body(p))); },
+  education() { data.education.forEach((e, i) => { if (i > 0 && typeof e === "object") children.push(new Paragraph({ spacing: { after: 60 }, children: [] })); educationBlock(e).forEach((p) => children.push(p)); }); },
+  achievements() { data.achievements.forEach((a) => children.push(bullet(achievementRuns(a)))); },
+  competencies() { children.push(termLine(data.competencies)); },
+  skills() { children.push(termLine(data.skillsEquipment)); },
+  experience() {
+    data.experience.forEach((job, ji) => {
+      job.roles.forEach((r, ri) => {
+        const first = ri === 0;
+        children.push(new Paragraph({
+          keepNext: true,
+          keepLines: true,
+          spacing: { before: ji === 0 && first ? 0 : 140, after: 0 },
+          tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
+          children: [
+            run(r.title, { bold: true, color: NAVY }),
+            ...(r.dates ? [run("\t" + r.dates, { size: 19, color: GRAY })] : []),
+          ],
+        }));
+        children.push(new Paragraph({
+          keepNext: true,
+          keepLines: true,
+          spacing: { after: 30 },
+          children: [run(job.company + (job.location ? ", " + job.location : ""), { bold: true })],
+        }));
+        const blurb = r.blurb || (first ? job.blurb : "");
+        if (blurb) {
+          children.push(new Paragraph({
+            keepNext: true,
+            keepLines: true,
+            spacing: { after: 40, line: 250 },
+            children: [run(blurb, { italics: true, size: 19, color: GRAY })],
+          }));
+        }
+        const mandate = r.mandate || (first ? job.mandate : "");
+        if (mandate) {
+          children.push(new Paragraph({
+            keepNext: true,
+            keepLines: true,
+            spacing: { after: 50, line: 250 },
+            children: [run("Mandate: ", { bold: true, size: 19 }), run(mandate, { italics: true, size: 19 })],
+          }));
+        }
+        // The header lines above carry keepNext, so the first bullet always stays with its title.
+        (r.bullets || []).forEach((b) => children.push(bullet(achievementRuns(b))));
+      });
+    });
+  },
+};
+
+sections(data).forEach((sec) => {
+  children.push(heading(sec.title));
+  SECTION[sec.key]();
+});
 
 const doc = new Document({
   creator: data.name,

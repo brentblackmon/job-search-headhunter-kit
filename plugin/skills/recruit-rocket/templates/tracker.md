@@ -2,7 +2,9 @@
 
 Owned by `headhunter-chief-of-staff`. Numbered entries, never reused. Paste the **exact text sent**, not a summary.
 
-Status values: Researching, Drafted, Sent, Replied, Interviewing, Offer, Negotiating, Accepted, Declined, Closed - no response, Excluded.
+Status values: Watching, Researching, Drafted, Sent, Replied, Interviewing, Offer, Negotiating, Accepted, Declined, Closed - no response, Excluded.
+
+`Watching` is for an internship program whose application window has not opened yet, or is open with a deadline coming. Add `- Window: opens YYYY-MM-DD, deadline YYYY-MM-DD (source, date read)` and `- Reminder: YYYY-MM-DD`.
 
 ## Summary
 | # | Company | Status | Contact | Last touch | Next follow-up |

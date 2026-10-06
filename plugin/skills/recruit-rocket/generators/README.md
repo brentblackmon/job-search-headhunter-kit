@@ -39,9 +39,12 @@ node build-resume.js --data path/to/resume.json --tailor path/to/tailor.json --o
 - `--pages`: 2 for experienced, 1 for early career.
 - Exit code 0 means every QA check passed. Look at the page images anyway.
 
+Student resumes: set `"layout": "student"` (Education right after Summary, with expected graduation, GPA, and coursework; one page). Empty `stats` or `achievements` simply do not print. `skillsEquipment` adds a "Skills and Equipment" line. Fictional example: `resume/sample-data/resume-student.json`.
+
 ## Baseball card
 ```
 node render-card.js --data path/to/card.json --out out/First_Last_Card_Company.pdf
 ```
 - `photo` in card.json is required: a JPG or PNG path relative to card.json. QA fails without one.
+- Student card: leave `stats` empty and give 4 `tiles` ({title, detail}) for skills and experience. Fictional example: `baseball-card/sample-data/card-student.json`.
 - If Chromium is installed somewhere else, set `CHROMIUM_PATH=/path/to/chromium`.
