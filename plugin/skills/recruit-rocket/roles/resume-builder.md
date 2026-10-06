@@ -12,7 +12,10 @@ Built by `generators/resume/build-resume.js` in this skill's folder. Do not hand
 - Arial. Navy `1A2B4A` for the name, section heads, role titles and competencies; near-black body text; gray dates and company descriptions.
 - Order: name (capitals), headline (target title in capitals, then themes), contact line with live email and LinkedIn links, navy rule, shaded stat line with a navy bar and 4 numbers, SUMMARY (2 paragraphs), KEY ACHIEVEMENTS (bold lead-in on each bullet), CORE COMPETENCIES (one bold navy line of terms), PROFESSIONAL EXPERIENCE, EDUCATION AND CERTIFICATIONS.
 - Each role: title in navy with dates at the right, then "Company, City, ST" in bold, then an optional italic one-line company description and an optional "Mandate:" line, then bullets.
-- Length: 2 pages for experienced users (8+ years), 1 page for early career.
+- Length: 2 pages for experienced users (8+ years), 1 page for early career and students.
+- **Student layout** (`"layout": "student"` in resume.json, for anyone with `Mode: student` in `facts.md`): Summary, then Education right after it (degree, school, expected graduation date, GPA if given, relevant coursework), then Skills and Equipment, then Experience. One page. Use an education object: `{"degree": "B.A. Communication, Sports Media", "school": "...", "location": "...", "dates": "Expected May 2028", "gpa": "3.5 / 4.0", "coursework": ["..."]}`. See `generators/resume/sample-data/resume-student.json` (a fictional example; use its shape, never its wording).
+- **No numbers yet?** Leave `stats` empty and the stat bar does not print. Leave `achievements` empty and the Key Achievements heading does not print. Never invent a number to fill either one.
+- **Skills and Equipment** (`skillsEquipment`): an optional line of tools, gear, and software for technical roles (broadcast, IT, trades), in the user's own names for them.
 
 ## Build the master resume
 1. Read `facts.md`. Every line of the resume must trace to a facts line marked `CONFIRMED` or `FROM RESUME`. Before delivery, `fact-check` asks the user to confirm any `FROM RESUME` numbers in one quick batch.

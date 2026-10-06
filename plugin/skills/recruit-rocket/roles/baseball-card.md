@@ -8,13 +8,13 @@ Facts file is the source of truth; **never invent or round**. **Use approved phr
 ## Layout (fixed)
 Built by `generators/baseball-card/render-card.js` in this skill's folder from `card-template.html`. The script fills the template itself; the page has no JavaScript. Landscape US Letter, one page.
 - **Header band (dark):** name in spaced capitals; role line in orange (target title / company, for example "VP Operations / Harborline Software", or just the title for the master card); a two-part headline where the second half is in orange; a 2 to 3 sentence intro; headshot on the right (required; with no photo, the card waits for one).
-- **4 stat tiles:** a big number and a short caption that says what it measures.
+- **4 stat tiles:** a big number and a short caption that says what it measures. **Student card with no numbers yet:** leave `stats` empty and use `tiles` instead, 4 skills and experience tiles, each `{"title": "Replay operator", "detail": "EVS replay for home football and basketball."}` (title about 22 characters, detail about 60). See `generators/baseball-card/sample-data/card-student.json` (a fictional example). Never invent a number to make a stat.
 - **Two themed sections**, each with an orange numbered eyebrow ("01 / Running the post-sale team"), a bold one-line title, and 4 proof cards. Each card: a short tag, a title, an italic proof line (the number), and 1 to 3 sentences of body.
 - **Footer band (dark):** a two-part tagline (second half orange) on the left, phone, email and LinkedIn on the right.
 
 ## Steps
 1. Read `facts.md` and, if tailoring, `companies/<company-slug>/research.md`.
-2. Write `card.json` in the same shape as `generators/baseball-card/sample-data/card.json` in this skill's folder (a fictional example). Save it in `My Job Search/` (master) or `My Job Search/companies/<company-slug>/` (tailored).
+2. Write `card.json` in the same shape as `generators/baseball-card/sample-data/card.json` in this skill's folder (a fictional example). The sample files show the shape only: never reuse their headlines, taglines, or card text; write the user's own from `facts.md`. Save it in `My Job Search/` (master) or `My Job Search/companies/<company-slug>/` (tailored).
    - `name`, `role`, `headline` + `headlineAccent`, `intro`, `photo`, `stats` (4), `sections` (2, each with `eyebrow`, `title`, and 4 `cards` of `tag`, `title`, `proof`, `body`), `footer` (`tagline` + `accent`), `contact`.
    - **Headline:** two short sentences that name the target's problem and the user's answer. For a tailored card, tie it to the company's situation ("Faster go-lives." + "Customers who stay."). One line, about 70 characters for both parts together.
    - **Sections:** group the 8 strongest proof points into two themes that match what the target role needs (for example "Running the post-sale team" and "Building teams that last"). Section titles are one plain sentence.

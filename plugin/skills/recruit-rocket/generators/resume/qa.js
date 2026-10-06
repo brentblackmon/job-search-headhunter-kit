@@ -15,13 +15,16 @@ const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 
-const SECTIONS = ["SUMMARY", "KEY ACHIEVEMENTS", "CORE COMPETENCIES", "PROFESSIONAL EXPERIENCE", "EDUCATION AND CERTIFICATIONS"];
+const { sections } = require("./layout");
 const { aiTells } = require("./voice");
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: "utf8" });
 const norm = (s) => s.replace(/\s+/g, " ").trim();
 
 function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
+  // Section headings in print order, from the same layout the builder used.
+  const SECTIONS = sections(data).map((x) => x.title.toUpperCase());
+  const stats = Array.isArray(data.stats) ? data.stats : [];
   const results = [];
   const add = (name, pass, detail) => results.push({ name, pass, detail });
 
@@ -65,26 +68,29 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   const page1 = sh("pdftotext", ["-f", "1", "-l", "1", "-layout", pdfPath, "-"]).split("\n");
   // Match on the first stat's value AND the first word of its label, so a short value
   // like "22" does not match the phone number on the contact line.
-  const firstLabelWord = String(data.stats[0].label || "").trim().split(/\s+/)[0] || "";
-  const statLine = page1.find((l) => l.includes(data.stats[0].value) && l.includes(firstLabelWord)) || "";
-  const lastLabel = String(data.stats[data.stats.length - 1].label || "").trim();
-  const lastWord = lastLabel.split(/\s+/).pop() || "";
-  const statOk = statLine.includes(data.stats[data.stats.length - 1].value) && (!lastWord || statLine.includes(lastWord));
-  add("Stat line fits on one line", statOk, statOk ? "one line" : "stat line wraps; shorten values to about 12 characters and labels to 1 to 3 words");
+  // No stats (common for students): no stat bar was printed, so there is nothing to wrap.
+  if (stats.length) {
+    const firstLabelWord = String(stats[0].label || "").trim().split(/\s+/)[0] || "";
+    const statLine = page1.find((l) => l.includes(stats[0].value) && l.includes(firstLabelWord)) || "";
+    const lastLabel = String(stats[stats.length - 1].label || "").trim();
+    const lastWord = lastLabel.split(/\s+/).pop() || "";
+    const statOk = statLine.includes(stats[stats.length - 1].value) && (!lastWord || statLine.includes(lastWord));
+    add("Stat line fits on one line", statOk, statOk ? "one line" : "stat line wraps; shorten values to about 12 characters and labels to 1 to 3 words");
+  } else {
+    add("Stat line fits on one line", true, "no stat line (no stats)");
+  }
 
   // 3. Reading order
   const text = norm(sh("pdftotext", [pdfPath, "-"]));
   const upper = text.toUpperCase();
-  const anchors = [
-    data.name.toUpperCase(),
-    norm(data.headline).toUpperCase().slice(0, 25),
-    data.stats[0].value.toUpperCase(),
-    ...SECTIONS,
-    ...jobHeaders.map((c) => c.toUpperCase()),
-  ];
-  // Job headers belong between EXPERIENCE and EDUCATION.
-  const order = [anchors[0], anchors[1], anchors[2], "SUMMARY", "KEY ACHIEVEMENTS", "CORE COMPETENCIES", "PROFESSIONAL EXPERIENCE",
-    ...jobHeaders.map((c) => c.toUpperCase()), "EDUCATION AND CERTIFICATIONS"];
+  // Name, headline, first stat (if any), then each section heading in print order, with
+  // the job headers right after the experience heading.
+  const order = [data.name.toUpperCase(), norm(data.headline).toUpperCase().slice(0, 25)];
+  if (stats.length) order.push(String(stats[0].value).toUpperCase());
+  sections(data).forEach((sec) => {
+    order.push(sec.title.toUpperCase());
+    if (sec.key === "experience") order.push(...jobHeaders.map((c) => c.toUpperCase()));
+  });
   let cursor = -1;
   const misses = [];
   for (const a of order) {
@@ -104,7 +110,7 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   // 4b. AI-tell words, in every word form. Company, school, and product names are never
   // the user's word choice ("Synergy Ridge Logistics", "Microsoft Dynamics"), so they are
   // skipped, and so are words the user said they really use (resume.json "keepWords").
-  const names = [data.name, ...data.experience.map((j) => j.company), ...(data.education || []), ...(data.properNames || [])].filter(Boolean);
+  const names = [data.name, ...data.experience.map((j) => j.company), ...(data.education || []).map((e) => (typeof e === "object" && e ? e.school : e)), ...(data.properNames || [])].filter(Boolean);
   const tells = aiTells(text, { names, keep: data.keepWords || [] });
   add("AI-tell words", tells.length === 0, tells.length ? tells.map((h) => `"${h.found}"`).join(", ") + " (ask once: keep it, or swap for a plain verb)" : "none");
 

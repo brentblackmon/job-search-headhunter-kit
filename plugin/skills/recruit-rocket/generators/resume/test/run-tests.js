@@ -13,18 +13,23 @@ const root = path.join(__dirname, "..");
 const sample = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "resume.json"), "utf8"));
 const work = fs.mkdtempSync(path.join(os.tmpdir(), "rr-resume-test-"));
 
-function build(name, change, extraArgs = []) {
-  const data = JSON.parse(JSON.stringify(sample));
+const student = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "resume-student.json"), "utf8"));
+
+function build(name, change, extraArgs = [], base = sample) {
+  const data = JSON.parse(JSON.stringify(base));
   change(data);
   const dataPath = path.join(work, `${name}.json`);
   fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-  const out = spawnSync("node", [path.join(root, "build-resume.js"), "--data", dataPath, "--out", path.join(work, name), "--pages", "2", ...extraArgs], { encoding: "utf8" });
+  const pages = base === student ? "1" : "2";
+  const out = spawnSync("node", [path.join(root, "build-resume.js"), "--data", dataPath, "--out", path.join(work, name), "--pages", pages, ...extraArgs], { encoding: "utf8" });
   const text = out.stdout + out.stderr;
   const check = (label) => {
     const line = text.split("\n").find((l) => l.includes(`] ${label}`)) || "";
     return line.includes("[PASS]") ? "PASS" : line.includes("[FAIL]") ? "FAIL" : "MISSING";
   };
-  return { text, check };
+  const pdf = path.join(work, name + ".pdf");
+  const pdfText = fs.existsSync(pdf) ? spawnSync("pdftotext", ["-layout", pdf, "-"], { encoding: "utf8" }).stdout : "";
+  return { text, check, pdfText, status: out.status };
 }
 
 const results = [];
@@ -153,6 +158,31 @@ function expect(caseName, actual, wanted) {
   const tools = ["Microsoft Intune", "Intune", "ServiceNow", "Senior Desktop Engineer"];
   expect("tool names and the job title do not count toward 6", copied(posting, "Senior Desktop Engineer. Microsoft Intune, ServiceNow.", tools).length ? "flagged" : "clean", "clean");
   expect("a copied phrase still fails when it contains a tool name", copied(posting, "Manage and secure devices in Microsoft Intune, including compliance and configuration policies.", tools).length ? "flagged" : "clean", "flagged");
+}
+
+// 11. Empty stats and achievements: no stat bar, no Key Achievements heading, no crash.
+{
+  const r = build("no-stats", (d) => { d.stats = []; d.achievements = []; });
+  expect("empty stats do not crash the QA", /Cannot read properties/.test(r.text) ? "crashed" : "ran", "ran");
+  expect("empty stats: the stat line check passes with no stat bar", r.check("Stat line fits on one line"), "PASS");
+  expect("empty achievements: no Key Achievements heading", r.pdfText.includes("KEY ACHIEVEMENTS") ? "printed" : "skipped", "skipped");
+  expect("the reading order check still passes", r.check("Text reads in the right order (pdftotext)"), "PASS");
+  const missing = build("stats-missing", (d) => { delete d.stats; });
+  expect("a resume.json with no stats key at all builds", missing.status === 0 ? "built" : "failed", "built");
+}
+
+// 12. Student layout: Education right after Summary, with GPA and coursework; Skills and
+// Equipment line; "Experience" heading; one page; every check passes.
+{
+  const r = build("student", () => {}, [], student);
+  const at = (h) => r.pdfText.indexOf(h);
+  expect("student resume passes every QA check", r.status === 0 ? "pass" : "fail", "pass");
+  expect("Education comes right after Summary", at("SUMMARY") < at("EDUCATION") && at("EDUCATION") < at("SKILLS AND EQUIPMENT") && at("SKILLS AND EQUIPMENT") < at("EXPERIENCE") ? "in order" : "out of order", "in order");
+  expect("expected graduation, GPA, and coursework print", ["Expected May 2028", "GPA: 3.5 / 4.0", "Relevant coursework: Live Sports Production"].every((t) => r.pdfText.includes(t)) ? "printed" : "missing", "printed");
+  expect("student layout uses Experience, not Professional Experience", r.pdfText.includes("PROFESSIONAL EXPERIENCE") ? "professional" : "experience", "experience");
+  expect("student resume is one page", r.check("Page count"), "PASS");
+  const pro = build("skills-line", (d) => { d.skillsEquipment = ["Intune", "SCCM"]; });
+  expect("a Skills and Equipment line prints in the standard layout too", pro.pdfText.includes("SKILLS AND EQUIPMENT") && pro.check("Text reads in the right order (pdftotext)") === "PASS" ? "yes" : "no", "yes");
 }
 
 fs.rmSync(work, { recursive: true, force: true });

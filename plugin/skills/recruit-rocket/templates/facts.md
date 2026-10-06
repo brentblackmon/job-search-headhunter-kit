@@ -13,7 +13,12 @@ This is the single source of truth for Recruit Rocket. Every skill reads it. Not
 - Headshot file: (required for the card; a JPG or PNG in My Job Search, for example headshot.jpg, or "none yet")
 
 ## Targets
-- Target titles: (2 to 4, e.g. VP Operations; COO)
+- Mode: (standard, or student for interns and new grads)
+- Target titles: (2 to 4, e.g. VP Operations; COO; or for students, internship roles)
+- Internship term (students): (for example Summer 2027)
+- Expected graduation (students): (for example May 2028)
+- GPA (students, only if 3.0 or higher):
+- Summer relocation (students): (anywhere / within my region / near home or school)
 - Industries / company types:
 - Company size (employees or revenue):
 - Country and city:

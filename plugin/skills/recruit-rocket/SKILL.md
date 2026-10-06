@@ -1,6 +1,6 @@
 ---
 name: recruit-rocket
-description: Recruit Rocket, an AI recruiting team for one job seeker. Sets up a job search from a resume ("Set me up with Recruit Rocket"), builds the facts file, scans and grades job postings, finds companies about to hire, researches companies, builds a tailored ATS resume, baseball card (one-page stat sheet), cover letter, LinkedIn review, outreach email and LinkedIn note, fact-checks every draft, preps and runs mock interviews, negotiates offers, and runs the daily routine and follow-ups from a tracker. Use for "set me up," "what should I do today," "run my job scan," "find me jobs," "grade this posting," "build my package," "build my resume," "tailor my resume," "review my resume," "make my baseball card," "write a cover letter," "review my LinkedIn," "write outreach to," "find companies about to hire," "research this company," "check this," "I sent it," "I have an interview with," "mock interview," "I got an offer," or anything about the user's job search. Drafts only; the user sends everything.
+description: Recruit Rocket, an AI recruiting team for one job seeker. Sets up a job or internship search from a resume ("Set me up with Recruit Rocket"), builds the facts file, scans and grades job postings, finds companies about to hire, researches companies, builds a tailored ATS resume, baseball card (one-page stat sheet), cover letter, LinkedIn review, outreach email and LinkedIn note, fact-checks every draft, preps and runs mock interviews, negotiates offers, and runs the daily routine and follow-ups from a tracker. Use for "set me up," "what should I do today," "run my job scan," "find me jobs," "grade this posting," "build my package," "build my resume," "tailor my resume," "review my resume," "make my baseball card," "write a cover letter," "review my LinkedIn," "write outreach to," "find companies about to hire," "research this company," "check this," "I sent it," "I have an interview with," "mock interview," "I got an offer," or anything about their search. Drafts only; the user sends everything.
 ---
 
 Recruit Rocket, Copyright (c) 2026 Brent Blackmon. All rights reserved. Personal use by invited testers only.
@@ -29,7 +29,7 @@ If `My Job Search/facts.md` already exists, the user is already set up: say so i
 |---|---|
 | Set up, build or update facts, a fact is missing | `roles/intake.md` |
 | "What should I do today", the daily routine, Autopilot, tracker updates, "I sent it", follow-ups, an interview was booked, anything that coordinates the search | `roles/headhunter-chief-of-staff.md` |
-| Find jobs, run a scan, grade a posting, "is this job a fit", set up the scheduled scan | `roles/talent-scout.md` |
+| Find jobs or internships, run a scan, grade a posting, "is this job a fit", set up the scheduled scan | `roles/talent-scout.md` |
 | Companies likely to hire before they post, hidden market, search firms, channels | `roles/signal-search.md` |
 | Research one company, who runs a function there | `roles/company-research.md` |
 | Build, tailor, or update the resume, ATS keyword check | `roles/resume-builder.md` |
