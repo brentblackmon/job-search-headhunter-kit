@@ -39,7 +39,7 @@ node build-resume.js --data path/to/resume.json --tailor path/to/tailor.json --o
 - `--pages`: 2 for experienced, 1 for early career.
 - Exit code 0 means every QA check passed. Look at the page images anyway.
 
-Student resumes: set `"layout": "student"` (Education right after Summary, with expected graduation, GPA, and coursework; one page). Empty `stats` or `achievements` simply do not print. `skillsEquipment` adds a "Skills and Equipment" line. Fictional example: `resume/sample-data/resume-student.json`.
+Student resumes: set `"layout": "student"`. Education prints first (expected graduation, GPA, coursework), then experience split by each job's `group` (a field group and "Business and Leadership Experience"), then Skills grouped by category (`skillGroups`). One page; dates read "Sep 2026 to Present". Empty `stats`, `achievements`, or `summary` simply do not print. `skillsEquipment` adds a single "Skills and Equipment" line for any layout. Fictional example: `resume/sample-data/resume-student.json`.
 
 ## Baseball card
 ```

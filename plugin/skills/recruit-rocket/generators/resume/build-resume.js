@@ -22,7 +22,12 @@
 //   experience [{company, location, blurb?, mandate?, roles: [{title, dates, blurb?, mandate?, bullets: [...]}]}],
 //   education [lines, or objects {degree, school, location, dates, gpa, coursework: [...], honors}]
 //   skillsEquipment [optional: terms for a "Skills and Equipment" line, for technical roles]
-//   layout [optional: "student" puts Education right after Summary and prints "Experience"]
+//   skillGroups [optional: [{label, items: [...]}] for a "Skills" section grouped by category,
+//     for example Equipment and Software, On-Air and Content, Business, Languages]
+//   experience[].group [optional: a group heading, for example "Sports Broadcast Experience"
+//     or "Business and Leadership Experience"; groups print in the order they first appear]
+//   layout [optional: "student" prints Education first, then grouped experience, then
+//     Skills, on one page, with dates like "Sep 2026 to Present" (see layout.js)]
 //   stats and achievements may be empty: the stat bar and Key Achievements then do not print.
 //   keepWords [optional: AI-tell words the user said they really use, for example "leverage"]
 //   properNames [optional: product or program names that contain an AI-tell word]
@@ -75,7 +80,7 @@ const targetPages = parseInt(args.pages || "2", 10);
 // ---------- data ----------
 const data = JSON.parse(fs.readFileSync(args.data, "utf8"));
 // Optional sections may be missing or empty; they then do not print.
-for (const k of ["stats", "achievements", "competencies", "skillsEquipment", "education", "summary"]) if (!Array.isArray(data[k])) data[k] = [];
+for (const k of ["stats", "achievements", "competencies", "skillsEquipment", "skillGroups", "education", "summary"]) if (!Array.isArray(data[k])) data[k] = [];
 
 // ---------- paper ----------
 // US states, DC, and Canadian provinces and territories, as two-letter codes.
@@ -102,7 +107,7 @@ if (args.tailor) {
   if (t.headline) { changes.push(["headline", data.headline, t.headline]); data.headline = t.headline; }
   if (t.summary1) { changes.push(["summary[0]", data.summary[0], t.summary1]); data.summary[0] = t.summary1; }
   // Anything beyond headline and summary1 must be explicit and is reported.
-  for (const key of ["summary2", "achievements", "competencies", "skillsEquipment", "stats"]) {
+  for (const key of ["summary2", "achievements", "competencies", "skillsEquipment", "skillGroups", "stats"]) {
     if (t[key] === undefined) continue;
     const field = key === "summary2" ? "summary[1]" : key;
     if (key === "summary2") data.summary[1] = t[key]; else data[key] = t[key];
@@ -255,8 +260,14 @@ const SECTION = {
   achievements() { data.achievements.forEach((a) => children.push(bullet(achievementRuns(a)))); },
   competencies() { children.push(termLine(data.competencies)); },
   skills() { children.push(termLine(data.skillsEquipment)); },
-  experience() {
-    data.experience.forEach((job, ji) => {
+  // Skills grouped by category, one line each: "Equipment and Software: EVS, Ross Carbonite".
+  skillGroups() {
+    data.skillGroups.filter((g) => g && has(g.items)).forEach((g) => {
+      children.push(body([run(g.label + ": ", { bold: true, size: 19, color: NAVY }), run(g.items.join(", "), { size: 19 })], { spacing: { after: 30, line: 260 } }));
+    });
+  },
+  experience(sec) {
+    sec.jobs.forEach((job, ji) => {
       job.roles.forEach((r, ri) => {
         const first = ri === 0;
         children.push(new Paragraph({
@@ -302,7 +313,7 @@ const SECTION = {
 
 sections(data).forEach((sec) => {
   children.push(heading(sec.title));
-  SECTION[sec.key]();
+  SECTION[sec.key](sec);
 });
 
 const doc = new Document({

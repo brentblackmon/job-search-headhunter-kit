@@ -171,18 +171,28 @@ function expect(caseName, actual, wanted) {
   expect("a resume.json with no stats key at all builds", missing.status === 0 ? "built" : "failed", "built");
 }
 
-// 12. Student layout: Education right after Summary, with GPA and coursework; Skills and
-// Equipment line; "Experience" heading; one page; every check passes.
+// 12. Student layout, the benchmark: Education first with coursework; a field group and a
+// "Business and Leadership" experience group; Skills grouped by category; one page; dates
+// like "Sep 2026 to Present".
 {
   const r = build("student", () => {}, [], student);
   const at = (h) => r.pdfText.indexOf(h);
   expect("student resume passes every QA check", r.status === 0 ? "pass" : "fail", "pass");
-  expect("Education comes right after Summary", at("SUMMARY") < at("EDUCATION") && at("EDUCATION") < at("SKILLS AND EQUIPMENT") && at("SKILLS AND EQUIPMENT") < at("EXPERIENCE") ? "in order" : "out of order", "in order");
+  expect("Education is the first section", at("EDUCATION") > 0 && at("EDUCATION") < at("SPORTS BROADCAST EXPERIENCE") ? "first" : "not first", "first");
+  expect("experience groups print in order, then Skills", at("SPORTS BROADCAST EXPERIENCE") < at("BUSINESS AND LEADERSHIP EXPERIENCE") && at("BUSINESS AND LEADERSHIP EXPERIENCE") < at("SKILLS") ? "in order" : "out of order", "in order");
+  expect("each job sits under its own group", at("Channel 12 Northfield") < at("BUSINESS AND LEADERSHIP EXPERIENCE") && at("Riverside Coffee") > at("BUSINESS AND LEADERSHIP EXPERIENCE") ? "grouped" : "mixed", "grouped");
+  expect("skills print by category", ["Equipment and Software:", "On-Air and Content:", "Business:", "Languages:"].every((t) => r.pdfText.includes(t)) ? "grouped" : "missing", "grouped");
   expect("expected graduation, GPA, and coursework print", ["Expected May 2028", "GPA: 3.5 / 4.0", "Relevant coursework: Live Sports Production"].every((t) => r.pdfText.includes(t)) ? "printed" : "missing", "printed");
-  expect("student layout uses Experience, not Professional Experience", r.pdfText.includes("PROFESSIONAL EXPERIENCE") ? "professional" : "experience", "experience");
+  expect("no Summary heading when there is no summary", r.pdfText.includes("SUMMARY") ? "printed" : "skipped", "skipped");
   expect("student resume is one page", r.check("Page count"), "PASS");
+  expect("student dates pass the date check", r.check("Date format"), "PASS");
+  const dashed = build("student-dash", (d) => { d.experience[0].roles[0].dates = "Aug 2025 - Present"; }, [], student);
+  expect("a dash in a date fails", dashed.check("Date format"), "FAIL");
+  const numeric = build("student-numeric", (d) => { d.experience[0].roles[0].dates = "08/2025 to Present"; }, [], student);
+  expect('a student date not written "Sep 2026 to Present" fails', numeric.check("Date format"), "FAIL");
   const pro = build("skills-line", (d) => { d.skillsEquipment = ["Intune", "SCCM"]; });
   expect("a Skills and Equipment line prints in the standard layout too", pro.pdfText.includes("SKILLS AND EQUIPMENT") && pro.check("Text reads in the right order (pdftotext)") === "PASS" ? "yes" : "no", "yes");
+  expect("standard dates (03/2019 to Present) pass", pro.check("Date format"), "PASS");
 }
 
 fs.rmSync(work, { recursive: true, force: true });

@@ -9,13 +9,21 @@
 //      utilize, and the rest in voice.js) unless the user chose to keep them.
 //   5. Key achievements summarize; none copies a role bullet word for word.
 //   6. No unfilled placeholders like "[phone]" or "[degree and year to confirm]".
+//   7. Dates use words, never dashes; student dates read "Sep 2026 to Present".
 // Writes <name>-QA.md next to the PDF.
 
 const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 
-const { sections } = require("./layout");
+const { sections, isStudent } = require("./layout");
+
+// Dates never use dashes: "Sep 2026 to Present", "03/2019 to 08/2022". Student resumes
+// use the benchmark form: a three-letter month and year, "to", then a month and year or
+// "Present" (graduation reads "Expected May 2028").
+const MON = "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)";
+const STUDENT_RANGE = new RegExp(`^${MON} \\d{4}( to (${MON} \\d{4}|Present))?$`);
+const STUDENT_GRAD = new RegExp(`^(Expected )?${MON} \\d{4}$`);
 const { aiTells } = require("./voice");
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: "utf8" });
@@ -89,7 +97,7 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   if (stats.length) order.push(String(stats[0].value).toUpperCase());
   sections(data).forEach((sec) => {
     order.push(sec.title.toUpperCase());
-    if (sec.key === "experience") order.push(...jobHeaders.map((c) => c.toUpperCase()));
+    if (sec.key === "experience") order.push(...sec.jobs.map((j) => String(j.company).toUpperCase()));
   });
   let cursor = -1;
   const misses = [];
@@ -124,6 +132,15 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   // 6. Unfilled placeholders. Any text in square brackets is a draft gap, not resume text.
   const placeholders = [...new Set(text.match(/\[[^\[\]]{1,80}\]/g) || [])];
   add("No unfilled placeholders", placeholders.length === 0, placeholders.join(", ") || "none");
+
+  // 7. Date format. No dashes in any date; student dates follow "Sep 2026 to Present".
+  const roleDates = data.experience.flatMap((j) => (j.roles || []).map((r) => r.dates)).filter(Boolean);
+  const eduDates = (data.education || []).map((e) => (typeof e === "object" && e ? e.dates : null)).filter(Boolean);
+  const badDates = [
+    ...[...roleDates, ...eduDates].filter((d) => /[-\u2010-\u2015]/.test(d)),
+    ...(isStudent(data) ? [...roleDates.filter((d) => !STUDENT_RANGE.test(d)), ...eduDates.filter((d) => !STUDENT_GRAD.test(d))] : []),
+  ];
+  add("Date format", badDates.length === 0, badDates.length ? [...new Set(badDates)].map((d) => `"${d}"`).join(", ") + (isStudent(data) ? ' (write "Sep 2026 to Present", graduation "Expected May 2028")' : " (no dashes; use \"to\")") : "clean");
 
   // Report
   const allPass = results.every((r) => r.pass);
