@@ -24,8 +24,9 @@ Read my facts file at `[path]/My Job Search/facts.md` and my tracker at `[path]/
 - If Gmail or another email tool is available in this run, first read my job alert emails since the last scan (LinkedIn alerts from jobalerts-noreply@linkedin.com or jobs-noreply@linkedin.com, plus any Indeed, Naukri, ZipRecruiter or Glassdoor alerts). Grade every job in them that is in my role family, or list it under "Not graded". Never skip one silently. If email is not connected, skip this step.
 
 **Before the crowd**
-- Check every careers page in `[path]/My Job Search/target-companies.md` first. Record new openings in my role family with the date first seen; list them first, marked "Target company". A posting on the company's own site is the primary source.
-- If facts.md says I'm open to startups, also search Wellfound, ycombinator.com/jobs, and VC portfolio job boards for my field and city; label those results "startup".
+- Read `[path]/My Job Search/target-companies.md` fresh and check every careers page in it first; name every company in the scan header with its result. Record new openings in my role family with the date first seen; list them first, marked "Target company". A posting on the company's own site is the primary source.
+- A Workday careers page (URL contains myworkdayjobs.com) or any careers page with no job titles is never "no openings". Search site:myworkdayjobs.com "<company>" "<title>" (or site:<careers domain>) and the company's postings on Indeed, LinkedIn and ZipRecruiter, keeping only the exact company and current postings. If a browser tool is available, open the careers page in it. If neither works, note "careers page not readable, checked job boards instead" in target-companies.md and the scan header.
+- If facts.md says I'm open to startups, also search Wellfound (its search, or site:wellfound.com/jobs "<title>" "<city or remote>"), Y Combinator role pages (ycombinator.com/jobs/role/<role>), and VC portfolio job boards for my field and city. Grade only titles in my role family; label those results "startup".
 - Within each grade, list postings under 24 hours old first and mark them "Apply today".
 - Show the 24-hour links from `[path]/My Job Search/links.md`. Never log in to, scrape, or automate LinkedIn.
 
