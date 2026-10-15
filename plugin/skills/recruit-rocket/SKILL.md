@@ -28,7 +28,7 @@ If `My Job Search/facts.md` already exists, the user is already set up: say so i
 | The user wants | Role file |
 |---|---|
 | Set up, build or update facts, a fact is missing | `roles/intake.md` |
-| "What should I do today", the daily routine, Autopilot, tracker updates, "I sent it", follow-ups, an interview was booked, anything that coordinates the search | `roles/headhunter-chief-of-staff.md` |
+| "What should I do today", fresh job links, recruiters to follow, the daily routine, Autopilot, tracker updates, "I sent it", follow-ups, an interview was booked, anything that coordinates the search | `roles/headhunter-chief-of-staff.md` |
 | Find jobs or internships, run a scan, grade a posting, "is this job a fit", set up the scheduled scan | `roles/talent-scout.md` |
 | Companies likely to hire before they post, hidden market, search firms, channels | `roles/signal-search.md` |
 | Research one company, who runs a function there | `roles/company-research.md` |
@@ -49,5 +49,6 @@ If a request fits no row, use `roles/headhunter-chief-of-staff.md`.
 - `roles/`: one file per role, with its steps and QA.
 - `templates/`: facts file, tracker, scan prompt, email, LinkedIn note, cover letter, follow-ups, negotiation, interview prep.
 - `generators/resume/`: the locked resume layout (`build-resume.js`, `qa.js`, sample data) the ATS keyword check (`keyword-check.js`), the copy check against the posting (`copy-check.js`), and the AI-tell word check (`voice.js`).
+- `generators/links/`: builds `links.md`, the LinkedIn search links the user clicks (last 24 hours, last hour, remote, recruiters). It never logs in to or reads LinkedIn.
 - `generators/baseball-card/`: the locked card layout (`render-card.js`, `card-template.html`, sample data).
 - `STANDING_RULES.md`: the full rules and the `My Job Search/` folder layout.

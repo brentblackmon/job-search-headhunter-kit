@@ -11,6 +11,13 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 - Sources: whatever job search tools are connected (job board connectors, web search, LinkedIn in a browser). If none are connected, ask the user to paste postings.
 - **The user's own job alert emails, when email is connected.** If Gmail (or another email tool) is available in this run, search it first for job alert emails since the last scan (LinkedIn: from jobalerts-noreply@linkedin.com or jobs-noreply@linkedin.com; also Indeed, Naukri, ZipRecruiter or Glassdoor alerts if the user gets them). These are the alerts the user already sees on their phone, so every in-family job in them must be graded or listed under "Not graded". Never skip one silently. If email is not connected, skip this step without asking.
 
+## Before the crowd
+The earliest applicants get read first. Every scan does these, in this order:
+1. **Fresh-job links.** Keep `My Job Search/links.md` current (built with `generators/links/build-links.js`; see `roles/intake.md`, Finish step 3). These are LinkedIn searches limited to the last 24 hours (`f_TPR=r86400`) and the last hour (`f_TPR=r3600`), for each target title and location, plus remote variants. Show the 24-hour links in the scan reply. Never log in to, scrape, or automate LinkedIn; LinkedIn items are links and steps the user clicks.
+2. **Target companies first.** For each company in `My Job Search/target-companies.md`, check its careers page for openings in the role family. Record each new one under "Openings seen" with the date first seen, and list these first in the scan, marked "Target company". A posting on the company's own site is the primary source: link to it, and use a job board copy only to fill gaps.
+3. **Startup boards** (only if `Open to startups: yes` in `facts.md`): also search Wellfound (wellfound.com/jobs), Y Combinator jobs (ycombinator.com/jobs), and the job boards of VC firms that invest in the user's field and city (most list portfolio jobs on a "jobs" or "talent" page). Label these results "startup" in the scan.
+4. **Freshest first.** Within each grade, list postings under 24 hours old first and mark them **Apply today**. Write the posting age in the grade line ("posted 6 hours ago" or the posting date).
+
 ## Country and job boards
 Read the user's country and city from `facts.md` before searching.
 1. **Always pass the user's country** to every job board connector that takes a country or location (for example Indeed's country code: `IN` for India, `GB` for the UK). Never let a connector default to the US for a user who is not in the US.
@@ -66,6 +73,11 @@ Save to `My Job Search/scans/YYYY-MM-DD.md` using this format, and show the user
 
 ```
 # Scan YYYY-MM-DD (window: last N days, sources: ..., N off-target results dropped)
+
+Fresh links (last 24 hours): see links.md
+
+## Target companies (new since last scan)
+1. **Title**, Company (careers page, first seen YYYY-MM-DD) [Apply today]
 
 ## A
 1. **Title**, Company (Location, posted YYYY-MM-DD, range or "not posted")

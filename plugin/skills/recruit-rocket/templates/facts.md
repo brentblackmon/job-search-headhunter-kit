@@ -30,6 +30,10 @@ This is the single source of truth for Recruit Rocket. Every skill reads it. Not
 - Locations: (remote / hybrid / onsite; cities; relocation in country or abroad)
 - Work authorization: (only if relocating abroad)
 - Travel limits:
+- Open to startups: (yes / no)
+- Schools: (for alumni contacts)
+- Target companies: see target-companies.md
+- Daily scan: (on, weekdays at 7am / off)
 
 ## Exclusions
 Companies and people the kit must never contact.
