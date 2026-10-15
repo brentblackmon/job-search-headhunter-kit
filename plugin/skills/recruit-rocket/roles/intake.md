@@ -63,7 +63,7 @@ These come after the main questions and do not count toward the 6. Each is one c
 1. **Target companies (optional).** "Any companies you'd love to work for? List up to 25 and I'll watch their careers pages every scan." Options: "I'll type a list", "Skip for now".
 2. **Startups.** "Open to startups?" Options: "Yes", "No".
 3. **School.** "Which school or schools did you attend? Alumni are the warmest contacts." Options: the schools in their documents (multi-select), "Something else", "Skip". Skip this question for students; their school is already known.
-Record the answers in `facts.md` under `Targets` (`Open to startups: yes/no`, `Schools: ...`). Write the companies to `My Job Search/target-companies.md` from `templates/target-companies.md`, with each company's careers page URL from a web search (if you cannot find it, write "careers page not found" and try again on the next scan).
+Record the answers in `facts.md` under `Targets` (`Open to startups: yes/no`, `Schools: ...`). Write the companies to `My Job Search/target-companies.md` from `templates/target-companies.md`, with each company's careers page URL from a web search (if you cannot find it, write "careers page not found" and try again on the next scan). If the URL contains `myworkdayjobs.com`, write "Workday" in Notes.
 
 ### Student or internship mode
 Switch to these questions when the resume shows a current student (an expected graduation date, "Class of", current enrollment) or the user asks for an internship. They replace questions 1 to 6 above; the photo request, the missing phone and email question, and the date checks still apply. Six clicks or fewer in total, numbered as usual.
