@@ -16,7 +16,7 @@ for f in LICENSE SKILL.md STANDING_RULES.md generators/resume/build-resume.js ge
   [ -f "build/recruit-rocket/$f" ] || { echo "missing $f"; exit 1; }
 done
 # The skill zip has no tests, so drop the test scripts from the package.json files
-for g in resume baseball-card; do
+for g in resume baseball-card links; do
   node -e 'const f=process.argv[1],p=require(f);delete p.scripts.test;require("fs").writeFileSync(f,JSON.stringify(p,null,2)+"\n")' "$PWD/build/recruit-rocket/generators/$g/package.json"
 done
 # Fixed timestamps so an unchanged skill builds a byte-identical zip

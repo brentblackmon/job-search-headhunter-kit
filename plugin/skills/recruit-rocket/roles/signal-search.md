@@ -67,5 +67,17 @@ Status: not started | joined | contacted YYYY-MM-DD
 
 Only list firms and people you found with a public, current source. Do not invent recruiter names.
 
+### Staffing and recruiting firms (2 or 3)
+Add 2 or 3 staffing or recruiting firms that place the user's kind of role in their city or country. For IT and admin roles in the US, examples are TEKsystems, Apex Systems, Insight Global, Robert Half, and Aerotek; in India, look for firms with a local office in the user's city. Pick firms with a current office or open roles near the user, from their own site. For each one, add to `channels.md`:
+```
+### Firm name (staffing)
+Type: staffing firm
+Why it fits: the roles and city they recruit for, from their site
+Job portal: link to their job search page, filtered to the user's city if the site allows it
+Intro message (3 sentences): who the user is and what they want next; one proof point from facts.md; availability and how to reach them
+Status: not started | applied on portal YYYY-MM-DD | recruiter contacted YYYY-MM-DD
+```
+Add each firm to the tracker as a `Researching` entry with its portal link, so follow-ups are scheduled like any other contact.
+
 ## QA before delivery
 Every signal has a date inside its window and a source URL. Every named executive has a dated confirmation. No excluded company. Suggested angles use approved phrasing.

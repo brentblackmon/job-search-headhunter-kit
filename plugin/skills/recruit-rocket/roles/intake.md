@@ -58,6 +58,13 @@ The interview is 4 to 6 questions, depending on where they live and what they pi
 Optional, only after the last question: "Want the drafts to sound more like you?"
 Options: "Yes, I'll paste a short email I wrote", "Skip for now".
 
+### Finding jobs before the crowd (3 quick questions, after the interview)
+These come after the main questions and do not count toward the 6. Each is one click or a short typed list.
+1. **Target companies (optional).** "Any companies you'd love to work for? List up to 25 and I'll watch their careers pages every scan." Options: "I'll type a list", "Skip for now".
+2. **Startups.** "Open to startups?" Options: "Yes", "No".
+3. **School.** "Which school or schools did you attend? Alumni are the warmest contacts." Options: the schools in their documents (multi-select), "Something else", "Skip". Skip this question for students; their school is already known.
+Record the answers in `facts.md` under `Targets` (`Open to startups: yes/no`, `Schools: ...`). Write the companies to `My Job Search/target-companies.md` from `templates/target-companies.md`, with each company's careers page URL from a web search (if you cannot find it, write "careers page not found" and try again on the next scan).
+
 ### Student or internship mode
 Switch to these questions when the resume shows a current student (an expected graduation date, "Class of", current enrollment) or the user asks for an internship. They replace questions 1 to 6 above; the photo request, the missing phone and email question, and the date checks still apply. Six clicks or fewer in total, numbered as usual.
 
@@ -82,8 +89,10 @@ For a candidate in Hyderabad, the same question reads: "(2 of 6) What's the lowe
 ## Finish
 1. Update `My Job Search/facts.md` with their answers and a `Last reviewed: YYYY-MM-DD` line. Record the conflict answers and fix the matching entries. Every metric stays `FROM RESUME`: an answer about roles, pay, or conflicts never confirms metrics in bulk. If the user says "use the best figures" for a conflict, use the figure from their most recent document and note which one you chose.
 2. Create `My Job Search/tracker.md` from `templates/tracker.md` if it does not exist.
-3. Say one line, no jargon: "You're set up. Now I'll find jobs that fit you and build your materials for the best ones. This takes a few minutes." Do not list gaps, warnings, or skill names. Backstories for big numbers are handled later by `interview-prep`.
-4. **Continue immediately** with the `headhunter-chief-of-staff` Autopilot run. Do not wait for the user to ask.
+3. **Build the fresh-job links.** Write `My Job Search/links-input.json` (target job titles only, never company names, the user's city and country written the way LinkedIn shows locations, for example "Tulsa, Oklahoma, United States" or "Hyderabad, Telangana, India", `remote: true` if they are open to remote, and for students `student: true` and the term) and run `node build-links.js --input <that file> --out "My Job Search/links.md"` from a work copy of this skill's `generators/links/` folder. Add 2 recruiter search titles for their field (for example "technical recruiter" and "IT recruiter" for IT, "sports production recruiter" for broadcast) and their city as `recruiterTitles` and `recruiterCity`. If the script cannot run, write the same links by hand in the same format.
+4. **Turn on the daily scan (one click).** Offer: "Scan for new jobs every weekday morning (recommended)", "Not now". On yes, create the scheduled task the way `roles/headhunter-chief-of-staff.md` step 8 describes, record `Daily scan: on, weekdays at 7am` in `facts.md`, and say once that it runs while the computer is on and the Claude app is open.
+5. Say one line, no jargon: "You're set up. Now I'll find jobs that fit you and build your materials for the best ones. This takes a few minutes." Do not list gaps, warnings, or skill names. Backstories for big numbers are handled later by `interview-prep`.
+6. **Continue immediately** with the `headhunter-chief-of-staff` Autopilot run. Do not wait for the user to ask.
 
 ## Going deeper (only if the user asks)
 Offer 3 questions per role about a result they are proud of that is **not** in their documents: what changed, from what to what, over how long. Add those as `CONFIRMED` once they approve the wording.

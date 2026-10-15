@@ -29,6 +29,15 @@ Template: `templates/linkedin_note.md`.
 - One specific company fact, one proof point, a soft ask.
 - No links, no attachments, no "I'd love to pick your brain."
 
+## Alumni first
+If `facts.md` lists `Schools`, alumni at the company come first in every outreach list: they answer more often than anyone.
+1. For each A-grade company, add the steps the user follows (Recruit Rocket never opens LinkedIn for them):
+   1. Open the company's LinkedIn page and click **People**.
+   2. In "Where they studied", pick the school (or type it in the search box on that page).
+   3. Pick 2 or 3 alumni in or near the user's function. Prefer people who posted or were active recently.
+2. Write a short alumni connection note, under 300 characters, counted: the shared school, one line on the user's target role, and a soft ask ("Would you be open to a quick chat about the team?"). No attachments, no links, no pitch.
+3. List alumni first, then the hiring executive, in `outreach.md` and in the tracker contacts.
+
 ## Output
 ```
 To: Name <email>  [VERIFIED | PATTERN GUESS, NOT VERIFIED]
@@ -38,6 +47,12 @@ Body...
 
 ---
 LinkedIn note (N characters):
+...
+
+---
+Alumni steps (if the user has a school on file):
+1. ...
+Alumni note (N characters):
 ...
 
 ---

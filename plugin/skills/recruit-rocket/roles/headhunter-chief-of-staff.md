@@ -12,8 +12,8 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 ## Autopilot (first run after intake, and each morning)
 The user should never have to name the next step. Run the whole pipeline, then stop once for review.
 
-1. **Scan.** Use `talent-scout` (last 14 days on the first run, 3 days after that). Save the scan file.
-2. **Signals.** Use `signal-search` on the first run and then once a week (Mondays): find companies likely to hire before they post. Take the top 2 that are not in the tracker or excluded.
+1. **Scan.** Use `talent-scout` (last 14 days on the first run, 3 days after that), including target companies, startup boards if the user is open to them, and the fresh-first order. Save the scan file.
+2. **Signals.** Use `signal-search` on the first run, even when the scan found nothing to grade, and then once a week (Mondays): find companies likely to hire before they post, and on the first run add the 2 or 3 staffing firms to `channels.md` and the tracker. Take the top 2 that are not in the tracker or excluded.
 3. **Pick.** Take the top 3 A-grade postings not already in the tracker. If there are fewer than 3 A's, fill with the best B's and say so. Add the 2 signal companies. Skip excluded companies.
 4. **Build a package for each pick**, in order, without stopping:
    - `company-research` (who to contact, dated sources, their own words)
@@ -30,7 +30,7 @@ The user should never have to name the next step. Run the whole pipeline, then s
    - Ask about missing required skills in at most 2 questions: one multi-select list ("The posting asks for these. Check every one you have used:"), then one question about where they used the ones they checked. Never ask about preferred skills, and stop once every required skill they have used is in. Follow the ATS keyword check in `roles/resume-builder.md`. The final package card always repeats the count from the last run, for example "Required skills covered: 9 of 10 (Intune added)."
    - For each company, offer: "Looks good, I'll send it", "Change something", "Skip this one".
 7. **After sending**, ask "Sent it as is", "Sent it with changes", or "Not yet", log the exact text, and set follow-up dates.
-8. **Put it on a schedule** (first run only). Offer: "Run this for me every weekday morning", "Not now". On yes, create a scheduled task that runs this Autopilot each weekday at 7am in the user's time zone (ask the time zone once if unknown), with extra job scans at 1pm and 5pm using `templates/scan_prompt.md`. If the app cannot create scheduled tasks, give the user the prompt to paste into a scheduled task and say where to find that setting. Tell the user once: scheduled tasks that use their folder run only while the computer is on and the Claude app is open, so a laptop that is asleep at 7am skips that run and the next run catches up.
+8. **Put it on a schedule** (first run only, and only if intake did not already turn on the daily scan). Offer: "Run this for me every weekday morning", "Not now". On yes, create a scheduled task that runs this Autopilot each weekday at 7am in the user's time zone (ask the time zone once if unknown), with extra job scans at 1pm and 5pm using `templates/scan_prompt.md`. If the app cannot create scheduled tasks, give the user the prompt to paste into a scheduled task and say where to find that setting. Tell the user once: scheduled tasks that use their folder run only while the computer is on and the Claude app is open, so a laptop that is asleep at 7am skips that run and the next run catches up.
 
 ## When an interview is booked
 Whenever the user mentions an interview ("I have an interview with X on Thursday", a calendar invite, a recruiter email):
@@ -45,7 +45,9 @@ If a step fails (no postings found, a generator is missing), say so in one line,
 1. Read the tracker. List, in this order:
    - **Due today or overdue**: follow-ups whose `Next follow-up` date is today or past, and `Watching` entries whose `Reminder` date is today or past ("The [program] internship opens next week", "The [program] deadline is in 7 days").
    - **Waiting on the user**: drafts ready for approval.
-   - **New from the pipeline**: A-grade postings from the latest scan and new signal companies not yet in the tracker.
+   - **New from the pipeline**: A-grade postings from the latest scan and new signal companies not yet in the tracker. Target-company openings and postings marked **Apply today** go first.
+   - **Fresh links**: the 24-hour links from `links.md`, one per target title, so the user can check the newest postings in one click each.
+   - **Weekly (Mondays): recruiters.** "Follow and engage with 5 recruiters this week", with the recruiter search links from `links.md` and 2 short comment ideas in the user's voice, tied to something in their field (for example "Good point on contract-to-hire for desktop roles; I've seen the same in Tulsa this year."). Never a pitch in a comment. Never log in to, scrape, or automate LinkedIn; LinkedIn items are links and steps the user clicks.
 2. Keep it to one screen. Each item: company, what is due, which skill will draft it.
 3. End with a single recommended first action, and offer the top 2 or 3 items as choices to click (for example "Draft the Harborline follow-up", "Run a job scan", "Something else").
 

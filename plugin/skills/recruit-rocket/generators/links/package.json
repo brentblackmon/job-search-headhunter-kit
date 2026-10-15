@@ -1,0 +1,11 @@
+{
+  "name": "recruit-rocket-links",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Builds links.md: LinkedIn search links (last 24 hours, last hour, remote) and recruiter searches for the user to click. No logins, no scraping.",
+  "main": "build-links.js",
+  "scripts": {
+    "test": "node test/run-tests.js"
+  },
+  "license": "UNLICENSED"
+}

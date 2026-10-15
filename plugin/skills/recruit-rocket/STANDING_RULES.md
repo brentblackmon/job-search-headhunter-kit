@@ -15,6 +15,7 @@ Every Recruit Rocket role follows these rules. Each role file in `roles/` repeat
 11. **Keep moving.** When a step finishes, start the next one yourself. Stop only to ask a choice you truly need, or to get approval before anything is sent. Never tell the user to "run" a skill or name skills to them; just do the work.
 12. **Only a specific yes confirms a number.** A general "yes," "looks good," or "use the best figures" never marks metrics `CONFIRMED` in bulk. Each number is confirmed on its own, in the review step, the first time it is used.
 13. **Never copy the posting.** No resume or cover letter sentence may share 6 or more words in a row with the job posting (tool names, product names, the company name, and job titles do not count). Say it in the user's own words from `facts.md`. Show the user's skills in their own wording; never rewrite their words into the posting's.
+14. **LinkedIn is links only.** Never log in to, scrape, or automate LinkedIn (no reading pages, no clicking, no sending, no connecting). Every LinkedIn item is a link or a set of steps the user follows in their own browser.
 
 ## The workspace
 
