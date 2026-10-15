@@ -13,7 +13,7 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 The user should never have to name the next step. Run the whole pipeline, then stop once for review.
 
 1. **Scan.** Use `talent-scout` (last 14 days on the first run, 3 days after that), including target companies, startup boards if the user is open to them, and the fresh-first order. Save the scan file.
-2. **Signals.** Use `signal-search` on the first run and then once a week (Mondays): find companies likely to hire before they post. Take the top 2 that are not in the tracker or excluded.
+2. **Signals.** Use `signal-search` on the first run, even when the scan found nothing to grade, and then once a week (Mondays): find companies likely to hire before they post, and on the first run add the 2 or 3 staffing firms to `channels.md` and the tracker. Take the top 2 that are not in the tracker or excluded.
 3. **Pick.** Take the top 3 A-grade postings not already in the tracker. If there are fewer than 3 A's, fill with the best B's and say so. Add the 2 signal companies. Skip excluded companies.
 4. **Build a package for each pick**, in order, without stopping:
    - `company-research` (who to contact, dated sources, their own words)

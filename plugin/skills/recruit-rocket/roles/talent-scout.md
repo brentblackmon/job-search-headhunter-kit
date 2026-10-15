@@ -13,9 +13,9 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 
 ## Before the crowd
 The earliest applicants get read first. Every scan does these, in this order:
-1. **Fresh-job links.** Keep `My Job Search/links.md` current (built with `generators/links/build-links.js`; see `roles/intake.md`, Finish step 3). These are LinkedIn searches limited to the last 24 hours (`f_TPR=r86400`) and the last hour (`f_TPR=r3600`), for each target title and location, plus remote variants. Show the 24-hour links in the scan reply. Never log in to, scrape, or automate LinkedIn; LinkedIn items are links and steps the user clicks.
+1. **Fresh-job links.** Keep `My Job Search/links.md` current (built with `generators/links/build-links.js`; see `roles/intake.md`, Finish step 3). Build them from the target job titles only (company names belong in `target-companies.md`, not in these searches). These are LinkedIn searches limited to the last 24 hours (`f_TPR=r86400`) and the last hour (`f_TPR=r3600`), for each target title and location, plus remote variants. Show the 24-hour links in the scan reply. Never log in to, scrape, or automate LinkedIn; LinkedIn items are links and steps the user clicks.
 2. **Target companies first.** For each company in `My Job Search/target-companies.md`, check its careers page for openings in the role family. Record each new one under "Openings seen" with the date first seen, and list these first in the scan, marked "Target company". A posting on the company's own site is the primary source: link to it, and use a job board copy only to fill gaps.
-3. **Startup boards** (only if `Open to startups: yes` in `facts.md`): also search Wellfound (wellfound.com/jobs), Y Combinator jobs (ycombinator.com/jobs), and the job boards of VC firms that invest in the user's field and city (most list portfolio jobs on a "jobs" or "talent" page). Label these results "startup" in the scan.
+3. **Startup boards** (only if `Open to startups: yes` in `facts.md`): also search Wellfound (wellfound.com/jobs), Y Combinator jobs (ycombinator.com/jobs), and the job boards of VC firms that invest in the user's field and city (most list portfolio jobs on a "jobs" or "talent" page). Label these results "startup" in the scan, and name each startup board in the scan header with what it returned ("Wellfound: 2 in family", "YC jobs: none in Tulsa", or "blocked"). Never skip them silently.
 4. **Freshest first.** Within each grade, list postings under 24 hours old first and mark them **Apply today**. Write the posting age in the grade line ("posted 6 hours ago" or the posting date).
 
 ## Country and job boards
@@ -72,7 +72,7 @@ If a posting lists a salary range below the floor, grade C and say so. If no ran
 Save to `My Job Search/scans/YYYY-MM-DD.md` using this format, and show the user only A and B items plus a count of C items:
 
 ```
-# Scan YYYY-MM-DD (window: last N days, sources: ..., N off-target results dropped)
+# Scan YYYY-MM-DD (window: last N days, sources: ... including each startup board if the user is open to startups, N off-target results dropped)
 
 Fresh links (last 24 hours): see links.md
 
