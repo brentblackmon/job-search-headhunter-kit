@@ -14,7 +14,7 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 ## Before the crowd
 The earliest applicants get read first. Every scan does these, in this order:
 1. **Fresh-job links.** Keep `My Job Search/links.md` current (built with `generators/links/build-links.js`; see `roles/intake.md`, Finish step 3). Build them from the target job titles only (company names belong in `target-companies.md`, not in these searches). These are LinkedIn searches limited to the last 24 hours (`f_TPR=r86400`) and the last hour (`f_TPR=r3600`), for each target title and location, plus remote variants. Show the 24-hour links in the scan reply. Never log in to, scrape, or automate LinkedIn; LinkedIn items are links and steps the user clicks.
-2. **Target companies first.** For each company in `My Job Search/target-companies.md`, check its careers page for openings in the role family. Record each new one under "Openings seen" with the date first seen, and list these first in the scan, marked "Target company". A posting on the company's own site is the primary source: link to it, and use a job board copy only to fill gaps.
+2. **Target companies first.** Read `My Job Search/target-companies.md` fresh on every scan (never reuse the list from an earlier scan; the user may have changed it). For every company in it, check its careers page for openings in the role family. Record each new one under "Openings seen" with the date first seen, and list these first in the scan, marked "Target company". A posting on the company's own site is the primary source: link to it, and use a job board copy only to fill gaps.
    **A careers page with no job titles is not "no openings".** Workday careers pages (any URL containing `myworkdayjobs.com`) load their listings with JavaScript, so a plain page fetch shows none. Many other careers pages are only a search box. For a Workday page, or any careers page that comes back with no job titles at all, never report "no openings". Instead:
    a. **Search the web and the job boards.** Search `site:myworkdayjobs.com "<company>" "<target title>"` (Workday) or `site:<careers domain> "<target title>"` (other sites), and search for the company's postings on Indeed, LinkedIn and ZipRecruiter (connected job board tools first, then web search; LinkedIn only as search results, never by opening LinkedIn). Use those results. Keep a result only if the employer is the target company itself, not a company with a similar name ("Williams" the energy company is not Williams-Sonoma or Williams Racing), and only if it is current (no closing date in the past, not from an earlier hiring round). Link to the company's own posting when the search finds it.
    b. **Use a browser if the session has one** (Claude in Chrome or the built-in browser): open the careers page, search the target title, and read the listings. Company careers pages only; never LinkedIn.
@@ -82,7 +82,7 @@ Save to `My Job Search/scans/YYYY-MM-DD.md` using this format, and show the user
 
 ```
 # Scan YYYY-MM-DD (window: last N days, sources: ... including each startup board if the user is open to startups, N off-target results dropped)
-Careers pages not readable, checked job boards instead: Company (N in family), ... (or "none")
+Target companies checked: every company in target-companies.md, each with its result ("BOK Financial: careers page, 1 in family", "Williams: careers page not readable, checked job boards instead: 0 in family")
 
 Fresh links (last 24 hours): see links.md
 
