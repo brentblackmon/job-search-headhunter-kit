@@ -71,7 +71,7 @@ node keyword-check.js --keywords <company folder>/keywords.json --resume <compan
    - **Checked:** add each to `facts.md` as `CONFIRMED`, with where they used it. Rebuild the resume once with them in Core Competencies and, where one fits a real result, in that role's bullet, in the user's words. Rerun the check.
    - **Not checked:** leave it out. Add it to `## Not used` in `facts.md`, to the posting's `Gap:` line in the scan file and the tracker entry, and to the user's gaps for `interview-prep`.
    - **Then stop.** Once every required skill the user has really used is in, do not ask again or suggest more keywords.
-5. **Report both numbers** on the review screen: "Required skills covered: 8 of 10" and "Exact-term matches: 6 of 10." After any rebuild, rerun the check and show the new numbers on the final package card.
+5. **Report both numbers** every time you mention the keyword check (the first reply after the build, the review screen, and the final package card), word for word as the script prints them, on two lines: "Required skills covered: 8 of 10" and "Exact-term matches: 6 of 10". Never paraphrase them ("five of nine"). After any rebuild, rerun the check and show the new numbers.
 
 ## Generate
 **First, check the layout files installed.** Look for `generators/resume/build-resume.js` in this skill's folder. If it is missing, the skill was installed without its files. Tell the user once, in plain words: "Recruit Rocket installed without its layout files, so I'll build the resume by hand this time. To get the exact layout, delete Recruit Rocket in Customize, Skills, and upload recruit-rocket.zip again." Then keep going with the fallback below.
