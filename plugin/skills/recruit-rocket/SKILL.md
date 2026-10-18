@@ -33,7 +33,7 @@ If `My Job Search/facts.md` already exists, the user is already set up: say so i
 | Companies likely to hire before they post, hidden market, search firms, channels | `roles/signal-search.md` |
 | Research one company, who runs a function there | `roles/company-research.md` |
 | Build, tailor, or update the resume, ATS keyword check | `roles/resume-builder.md` |
-| "Review my resume" against a posting: list fixes without rewriting it | `roles/resume-review.md` |
+| "Review my resume", "what would a recruiter see", "is my resume any good": a 10-second recruiter scan plus a list of fixes (typos, tense, duties instead of results, positioning, structure, contact), against a posting or their target role, without rewriting it | `roles/resume-review.md` |
 | Baseball card, one-pager, stat sheet, leave-behind, "use [file] as my headshot" | `roles/baseball-card.md` |
 | Cover letter | `roles/cover-letter.md` |
 | LinkedIn headline, About section, why recruiters are not finding them | `roles/linkedin-review.md` |

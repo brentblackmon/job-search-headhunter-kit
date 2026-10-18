@@ -58,6 +58,7 @@ Your resume, facts file, and tracker stay in the **My Job Search** folder on you
 - When an interview is booked: "I have an interview with [company] on [day]." It builds a prep sheet and offers a scored mock interview.
 - After an interview: "Let's debrief my interview with [company]."
 - "Review my LinkedIn."
+- "Review my resume." It shows what a recruiter sees in the first 10 seconds, then lists what to fix (typos, tense, bullets that list duties instead of results, headline, layout, contact details). It never rewrites your resume. Attach a posting to also check the required skills, or skip it and it reviews against your target role.
 
 **The ten agents**
 All ten live inside the one Recruit Rocket skill. You never have to name them; just say what you need.
@@ -69,7 +70,7 @@ All ten live inside the one Recruit Rocket skill. You never have to name them; j
 | Talent Scout | Finds jobs and grades them A, B, or C on what you can prove |
 | Market Intel Analyst | Finds companies likely to hire before they post |
 | Research Analyst | One-page company deep dive and the right person to contact |
-| Brand Builder | Resume, one-page stat sheet, cover letter, LinkedIn review |
+| Brand Builder | Resume, resume review, one-page stat sheet, cover letter, LinkedIn review |
 | Outreach Writer | Email and LinkedIn note to the hiring executive |
 | Fact Checker | Checks every number against your facts before you see a draft |
 | Interview Coach | Prep sheet, likely questions, scored mock interviews |
