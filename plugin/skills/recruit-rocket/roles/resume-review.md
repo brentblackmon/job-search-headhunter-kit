@@ -24,7 +24,7 @@ Quote the resume. No rewrites.
 ## 2. The checks
 Run the scripts from a writable copy of `generators/resume/` (see `roles/resume-builder.md` for the copy step).
 
-1. **Required skills** (posting only). Write `keywords.json` from the posting (required and preferred) and run `keyword-check.js`. Report "Required skills covered: X of Y", the missing required skills, and the ones the resume shows in other words (those count as covered; they can stay as written). Do not push for 100%: say plainly that a missing skill belongs on the resume only if they have really used it.
+1. **Required skills** (posting only). Write `keywords.json` from the posting (required and preferred) and run `keyword-check.js`. Report both numbers, "Required skills covered: X of Y" and "Exact-term matches: X of Y", the missing required skills, and the ones the resume shows only in the user's words (a different word ending, a related phrase, or a synonym). Those count as covered and can stay as written; list them under "Covered in your words, not the posting's exact term" and note that the ATS may look for the exact term, which they can add to Core Competencies if they choose. Do not push for 100%: say plainly that a missing skill belongs on the resume only if they have really used it.
 2. **Copied phrases** (posting only). Run `copy-check.js --posting posting.md --doc <resume> --keywords keywords.json`. List each sentence that shares 6 or more words in a row with the posting.
 3. **AI-tell words and weak verbs.** Run `node voice.js --doc <resume> --names "<their employers>"`. List each AI-tell word (spearheaded, leveraged, utilized, and the rest) and each weak opening ("responsible for", "helped", "worked on", "assisted").
 4. **Numbers without context.** Read every number. Flag the ones a reader cannot judge: no baseline or before-and-after ("cut costs 30%" from what, over how long), no scope (team size, budget, users), or no time frame. A number is fine when a reader can tell how big it is.
@@ -51,13 +51,16 @@ Jumps out first: "<quote>", "<quote>", "<quote>"
 Missing above the fold: <target title | a number | your strongest result | nothing missing>
 Verdict: <clear | unclear | wrong role>, <reason in a few words>
 
-Required skills covered: X of Y   (or: No posting, so I skipped the keyword and copy checks.)
+Required skills covered: X of Y
+Exact-term matches: X of Y
+(or, with no posting: No posting, so I skipped the keyword and copy checks.)
 
 ## Fix first
 1. <the 3 to 5 changes that matter most, one line each, quoting the resume line>
 
 ## All findings
 ### Missing required skills (add only if you have used them)
+### Covered in your words, not the posting's exact term (add the exact term to Core Competencies if you choose)
 ### Copied from the posting (say it in your own words)
 ### Spelling, grammar and typos
 ### Tense
