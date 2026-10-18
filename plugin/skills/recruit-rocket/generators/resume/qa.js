@@ -9,21 +9,21 @@
 //      utilize, and the rest in voice.js) unless the user chose to keep them.
 //   5. Key achievements summarize; none copies a role bullet word for word.
 //   6. No unfilled placeholders like "[phone]" or "[degree and year to confirm]".
-//   7. Dates use words, never dashes; student dates read "Sep 2026 to Present".
+//   7. Dates on every layout read "Jan 2021 to Present" or "Mar 2019 to Dec 2020".
 // Writes <name>-QA.md next to the PDF.
 
 const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 
-const { sections, isStudent } = require("./layout");
+const { sections } = require("./layout");
 
-// Dates never use dashes: "Sep 2026 to Present", "03/2019 to 08/2022". Student resumes
-// use the benchmark form: a three-letter month and year, "to", then a month and year or
-// "Present" (graduation reads "Expected May 2028").
+// Dates on every layout: a three-letter month and year, "to", then a month and year or
+// "Present" ("Jan 2021 to Present", "Mar 2019 to Dec 2020"). Never a dash, never
+// "01/2021". Graduation can read "Expected May 2028".
 const MON = "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)";
-const STUDENT_RANGE = new RegExp(`^${MON} \\d{4}( to (${MON} \\d{4}|Present))?$`);
-const STUDENT_GRAD = new RegExp(`^(Expected )?${MON} \\d{4}$`);
+const DATE_RANGE = new RegExp(`^${MON} \\d{4}( to (${MON} \\d{4}|Present))?$`);
+const GRAD_DATE = new RegExp(`^(Expected )?${MON} \\d{4}$`);
 const { aiTells } = require("./voice");
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: "utf8" });
@@ -133,14 +133,11 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   const placeholders = [...new Set(text.match(/\[[^\[\]]{1,80}\]/g) || [])];
   add("No unfilled placeholders", placeholders.length === 0, placeholders.join(", ") || "none");
 
-  // 7. Date format. No dashes in any date; student dates follow "Sep 2026 to Present".
+  // 7. Date format, every layout: "Jan 2021 to Present", graduation "Expected May 2028".
   const roleDates = data.experience.flatMap((j) => (j.roles || []).map((r) => r.dates)).filter(Boolean);
   const eduDates = (data.education || []).map((e) => (typeof e === "object" && e ? e.dates : null)).filter(Boolean);
-  const badDates = [
-    ...[...roleDates, ...eduDates].filter((d) => /[-\u2010-\u2015]/.test(d)),
-    ...(isStudent(data) ? [...roleDates.filter((d) => !STUDENT_RANGE.test(d)), ...eduDates.filter((d) => !STUDENT_GRAD.test(d))] : []),
-  ];
-  add("Date format", badDates.length === 0, badDates.length ? [...new Set(badDates)].map((d) => `"${d}"`).join(", ") + (isStudent(data) ? ' (write "Sep 2026 to Present", graduation "Expected May 2028")' : " (no dashes; use \"to\")") : "clean");
+  const badDates = [...roleDates.filter((d) => !DATE_RANGE.test(d)), ...eduDates.filter((d) => !DATE_RANGE.test(d) && !GRAD_DATE.test(d))];
+  add("Date format", badDates.length === 0, badDates.length ? [...new Set(badDates)].map((d) => `"${d}"`).join(", ") + ' (write "Jan 2021 to Present" or "Mar 2019 to Dec 2020", graduation "Expected May 2028"; never a dash)' : "clean");
 
   // Report
   const allPass = results.every((r) => r.pass);

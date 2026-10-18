@@ -188,11 +188,21 @@ function expect(caseName, actual, wanted) {
   expect("student dates pass the date check", r.check("Date format"), "PASS");
   const dashed = build("student-dash", (d) => { d.experience[0].roles[0].dates = "Aug 2025 - Present"; }, [], student);
   expect("a dash in a date fails", dashed.check("Date format"), "FAIL");
-  const numeric = build("student-numeric", (d) => { d.experience[0].roles[0].dates = "08/2025 to Present"; }, [], student);
-  expect('a student date not written "Sep 2026 to Present" fails', numeric.check("Date format"), "FAIL");
+  const numeric = build("student-numeric", (d) => { d.experience[0].roles[0].dates = "08/2025 to present"; }, [], student);
+  expect('"08/2025 to present" prints as "Aug 2025 to Present"', numeric.pdfText.includes("Aug 2025 to Present") && !numeric.pdfText.includes("08/2025") ? "converted" : "not converted", "converted");
+  expect("a converted numeric date passes", numeric.check("Date format"), "PASS");
+  const yearsOnly = build("student-years", (d) => { d.experience[0].roles[0].dates = "2025 to Present"; }, [], student);
+  expect("a date with no month fails", yearsOnly.check("Date format"), "FAIL");
   const pro = build("skills-line", (d) => { d.skillsEquipment = ["Intune", "SCCM"]; });
   expect("a Skills and Equipment line prints in the standard layout too", pro.pdfText.includes("SKILLS AND EQUIPMENT") && pro.check("Text reads in the right order (pdftotext)") === "PASS" ? "yes" : "no", "yes");
-  expect("standard dates (03/2019 to Present) pass", pro.check("Date format"), "PASS");
+  expect('standard dates ("Mar 2019 to Present") pass', pro.check("Date format"), "PASS");
+  expect("standard resume prints month names, never 01/2021", /\b\d{2}\/\d{4}\b/.test(pro.pdfText) ? "numeric" : "words", "words");
+  const proNumeric = build("standard-numeric", (d) => { d.experience[0].roles[0].dates = "01/2021 to Present"; });
+  expect('standard "01/2021 to Present" prints as "Jan 2021 to Present"', proNumeric.pdfText.includes("Jan 2021 to Present") ? "converted" : "not converted", "converted");
+  const proDash = build("standard-dash", (d) => { d.experience[0].roles[0].dates = "Jan 2021 - Present"; });
+  expect("a dash in a standard-layout date fails", proDash.check("Date format"), "FAIL");
+  const proSeason = build("standard-season", (d) => { d.experience[0].roles[0].dates = "Summer 2019"; });
+  expect("a standard-layout date not written with a month fails", proSeason.check("Date format"), "FAIL");
 }
 
 fs.rmSync(work, { recursive: true, force: true });
