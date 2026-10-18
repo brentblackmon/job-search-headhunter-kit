@@ -4,7 +4,13 @@
 // Office 365, Active Directory = AD, Entra ID = Azure AD, and so on).
 //
 // Usage:
-//   node keyword-check.js --keywords keywords.json --resume Name_Resume_Company.pdf --out keyword-check.md
+//   node keyword-check.js --keywords keywords.json --resume Name_Resume_Company.pdf --posting posting.md --out keyword-check.md
+//
+// keywords.json is written once per posting and reused, so the counts stay the same
+// across runs. With --posting, the first run stores a fingerprint of posting.md in
+// keywords.json ("postingHash"). A later run whose posting.md has changed stops with
+// exit code 3 and "posting.md changed", which means: rebuild keywords.json from the new
+// posting (without postingHash) and run again. Spacing changes do not count as changes.
 //
 // keywords.json:
 //   { "posting": "Company, Title",
@@ -28,6 +34,12 @@
 const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
+const crypto = require("crypto");
+
+// Fingerprint of a posting's words, ignoring spacing and line breaks.
+function postingHash(text) {
+  return crypto.createHash("sha256").update(String(text).replace(/\s+/g, " ").trim()).digest("hex").slice(0, 16);
+}
 
 // Each group lists names that mean the same thing to a recruiter. The first is the
 // name shown in the report. Add groups here as testers find new ones.
@@ -212,10 +224,21 @@ function report(keywords, rows) {
 if (require.main === module) {
   const args = parseArgs(process.argv);
   if (!args.keywords || !args.resume) {
-    console.error("Usage: node keyword-check.js --keywords keywords.json --resume resume.pdf [--out keyword-check.md]");
+    console.error("Usage: node keyword-check.js --keywords keywords.json --resume resume.pdf [--posting posting.md] [--out keyword-check.md]");
     process.exit(2);
   }
   const keywords = JSON.parse(fs.readFileSync(args.keywords, "utf8"));
+  if (typeof args.posting === "string") {
+    const hash = postingHash(fs.readFileSync(args.posting, "utf8"));
+    if (keywords.postingHash && keywords.postingHash !== hash) {
+      console.error(`posting.md changed since ${args.keywords} was written. Rebuild keywords.json from the new posting (leave out postingHash) and run again.`);
+      process.exit(3);
+    }
+    if (!keywords.postingHash) {
+      keywords.postingHash = hash;
+      fs.writeFileSync(args.keywords, JSON.stringify(keywords, null, 2) + "\n");
+    }
+  }
   const out = report(keywords, check(keywords, resumeText(args.resume)));
   const outPath = typeof args.out === "string" ? args.out : path.join(path.dirname(args.keywords), "keyword-check.md");
   fs.writeFileSync(outPath, out.md);
@@ -227,4 +250,4 @@ if (require.main === module) {
   console.log("Wrote " + outPath);
 }
 
-module.exports = { check, report, found, variantsFor, stem, partial };
+module.exports = { check, report, found, variantsFor, stem, partial, postingHash };
