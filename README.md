@@ -40,7 +40,7 @@ Built to take the busywork out of a job search, so you spend your time on conver
 | Talent Scout | `talent-scout` | Scans job boards and grades postings A/B/C against what you can prove, not job titles | Weekdays 7am, 1pm, 5pm |
 | Market Intel Analyst | `signal-search` | Finds companies likely to hire before they post (new CEO, funding, acquisitions) and lists the hidden-market channels for your field | On call |
 | Research Analyst | `company-research` | One-page company deep dive in their own words, and confirms who to contact with a dated source | On call |
-| Brand Builder | `resume-builder`, `baseball-card`, `cover-letter`, `linkedin-review` | ATS-safe resume, one-page baseball card, short cover letter, LinkedIn headline and About rewrite | On call |
+| Brand Builder | `resume-builder`, `baseball-card`, `cover-letter`, `linkedin-review` | ATS-safe resume, resume review (10-second recruiter scan and fix list), one-page baseball card, short cover letter, LinkedIn headline and About rewrite | On call |
 | Outreach Writer | `outreach-package` | "Receipts" email and LinkedIn note in your voice | On call |
 | Fact Checker | `fact-check` | Checks every number against your facts file, catches typos and filler, flags guessed emails | **Always on** |
 | Interview Coach | `interview-prep` | The 15 questions you're most likely to get, answers built from your real results, and scored mock interviews with suggestions to improve | On call |
@@ -98,6 +98,7 @@ To build resumes and baseball cards as PDFs on your own computer, see the [gener
 | 1 | A 10-minute interview, then the kit scans jobs and builds resumes, cards, cover letters, and emails for your top 3 matches on its own | "Set me up with Recruit Rocket. My resume is attached." |
 | 2 | Master resume and baseball card | "Build my master resume and baseball card." |
 | 2 | LinkedIn headline and About | "Review my LinkedIn." |
+| 2 | What a recruiter sees in 10 seconds, and what to fix (works with or without a posting) | "Review my resume." |
 | 3 | First job scan, then schedule it | "Run my first job scan." then "Set up my scheduled scan." |
 | 3 | Signal search and hidden channels | "Find companies likely to hire someone like me." |
 | 4 | First tailored package for your best A | "Research Harborline and build my outreach package." |
