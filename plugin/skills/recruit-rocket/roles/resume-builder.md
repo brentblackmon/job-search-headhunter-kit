@@ -77,15 +77,16 @@ The locked layout lives in this skill's `generators/resume/` folder. Always try 
 mkdir -p /tmp/recruit-rocket && cp -r <this skill's folder>/generators/resume /tmp/recruit-rocket/
 cd /tmp/recruit-rocket/resume
 npm install            # first time only; installs the docx package
-node build-resume.js --data <path>/resume.json [--tailor <path>/tailor.json] --out <dir>/<First_Last>_Resume_<Company> --pages 2
+node build-resume.js --data <path>/resume.json [--tailor <path>/tailor.json] --out <dir>/<First_Last>_Resume_<Company>
 ```
+The generator picks the page count itself: 1 page for the student layout, `Mode: student`, or under 8 years of experience (from the dates in `facts.md`, found next to `resume.json`), and 2 pages otherwise. It prints the choice ("Target pages: 2 (14 years of experience, from facts.md)"). Add `--pages 1` or `--pages 2` only if the user asks for a different length, and `--facts <path>/facts.md` if `facts.md` is not in the same folder as `resume.json`.
 Add `--paper a4` or `--paper letter` only if the automatic choice is wrong for the user.
 This writes the .docx and the PDF, then runs QA. The PDF step needs LibreOffice (`soffice`); the QA step needs poppler (`pdfinfo`, `pdftotext`, `pdftoppm`).
 
 If Node is not available, or the PDF or QA tools are missing: still use the generator for the .docx if you can, then make the PDF with whatever tools you have. If you cannot run the generator at all, build the .docx yourself and copy the layout in `generators/resume/build-resume.js` exactly (fonts, sizes, colors, order of sections, single column, shaded stat line). Then do the QA checks by looking at the result. Never stop to ask the user to install anything.
 
 ## QA before delivery (the generator runs 1 to 4 and the AI-tell check; you do 5 to 7)
-1. Page count equals `--pages`.
+1. Page count equals the target the generator printed.
 2. Each page rendered to PNG. Look at them. No orphan lines (a heading or 1 to 2 lines alone at the top or bottom of a page).
 3. `pdftotext` output reads in the right order: name, headline, contact, stats, summary, and so on.
 4. No key achievement copies a role bullet word for word. If this fails, rewrite the achievement it names as a summary across roles.

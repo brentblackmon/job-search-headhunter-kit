@@ -43,7 +43,7 @@ From the repo root, after the one-time setup in [the generators README](../../pl
 cd plugin/skills/recruit-rocket/generators/resume
 node build-resume.js --data ../../../../../examples/jordan-rivera/resume.json \
   --tailor ../../../../../examples/jordan-rivera/companies/harborline-software/tailor.json \
-  --out ../../../../../examples/jordan-rivera/companies/harborline-software/Jordan_Rivera_Resume_Harborline --pages 2
+  --out ../../../../../examples/jordan-rivera/companies/harborline-software/Jordan_Rivera_Resume_Harborline
 
 cd ../baseball-card
 node render-card.js --data ../../../../../examples/jordan-rivera/companies/harborline-software/card.json \

@@ -32,6 +32,23 @@ function build(name, change, extraArgs = [], base = sample) {
   return { text, check, pdfText, status: out.status };
 }
 
+// Build with no --pages, so the builder picks the page count. Each case gets its own
+// folder, with an optional facts.md next to resume.json.
+function buildAuto(name, change, base = sample, facts = null, extraArgs = []) {
+  const dir = path.join(work, name);
+  fs.mkdirSync(dir, { recursive: true });
+  const data = JSON.parse(JSON.stringify(base));
+  change(data);
+  const dataPath = path.join(dir, "resume.json");
+  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+  if (facts !== null) fs.writeFileSync(path.join(dir, "facts.md"), facts);
+  const out = spawnSync("node", [path.join(root, "build-resume.js"), "--data", dataPath, "--out", path.join(dir, name), ...extraArgs], { encoding: "utf8" });
+  const text = out.stdout + out.stderr;
+  const target = Number((text.match(/Target pages: (\d)/) || [])[1]);
+  const pageLine = text.split("\n").find((l) => l.includes("] Page count")) || "";
+  return { target, pagePass: pageLine.includes("[PASS]"), status: out.status, text };
+}
+
 const results = [];
 function expect(caseName, actual, wanted) {
   results.push({ caseName, ok: actual === wanted, actual, wanted });
@@ -203,6 +220,22 @@ function expect(caseName, actual, wanted) {
   expect("a dash in a standard-layout date fails", proDash.check("Date format"), "FAIL");
   const proSeason = build("standard-season", (d) => { d.experience[0].roles[0].dates = "Summer 2019"; });
   expect("a standard-layout date not written with a month fails", proSeason.check("Date format"), "FAIL");
+}
+
+// Page count: the builder picks 1 or 2 pages when --pages is not given.
+{
+  const stu = buildAuto("pages-student", () => {}, student);
+  expect("student layout picks 1 page and lands on it", `${stu.target} ${stu.pagePass}`, "1 true");
+  const pro = buildAuto("pages-standard", () => {});
+  expect("14 years of experience picks 2 pages and lands on it", `${pro.target} ${pro.pagePass}`, "2 true");
+  const early = buildAuto("pages-early", (d) => { d.layout = "standard"; }, sample, `- Mode: standard\n\n## Experience\n### Acme, Analyst\n- Dates: 06/${new Date().getFullYear() - 3} to present\n`);
+  expect("under 8 years in facts.md picks 1 page", early.target, 1);
+  const mode = buildAuto("pages-mode", () => {}, sample, "- Mode: student\n");
+  expect("Mode: student in facts.md picks 1 page", mode.target, 1);
+  const template = buildAuto("pages-template", () => {}, sample, "- Mode: (standard, or student for interns and new grads)\n- Dates: MM/YYYY to MM/YYYY\n");
+  expect("the blank facts template does not count as student", template.target, 2);
+  const override = buildAuto("pages-override", () => {}, student, null, ["--pages", "2"]);
+  expect("--pages overrides the choice", override.target, 2);
 }
 
 fs.rmSync(work, { recursive: true, force: true });

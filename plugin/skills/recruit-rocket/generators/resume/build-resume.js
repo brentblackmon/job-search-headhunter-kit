@@ -2,7 +2,13 @@
 // Builds an ATS-safe resume (.docx + PDF) from resume.json, then runs layout QA.
 //
 // Usage:
-//   node build-resume.js --data resume.json [--tailor tailor.json] --out out/First_Last_Resume_Company [--pages 2] [--paper a4|letter]
+//   node build-resume.js --data resume.json [--tailor tailor.json] --out out/First_Last_Resume_Company [--pages 1|2] [--facts facts.md] [--paper a4|letter]
+//
+// Pages: the builder picks the target itself. 1 page for the student layout, for
+// "Mode: student" in facts.md, or under 8 years of experience (counted from the earliest
+// start date in facts.md, or in resume.json when there is no facts file); 2 pages
+// otherwise. facts.md is found with --facts, or next to resume.json or up to two folders
+// above it. --pages overrides the choice.
 //
 // Paper: --paper wins, then resume.json "paper", then the contact location. US and Canada
 // get Letter; everywhere else gets A4. Margins and layout are the same on both.
@@ -74,15 +80,47 @@ function parseArgs(argv) {
 
 const args = parseArgs(process.argv);
 if (!args.data || !args.out) {
-  console.error("Usage: node build-resume.js --data resume.json [--tailor tailor.json] --out out/Name [--pages 2] [--paper a4|letter]");
+  console.error("Usage: node build-resume.js --data resume.json [--tailor tailor.json] --out out/Name [--pages 1|2] [--facts facts.md] [--paper a4|letter]");
   process.exit(2);
 }
-const targetPages = parseInt(args.pages || "2", 10);
 
 // ---------- data ----------
 const data = JSON.parse(fs.readFileSync(args.data, "utf8"));
 // Optional sections may be missing or empty; they then do not print.
 for (const k of ["stats", "achievements", "competencies", "skillsEquipment", "skillGroups", "education", "summary"]) if (!Array.isArray(data[k])) data[k] = [];
+
+// ---------- pages ----------
+function findFacts() {
+  if (args.facts) return fs.existsSync(args.facts) ? args.facts : null;
+  let dir = path.dirname(path.resolve(args.data));
+  for (let i = 0; i < 3; i++) {
+    for (const f of [path.join(dir, "facts.md"), path.join(dir, "My Job Search", "facts.md")]) if (fs.existsSync(f)) return f;
+    dir = path.dirname(dir);
+  }
+  return null;
+}
+// Earliest start year in a list of date strings ("03/2019 to present", "Mar 2019 to Dec 2020", "2012").
+function earliestYear(dates) {
+  const years = dates.map((d) => (String(d).match(/\b(19|20)\d{2}\b/) || [])[0]).filter(Boolean).map(Number);
+  return years.length ? Math.min(...years) : null;
+}
+function choosePages() {
+  if (args.pages) return { pages: parseInt(args.pages, 10), why: "--pages" };
+  if (data.layout === "student" || data.student === true) return { pages: 1, why: "student layout" };
+  const factsPath = findFacts();
+  const facts = factsPath ? fs.readFileSync(factsPath, "utf8") : "";
+  if (/^\s*-\s*Mode:\s*student\b/im.test(facts)) return { pages: 1, why: "Mode: student in facts.md" };
+  const factDates = [...facts.matchAll(/^\s*-\s*Dates:\s*(.+)$/gim)].map((m) => m[1]);
+  const resumeDates = (data.experience || []).flatMap((j) => [j.dates, ...(j.roles || []).map((r) => r.dates)]).filter(Boolean);
+  const start = earliestYear(factDates) || earliestYear(resumeDates);
+  if (!start) return { pages: 2, why: "no start date found" };
+  const years = new Date().getFullYear() - start;
+  const source = earliestYear(factDates) ? "facts.md" : "resume.json";
+  return years < 8 ? { pages: 1, why: `${years} years of experience, from ${source}` } : { pages: 2, why: `${years} years of experience, from ${source}` };
+}
+const pageChoice = choosePages();
+const targetPages = pageChoice.pages;
+console.log(`Target pages: ${targetPages} (${pageChoice.why})`);
 
 // ---------- paper ----------
 // US states, DC, and Canadian provinces and territories, as two-letter codes.
