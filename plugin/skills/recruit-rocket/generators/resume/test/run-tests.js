@@ -124,6 +124,12 @@ function expect(caseName, actual, wanted) {
   expect("a missing preferred keyword stays missing", hit("Autopilot"), "missing");
   const ad = check({ required: ["Active Directory"] }, "Administered AD and Group Policy for 3 sites.");
   expect("AD counts for Active Directory", ad[0].hit ? "matched" : "missing", "matched");
+  const { report } = require("../keyword-check");
+  const v = report({}, rows);
+  expect("a variant (MECM for SCCM) is covered but not an exact match", `${rows.find((r) => r.name === "SCCM").exact} ${v.ownWords.some((r) => r.name === "SCCM")}`, "false true");
+  expect("both numbers count required skills", `${v.line} / ${v.exactLine}`, "Required skills covered: 3 of 5 / Exact-term matches: 0 of 5");
+  const exactRows = check({ required: ["SCCM", "Microsoft 365"] }, "Ran SCCM (MECM) and Microsoft 365 for 900 users.");
+  expect("the posting's own term counts as exact even when a variant is also there", report({}, exactRows).exactLine, "Exact-term matches: 2 of 2");
   const lower = check({ required: ["Active Directory"] }, "Read every ad for the role and lead the team.");
   expect("lowercase ad and lead do not count", lower[0].hit ? "matched" : "missing", "missing");
 }
@@ -138,12 +144,16 @@ function expect(caseName, actual, wanted) {
   expect("Hardware Lifecycle is a partial match for Lifecycle Management", state("Lifecycle Management"), "partial");
   expect("the partial match shows the resume's wording", rows.find((r) => r.name === "Lifecycle Management").partial, "Hardware Lifecycle");
   expect("Led is a partial match for Leadership", state("Leadership"), "partial");
+  const golive = check({ required: ["Time to Go-Live"] }, "16 to 9 wks go-live time | 95% revenue retention");
+  expect("small words do not block a match (Time to Go-Live)", golive[0].partial, "go live time");
   const lines = check({ required: ["Lifecycle Management"] }, "Hardware Lifecycle\nPROFESSIONAL EXPERIENCE");
   expect("a partial match stops at the end of its line", lines[0].partial, "Hardware Lifecycle");
   expect("team is not a match for the Teams product", state("Teams"), "missing");
   expect("Mobile Device Management stays missing without mobile", state("Mobile Device Management"), "missing");
   const out = report({ posting: "Test" }, rows);
-  expect("the headline counts required skills only, own words included", out.line, "Required skills covered: 2 of 4 (2 in your own words).");
+  expect("the headline counts required skills only, own words included", out.line, "Required skills covered: 2 of 4");
+  expect("exact-term matches leave out own-word matches", out.exactLine, "Exact-term matches: 0 of 4");
+  expect("own-word matches are listed apart with the resume's wording", out.md.includes("### Covered in your words, not the posting's exact term") && out.md.includes("| Mentoring | Mentor |") && out.md.includes("| Lifecycle Management | Hardware Lifecycle |") ? "listed" : "not listed", "listed");
   expect("preferred skills are listed, not counted", out.md.includes("## Preferred skills (listed, not counted)") && out.md.includes("- Leadership: covered") ? "yes" : "no", "yes");
   expect("the report never suggests copying the posting's wording", /posting's (exact )?wording/i.test(out.md) ? "suggests it" : "does not", "does not");
 }

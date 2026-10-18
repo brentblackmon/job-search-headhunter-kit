@@ -12,8 +12,12 @@
 //     "preferred": ["Jamf", {"keyword": "Autopilot", "variants": ["Windows Autopilot"]}] }
 // --resume takes the resume PDF (read with pdftotext, the way an ATS reads it),
 // or a .json or .txt file when pdftotext is not installed.
-// Writes keyword-check.md and prints the headline: required skills covered (preferred
-// skills are listed but never counted).
+// Writes keyword-check.md and prints two numbers for the required skills (preferred
+// skills are listed but never counted):
+//   Required skills covered: X of Y   (the posting's term, a variant, or the user's wording)
+//   Exact-term matches: X of Y        (the posting's own term, as the posting writes it)
+// Skills covered only by a variant or the user's wording are listed as "Covered in your
+// words, not the posting's exact term", so the user can choose to add the exact term.
 //
 // A partial match is a keyword whose words show up in another form: a different
 // word ending ("Mentor" for "Mentoring", "led" for "Leadership"), or the main word of
@@ -99,9 +103,12 @@ function stem(word) {
 // "Root Cause Analysis".
 const GENERIC = new Set(["management", "analysis", "administration", "support", "service", "services", "solution", "solutions", "system", "systems", "tool", "tools", "platform", "online", "experience", "skills"].map(stem));
 
+// Small words never have to match, so "Time to Go-Live" can match "go-live time".
+const STOP = new Set(["a", "an", "and", "the", "of", "to", "for", "in", "on", "with", "or"]);
+
 // Look for a keyword's words in another form. Returns the resume phrase it found, or "".
 function partial(text, keyword) {
-  const words = String(keyword).split(/[^A-Za-z0-9+#]+/).filter(Boolean);
+  const words = String(keyword).split(/[^A-Za-z0-9+#]+/).filter((w) => w && !STOP.has(w.toLowerCase()));
   const main = words.filter((w) => !GENERIC.has(stem(w)));
   const need = (main.length ? main : words).map(stem);
   // Search phrase by phrase, so a match never spans two lines or two list items.
@@ -116,7 +123,9 @@ function partial(text, keyword) {
     // its main words, which is the phrase's neighbors (or its own generic word).
     const from = Math.max(0, lo - 1), to = Math.min(tokens.length - 1, hi + 1);
     if (words.length > 1 && to - from + 1 < 2) continue;
-    return tokens.slice(words.length > 1 ? from : lo, (words.length > 1 ? to : hi) + 1).join(" ");
+    // Show the matched words; add the neighbors only when one main word matched alone.
+    const widen = words.length > 1 && hi === lo;
+    return tokens.slice(widen ? from : lo, (widen ? to : hi) + 1).join(" ");
   }
   return "";
 }
@@ -146,50 +155,58 @@ function check(keywords, text) {
           if (variants.some((v) => v !== other && found(clean(other), v))) own = own.split(new RegExp(clean(other).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi")).join(" ");
         }
       }
-      const hit = variants.find((v) => found(own, v));
+      // The posting's own term first, so an exact match is reported as exact.
+      const exact = found(own, name);
+      const hit = exact ? name : variants.find((v) => found(own, v));
       // Product names (anything in the variant table) only match exactly.
       const product = VARIANTS.some((g) => g.some((v) => variants.includes(v)));
       // Keep line breaks here: partial matching works one line or list item at a time.
       const near = hit || product ? "" : partial(String(text).replace(/[-\u2010-\u2015/]+/g, " "), name);
-      rows.push({ name, kind, hit: hit || "", partial: near });
+      rows.push({ name, kind, hit: hit || "", partial: near, exact });
     }
   }
   return rows;
 }
 
-// The headline counts required skills only. A skill the resume shows in the user's own
-// words (a partial match) counts as covered. Preferred skills are listed, not counted,
-// so nobody is pushed to chase 100%.
+// The two headline numbers count required skills only. A skill the resume shows in the
+// user's own words (a variant or a partial match) counts as covered but not as an exact
+// match. Preferred skills are listed, not counted, so nobody is pushed to chase 100%.
 function report(keywords, rows) {
   const required = rows.filter((r) => r.kind === "required");
   const preferred = rows.filter((r) => r.kind === "preferred");
   const covered = (r) => r.hit || r.partial;
   const reqCovered = required.filter(covered);
-  const ownWords = reqCovered.filter((r) => !r.hit).length;
-  const line = `Required skills covered: ${reqCovered.length} of ${required.length}` + (ownWords ? ` (${ownWords} in your own words).` : ".");
+  const reqExact = required.filter((r) => r.exact);
+  const ownWords = reqCovered.filter((r) => !r.exact);
+  const line = `Required skills covered: ${reqCovered.length} of ${required.length}`;
+  const exactLine = `Exact-term matches: ${reqExact.length} of ${required.length}`;
   const matched = rows.filter((r) => r.hit);
   const partials = rows.filter((r) => !r.hit && r.partial);
   const missing = rows.filter((r) => !covered(r));
-  const table = (list, col) => "| Skill | " + col + " |\n|---|---|\n" + list.map((r) => `| ${r.name} | ${r.hit || r.partial} |`).join("\n");
+  const said = (r) => r.hit || r.partial;
   const md = [
     `# ATS keyword check${keywords.posting ? `: ${keywords.posting}` : ""}`,
     "",
     `**${line}**`,
+    `**${exactLine}**`,
     "",
     "## Required skills",
-    "### Covered",
-    reqCovered.length ? table(reqCovered, "Resume says") : "None.",
+    "### Exact term",
+    reqExact.length ? "| Skill |\n|---|\n" + reqExact.map((r) => `| ${r.name} |`).join("\n") : "None.",
+    "",
+    "### Covered in your words, not the posting's exact term",
+    ownWords.length ? "| Posting says | Resume says |\n|---|---|\n" + ownWords.map((r) => `| ${r.name} | ${said(r)} |`).join("\n") : "None.",
     "",
     "### Missing",
     required.filter((r) => !covered(r)).map((r) => `- ${r.name}`).join("\n") || "None.",
     "",
     "## Preferred skills (listed, not counted)",
-    preferred.length ? preferred.map((r) => `- ${r.name}: ${covered(r) ? `covered ("${r.hit || r.partial}")` : "not on the resume"}`).join("\n") : "None.",
+    preferred.length ? preferred.map((r) => `- ${r.name}: ${r.exact ? "exact term" : covered(r) ? `covered in your words ("${said(r)}")` : "not on the resume"}`).join("\n") : "None.",
     "",
-    "Skills shown in the user's own words count as covered; keep their wording. Ask only about missing required skills, at most 2 questions, and stop once every required skill the user has really used is in. Never add a keyword just to raise the count.",
+    "A skill in your own words counts as covered. The ATS may look for the posting's exact term, so you can choose to add it to Core Competencies; your wording stays everywhere else. Ask only about missing required skills you have really used. Never add a term for a skill you have not used.",
     "",
   ].join("\n");
-  return { line, md, matched, partials, missing, required, preferred };
+  return { line, exactLine, md, matched, partials, ownWords, missing, required, preferred };
 }
 
 if (require.main === module) {
@@ -203,7 +220,8 @@ if (require.main === module) {
   const outPath = typeof args.out === "string" ? args.out : path.join(path.dirname(args.keywords), "keyword-check.md");
   fs.writeFileSync(outPath, out.md);
   console.log(out.line);
-  if (out.partials.length) console.log("In your own words: " + out.partials.map((r) => `${r.name} (resume says "${r.partial}")`).join(", "));
+  console.log(out.exactLine);
+  if (out.ownWords.length) console.log("Covered in your words, not the posting's exact term: " + out.ownWords.map((r) => `${r.name} (resume says "${r.hit || r.partial}")`).join(", "));
   const missingRequired = out.required.filter((r) => !r.hit && !r.partial);
   if (missingRequired.length) console.log("Missing required: " + missingRequired.map((r) => r.name).join(", "));
   console.log("Wrote " + outPath);
