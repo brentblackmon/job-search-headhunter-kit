@@ -35,7 +35,7 @@ Run the scripts from a writable copy of `generators/resume/` (see `roles/resume-
 9. **Structure.**
    - Section order for their level: students and recent graduates put Education first; everyone else leads with the summary and experience.
    - Length for their experience: 1 page early in a career (under 8 years), up to 2 pages at 8 or more years. More than 2 pages is always a finding.
-   - Date format: every date in one format, written "Sep 2026 to Present". Flag dashes in date ranges, mixed formats ("09/2024" next to "Sep 2024"), and seasons next to months.
+   - Date format: every date in one format, written "Jan 2021 to Present" or "Mar 2019 to Dec 2020". Flag dashes in date ranges, mixed formats ("09/2024" next to "Sep 2024"), and seasons next to months.
 10. **Contact and professionalism.** An unprofessional email address (nicknames, numbers that look like a birth year, jokes), a missing LinkedIn URL, phone or city, and a file name with "final", "v3", "new", or a date in it.
 11. **Dashes and layout basics.** Em or en dashes, tables or columns (applicant tracking systems scramble them), headers or footers holding contact details.
 

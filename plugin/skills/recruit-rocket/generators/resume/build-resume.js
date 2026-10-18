@@ -27,7 +27,9 @@
 //   experience[].group [optional: a group heading, for example "Sports Broadcast Experience"
 //     or "Business and Leadership Experience"; groups print in the order they first appear]
 //   layout [optional: "student" prints Education first, then grouped experience, then
-//     Skills, on one page, with dates like "Sep 2026 to Present" (see layout.js)]
+//     Skills, on one page (see layout.js)]
+//   Dates on every layout: "Jan 2021 to Present", "Mar 2019 to Dec 2020". "01/2021" is
+//   converted to "Jan 2021"; dashes and other forms fail the QA date check.
 //   stats and achievements may be empty: the stat bar and Key Achievements then do not print.
 //   keepWords [optional: AI-tell words the user said they really use, for example "leverage"]
 //   properNames [optional: product or program names that contain an AI-tell word]
@@ -115,6 +117,18 @@ if (args.tailor) {
   }
 }
 
+// Dates on every layout read "Jan 2021 to Present" or "Mar 2019 to Dec 2020": a
+// three-letter month, the year, "to". Numeric months from the facts file ("01/2021")
+// become words; anything else is left as written for the QA date check to catch.
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function formatDates(d) {
+  if (typeof d !== "string") return d;
+  return d
+    .replace(/\b(0?[1-9]|1[0-2])\/(\d{4})\b/g, (_, m, y) => `${MONTHS[Number(m) - 1]} ${y}`)
+    .replace(/\bpresent\b/gi, "Present")
+    .trim();
+}
+
 // Normalize experience: every job gets roles[], every role gets bullets[].
 data.experience = data.experience.map((job) => {
   const roles = (job.roles && job.roles.length ? job.roles : [{ title: job.title, dates: job.dates }]).map((r) => ({ ...r }));
@@ -125,8 +139,10 @@ data.experience = data.experience.map((job) => {
   }
   // A role without its own dates in a single-role job takes the job dates.
   if (roles.length === 1 && !roles[0].dates) roles[0].dates = job.dates;
-  return { ...job, roles };
+  for (const r of roles) r.dates = formatDates(r.dates);
+  return { ...job, roles, dates: formatDates(job.dates) };
 });
+data.education = (data.education || []).map((e) => (e && typeof e === "object" ? { ...e, dates: formatDates(e.dates) } : e));
 
 // ---------- building blocks ----------
 const run = (text, opts = {}) => new TextRun({ text, font: FONT, size: 20, color: INK, ...opts });

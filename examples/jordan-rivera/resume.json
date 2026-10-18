@@ -67,11 +67,11 @@
     {
       "company": "Tidewater Freight Systems",
       "location": "Charlotte, NC",
-      "dates": "03/2019 to Present",
+      "dates": "Mar 2019 to Present",
       "roles": [
         {
           "title": "Director of Operations",
-          "dates": "01/2021 to Present",
+          "dates": "Jan 2021 to Present",
           "bullets": [
             "Lead implementation, support, and training: 64 people and an $11.2M operating budget. Report to the COO.",
             "Rebuilt onboarding around three standard tiers with fixed scopes and go-live checklists; average implementation time fell from 16 weeks to 9 weeks.",
@@ -85,7 +85,7 @@
         },
         {
           "title": "Senior Manager, Customer Operations",
-          "dates": "03/2019 to 12/2020",
+          "dates": "Mar 2019 to Dec 2020",
           "bullets": [
             "Built the headcount capacity model finance now uses to plan post-sale hiring each quarter."
           ]
@@ -97,11 +97,11 @@
     {
       "company": "Kestrel Route Software",
       "location": "Atlanta, GA",
-      "dates": "06/2015 to 02/2019",
+      "dates": "Jun 2015 to Feb 2019",
       "roles": [
         {
           "title": "Senior Manager, Implementation",
-          "dates": "06/2015 to 02/2019"
+          "dates": "Jun 2015 to Feb 2019"
         }
       ],
       "blurb": "Route planning software for regional distributors.",
@@ -115,11 +115,11 @@
     {
       "company": "Brightpine Distribution",
       "location": "Charlotte, NC",
-      "dates": "07/2012 to 05/2015",
+      "dates": "Jul 2012 to May 2015",
       "roles": [
         {
           "title": "Operations Manager",
-          "dates": "09/2013 to 05/2015",
+          "dates": "Sep 2013 to May 2015",
           "bullets": [
             "Ran daily operations for two distribution centers and 85 hourly associates.",
             "Raised on-time shipment rate from 91% to 98.5% across both distribution centers.",
@@ -128,7 +128,7 @@
         },
         {
           "title": "Logistics Analyst",
-          "dates": "07/2012 to 08/2013",
+          "dates": "Jul 2012 to Aug 2013",
           "bullets": [
             "Built the weekly carrier scorecard used in rate negotiations."
           ]
