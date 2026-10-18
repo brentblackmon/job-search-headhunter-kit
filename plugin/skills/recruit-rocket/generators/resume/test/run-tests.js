@@ -232,6 +232,26 @@ function expect(caseName, actual, wanted) {
   expect("a standard-layout date not written with a month fails", proSeason.check("Date format"), "FAIL");
 }
 
+// keywords.json is reused for the same posting; a changed posting stops the run.
+{
+  const dir = path.join(work, "kw-reuse");
+  fs.mkdirSync(dir, { recursive: true });
+  const kw = path.join(dir, "keywords.json"), posting = path.join(dir, "posting.md"), resume = path.join(dir, "resume.txt");
+  fs.writeFileSync(kw, JSON.stringify({ required: ["SCCM", "Jamf"] }));
+  fs.writeFileSync(posting, "Required: SCCM and Jamf.\n");
+  fs.writeFileSync(resume, "Managed laptops with MECM and Jamf.");
+  const runKw = () => spawnSync("node", [path.join(root, "keyword-check.js"), "--keywords", kw, "--resume", resume, "--posting", posting, "--out", path.join(dir, "keyword-check.md")], { encoding: "utf8" });
+  const first = runKw();
+  const stored = JSON.parse(fs.readFileSync(kw, "utf8")).postingHash;
+  expect("the first run stores the posting's fingerprint", first.status === 0 && /^[0-9a-f]{16}$/.test(stored || "") ? "stored" : "not stored", "stored");
+  fs.writeFileSync(posting, "Required:   SCCM and Jamf.\n\n");
+  const again = runKw();
+  expect("the same posting (spacing aside) reuses keywords.json with the same counts", `${again.status} ${again.stdout.split("\n")[0]}`, `0 ${first.stdout.split("\n")[0]}`);
+  fs.writeFileSync(posting, "Required: SCCM, Jamf, and Intune.\n");
+  const changed = runKw();
+  expect("a changed posting stops the run with code 3", `${changed.status} ${/posting\.md changed/.test(changed.stderr)}`, "3 true");
+}
+
 // Page count: the builder picks 1 or 2 pages when --pages is not given.
 {
   const stu = buildAuto("pages-student", () => {}, student);
