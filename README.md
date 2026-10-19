@@ -138,7 +138,7 @@ plugin/                   the Claude plugin: manifest + the recruit-rocket skill
                            STANDING_RULES.md, templates/, generators/ (resume and card)
 examples/jordan-rivera/   full fictional sample run
 marketing/                org chart graphic + LinkedIn post draft
-version.json              the current version; installed copies check it and show one line when a newer one is out
+version.json              the current version; synced to the public brentblackmon/recruit-rocket-updates repo, which installed copies check to show one line when a newer one is out
 scripts/                  package-skills.sh builds dist/recruit-rocket.zip (not committed; the private Release workflow attaches it to a release)
 ```
 

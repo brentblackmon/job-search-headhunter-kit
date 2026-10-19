@@ -1,34 +1,18 @@
 #!/usr/bin/env bash
-# Copies the current kit into the public recruit-rocket checkout, minus private files,
-# with links pointed at the public repo. Usage: scripts/sync-public.sh /path/to/recruit-rocket
+# Copies version.json (and nothing else) into the public recruit-rocket-updates checkout.
+# Installed copies fetch it to check for a newer version. The skill source is never published.
+# Usage: scripts/sync-public.sh /path/to/recruit-rocket-updates
 set -euo pipefail
 cd "$(dirname "$0")/.."
 DEST="$1"
-TMP="$(mktemp -d)"
-git archive HEAD | tar -x -C "$TMP"
-rm -f "$TMP/docs/BUILD_BRIEF.md" "$TMP/marketing/linkedin-preview.png" "$TMP/scripts/sync-public.sh"
-# Workshop-only automation stays out of the public repo
-rm -rf "$TMP/.github"
-# The paid skill zip is never published; it ships as a release asset on the private repo.
-# version.json stays public so installed copies can check for updates.
-rm -f "$TMP/dist/recruit-rocket.zip"
-python3 - "$TMP" <<'PY'
-import sys, pathlib, json
-root = pathlib.Path(sys.argv[1])
-for p in root.rglob("*"):
-    if p.suffix not in (".md", ".json", ".html") or not p.is_file():
-        continue
-    s = p.read_text()
-    o = s
-    s = s.replace("brentblackmon/job-search-headhunter-kit", "brentblackmon/recruit-rocket")
-    s = s.replace("recruit-rocket@job-search-headhunter-kit", "recruit-rocket@recruit-rocket")
-    s = s.replace("docs/BUILD_BRIEF.md       the original build brief\n", "")
-    if s != o:
-        p.write_text(s)
-m = root / ".claude-plugin" / "marketplace.json"
-d = json.loads(m.read_text()); d["name"] = "recruit-rocket"; m.write_text(json.dumps(d, indent=2) + "\n")
-PY
+python3 -c "import json,sys; d=json.load(open('version.json')); assert d.get('version'), 'version.json has no version'"
 find "$DEST" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-cp -r "$TMP"/. "$DEST"/
-rm -rf "$TMP"
-grep -rIl "job-search-headhunter-kit\|BUILD_BRIEF\|real executive job search" "$DEST" --exclude-dir=.git && { echo "private reference found"; exit 1; } || echo "clean"
+cp version.json "$DEST/version.json"
+cat > "$DEST/README.md" <<'MD'
+# Recruit Rocket updates
+
+This repo holds only `version.json`. Installed copies of Recruit Rocket read it to tell you when a newer version is out. Download new versions from your purchase email.
+MD
+extra=$(cd "$DEST" && find . -path ./.git -prune -o -type f -print | grep -v -x -e ./version.json -e ./README.md || true)
+[ -z "$extra" ] || { echo "unexpected files: $extra"; exit 1; }
+echo "clean"
