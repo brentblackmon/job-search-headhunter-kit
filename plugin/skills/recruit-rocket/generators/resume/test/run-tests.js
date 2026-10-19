@@ -44,9 +44,8 @@ function buildAuto(name, change, base = sample, facts = null, extraArgs = []) {
   if (facts !== null) fs.writeFileSync(path.join(dir, "facts.md"), facts);
   const out = spawnSync("node", [path.join(root, "build-resume.js"), "--data", dataPath, "--out", path.join(dir, name), ...extraArgs], { encoding: "utf8" });
   const text = out.stdout + out.stderr;
-  const target = Number((text.match(/Target pages: (\d)/) || [])[1]);
   const pageLine = text.split("\n").find((l) => l.includes("] Page count")) || "";
-  return { target, pagePass: pageLine.includes("[PASS]"), status: out.status, text };
+  return { pagePass: pageLine.includes("[PASS]"), status: out.status, text };
 }
 
 const results = [];
@@ -252,20 +251,14 @@ function expect(caseName, actual, wanted) {
   expect("a changed posting stops the run with code 3", `${changed.status} ${/posting\.md changed/.test(changed.stderr)}`, "3 true");
 }
 
-// Page count: the builder picks 1 or 2 pages when --pages is not given.
+// Page count: no target unless the user asks for one with --pages.
 {
-  const stu = buildAuto("pages-student", () => {}, student);
-  expect("student layout picks 1 page and lands on it", `${stu.target} ${stu.pagePass}`, "1 true");
   const pro = buildAuto("pages-standard", () => {});
-  expect("14 years of experience picks 2 pages and lands on it", `${pro.target} ${pro.pagePass}`, "2 true");
-  const early = buildAuto("pages-early", (d) => { d.layout = "standard"; }, sample, `- Mode: standard\n\n## Experience\n### Acme, Analyst\n- Dates: 06/${new Date().getFullYear() - 3} to present\n`);
-  expect("under 8 years in facts.md picks 1 page", early.target, 1);
-  const mode = buildAuto("pages-mode", () => {}, sample, "- Mode: student\n");
-  expect("Mode: student in facts.md picks 1 page", mode.target, 1);
-  const template = buildAuto("pages-template", () => {}, sample, "- Mode: (standard, or student for interns and new grads)\n- Dates: MM/YYYY to MM/YYYY\n");
-  expect("the blank facts template does not count as student", template.target, 2);
-  const override = buildAuto("pages-override", () => {}, student, null, ["--pages", "2"]);
-  expect("--pages overrides the choice", override.target, 2);
+  expect("a 2-page resume with no target passes", `${pro.status} ${pro.pagePass}`, "0 true");
+  const short = buildAuto("pages-short", (d) => { d.experience = d.experience.slice(0, 1); d.achievements = []; });
+  expect("an experienced user's 1-page resume with no target passes", `${short.status} ${short.pagePass}`, "0 true");
+  const asked = buildAuto("pages-asked", () => {}, sample, null, ["--pages", "1"]);
+  expect("--pages 1 on 2 pages of content fails the page check", asked.pagePass, false);
 }
 
 fs.rmSync(work, { recursive: true, force: true });

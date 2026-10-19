@@ -39,8 +39,7 @@ Output goes to each tool's `out/` folder (not committed).
 node build-resume.js --data path/to/resume.json --tailor path/to/tailor.json --out out/First_Last_Resume_Company
 ```
 - `--tailor` is optional. By default a tailor file changes only `headline` and `summary1`. Other keys (`summary2`, `achievements`, `competencies`, `stats`) are allowed and are listed in the output so nothing changes silently.
-- `--pages`: optional. The builder picks 1 page for the student layout, `Mode: student` in facts.md, or under 8 years of experience, and 2 pages otherwise. Pass `--pages` to override.
-- `--facts`: optional path to facts.md, if it is not next to resume.json or up to two folders above it.
+- `--pages`: optional, only when the user asks for a set length. With no `--pages` there is no page target; the resume runs as long as its content.
 - Exit code 0 means every QA check passed. Look at the page images anyway.
 
 Student resumes: set `"layout": "student"`. Education prints first (expected graduation, GPA, coursework), then experience split by each job's `group` (a field group and "Business and Leadership Experience"), then Skills grouped by category (`skillGroups`). One page; dates read "Sep 2026 to Present". Empty `stats`, `achievements`, or `summary` simply do not print. `skillsEquipment` adds a single "Skills and Equipment" line for any layout. Fictional example: `resume/sample-data/resume-student.json`.
