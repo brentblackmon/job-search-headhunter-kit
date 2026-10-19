@@ -44,6 +44,7 @@ Evidence check: 6 well backed, 2 vague
 ```
    Every evidence line quotes the resume, Well backed ones too.
    Then offer: "Fix the gaps first (about 2 minutes, recommended)", "Build my package now", "Stop here". With nothing Vague or Partly met, skip the first choice.
+   **If the user already asked for the package** ("build my package for this job"), that is the go: skip the offer and start Step 3 right after the score. The gaps stay listed in the report.
 
 ## Step 2. Guided fix (optional)
 For each Vague claim and each Partly met requirement, ask one question at a time, Partly met must-haves first, at most 6 questions in all. Each question shows the resume line beside it and asks only for the missing detail (number, scope, timeframe, or result). Choices are built only from what is already known, never a made-up number:
@@ -67,8 +68,9 @@ Run every step without stopping (the headshot question in step 3 is the only exc
 2. "Step 2 of 6: building your tailored resume". Run `resume-builder` (locked layout, QA, copy check, then the ATS keyword check). "Done: 1 page, QA passed. Required skills covered: 7 of 9. Exact-term matches: 6 of 9." Collect the exact-term and missing-skill questions; do not ask yet.
 3. "Step 3 of 6: building your baseball card". Run `baseball-card` (locked layout). If `facts.md` has no headshot yet, stop and ask for it now, not earlier and not on the review screen: "Add a photo for your baseball card?" with "I'll add one now", "Build the rest; add it later". Wait for the answer. A photo: save it under `Headshot file` in `facts.md` and build the card. Later: the card is marked "waiting for a photo" and the build carries on with step 4.
 4. "Step 4 of 6: writing your outreach email and LinkedIn note". Run `outreach-package`: the receipts email to the hiring executive and a LinkedIn connection note under 300 characters (count it).
-5. "Step 5 of 6: fact-checking everything". Run `fact-check` on the resume, card, email, and note before showing any of them. Fix what it finds. Collect the `FROM RESUME` numbers that need a yes.
-6. "Step 6 of 6: making your results report". Step 4 below.
+5. "Step 5 of 6: fact-checking everything". Run `fact-check` on the resume, card, email, and note before showing any of them: every number, title, date, and name against `facts.md`, plus dashes, AI-tell words, and copied posting phrases. Save `fact-check-report.md` in the company folder (one row per item checked: the claim, the `facts.md` line, the result). Fix what it finds. Collect the `FROM RESUME` numbers that need a yes. "Done: checked 24 claims, fixed 2, 6 numbers need your yes."
+6. "Step 6 of 6: making your results report". Step 4 below. "Done: report is 1 page and passed its checks."
+Never merge two steps into one status line or skip a step's lines, even a quick step: the numbers are how the user knows how far along it is.
 
 ## Step 4. One-page results report (PDF)
 Write `companies/<company-slug>/report.json` in the shape of `generators/match/sample-data/report.json`: name, company, title, date, paper (`a4` outside the US and Canada), `before` and `after` (leave out `after` if Step 2 was skipped), the two keyword lines, the four files (resume PDF, card PDF, `outreach.md` for the email and the LinkedIn note, each with a plain label), and the hiring executive with the dated source (or `"missing"` with the reason). Then run:
