@@ -35,5 +35,5 @@ Comment ROCKET and I'll send it to you.
 ---
 
 ## Before posting
-- Reply to each ROCKET comment with the link to TESTING.md in the public repo (https://github.com/brentblackmon/recruit-rocket/blob/main/TESTING.md), or send it by DM. It has the one-file download and the 5-minute setup.
+- Reply to each ROCKET comment by DM with the purchase link. Buyers get the zip and the 5-minute setup in their purchase email.
 - Optional: replace one line with a real example from someone who tried it (with their permission).
