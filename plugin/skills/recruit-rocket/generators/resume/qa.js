@@ -1,7 +1,8 @@
 // Layout QA for a generated resume PDF. Needs poppler-utils (pdfinfo, pdftotext, pdftoppm).
 //
 // Checks:
-//   1. Page count equals the target, and the paper size is right (A4 or US Letter).
+//   1. Page count is reported (checked only when the user asked for a set length with
+//      --pages), and the paper size is right (A4 or US Letter).
 //   2. Renders each page to PNG (for a human or Claude to look at) and flags orphans:
 //      a section heading or job header as the last line of a page, or a near-empty last page.
 //   3. pdftotext output reads in the right order.
@@ -39,7 +40,8 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   // 1. Page count
   const info = sh("pdfinfo", [pdfPath]);
   const pages = parseInt((info.match(/Pages:\s+(\d+)/) || [])[1], 10);
-  add("Page count", pages === targetPages, `${pages} page(s), target ${targetPages}`);
+  if (targetPages) add("Page count", pages === targetPages, `${pages} page(s), target ${targetPages}`);
+  else add("Page count", pages > 0, `${pages} page(s), no target (the user's resume sets the length)`);
 
   // 1b. Paper size matches what was asked for (A4 is 595 x 842 pt, Letter is 612 x 792 pt).
   const size = (info.match(/Page size:\s+([\d.]+) x ([\d.]+)/) || []).slice(1).map(Number);

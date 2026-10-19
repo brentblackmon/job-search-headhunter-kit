@@ -76,7 +76,7 @@ Testers can follow [TESTING.md](TESTING.md) step by step.
 3. Switch to **Cowork** and pick a folder for your job search.
 4. Attach your resume (or your LinkedIn PDF if you have no current resume) and say: **Set me up with Recruit Rocket. I am job hunting in [your city, your country].** For example: "I am job hunting in Tulsa, Oklahoma, United States."
 
-Claude creates the **My Job Search** folder, copies the templates into it, asks about five quick questions, and keeps going. Click **Approve** when it asks for permission.
+Claude creates the **My Job Search** folder, copies the templates into it, asks 3 one-click questions (target roles, pay floor, location), and in about 5 minutes shows your first results: top job picks, hiring signals, and recruiters running searches now. You pick which ones get a full package. Click **Approve** when it asks for permission.
 
 **Or install it as a plugin from GitHub** (gets updates without downloading again): in Claude, click **Customize**, then **Plugins**, then **Add marketplace**, enter `brentblackmon/job-search-headhunter-kit`, and click **Install** on Recruit Rocket. Then do steps 3 and 4.
 

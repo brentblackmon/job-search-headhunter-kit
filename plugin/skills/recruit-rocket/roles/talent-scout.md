@@ -9,7 +9,13 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 - `My Job Search/facts.md`: target titles, industries, size, salary floor, locations, exclusions, and the metrics that prove strengths.
 - `My Job Search/tracker.md`: to mark postings already in progress.
 - Sources: whatever job search tools are connected (job board connectors, web search, LinkedIn in a browser). If none are connected, ask the user to paste postings.
-- **The user's own job alert emails, when email is connected.** If Gmail (or another email tool) is available in this run, search it first for job alert emails since the last scan (LinkedIn: from jobalerts-noreply@linkedin.com or jobs-noreply@linkedin.com; also Indeed, Naukri, ZipRecruiter or Glassdoor alerts if the user gets them). These are the alerts the user already sees on their phone, so every in-family job in them must be graded or listed under "Not graded". Never skip one silently. If email is not connected, skip this step without asking.
+- **The user's own job alert emails, only after a yes.** Read email only if `facts.md` says `Job alert emails: yes` (the Sharpen step asks once). Never read it without that yes, even when an email tool is connected. With a yes, search for job alert emails since the last scan (LinkedIn: from jobalerts-noreply@linkedin.com or jobs-noreply@linkedin.com; also Indeed, Naukri, ZipRecruiter or Glassdoor alerts). Every in-family job in them is graded or listed under "Not graded". Never skip one silently.
+
+## Two passes: quick first, then deep
+Every scan runs in two passes so the user sees credible results fast.
+- **Quick pass (about 2 minutes, results first).** For each target title: the connected job board tools (Indeed, ZipRecruiter, Dice, and the like) with the user's country and city, or, with nothing connected, web search (for example `"IT Manager" jobs Columbus Ohio` plus the title on Indeed, LinkedIn, Glassdoor, and the company sites the results point to). Grade what you can, apply the pay floor and exclusions, and stop at about 2 minutes. Post "Done: N postings found, N fit, N dropped (why)".
+- **Deep pass (after the quick pass's results are shown).** Target companies' careers pages, startup boards (if open to startups), and VC portfolio boards, from "Before the crowd" below. On a first run with no target companies and startups not asked yet, there is nothing to deep-scan: skip it and say nothing.
+- **Window:** the last 7 days on the first run; the last 24 hours on daily scans.
 
 ## Before the crowd
 The earliest applicants get read first. Every scan does these, in this order:
@@ -38,7 +44,7 @@ Read the user's country and city from `facts.md` before searching.
 ## Search
 1. Build queries from target titles **and** from what the user actually does (for example "operations" + "SaaS" + "implementation" rather than only "VP Operations").
 2. Include adjacent titles the facts support (Head of, Senior Director, General Manager of a unit, Chief of Staff to COO).
-3. Default window: postings from the last 3 days on scheduled runs, 14 days on a first run.
+3. Window: postings from the last 24 hours on daily scans, 7 days on a first run.
 4. **If a title search returns nothing, retry with a shorter core term.** Drop the level and the modifiers and keep the function: "desktop support team lead" becomes "desktop support", "IT support manager" becomes "IT support". Then sort the results by level yourself.
 5. **Drop junk before grading.** Keep a result only if its title is in the target role family (the target titles, the adjacent titles above, or the core term). Boards often return unrelated jobs for a broad title (an "IT Support Manager" search can return nurses and pharmacists). Drop those silently and count them in the scan header ("12 off-target results dropped").
 6. Drop anything at an excluded company. Drop duplicates across boards.
@@ -68,7 +74,7 @@ Read the full description, not the title. Score four things:
 
 **No full description, no grade.** This matters most for senior titles: never skip or grade a role in the target family on its title alone. A search result with only a title, company, and pay is listed under "Not graded: paste the full posting" with one line on why it might fit. Never give it a letter, not even "B, unverified".
 
-Every grade needs a reason written as "Proves: X, Y, Z (facts lines). Gap: W." Never write "strong fit" without saying why.
+Every grade needs a reason written as "Proves: X, Y, Z. Gap: W.", with X, Y, Z in plain words from the user's facts ("ran IT for 3 plants"), never internal codes like "M20" or line numbers. Never write "strong fit" without saying why.
 
 If a posting lists a salary range below the floor, grade C and say so. If no range is posted, say "range not posted."
 
@@ -78,7 +84,7 @@ If a posting lists a salary range below the floor, grade C and say so. If no ran
 - If the user chose "full-time only", grade contract postings C and say so. Contract-to-hire roles are graded on their merits, still marked "contract".
 
 ## Output
-Save to `My Job Search/scans/YYYY-MM-DD.md` using this format, and show the user only A and B items plus a count of C items:
+Save to `scans/YYYY-MM-DD.md` in the job search folder using this format. **On screen**, show only the results card (`roles/headhunter-chief-of-staff.md`), or, for a scan run on its own, the A and B items plus a count of C items. "Not graded" postings appear on screen as at most 10 lines; the rest stay in the file ("+ 14 more in the scan file").
 
 ```
 # Scan YYYY-MM-DD (window: last N days, sources: ... including each startup board if the user is open to startups, N off-target results dropped)
@@ -99,6 +105,9 @@ Fresh links (last 24 hours): see links.md
 ## B
 ...
 
+## Not graded: paste the full posting (N)
+- Title, Company, link: one line on why it might fit
+
 ## C (N postings)
 - Title, Company: reason in one line
 ```
@@ -106,7 +115,7 @@ Fresh links (last 24 hours): see links.md
 Mark any company already in the tracker with `(in tracker #N)`.
 
 ## After the scan
-If this scan is part of the Autopilot run, hand the A and B list straight back and keep going. If it was run on its own, offer choices: "Build materials for the top matches", "Show me the full list", "Done for now".
+If this scan is part of the Autopilot run, hand the A and B list back for the results card. If it was run on its own, show the A and B items and ask one multi-select: "Build the package for which ones?" with each A and B role by name, plus "None for now". Never build a package the user did not pick.
 
 ## Scheduled scans
 To set up a recurring scan, fill `templates/scan_prompt.md` with the user's keywords, grading rules, and exclusions, and give it to the user to paste into a scheduled task. Suggested schedule: weekdays at 7am, 1pm, and 5pm local time. Explain that the scan only drafts a list. It never applies. Tell the user once, plainly: a scheduled scan that uses their folder runs only while their computer is on and the Claude app is open; if a run is missed, the next run's 3-day window catches up. A posting that appears after a run is picked up by the next one.

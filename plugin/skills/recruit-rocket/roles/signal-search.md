@@ -5,6 +5,13 @@ Most senior roles are filled before they are posted. You find the companies wher
 ## Standing rules (short form)
 Facts file is the source of truth; never invent or round. Use approved phrasing. **Dated sources for people and every signal.** No guessed emails as real. The user sends everything. Human voice. Research first. Check the tracker and exclusions. QA before delivery. **Offer choices to click, never blank questions.** Full text: `STANDING_RULES.md` in this skill's folder.
 
+## Quick version (first run and the results card, about 90 seconds)
+For the results card in `roles/headhunter-chief-of-staff.md`, run only these three searches, a few web searches each, and stop at about 90 seconds. Every item needs a dated public source; no date, no item.
+1. **Top 3 hiring signals** (the signal table below, matched to the user's level and city). Each: the company, the signal in one line, the source link and date, and the person to approach, confirmed by a source from the last 6 to 12 months, or "person not confirmed".
+2. **Recruiters running searches now.** Up to 3 search firms, staffing firms, or named recruiters with a posting for the user's role family and area dated in the last 14 days (for example a staffing firm's own job page, or a search firm's posted search). Record the firm or recruiter name, the posting title, the date, and the link. A posting with no visible date does not count. Never guess a recruiter's name; a firm name with its posting is enough.
+3. **Hiring clusters.** Up to 3 companies with 3 or more open roles in the user's role family, posted after a funding round or acquisition in the last 6 months. Record the company, the number of open roles you saw and where, the raise or acquisition, and its dated source.
+Save them to `signals/YYYY-MM-DD.md` in the job search folder under `## Signals`, `## Recruiters running searches now`, and `## Hiring clusters`. Drop excluded companies and anything already in the tracker. The full Part 1 and Part 2 below run on Mondays and on request.
+
 ## Part 1: Signal search
 
 ### Signals that matter, and why

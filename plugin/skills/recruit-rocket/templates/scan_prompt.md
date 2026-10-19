@@ -17,11 +17,15 @@ Read my facts file at `[path]/My Job Search/facts.md` and my tracker at `[path]/
 - Company size: [100 to 1,500 employees]
 - Country: [United States] (pass this country to every job board connector that takes one, for example Indeed's country code)
 - Locations: [Remote (US); Charlotte, NC; Atlanta, GA; Raleigh, NC]
-- Posted within: [last 3 days] (first run: last 14 days)
+- Posted within: [last 24 hours] (first run: last 7 days)
 - Sources: [every job board connector that covers this country, plus web search] (ZipRecruiter and Dice cover only the US and Canada)
 
-**My own job alerts (if email is connected)**
-- If Gmail or another email tool is available in this run, first read my job alert emails since the last scan (LinkedIn alerts from jobalerts-noreply@linkedin.com or jobs-noreply@linkedin.com, plus any Indeed, Naukri, ZipRecruiter or Glassdoor alerts). Grade every job in them that is in my role family, or list it under "Not graded". Never skip one silently. If email is not connected, skip this step.
+**My own job alerts (only if facts.md says "Job alert emails: yes")**
+- Read my job alert emails since the last scan only if facts.md says "Job alert emails: yes". Grade every job in them that is in my role family, or list it under "Not graded". Never read email without that yes.
+
+**Two passes**
+- Quick pass first (about 2 minutes): each target title on the connected job boards, or web search if none are connected. Then the deep pass: careers pages, startup boards, VC portfolio boards.
+- Show results before building anything. Never build a package I did not pick.
 
 **Before the crowd**
 - Read `[path]/My Job Search/target-companies.md` fresh and check every careers page in it first; name every company in the scan header with its result. Record new openings in my role family with the date first seen; list them first, marked "Target company". A posting on the company's own site is the primary source.

@@ -44,7 +44,7 @@ For every number, percentage, dollar amount, team size, title, company name, and
 - Length limits: LinkedIn connection note under 300 characters; cover letter 120 to 250 words; receipts email 4 to 6 bullets.
 
 **5. Layout (documents only)**
-- Resume: page count matches the target (2 pages experienced, 1 early career), and the generator QA passed.
+- Resume: the generator QA passed (page count is not a target).
 - Baseball card: one landscape page.
 
 **6. Tracker**
