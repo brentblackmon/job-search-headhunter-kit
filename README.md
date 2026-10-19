@@ -95,6 +95,7 @@ To build resumes and baseball cards as PDFs on your own computer, see the [gener
 
 | Day | Do this | Say to Claude |
 |---|---|---|
+| 1 | Paste a job you want. In about a minute you get a Match Score, then a guided fix and a full package (tailored resume, baseball card, outreach email, LinkedIn note) with a one-page report | Attach your resume, paste the posting, and say "Score my resume against this job." |
 | 1 | A 10-minute interview, then the kit scans jobs and builds resumes, cards, cover letters, and emails for your top 3 matches on its own | "Set me up with Recruit Rocket. My resume is attached." |
 | 2 | Master resume and baseball card | "Build my master resume and baseball card." |
 | 2 | LinkedIn headline and About | "Review my LinkedIn." |

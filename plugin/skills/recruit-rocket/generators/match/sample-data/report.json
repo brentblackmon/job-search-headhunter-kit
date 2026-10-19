@@ -1,0 +1,39 @@
+{
+  "_note": "FICTIONAL SAMPLE. Jordan Rivera, Harborline Software and Priya Natarajan are not real.",
+  "name": "Jordan Rivera",
+  "company": "Harborline Software",
+  "title": "VP Operations",
+  "date": "2026-10-19",
+  "paper": "letter",
+  "before": "match.json",
+  "after": "match-after.json",
+  "keywords": [
+    "Required skills covered: 7 of 11",
+    "Exact-term matches: 4 of 11"
+  ],
+  "files": [
+    {
+      "label": "Tailored resume",
+      "path": "../../resume/sample-data/resume.json"
+    },
+    {
+      "label": "Baseball card",
+      "path": "../../baseball-card/sample-data/card.json"
+    },
+    {
+      "label": "Outreach email",
+      "path": "match.json"
+    },
+    {
+      "label": "LinkedIn note",
+      "path": "match-after.json"
+    }
+  ],
+  "executive": {
+    "name": "Priya Natarajan",
+    "title": "COO",
+    "since": "Jan 2026",
+    "source": "Harborline press release (fictional)",
+    "sourceDate": "2026-01-14"
+  }
+}

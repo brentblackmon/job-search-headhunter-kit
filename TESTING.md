@@ -26,14 +26,15 @@ Setup takes about 5 minutes if you already have Claude, plus a 10-minute intervi
 3. **Switch to Cowork** in the Claude app.
 4. **Pick a folder.** When it asks, choose a folder on your computer for your job search (for example a new folder in Documents called **Recruit Rocket**).
 5. **Attach your resume** (Word or PDF), or your LinkedIn PDF if you have no current resume. You can attach both.
-6. **Say:** **Set me up with Recruit Rocket. I am job hunting in [your city, your country].**
+6. **Have a job in mind? Start there.** Paste the job posting (or its link) and say: **Score my resume against this job.** In about a minute you get a Match Score out of 100, what the job asks for and how your resume shows it, and the claims that need a number. Then pick **Fix the gaps first** (a few one-click questions) or **Build my package**: a tailored resume, baseball card, outreach email, and LinkedIn note, fact-checked, with a one-page report. It posts a numbered status line as it works, so you can see it moving.
+7. **For the full search, say:** **Set me up with Recruit Rocket. I am job hunting in [your city, your country].**
    For example: "Set me up with Recruit Rocket. I am job hunting in Tulsa, Oklahoma, United States." or "Set me up with Recruit Rocket. I am job hunting in Hyderabad, India."
 
 Then click **Allow** or **Approve** when Claude asks, and answer about five quick questions (most are one click). It runs on its own from there: it finds jobs that fit, spots companies about to hire, builds your resume, stat sheet, cover letter, and outreach for the best ones, checks every number, and shows you one review screen.
 
 Each morning after that, just say **"What should I do today?"**
 
-**Found a job on a board Claude can't search** (for example Naukri or LinkedIn Jobs)? Paste the link or the job text and say: **"Grade this posting and build my package."**
+**Found a job on a board Claude can't search** (for example Naukri or LinkedIn Jobs)? Paste the link or the job text and say: **"Build my package for this job."**
 
 ## Getting updates
 Delete Recruit Rocket in **Skills**, download recruit-rocket.zip again, and upload it. Your **My Job Search** folder is not touched.

@@ -10,7 +10,7 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 - You read `facts.md` (exclusions, targets) and the latest `scans/` and `signals/` files.
 
 ## Autopilot (first run after intake, and each morning)
-The user should never have to name the next step. Run the whole pipeline, then stop once for review.
+The user should never have to name the next step. Run the whole pipeline, then stop once for review. Show progress the whole way (rule 15): before each step post a numbered status line counted over the whole run ("Step 1 of 7: scanning for new jobs", "Step 4 of 7: building the Harborline package (2 of 3)"), and after it a one-line "Done:" with what it found ("Done: 3 A-grade jobs, 5 B's, 14 off-target dropped").
 
 1. **Scan.** Use `talent-scout` (last 14 days on the first run, 3 days after that), including target companies, startup boards if the user is open to them, and the fresh-first order. Save the scan file.
 2. **Signals.** Use `signal-search` on the first run, even when the scan found nothing to grade, and then once a week (Mondays): find companies likely to hire before they post, and on the first run add the 2 or 3 staffing firms to `channels.md` and the tracker. Take the top 2 that are not in the tracker or excluded.
