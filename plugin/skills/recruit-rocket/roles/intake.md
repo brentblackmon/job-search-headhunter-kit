@@ -55,8 +55,8 @@ After the first results card (and after any packages the user picked), send **on
 
 ```
 Sharpen your results (optional):
-1. Anyone else to avoid? (I left out [current employer].)
-2. Companies you'd love to work for? I'll watch their careers pages.
+1. Anyone else to avoid? (I left out [current employer].) [No] [I'll name them]
+2. Companies you'd love to work for? I'll watch their careers pages. [Skip] [I'll name them]
 3. Open to contract work? (Yes / No)
 [Skip] [More]
 ```
@@ -66,6 +66,7 @@ Sharpen your results (optional):
 Record each answer in `facts.md`:
 - Exclusions, startups (`Open to startups: yes/no`), schools, voice sample, notice period.
 - Target companies: write `target-companies.md` from `templates/target-companies.md`, with each careers page URL from a web search ("careers page not found" if none; "Workday" in Notes for `myworkdayjobs.com` URLs).
+- **Names right away.** When the user picks "I'll name them" (or says yes) for the avoid list or for target companies without giving names, ask for the names in the very next message ("Which companies? Type them separated by commas."), before anything else. Never leave a yes without the names.
 - **Contract work: only if they say yes**, ask one follow-up for the lowest hourly rate (options sized to their level, for example "$45/hr or more", "$55/hr or more", "$65/hr or more"). Record "Contract work: yes, hourly floor $55/hr" or "Contract work: no".
 - Skipped lines stay as they are; never ask them again unless the user brings them up.
 If they added target companies or said yes to startups, run the deep pass in `roles/talent-scout.md` now and post any new A-grade finds in one short update.

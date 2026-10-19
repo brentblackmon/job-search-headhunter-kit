@@ -27,7 +27,7 @@ const posting = (o) => ({ title: "IT Director", company: "Co", location: "Columb
 // 2. The card on the sample.
 {
   const out = build(sample);
-  expect("top picks: only the 2 that pass every gate", out.picks.map((p) => p.company).join(", "), "Acme Manufacturing, Buckeye Freight");
+  expect("top picks: only the 3 that pass every gate (a target-company opening included)", out.picks.map((p) => p.company).join(", "), "Acme Manufacturing, Granite Systems, Buckeye Freight");
   expect("A before B, freshest first, Apply today under 48 hours", /1\. \*\*IT Director\*\*, Acme.*Apply today/.test(out.card) && !/Buckeye.*Apply today/.test(out.card) ? "yes" : "no", "yes");
   expect("already applied is skipped and listed in one line", out.card.includes("Already applied, skipped: Northwind Plastics.") && !out.picks.some((p) => p.company === "Northwind Plastics") ? "yes" : "no", "yes");
   expect("a 49-day-old A goes to Older but still open", out.older.map((p) => p.company).join(), "Lakeview Health");
@@ -54,6 +54,37 @@ const posting = (o) => ({ title: "IT Director", company: "Co", location: "Columb
   expect("lint leaves job text like 'error rates' alone", lint("cut error rates 30%").length, 0);
   const cli = spawnSync("node", [path.join(__dirname, "..", "build-results.js"), "--data", path.join(__dirname, "..", "sample-data", "results.json")], { encoding: "utf8" });
   expect("the CLI prints the card and passes", `${cli.status} ${cli.stdout.startsWith("## Your results")}`, "0 true");
+}
+
+// 4. Search depth: signal searches, target openings, not graded, generic links, counts.
+{
+  const { validate, lintCounts, isGeneric } = require("../build-results");
+  const copy = () => JSON.parse(JSON.stringify(sample));
+  expect("the sample passes the depth checks", validate(sample).length, 0);
+  const few = copy(); few.checked.signalQueries = few.checked.signalQueries.slice(0, 3);
+  expect("fewer than 6 signal searches fails", validate(few).some((p) => /only 3 signal news searches/.test(p)), true);
+  const noExit = copy(); noExit.checked.signalQueries = noExit.checked.signalQueries.map((q) => (q.type === "C-suite exit" ? { ...q, type: "new CEO" } : q));
+  expect("a missing signal type fails", validate(noExit).some((p) => /C-suite exit/.test(p)), true);
+  const lost = copy(); lost.postings = lost.postings.filter((x) => !x.target);
+  expect("a target opening missing from postings fails", validate(lost).some((p) => /Granite Systems: 1 in-family opening/.test(p)), true);
+  const out = build(sample);
+  expect("a target opening graded A appears in Top picks", out.picks.some((p) => p.target && p.company === "Granite Systems"), true);
+  const ng = copy(); ng.notGraded.push({ title: "IT Lead", company: "Somewhere Co", link: "https://example.com/x1" });
+  expect("a not-graded posting with no careers search fails", validate(ng).some((p) => /no careersSearch/.test(p)), true);
+  const many = copy(); many.notGraded = Array.from({ length: 6 }, (_, k) => ({ title: `Role ${k}`, company: `Co ${k}`, link: `https://example.com/r${k}`, careersSearch: "searched the careers page" }));
+  expect("not graded shows at most 3, under More", (build(many).card.match(/^- Role \d/gm) || []).length, 3);
+  expect("linkedin.com/jobs/ is a generic link", isGeneric("https://www.linkedin.com/jobs/"), true);
+  expect("a bare careers page is a generic link", isGeneric("https://acme.example.com/careers"), true);
+  expect("a posting link is not generic", isGeneric("https://www.linkedin.com/jobs/view/4012345678"), false);
+  const gen = copy(); gen.postings[0].link = "https://www.linkedin.com/jobs/";
+  expect("a generic posting link fails", validate(gen).some((p) => /generic link/.test(p)), true);
+  const nolink = copy(); nolink.postings[0].link = "";
+  expect('an empty link prints "link not found"', build(nolink).card.includes("link not found"), true);
+  expect("the generated scan file's counts match its lists", lintCounts(out.scan).length, 0);
+  expect('a hand-written "3 need relocation" over 2 items fails', lintCounts("## Capped at C\n3 need relocation:\n- A, B Co\n- C, D Co\n").length, 1);
+  expect('a heading "(3)" over 2 items fails', lintCounts("## Older but still open (3)\n- a\n- b\n").length, 1);
+  expect("a generic link in a hand-written scan fails", lintCounts("## Picks (1)\n- IT Manager, Co. https://www.linkedin.com/jobs/\n").some((p) => /generic link/.test(p)), true);
+  expect("the signals file lists the queries run", /News searches run \(6\): new CEO: "/.test(out.signals), true);
 }
 
 let failed = 0;
