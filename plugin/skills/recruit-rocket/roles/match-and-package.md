@@ -5,7 +5,23 @@ The first thing a new user sees. They paste a job posting (or say "score my resu
 ## Standing rules (short form)
 Facts file is the source of truth; **never invent or round**, never invent a skill. Use approved phrasing. Dated sources for people. No guessed emails as real. The user sends everything. Human voice: no em dashes or en dashes, no AI-tell words. **Never copy the posting.** **Offer choices to click, never blank questions.** **Show progress (rule 15): numbered status lines, never more than about 60 seconds of silence.** Full text: `STANDING_RULES.md` in this skill's folder.
 
-**Your very first output, before you read any file, is the status line "Step 1 of 2: reading the posting and your resume".** Every later step also starts with its status line, posted as its own message before the work begins, and ends with a "Done:" line. A status line that only appears with the results does not count.
+## Progress script (follow it exactly)
+These are the only step lines, word for word. Each one is **its own message, sent before that step's first file read, search, or command**, never bundled with another step's line or with results. After the step, send its "Done:" line (what it found, in one line) as its own message. If you notice you missed one, send it at once.
+
+Match Score:
+- "Step 1 of 2: reading the posting and your resume" (your very first output, before you read any file)
+- "Step 2 of 2: scoring and checking your evidence"
+- then the score table and the offer, which end the turn
+
+Package:
+- "Step 1 of 6: researching the company and the hiring executive"
+- "Step 2 of 6: building your tailored resume"
+- "Step 3 of 6: building your baseball card"
+- "Step 4 of 6: writing your outreach email and LinkedIn note"
+- "Step 5 of 6: fact-checking everything"
+- "Step 6 of 6: making your results report"
+
+**Task list too.** If the app shows a task list (for example the TodoWrite tool), create one item per step when the package starts and mark each one in progress and done as you go, so the user can see the progress even between messages.
 
 ## Before Step 1 (a few seconds, no questions unless something is missing)
 1. **Posting.** Pasted text, a file, or a link. A link that cannot be opened: ask once, "Paste the posting text", "Try another link". Note the company and title.
@@ -42,9 +58,9 @@ Evidence check: 6 well backed, 2 vague
 - Vague (missing a result): "Built the weekly carrier scorecard used in rate negotiations."
 ...
 ```
-   Every evidence line quotes the resume, Well backed ones too.
+   Every evidence line quotes the resume, Well backed ones too, and quotes the whole bullet or sentence, never a one- or two-word fragment ("Treasurer" is a title, not a claim).
    Then offer: "Fix the gaps first (about 2 minutes, recommended)", "Build my package now", "Stop here". With nothing Vague or Partly met, skip the first choice.
-   **If the user already asked for the package** ("build my package for this job"), that is the go: skip the offer and start Step 3 right after the score. The gaps stay listed in the report.
+   **Always stop here**, even when the user asked for the package ("build my package for this job"): the score and the offer end this turn, and "Build my package now" is one click away. Never start the package in the same turn as the score; the user must see the score first.
 
 ## Step 2. Guided fix (optional)
 For each Vague claim and each Partly met requirement, ask one question at a time, Partly met must-haves first, at most 6 questions in all. Each question shows the resume line beside it and asks only for the missing detail (number, scope, timeframe, or result). Choices are built only from what is already known, never a made-up number:
@@ -59,7 +75,7 @@ What changed because of it?
 - **Answered:** add it to `facts.md` as a metric marked `CONFIRMED`, with approved phrasing in the user's words, under the right role. A typed number is used exactly as typed.
 - **No number or skipped:** leave the line as it is. Never fill the gap yourself.
 - Not shown requirements are not asked here; the ATS keyword check in Step 3 asks about missing required skills.
-Then re-rate only the items an answer changed, write `match-after.json`, run `score.js` on it, and show before and after: "Match Score: 72 (Maybe) before, 81 (Shortlist) after", with one line per item that moved. The "after" score is for the tailored resume, which uses the confirmed facts.
+Then re-rate only the items an answer changed, write `match-after.json`, run `score.js` on it, and show before and after: "Match Score: 72 (Maybe) before, 81 (Shortlist) after", with one line per item that moved. The "after" score is for the tailored resume, which uses the confirmed facts. It changes only through answers given in this step: never re-score the tailored resume on its own, and with no answers there is no "after" score.
 Offer: "Build my package", "Stop here".
 
 ## Step 3. Full package (automatic once the user says go)
