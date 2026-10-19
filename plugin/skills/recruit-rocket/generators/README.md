@@ -9,6 +9,8 @@ Two small tools that turn your facts into finished documents. Recruit Rocket run
 | `resume/copy-check.js` | the posting + the resume PDF or cover letter | flags any sentence sharing 6 or more words in a row with the posting (tool, product, company, and title names do not count) |
 | `resume/voice.js` | a resume PDF or a text file | AI-tell words in every form (leveraged, spearheaded) and weak verbs; company and product names are skipped |
 | `links/build-links.js` | `links-input.json` (titles, locations, remote, recruiter titles) | `links.md`: LinkedIn searches for the last 24 hours and last hour, remote variants, and recruiter searches. Links only; nothing logs in to LinkedIn |
+| `match/score.js` | `match.json` (up to 5 must-haves, 3 nice-to-haves, 10 evidence claims, each rated with a resume quote) | The Match Score out of 100 and its band: Shortlist 80+, Maybe 60 to 79, Unlikely under 60 |
+| `match/build-report.js` | `report.json` (score before and after, keyword numbers, the four package files, the hiring executive and dated source) | A one-page results report PDF, checked for 1 page, no dashes, no placeholders, and files that exist |
 | `baseball-card/render-card.js` | `card.json` | one-page landscape `.pdf` and a `-preview.png` |
 
 ## One-time setup

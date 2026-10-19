@@ -1,0 +1,12 @@
+{
+  "name": "recruit-rocket-match",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Match Score for one posting (score.js) and the one-page Match and Package results report (build-report.js).",
+  "main": "score.js",
+  "scripts": {
+    "sample": "node build-report.js --data sample-data/report.json --out out/Jordan_Rivera_Match_Report_Sample.pdf",
+    "test": "node test/run-tests.js"
+  },
+  "license": "UNLICENSED"
+}

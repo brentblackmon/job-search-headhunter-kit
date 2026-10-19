@@ -1,0 +1,91 @@
+{
+  "_note": "FICTIONAL SAMPLE. Jordan Rivera and Harborline Software are not real.",
+  "posting": "Harborline Software, VP Operations",
+  "requirements": [
+    {
+      "kind": "must",
+      "text": "Leads implementation, support and training teams of 50 or more",
+      "rating": "met",
+      "reason": "Leads 64 people across all three functions",
+      "quote": "Lead implementation, support, and training: 64 people and an $11.2M operating budget."
+    },
+    {
+      "kind": "must",
+      "text": "Shortened implementation timelines",
+      "rating": "met",
+      "reason": "Cut go-live time by 7 weeks",
+      "quote": "Cut average implementation time from 16 weeks to 9 weeks"
+    },
+    {
+      "kind": "must",
+      "text": "Raised retention",
+      "rating": "met",
+      "reason": "Gross revenue retention up 6 points",
+      "quote": "helped raise gross revenue retention from 89% to 95%"
+    },
+    {
+      "kind": "must",
+      "text": "5 or more years leading managers",
+      "rating": "met",
+      "reason": "Leads 6 managers, 7 years leading managers (confirmed)",
+      "quote": "Lead implementation, support, and training: 64 people"
+    },
+    {
+      "kind": "must",
+      "text": "Integrated an acquired company's customers and staff",
+      "rating": "partly",
+      "reason": "Consolidated tools; no acquisition named",
+      "quote": "Consolidated support and training tools from 7 vendors to 3"
+    },
+    {
+      "kind": "nice",
+      "text": "Customer education as a product",
+      "rating": "met",
+      "reason": "Runs a customer training academy",
+      "quote": "Launched a customer training academy that certified 1,100 customer users in 2024."
+    },
+    {
+      "kind": "nice",
+      "text": "Salesforce, Gainsight, Zendesk, Jira",
+      "rating": "not",
+      "reason": "None of the four tools appear",
+      "quote": ""
+    },
+    {
+      "kind": "nice",
+      "text": "Teams across three time zones",
+      "rating": "not",
+      "reason": "Time zones not mentioned",
+      "quote": ""
+    }
+  ],
+  "evidence": [
+    {
+      "claim": "Faster go-lives",
+      "rating": "well",
+      "quote": "Cut average implementation time from 16 weeks to 9 weeks"
+    },
+    {
+      "claim": "Higher retention",
+      "rating": "well",
+      "quote": "helped raise gross revenue retention from 89% to 95%"
+    },
+    {
+      "claim": "Lower tool cost",
+      "rating": "well",
+      "quote": "Consolidated support and training tools from 7 vendors to 3, saving $640K per year."
+    },
+    {
+      "claim": "Customer academy",
+      "rating": "vague",
+      "missing": "result",
+      "quote": "Launched a customer training academy that certified 1,100 customer users in 2024."
+    },
+    {
+      "claim": "Carrier scorecard",
+      "rating": "vague",
+      "missing": "result",
+      "quote": "Built the weekly carrier scorecard used in rate negotiations."
+    }
+  ]
+}
