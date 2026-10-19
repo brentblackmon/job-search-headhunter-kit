@@ -25,6 +25,14 @@
 // Skills covered only by a variant or the user's wording are listed as "Covered in your
 // words, not the posting's exact term", so the user can choose to add the exact term.
 //
+// Literal terms ("terms" in keywords.json): the full list of phrases from every
+// responsibility and requirement line of the posting, usually 35 to 50. A term matches
+// only when the posting's own words are on the resume, as written or with a different word
+// ending, close together in one line ("cross-sell" and "cross-selling"; "Net Revenue
+// Retention (NRR)" matches either form). Meaning-alikes never count: "win rates went from
+// 60% to 95%" is not "customer acquisition". Prints "Literal terms matched: X of N" and the
+// missing terms.
+//
 // A partial match is a keyword whose words show up in another form: a different
 // word ending ("Mentor" for "Mentoring", "led" for "Leadership"), or the main word of
 // a multi-word keyword next to a related word ("Hardware Lifecycle" for "Lifecycle
@@ -180,6 +188,33 @@ function check(keywords, text) {
   return rows;
 }
 
+// Literal match: the term's own words (stopwords aside), each with the same stem, within a
+// short window of one line or list item. Product names from the variant table count.
+const STOPWORDS = new Set(["a", "an", "and", "the", "of", "to", "for", "in", "on", "with", "or", "at", "by", "as", "&"]);
+function literal(text, term) {
+  const alts = String(term).split(/\s*[()]\s*/).map((x) => x.trim()).filter(Boolean);
+  for (const alt of alts) {
+    const { variants } = variantsFor(alt);
+    const product = VARIANTS.some((g) => g.some((v) => v.toLowerCase() === alt.toLowerCase()));
+    if ((product ? variants : [alt]).some((v) => found(clean(text), v))) return true;
+    const words = alt.split(/[^A-Za-z0-9+#]+/).filter((w) => w && !STOPWORDS.has(w.toLowerCase()));
+    if (!words.length) continue;
+    const need = words.map(stem);
+    for (const phrase of String(text).replace(/[-\u2010-\u2015/]+/g, " ").split(/[\n|,;:.\u2022()]+/)) {
+      const stems = phrase.split(/[^A-Za-z0-9+#]+/).filter(Boolean).map(stem);
+      const at = need.map((n) => stems.indexOf(n));
+      if (at.some((i) => i === -1)) continue;
+      if (Math.max(...at) - Math.min(...at) <= need.length + 1) return true;
+    }
+  }
+  return false;
+}
+function literalTerms(keywords, text) {
+  const terms = [...new Set((keywords.terms || []).map(String))];
+  const matched = terms.filter((t) => literal(text, t));
+  return { terms, matched, missing: terms.filter((t) => !matched.includes(t)), line: `Literal terms matched: ${matched.length} of ${terms.length}` };
+}
+
 // The two headline numbers count required skills only. A skill the resume shows in the
 // user's own words (a variant or a partial match) counts as covered but not as an exact
 // match. Preferred skills are listed, not counted, so nobody is pushed to chase 100%.
@@ -244,10 +279,17 @@ if (require.main === module) {
   fs.writeFileSync(outPath, out.md);
   console.log(out.line);
   console.log(out.exactLine);
+  const text = resumeText(args.resume);
+  const lit = literalTerms(keywords, text);
+  if (lit.terms.length) {
+    console.log(lit.line);
+    if (lit.missing.length) console.log("Missing literal terms: " + lit.missing.join(", "));
+    fs.appendFileSync(outPath, `\n## Literal terms (the posting's own words)\n**${lit.line}**\n\n### Missing\n${lit.missing.map((t) => `- ${t}`).join("\n") || "None."}\n`);
+  }
   if (out.ownWords.length) console.log("Covered in your words, not the posting's exact term: " + out.ownWords.map((r) => `${r.name} (resume says "${r.hit || r.partial}")`).join(", "));
   const missingRequired = out.required.filter((r) => !r.hit && !r.partial);
   if (missingRequired.length) console.log("Missing required: " + missingRequired.map((r) => r.name).join(", "));
   console.log("Wrote " + outPath);
 }
 
-module.exports = { check, report, found, variantsFor, stem, partial, postingHash };
+module.exports = { check, report, found, variantsFor, stem, partial, postingHash, literal, literalTerms };

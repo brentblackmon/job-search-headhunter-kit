@@ -26,7 +26,10 @@ For every number, percentage, dollar amount, team size, title, company name, and
 
 **2. Claims about the company or person**
 - Every fact about the target company must trace to a source in the research notes, with a date.
-- The named executive must be confirmed current by a dated source from the last 6 to 12 months. If not, flag it.
+- **Causes:** each proof point on the card and in the email is credited the way `facts.md` records what drove it. If several drivers are listed, the draft never credits the number to one tool or program, and never files it under a heading that implies one (rule 18).
+- **No slogans** in the card or email (rule 6).
+- **Answers reached every file:** after any answer, `generators/match/stale-check.js` passes on the company folder with the old wording (rule 19).
+- The named executive must be confirmed current by a dated source from the last 12 months. If not, flag it.
 
 **3. Email addresses**
 - `VERIFIED` only if published by the company or the person (site, press release, filing, signature).

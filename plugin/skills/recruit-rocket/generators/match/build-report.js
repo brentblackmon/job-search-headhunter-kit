@@ -9,7 +9,7 @@
 //     "date": "2026-10-19", "paper": "letter",
 //     "before": "match-before.json",            // match.json from Step 1 (see score.js)
 //     "after": "match-after.json",             // optional: match.json after the guided fix
-//     "keywords": ["Exact-term matches: 6 of 9"],   // ATS keyword line; "Required skills
+//     "keywords": ["Literal terms matched: 41 of 45"], // ATS keyword line; "Required skills
 //                                                    // covered" is computed from the must-haves
 //     "outreach": "outreach.json",                   // the hiring executive must match its contact
 //     "files": [{ "label": "Tailored resume", "path": "Jordan_Rivera_Resume_Harborline.pdf" }, ...],

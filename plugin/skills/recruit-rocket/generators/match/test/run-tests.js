@@ -95,6 +95,46 @@ const req = (kind, rating) => ({ kind, rating, text: `${kind} ${rating}`, reason
   expect("confirmed on one side and not the other fails QA", label.status === 1 && /not confirmed/.test(label.stderr) ? "fails" : "passes", "fails");
 }
 
+// 5. Hard gates, found before anything is built.
+{
+  const { findGates } = require("../gates");
+  const posting = fs.readFileSync(path.join(root, "sample-data", "posting-gated.md"), "utf8");
+  const g = findGates(posting, "", "2026-10-19");
+  const ask = (t) => (g.find((x) => x.type === t) || {}).status;
+  expect("Canada and US work authorization is a gate to ask about", ask("work authorization"), "ask");
+  expect("the question names both countries", g.find((x) => x.type === "work authorization").question, "The posting requires authorization to work in Canada and the United States. Do you have it?");
+  expect("a required degree is a gate", ask("degree"), "ask");
+  expect('"5+ years with Salesforce" is a gate', g.some((x) => x.type === "years in" && /Salesforce/.test(x.need)), true);
+  expect("a posting from Apr 27 read on Oct 19 is 175 days old and flagged", (g.find((x) => x.type === "posting age") || {}).days, 175);
+  const facts = "- Work authorization: United States, Canada\n- Education: B.S. Business\n- Tools: Salesforce\n- Industry: vertical software\n";
+  const met = findGates(posting, facts, "2026-10-19").filter((x) => x.status === "ask").map((x) => x.type).join();
+  expect("facts.md that shows each gate leaves only the posting age to ask", met, "posting age");
+  const usOnly = findGates(posting, "- Work authorization: United States\n", "2026-10-19");
+  expect("US-only authorization does not meet a Canada and US requirement", usOnly.find((x) => x.type === "work authorization").status, "ask");
+  const fresh = findGates("Posted 2026-10-10. Must be authorized to work in the US.", "- Work authorization: US citizen\n", "2026-10-19");
+  expect("a 9-day-old posting is not flagged for age", fresh.some((x) => x.type === "posting age"), false);
+  expect("US authorization in facts.md meets a US requirement", fresh.find((x) => x.type === "work authorization").status, "met");
+  const cli = spawnSync("node", [path.join(root, "gates.js"), "--posting", path.join(root, "sample-data", "posting-gated.md"), "--today", "2026-10-19"], { encoding: "utf8" });
+  expect("the CLI exits 3 when a question is needed", cli.status, 3);
+}
+
+// 6. Answers reach every file: the stale check finds an old phrase in any file type.
+{
+  const { staleFiles } = require("../stale-check");
+  const dir = path.join(work, "stale");
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "facts.md"), "- Education: Wharton, completed October 2026\n");
+  fs.writeFileSync(path.join(dir, "card.json"), JSON.stringify({ intro: "MBA, Wharton, expected October 2026" }));
+  fs.copyFileSync(path.join(work, "ok.pdf"), path.join(dir, "report.pdf"));
+  const hits = staleFiles(fs.readdirSync(dir).map((f) => path.join(dir, f)), ["expected October 2026"]);
+  expect("the stale check finds the old phrase in the card data", hits.map((h) => path.basename(h.file)).join(), "card.json");
+  const cli = spawnSync("node", [path.join(root, "stale-check.js"), "--dir", dir, "--old", "Expected  October 2026"], { encoding: "utf8" });
+  expect("the CLI fails while any file still says it (case and spacing ignored)", cli.status, 1);
+  fs.writeFileSync(path.join(dir, "card.json"), JSON.stringify({ intro: "MBA, Wharton, October 2026" }));
+  const clean = spawnSync("node", [path.join(root, "stale-check.js"), "--dir", dir, "--old", "expected October 2026"], { encoding: "utf8" });
+  expect("the CLI passes once every file is updated", clean.status, 0);
+}
+
 fs.rmSync(work, { recursive: true, force: true });
 let failed = 0;
 for (const r of results) {

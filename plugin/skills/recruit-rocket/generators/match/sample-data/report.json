@@ -8,7 +8,7 @@
   "before": "match.json",
   "after": "match-after.json",
   "keywords": [
-    "Exact-term matches: 4 of 11"
+    "Literal terms matched: 31 of 45"
   ],
   "files": [
     {

@@ -168,7 +168,7 @@ function build(r) {
 
 function lint(text) {
   const problems = [];
-  if (/[–—]/.test(text)) problems.push("em or en dash");
+  if (/[\u2013\u2014]/.test(text)) problems.push("em or en dash");
   if (/\S - \S/.test(text.replace(/https?:\/\/\S+/g, ""))) problems.push('a spaced hyphen used as a dash (" - ")');
   const ph = text.match(/\[[^\[\]]{1,40}\]/g);
   if (ph) problems.push(`placeholder ${ph[0]}`);

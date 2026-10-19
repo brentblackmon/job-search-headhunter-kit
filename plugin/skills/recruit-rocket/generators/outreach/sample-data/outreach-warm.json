@@ -1,0 +1,32 @@
+{
+  "_note": "FICTIONAL SAMPLE. Every company and person is invented.",
+  "name": "Jordan Rivera",
+  "company": "Northpeak Software",
+  "contact": {
+    "name": "Avery Chen",
+    "title": "Operating Partner, Cobalt Holdings (Northpeak's parent)",
+    "confirmed": true,
+    "source": "interviewed with Avery on Oct 8, 2026 (tracker)",
+    "date": "2026-10-08"
+  },
+  "email": {},
+  "linkedinNote": "Avery, thanks again for the Oct 8 conversation. I saw the Chief Operating Officer opening at Northpeak and would value your view on it.",
+  "alumni": [],
+  "sources": [
+    "Chief Operating Officer posting, Northpeak Software, 2026-04-27"
+  ],
+  "today": "2026-10-20",
+  "role": "Chief Operating Officer",
+  "mode": "warm",
+  "signature": {
+    "name": "Jordan Rivera",
+    "phone": "(704) 555-0142",
+    "email": "jordan.rivera@example.com",
+    "linkedin": "linkedin.com/in/jordan-rivera-example"
+  },
+  "warm": {
+    "name": "Avery Chen",
+    "relation": "interviewed together at Cobalt Holdings on Oct 8",
+    "note": "Hi Avery,\n\nThanks again for the conversation on Oct 8. I saw Northpeak, in the Cobalt portfolio, is hiring a Chief Operating Officer. Is that a role you'd see me in, and who would be the right person to talk with?\n\nRegards,\nJordan"
+  }
+}

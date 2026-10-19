@@ -1,9 +1,9 @@
 {
   "_note": "FICTIONAL SAMPLE. Tailored for Harborline Software (fictional). Section 01 leads with Harborline's priority: live in 60 days, every customer.",
   "name": "Jordan Rivera",
-  "role": "VP Operations / Harborline Software",
-  "headline": "Faster go-lives.",
-  "headlineAccent": "Customers who stay.",
+  "role": "VP Operations",
+  "headline": "Implementation, support and training",
+  "headlineAccent": "run as one post-sale team.",
   "intro": "Most recently Director of Operations at Tidewater Freight Systems, a 420-person transportation software company. I run implementation, support, and training as one post-sale team, and I brought an acquired company's people and customers onto one platform without losing them.",
   "photo": "../../headshot-sample.png",
   "stats": [
@@ -27,7 +27,7 @@
   "sections": [
     {
       "eyebrow": "01 / Running the post-sale team",
-      "title": "One team from signed contract to renewal.",
+      "title": "Implementation, support and training at Tidewater",
       "cards": [
         {
           "tag": "Implementation",
@@ -57,7 +57,7 @@
     },
     {
       "eyebrow": "02 / Building teams that last",
-      "title": "Grow the team, keep the customers.",
+      "title": "Team growth and customer retention",
       "cards": [
         {
           "tag": "Retention",
@@ -86,10 +86,6 @@
       ]
     }
   ],
-  "footer": {
-    "tagline": "One post-sale team.",
-    "accent": "Live fast, stay long."
-  },
   "contact": [
     "(704) 555-0142",
     "jordan.rivera@example.com",

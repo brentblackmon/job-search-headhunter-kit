@@ -107,9 +107,36 @@ function buildCard(d) {
       </div>
     </section>`).join("")}
     <footer class="foot">
-      <div class="tagline">${esc(footer.tagline || "")}${footer.accent ? ` <span class="hl">${esc(footer.accent)}</span>` : ""}</div>
+      <div class="tagline">${esc(d.role ? `${d.role} candidate` : d.name)}</div>
       <div class="contact">${(d.contact || []).map(esc).join("&nbsp;&nbsp;|&nbsp;&nbsp;")}</div>
     </footer>`;
+}
+
+// No slogans. Short punchy fragments ("Profitable services. AI past R&D."), "not X but Y"
+// and "X, not Y" constructions ("Agents doing real work, not pilots."), and mottos are
+// banned; headlines and section titles state plain facts ("AI in support, sales and the
+// back office"). The footer is generated: "[target title] candidate" and the contact line.
+function sloganProblems(label, text, { fragments = false } = {}) {
+  const t = String(text || "").trim();
+  if (!t) return [];
+  const out = [];
+  if (/\bnot\b[^.!?]{0,60}\bbut\b/i.test(t) || /,\s*not\s+[a-z]/i.test(t) || /\bnot\s+just\b/i.test(t)) out.push(`${label} uses a "not X but Y" or "X, not Y" slogan: "${t}"`);
+  if (fragments) {
+    const parts = t.split(/[.!?]+/).map((x) => x.trim()).filter(Boolean);
+    if (parts.length >= 2 && parts.every((x) => x.split(/\s+/).length <= 5)) out.push(`${label} is a slogan of short fragments: "${t}"; state one plain fact instead`);
+  }
+  return out;
+}
+function noSlogans(d) {
+  const p = [];
+  if (/\s\/\s|\bat\s+[A-Z]/.test(d.role || "")) p.push(`role line "${d.role}" names a company; use the target title only`);
+  p.push(...sloganProblems("headline", `${d.headline || ""} ${d.headlineAccent || ""}`, { fragments: true }));
+  p.push(...sloganProblems("intro", d.intro));
+  (d.sections || []).forEach((s, i) => {
+    p.push(...sloganProblems(`section ${i + 1} title`, s.title, { fragments: true }));
+    (s.cards || []).forEach((c, j) => p.push(...sloganProblems(`section ${i + 1} card ${j + 1}`, `${c.title}. ${c.proof} ${c.body}`)));
+  });
+  return p;
 }
 
 // A card's proof line must add a fact, not repeat its title: "Services revenue up" over
@@ -124,7 +151,7 @@ function repeatsTitle(title, proof) {
 }
 
 function checkShape(d) {
-  const problems = [];
+  const problems = [...noSlogans(d)];
   (d.sections || []).forEach((s, i) => (s.cards || []).forEach((c, j) => {
     if (repeatsTitle(c.title, c.proof)) problems.push(`section ${i + 1} card ${j + 1}: the proof "${c.proof}" repeats the title "${c.title}"; give the number its own fact`);
   }));
@@ -322,4 +349,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { buildCard, normalize, checkLengths, checkShape, repeatsTitle, LIMITS };
+module.exports = { buildCard, normalize, checkLengths, checkShape, repeatsTitle, noSlogans, sloganProblems, LIMITS };

@@ -12,7 +12,8 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 4. **Recent news.** Funding, acquisitions, leadership changes, launches, layoffs, customer wins. Each with a date.
 5. **The problem for the user's function.** Based only on the above, what operational (or sales, finance, product) problem is this company likely facing? Label this clearly as your inference.
 6. **The right person.** Identify the hiring executive for the user's target role (usually the boss of that role).
-   - Confirm they are current with a dated source from the last 6 to 12 months (press release, interview, conference bio with date, filing).
+   - Also note the company's **parent or portfolio group** (owner, PE firm, holding company), for the pipeline check.
+   - Confirm they are current with a dated source from the last 12 months (press release, interview, conference bio with date, filing).
    - Record name, title, source, date.
    - If you cannot confirm, say `Not confirmed` and suggest how the user can check (for example, their LinkedIn profile in a browser).
 7. **Email address.**

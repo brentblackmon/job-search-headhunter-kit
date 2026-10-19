@@ -9,7 +9,7 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 For the results card in `roles/headhunter-chief-of-staff.md`, run these three searches and stop at about 90 seconds. Every item needs a dated public source; no date, no item. Put them in `results.json` (see `roles/talent-scout.md`); the results script enforces the rules below.
 1. **Top 3 hiring signals** (the signal table below, matched to the user's level and city).
    - **Drop** internal promotions at companies larger than the user's target size range (a new CIO promoted from inside a 20,000-person company creates no opening for them), and non-operating hires (CIO, CTO, CISO, CMO) unless the user targets those roles.
-   - **Every signal needs a named contact confirmed by a dated source** from the last 6 to 12 months (press release, interview, dated bio). No named, dated contact: it goes to "Also seen", not the top 3.
+   - **Every signal needs a named contact confirmed by a dated source** from the last 12 months (press release, interview, dated bio). No named, dated contact: it goes to "Also seen", not the top 3.
    - **Fewer than 3 real signals:** say so plainly ("Only 1 real signal this time"). Never pad the list.
 2. **Recruiters running searches now.** Actually search: retained search firms and recruiters with a posted search for the user's target titles in their area, dated in the last 30 days (search firm job pages, "retained search" plus the title and city, the firm's LinkedIn job posts found by web search). Record the firm or recruiter, the search, the posting date, and the link. A posting with no visible date does not count. Never guess a recruiter's name.
 3. **Hiring clusters.** Actually search: 2 or more open roles in the user's role family at one company, or across one PE firm's portfolio companies, ideally after a raise or acquisition. Record the company or portfolio, the number of openings and where you saw them, and the dated source.
@@ -38,7 +38,7 @@ For the results card in `roles/headhunter-chief-of-staff.md`, run these three se
    - The signal, in one line.
    - **Source title, publisher, date, and URL.** No date, no signal.
    - Why it matters for the user's function specifically.
-   - The likely hiring executive, confirmed current by a source dated in the last 6 to 12 months. For a new or expanding tech center or GCC, that is the **center head** (site leader, managing director, or head of the India or regional center), or the head of the user's function at that center. For a new site, plant, data center, or headquarters, it is the **site IT lead or site manager** (plant manager, data center operations manager, or the head of IT for that location). If you cannot confirm, write `Executive not confirmed` and do not name a guess.
+   - The likely hiring executive, confirmed current by a source dated in the last 12 months. For a new or expanding tech center or GCC, that is the **center head** (site leader, managing director, or head of the India or regional center), or the head of the user's function at that center. For a new site, plant, data center, or headquarters, it is the **site IT lead or site manager** (plant manager, data center operations manager, or the head of IT for that location). If you cannot confirm, write `Executive not confirmed` and do not name a guess.
 4. Drop excluded companies and anything already in the tracker (or mark `(in tracker #N)`).
 5. Rank the top 5 by strength of signal times fit.
 

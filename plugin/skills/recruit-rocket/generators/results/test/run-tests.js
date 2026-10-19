@@ -49,7 +49,7 @@ const posting = (o) => ({ title: "IT Director", company: "Co", location: "Columb
   const two = build({ ...sample, clusters: [{ company: "Pair Co", openings: 2, note: "after its Aug acquisition", source: "Pair press release", date: "2026-08-20", url: "https://example.com/p" }] });
   expect("2 openings at one company is a cluster", two.clusters.length, 1);
   expect("lint catches a spaced hyphen", lint("Services - up 25%").length, 1);
-  expect("lint catches an em dash", lint("Up — 25%").length, 1);
+  expect("lint catches an em dash", lint("Up \u2014 25%").length, 1);
   expect("lint catches raw tool errors", lint("ZipRecruiter request timed out").length, 1);
   expect("lint leaves job text like 'error rates' alone", lint("cut error rates 30%").length, 0);
   const cli = spawnSync("node", [path.join(__dirname, "..", "build-results.js"), "--data", path.join(__dirname, "..", "sample-data", "results.json")], { encoding: "utf8" });
