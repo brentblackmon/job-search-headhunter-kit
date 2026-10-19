@@ -72,6 +72,30 @@ function expect(caseName, actual, wanted) {
 }
 
 fs.rmSync(work, { recursive: true, force: true });
+// The proof line must not repeat the card title.
+{
+  const { repeatsTitle } = require("../render-card");
+  expect('"Services revenue up" over "Up 25%" is caught', repeatsTitle("Services revenue up", "Up 25%"), true);
+  expect('"On time, every day" over "91% to 98.5% on time." is caught', repeatsTitle("On time, every day", "91% to 98.5% on time."), true);
+  expect('"Faster go-lives" over "16 weeks to 9 weeks." passes', repeatsTitle("Faster go-lives", "16 weeks to 9 weeks."), false);
+  expect('"Fewer defects" over "Go-live defects down 45%." passes', repeatsTitle("Fewer defects", "Go-live defects down 45%."), false);
+}
+
+// No slogans; the title line is the target title only.
+{
+  const { sloganProblems, noSlogans } = require("../render-card");
+  const n = (t) => sloganProblems("x", t, { fragments: true }).length;
+  expect('"Profitable services. AI past R&D." is a slogan', n("Profitable services. AI past R&D."), 1);
+  expect('"Agents doing real work, not pilots." is a slogan', n("Agents doing real work, not pilots."), 1);
+  expect('"Run it like an owner. Put AI to work everywhere." is a slogan', n("Run it like an owner. Put AI to work everywhere."), 1);
+  expect('"AI in support, sales and the back office" is a plain fact', n("AI in support, sales and the back office"), 0);
+  const card = JSON.parse(JSON.stringify(require("../sample-data/card.json")));
+  card.role = "Chief Operating Officer / Northpeak Software";
+  expect("a title line naming the target company fails", noSlogans(card).some((p) => p.includes("role line")), true);
+  expect("the sample card has no slogans", noSlogans(require("../sample-data/card.json")).length, 0);
+  expect("the student sample card has no slogans", noSlogans(require("../sample-data/card-student.json")).length, 0);
+}
+
 let failed = 0;
 for (const r of results) {
   console.log(`${r.ok ? "ok  " : "FAIL"} ${r.caseName}${r.ok ? "" : ` (got ${r.actual}, wanted ${r.wanted})`}`);

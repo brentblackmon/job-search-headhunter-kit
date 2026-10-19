@@ -10,6 +10,8 @@ This is the single source of truth for Recruit Rocket. Every skill reads it. Not
 - Phone:
 - Email:
 - LinkedIn URL:
+- Website (tracked link, optional): (goes in the email signature when set)
+- Work authorization: (countries the user can work in without sponsorship, for example "United States" or "United States, Canada"; leave blank until confirmed)
 - Headshot file: (required for the card; a JPG or PNG in My Job Search, for example headshot.jpg, or "none yet")
 
 ## Targets
@@ -74,6 +76,7 @@ Copy the block for each metric. The **approved phrasing** is what every skill wi
   - What it measures (precisely):
   - Baseline, result, timeframe:
   - Approved phrasing: "..."
+  - What drove it (in the user's words; list every driver): (for example "cleaner quotes and SOWs, customer success, sales discipline, references". Never credit the number to one tool or cause unless that is the only driver listed.)
   - Proof if asked:
   - Status: CONFIRMED | FROM RESUME | UNCONFIRMED
 

@@ -9,11 +9,17 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 - `My Job Search/facts.md`: target titles, industries, size, salary floor, locations, exclusions, and the metrics that prove strengths.
 - `My Job Search/tracker.md`: to mark postings already in progress.
 - Sources: whatever job search tools are connected (job board connectors, web search, LinkedIn in a browser). If none are connected, ask the user to paste postings.
-- **The user's own job alert emails, only after a yes.** Read email only if `facts.md` says `Job alert emails: yes` (the Sharpen step asks once). Never read it without that yes, even when an email tool is connected. With a yes, search for job alert emails since the last scan (LinkedIn: from jobalerts-noreply@linkedin.com or jobs-noreply@linkedin.com; also Indeed, Naukri, ZipRecruiter or Glassdoor alerts). Every in-family job in them is graded or listed under "Not graded". Never skip one silently.
+- **Gmail job alerts, in every scan** when Gmail is connected and `facts.md` says `Job alert emails: yes`: LinkedIn (jobalerts-noreply@linkedin.com, jobs-noreply@linkedin.com), Indeed, ZipRecruiter, and Glassdoor alert emails from the last 14 days. These are often the freshest, best-matched postings the user has, so they are a source like any job board: every in-family job in them is graded or listed under "Not graded", never skipped silently. Never read email without that yes.
+
+## Already applied, first (before grading anything)
+Build the "already applied" list before the scan grades a single posting:
+- **Gmail** (with `Job alert emails: yes`): application confirmations from the last 60 days, for example subjects with "application sent", "your application was sent", "application received", "thank you for applying", "we received your application". Take the company (and title) from each.
+- **The tracker:** every company with status `Sent`, `Replied`, `Interviewing`, `Offer`, or `Negotiating`.
+Postings at those companies never appear in Top picks; the card lists them in one line, "Already applied, skipped: ...". Never ask the user about applied jobs after showing results.
 
 ## Two passes: quick first, then deep
 Every scan runs in two passes so the user sees credible results fast.
-- **Quick pass (about 2 minutes, results first).** For each target title: the connected job board tools (Indeed, ZipRecruiter, Dice, and the like) with the user's country and city, or, with nothing connected, web search (for example `"IT Manager" jobs Columbus Ohio` plus the title on Indeed, LinkedIn, Glassdoor, and the company sites the results point to). Grade what you can, apply the pay floor and exclusions, and stop at about 2 minutes. Post "Done: N postings found, N fit, N dropped (why)".
+- **Quick pass (about 2 minutes, results first).** Gmail job alerts first (above), then, for each target title: the connected job board tools (Indeed, ZipRecruiter, Dice, and the like) with the user's country and city, or, with nothing connected, web search (for example `"IT Manager" jobs Columbus Ohio` plus the title on Indeed, LinkedIn, Glassdoor, and the company sites the results point to). Grade what you can, apply the pay floor and exclusions, and stop at about 2 minutes. Post "Done: N postings found, N fit, N dropped (why)".
 - **Deep pass (after the quick pass's results are shown).** Target companies' careers pages, startup boards (if open to startups), and VC portfolio boards, from "Before the crowd" below. On a first run with no target companies and startups not asked yet, there is nothing to deep-scan: skip it and say nothing.
 - **Window:** the last 7 days on the first run; the last 24 hours on daily scans.
 
@@ -76,7 +82,11 @@ Read the full description, not the title. Score four things:
 
 Every grade needs a reason written as "Proves: X, Y, Z. Gap: W.", with X, Y, Z in plain words from the user's facts ("ran IT for 3 plants"), never internal codes like "M20" or line numbers. Never write "strong fit" without saying why.
 
-If a posting lists a salary range below the floor, grade C and say so. If no range is posted, say "range not posted."
+**Gates (hard limits on the grade):**
+- **Older than 30 days** (or no posting date): never A or B. It goes to "Older but still open" on the card.
+- **A hard requirement the user cannot meet** (work authorization in another country, a relocation they ruled out, a license or clearance they lack): C at most, with the reason.
+- **Clearly below the target level, or pay under the floor:** C, with the reason.
+If no range is posted, say "range not posted."
 
 **Hourly and contract postings** (common for US IT and operations roles, for example "$22 to $55/hr"):
 - Compare the top of the hourly range to the user's hourly floor in `facts.md`. If there is no hourly floor, use the salary floor divided by 2,080 hours (for example $90,000 / 2,080 = $43.27/hr) and say that is how you compared.
@@ -84,6 +94,10 @@ If a posting lists a salary range below the floor, grade C and say so. If no ran
 - If the user chose "full-time only", grade contract postings C and say so. Contract-to-hire roles are graded on their merits, still marked "contract".
 
 ## Output
+**Sources that fail:** retry once. If it still fails, keep going and record it as `partial` or `failed` for the what-was-checked line ("ZipRecruiter: partial"). Never show the user a raw error.
+
+**The results card comes from a script.** Write `results.json` in the job search folder (shape: `generators/results/sample-data/results.json`: the already-applied list, every A, B, and capped posting with its posted date and gate flags, signals, recruiters, clusters, sources with their status, counts, and the search time) and run `node build-results.js --data results.json --card results-card.md --signals signals/YYYY-MM-DD.md` from a work copy of `generators/results/`. It applies the gates, the 30-day rule, the already-applied list, and the signal rules, and fails on dashes, placeholders, raw errors, or empty headings. Show its card as written. If Node cannot run, apply the same rules by hand.
+
 Save to `scans/YYYY-MM-DD.md` in the job search folder using this format. **On screen**, show only the results card (`roles/headhunter-chief-of-staff.md`), or, for a scan run on its own, the A and B items plus a count of C items. "Not graded" postings appear on screen as at most 10 lines; the rest stay in the file ("+ 14 more in the scan file").
 
 ```

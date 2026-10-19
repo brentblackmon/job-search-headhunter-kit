@@ -251,6 +251,24 @@ function expect(caseName, actual, wanted) {
   expect("a changed posting stops the run with code 3", `${changed.status} ${/posting\.md changed/.test(changed.stderr)}`, "3 true");
 }
 
+// Literal terms: the posting's own words only, counted over the full list.
+{
+  const { literal, literalTerms } = require("../keyword-check");
+  const resume = "Raised win rates from 60% to 95% through cleaner quotes and SOWs.\nGrew net revenue retention (NRR) to 112%.\nBuilt cross-selling and upselling plays with Sales.\nRolled out Microsoft 365 to 640 users.\nLed cross-functional teams across 3 sites.";
+  expect('"win rates 60% to 95%" is not "customer acquisition"', literal(resume, "customer acquisition"), false);
+  expect('"cross-selling" matches "cross-sell"', literal(resume, "cross-sell"), true);
+  expect('"upselling" matches "upsell"', literal(resume, "upsell"), true);
+  expect('"Net Revenue Retention (NRR)" matches', literal(resume, "Net Revenue Retention (NRR)"), true);
+  expect('"NRR" alone matches the acronym', literal(resume, "NRR"), true);
+  expect('"Office 365" (a product alias) matches through the variant table', literal(resume, "Office 365"), true);
+  expect('"cross-functional" matches', literal(resume, "cross-functional"), true);
+  expect('"contribution margin" is missing', literal(resume, "contribution margin"), false);
+  expect('words far apart do not count ("revenue growth")', literal("Revenue was flat.\nGrowth came later.", "revenue growth"), false);
+  const lt = literalTerms({ terms: ["cross-sell", "upsell", "NRR", "contribution margin", "AI strategy"] }, resume);
+  expect("the literal line counts over the full list", lt.line, "Literal terms matched: 3 of 5");
+  expect("missing literal terms are listed", lt.missing.join(", "), "contribution margin, AI strategy");
+}
+
 // Page count: no target unless the user asks for one with --pages.
 {
   const pro = buildAuto("pages-standard", () => {});

@@ -51,6 +51,7 @@ const req = (kind, rating) => ({ kind, rating, text: `${kind} ${rating}`, reason
   const text = spawnSync("pdftotext", [out, "-"], { encoding: "utf8" }).stdout || "";
   expect("the report names the executive and the dated source", text.includes("Priya Natarajan") && text.includes("2026-01-14") ? "yes" : "no", "yes");
   const waiting = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "report.json"), "utf8"));
+  waiting.outreach = path.join(root, "..", "outreach", "sample-data", "outreach.json");
   waiting.before = path.join(root, "sample-data", "match.json");
   waiting.after = path.join(root, "sample-data", "match-after.json");
   waiting.files = waiting.files.map((f) => (f.label === "Baseball card" ? { label: f.label, note: "waiting for a photo" } : { ...f, path: path.join(root, "sample-data", f.path) }));
@@ -63,6 +64,7 @@ const req = (kind, rating) => ({ kind, rating, text: `${kind} ${rating}`, reason
   expect("the report offers the two next steps", text.includes("Find more jobs like this one") && text.includes("Set up my full search") ? "yes" : "no", "yes");
 
   const bad = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "report.json"), "utf8"));
+  bad.outreach = path.join(root, "..", "outreach", "sample-data", "outreach.json");
   bad.before = path.join(root, "sample-data", "match.json");
   bad.after = null;
   bad.executive = { missing: "no dated source \u2014 checked the site" };
@@ -71,6 +73,66 @@ const req = (kind, rating) => ({ kind, rating, text: `${kind} ${rating}`, reason
   fs.writeFileSync(badPath, JSON.stringify(bad));
   const b = spawnSync("node", [path.join(root, "build-report.js"), "--data", badPath, "--out", path.join(work, "bad.pdf")], { encoding: "utf8" });
   expect("a dash or a missing file fails the report QA", b.status === 1 && /dash/.test(b.stderr) && /file not found/.test(b.stderr) ? "fails" : "passes", "fails");
+}
+
+// 4. Required skills covered counts Met must-haves only; executive matches the outreach.
+{
+  const { mustHaves, blockers } = require("../score");
+  const allPartly = { requirements: Array.from({ length: 5 }, (_, i) => ({ kind: "must", rating: i ? "met" : "partly", text: `m${i}`, reason: "r", quote: "q" })) };
+  expect("4 Met and 1 Partly met reads 4 of 5, never 5 of 5", mustHaves(allPartly).line, "Required skills covered: 4 of 5");
+  expect("Not shown must-haves are listed for the Build anyway question", blockers({ requirements: [{ kind: "must", rating: "not", text: "Gainsight" }, { kind: "nice", rating: "not", text: "Jira" }] }).join(), "Gainsight");
+  const base = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "report.json"), "utf8"));
+  const fix = (o) => ({ ...base, before: path.join(root, "sample-data", "match.json"), after: path.join(root, "sample-data", "match-after.json"), outreach: path.join(root, "..", "outreach", "sample-data", "outreach.json"), files: base.files.map((f) => ({ ...f, path: path.join(root, "sample-data", f.path) })), ...o });
+  const runR = (name, data) => { const p = path.join(work, name + ".json"); fs.writeFileSync(p, JSON.stringify(data)); return spawnSync("node", [path.join(root, "build-report.js"), "--data", p, "--out", path.join(work, name + ".pdf")], { encoding: "utf8" }); };
+  const claim = runR("claim", fix({ keywords: ["Required skills covered: 5 of 5", "Exact-term matches: 4 of 11"] }));
+  expect("a keyword line claiming 5 of 5 with a Partly met must-have fails QA", claim.status === 1 && /disagrees with the must-haves/.test(claim.stderr) ? "fails" : "passes", "fails");
+  const ok = runR("ok", fix({}));
+  const okText = spawnSync("pdftotext", [path.join(work, "ok.pdf"), "-"], { encoding: "utf8" }).stdout || "";
+  expect("the report prints the computed must-haves line", `${ok.status} ${okText.includes("Required skills covered: 4 of 5")}`, "0 true");
+  const other = runR("other", fix({ executive: { name: "Sam Lee", title: "CEO", source: "x", sourceDate: "2026-01-01", confirmed: true } }));
+  expect("an executive that differs from the outreach contact fails QA", other.status === 1 && /does not match the outreach contact/.test(other.stderr) ? "fails" : "passes", "fails");
+  const label = runR("label", fix({ executive: { ...base.executive, confirmed: false } }));
+  expect("confirmed on one side and not the other fails QA", label.status === 1 && /not confirmed/.test(label.stderr) ? "fails" : "passes", "fails");
+}
+
+// 5. Hard gates, found before anything is built.
+{
+  const { findGates } = require("../gates");
+  const posting = fs.readFileSync(path.join(root, "sample-data", "posting-gated.md"), "utf8");
+  const g = findGates(posting, "", "2026-10-19");
+  const ask = (t) => (g.find((x) => x.type === t) || {}).status;
+  expect("Canada and US work authorization is a gate to ask about", ask("work authorization"), "ask");
+  expect("the question names both countries", g.find((x) => x.type === "work authorization").question, "The posting requires authorization to work in Canada and the United States. Do you have it?");
+  expect("a required degree is a gate", ask("degree"), "ask");
+  expect('"5+ years with Salesforce" is a gate', g.some((x) => x.type === "years in" && /Salesforce/.test(x.need)), true);
+  expect("a posting from Apr 27 read on Oct 19 is 175 days old and flagged", (g.find((x) => x.type === "posting age") || {}).days, 175);
+  const facts = "- Work authorization: United States, Canada\n- Education: B.S. Business\n- Tools: Salesforce\n- Industry: vertical software\n";
+  const met = findGates(posting, facts, "2026-10-19").filter((x) => x.status === "ask").map((x) => x.type).join();
+  expect("facts.md that shows each gate leaves only the posting age to ask", met, "posting age");
+  const usOnly = findGates(posting, "- Work authorization: United States\n", "2026-10-19");
+  expect("US-only authorization does not meet a Canada and US requirement", usOnly.find((x) => x.type === "work authorization").status, "ask");
+  const fresh = findGates("Posted 2026-10-10. Must be authorized to work in the US.", "- Work authorization: US citizen\n", "2026-10-19");
+  expect("a 9-day-old posting is not flagged for age", fresh.some((x) => x.type === "posting age"), false);
+  expect("US authorization in facts.md meets a US requirement", fresh.find((x) => x.type === "work authorization").status, "met");
+  const cli = spawnSync("node", [path.join(root, "gates.js"), "--posting", path.join(root, "sample-data", "posting-gated.md"), "--today", "2026-10-19"], { encoding: "utf8" });
+  expect("the CLI exits 3 when a question is needed", cli.status, 3);
+}
+
+// 6. Answers reach every file: the stale check finds an old phrase in any file type.
+{
+  const { staleFiles } = require("../stale-check");
+  const dir = path.join(work, "stale");
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "facts.md"), "- Education: Wharton, completed October 2026\n");
+  fs.writeFileSync(path.join(dir, "card.json"), JSON.stringify({ intro: "MBA, Wharton, expected October 2026" }));
+  fs.copyFileSync(path.join(work, "ok.pdf"), path.join(dir, "report.pdf"));
+  const hits = staleFiles(fs.readdirSync(dir).map((f) => path.join(dir, f)), ["expected October 2026"]);
+  expect("the stale check finds the old phrase in the card data", hits.map((h) => path.basename(h.file)).join(), "card.json");
+  const cli = spawnSync("node", [path.join(root, "stale-check.js"), "--dir", dir, "--old", "Expected  October 2026"], { encoding: "utf8" });
+  expect("the CLI fails while any file still says it (case and spacing ignored)", cli.status, 1);
+  fs.writeFileSync(path.join(dir, "card.json"), JSON.stringify({ intro: "MBA, Wharton, October 2026" }));
+  const clean = spawnSync("node", [path.join(root, "stale-check.js"), "--dir", dir, "--old", "expected October 2026"], { encoding: "utf8" });
+  expect("the CLI passes once every file is updated", clean.status, 0);
 }
 
 fs.rmSync(work, { recursive: true, force: true });

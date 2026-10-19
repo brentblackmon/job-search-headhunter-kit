@@ -1,0 +1,43 @@
+{
+  "_note": "FICTIONAL SAMPLE. Jordan Rivera, Harborline Software and Priya Natarajan are not real.",
+  "name": "Jordan Rivera",
+  "company": "Harborline Software",
+  "contact": {
+    "name": "Priya Natarajan",
+    "title": "COO",
+    "confirmed": true,
+    "source": "Harborline press release",
+    "date": "2026-01-14"
+  },
+  "email": {
+    "to": "Priya Natarajan <priya.natarajan@harborline.example>",
+    "addressStatus": "PATTERN GUESS, NOT VERIFIED",
+    "subject": "VP Operations role at Harborline Software",
+    "body": "Hi Priya,\n\nIn August 2026 Harborline posted a VP Operations role to run implementation, support, and training as one team, with a promise of live in 60 days. That's work I've done.\n\nQuick on me: Director of Operations at Tidewater Freight Systems, 14 years in logistics software.\n\n- **I've cut go-live time:** average implementation from 16 weeks to 9 weeks.\n- **I've raised retention:** helped raise gross revenue retention from 89% to 95% in three years.\n- **I've run the whole post-sale team:** 64 people and an $11.2M operating budget.\n- **I've integrated an acquisition:** 38 people and 120 customers onto one platform in 7 months, keeping 97%.\n\nWould you have 20 minutes in the next two weeks?\n\nResume attached.\n\nRegards,\nJordan Rivera\n(704) 555-0142\njordan.rivera@example.com\nlinkedin.com/in/jordan-rivera-example"
+  },
+  "linkedinNote": "Priya, Harborline's live in 60 days promise caught my eye. I cut go-live time from 16 weeks to 9 at Tidewater Freight Systems. Open to a short chat about the VP Operations role?",
+  "alumni": [
+    {
+      "school": "Carolina Lakes University",
+      "steps": [
+        "Open Harborline's LinkedIn page and click People.",
+        "In Where they studied, pick Carolina Lakes University.",
+        "Pick 2 or 3 alumni in operations or customer success."
+      ],
+      "note": "Hi, fellow Carolina Lakes grad here. I'm looking at the VP Operations role at Harborline and would value your view of the team. Open to a quick chat?"
+    }
+  ],
+  "sources": [
+    "VP Operations posting, Harborline Software, 2026-08-14",
+    "Harborline names Priya Natarajan COO, Harborline press release, 2026-01-14"
+  ],
+  "today": "2026-10-20",
+  "role": "VP Operations",
+  "mode": "cold",
+  "signature": {
+    "name": "Jordan Rivera",
+    "phone": "(704) 555-0142",
+    "email": "jordan.rivera@example.com",
+    "linkedin": "linkedin.com/in/jordan-rivera-example"
+  }
+}

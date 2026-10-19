@@ -8,7 +8,7 @@ Facts file is the source of truth; never invent or round. Store approved phrasin
 ## What to read (new user safety)
 - **Only what the user shares or points to**: resume, LinkedIn PDF, cover letters, work samples. Never browse the rest of their folder or drive on your own.
 - **Build the facts file only from those documents and the user's answers.** Never fill it from Claude's memory, earlier chats, other installed skills, or anything you know about someone with the same name. If memory or another skill offers a fact, ignore it. The job seeker is the person named in the resume; never use or mention the Claude account holder's name or email, or the skill's copyright owner.
-- **Email:** if an email tool is connected, do not read it during setup. The "Sharpen your results" step asks once whether to read job alert emails.
+- **Email:** if Gmail (or another email tool) is connected, ask once in setup, as the last question, before reading anything: "Use your Gmail to find job alerts and skip jobs you've already applied to? (I only read job alerts and application confirmations.)" Options: "Yes (recommended)", "No". Record `Job alert emails: yes/no`. Never read email without that yes. With nothing connected, do not ask.
 - If they shared nothing, ask once: "Could you drop in your resume? A LinkedIn PDF works too." If they have nothing, ask them to describe their last role in a few sentences.
 - If `facts.md` already exists in the job search folder, you are updating. Ask one question: "What's changed since we last set this up?"
 
@@ -23,7 +23,7 @@ Post "Step 1 of 3: reading your resume" first. Then draft `facts.md` in the job 
 - **Exclusions:** add their current employer from the resume to `Exclusions` by default, and say so once in the results ("I left out your current employer"). For students, skip this and do not mention it: a part-time job outside their field (a coffee shop, a store) is not an employer to avoid. The Sharpen step lets them change it.
 
 ## The 3 questions
-**One question per message, answered by clicking.** Use the app's multiple-choice question tool when available (2 to 4 options plus "Something else"). If there is none, show numbered options and accept a single number. Every option is built from their documents, so the right answer is usually already there. Number them "(1 of 3)". Accept short typed answers too. React briefly ("Got it.") and move on. **Never ask a fourth setup question.**
+**One question per message, answered by clicking.** Use the app's multiple-choice question tool when available (2 to 4 options plus "Something else"). If there is none, show numbered options and accept a single number. Every option is built from their documents, so the right answer is usually already there. Number them "(1 of 3)". Accept short typed answers too. React briefly ("Got it.") and move on. **Never ask a fourth setup question**, except the one Gmail question when Gmail is connected.
 
 1. **Target roles.** "I've read your background. What roles should I look for?" Options: 2 or 3 title groups from their recent roles and level (for example "IT Manager or IT Director", "IT Operations Manager", "Infrastructure Manager"), plus "Something else". Allow more than one.
 2. **Pay floor, in their own currency and terms.** "What's the lowest pay you'd consider?" Options: 3 brackets sized to their level, plus "Prefer not to say". US: annual base salary ("$110K to $125K"). India: annual CTC in lakhs ("18 to 22 LPA"). Elsewhere: the way local postings quote pay. Record the bracket bottom as the floor, with the currency and the terms.
@@ -51,26 +51,20 @@ Take graduation, GPA, and job details from the resume as written. Set `Mode: stu
 4. **Your reply to the third answer starts with these two lines, before any file write, search, or command:** "Got it. Done: you're set up." and "Step 2 of 3: scanning jobs and hiring signals (about 2 minutes)". Then do steps 1 to 3 above (they are part of Step 2, not separate steps) and **continue immediately** with the first run in `roles/headhunter-chief-of-staff.md` (quick scan, signals, then one results card). Never build a package before the user picks one.
 
 ## Sharpen your results (one optional message, after the first results)
-After the first results card (and after any packages the user picked), send **one** message. Everything in it is optional; the user can answer any line, several at once, or skip:
+After the first results card (and after any packages the user picked), send **one** short message: at most 3 items, one line each, and a "More" choice for the rest. Never ask about jobs already applied to here: the scan already found those (Gmail and the tracker) before grading.
 
 ```
-Sharpen your results (all optional; answer any, or say Skip):
-1. Already applied or talking to anyone? Paste names and I'll skip them.
-2. Anyone else to avoid? (I left out your current employer, [employer].)
-3. Companies you'd love to work for (up to 25): I'll watch their careers pages.
-4. Open to startups? (Yes / No)
-5. Schools for alumni intros: [schools from the resume]. Right?
-6. Open to contract work? (Yes / No)
-7. Paste a short email you wrote, so drafts sound like you.
+Sharpen your results (optional):
+1. Anyone else to avoid? (I left out [current employer].)
+2. Companies you'd love to work for? I'll watch their careers pages.
+3. Open to contract work? (Yes / No)
+[Skip] [More]
 ```
-Add these lines only when they apply:
-- **Outside the US:** "How soon could you start? (Immediately / 15 days / 30 days / 60 to 90 days)"
-- **Email connected:** "Read your job alert emails for jobs you'd otherwise miss? (Yes / No)" Never read email before a yes.
-- **Students:** leave out lines 2 and 6 (avoid list and contract work) and the pay questions. Add "Want your GPA on your resume? (Only if it's 3.0 or higher)", and, only for jobs in their field whose resume lines lack detail, "At [job], what do you do and on what equipment?" Never ask about jobs outside their field.
+- **Students:** 1. Companies or teams you'd love to work for? 2. Want your GPA on your resume? (Only if it's 3.0 or higher) 3. Open to startups? (Yes / No)
+- **More** shows, one line each: open to startups, schools for alumni intros ([schools from the resume], right?), a short email you wrote so drafts sound like you, and outside the US, how soon you could start. For students, also "At [field job], what do you do and on what equipment?" for field jobs whose resume lines lack detail.
 
 Record each answer in `facts.md`:
-- Names already applied to or in talks: add them to the tracker as `Sent` or `Replied` (as the user says) so no scan or outreach repeats them.
-- Exclusions, startups (`Open to startups: yes/no`), schools, voice sample, notice period, email (`Job alert emails: yes/no`).
+- Exclusions, startups (`Open to startups: yes/no`), schools, voice sample, notice period.
 - Target companies: write `target-companies.md` from `templates/target-companies.md`, with each careers page URL from a web search ("careers page not found" if none; "Workday" in Notes for `myworkdayjobs.com` URLs).
 - **Contract work: only if they say yes**, ask one follow-up for the lowest hourly rate (options sized to their level, for example "$45/hr or more", "$55/hr or more", "$65/hr or more"). Record "Contract work: yes, hourly floor $55/hr" or "Contract work: no".
 - Skipped lines stay as they are; never ask them again unless the user brings them up.
@@ -84,7 +78,7 @@ If they added target companies or said yes to startups, run the deep pass in `ro
 Offer 3 questions per role about a result they are proud of that is **not** in their documents: what changed, from what to what, over how long. Add those as `CONFIRMED` once they approve the wording.
 
 ## QA before delivery
-- No more than 3 setup questions. Nothing else asked before the first results card.
+- No more than 3 setup questions (4 when Gmail is connected: the one Gmail question). Nothing else asked before the first results card.
 - Every `FROM RESUME` phrasing matches the source document exactly. No number rounded, combined, or invented.
 - Nothing in `facts.md` came from memory, earlier chats, other skills, or email.
 - Exclusions has the current employer (or "none"). Overlaps and gaps are under `## Open date checks`.

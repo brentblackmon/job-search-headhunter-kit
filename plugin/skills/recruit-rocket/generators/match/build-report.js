@@ -9,14 +9,17 @@
 //     "date": "2026-10-19", "paper": "letter",
 //     "before": "match-before.json",            // match.json from Step 1 (see score.js)
 //     "after": "match-after.json",             // optional: match.json after the guided fix
-//     "keywords": ["Required skills covered: 7 of 9", "Exact-term matches: 6 of 9"],
+//     "keywords": ["Literal terms matched: 41 of 45"], // ATS keyword line; "Required skills
+//                                                    // covered" is computed from the must-haves
+//     "outreach": "outreach.json",                   // the hiring executive must match its contact
 //     "files": [{ "label": "Tailored resume", "path": "Jordan_Rivera_Resume_Harborline.pdf" }, ...],
 //              a file not built yet has a note instead of a path:
 //              { "label": "Baseball card", "note": "waiting for a photo" }
 //     "executive": { "name": "Priya Natarajan", "title": "COO", "since": "Jan 2026",
 //                    "source": "Harborline press release", "sourceDate": "2026-01-14",
 //                    "url": "https://..." } }
-//   With no dated source for the executive, set "executive": { "missing": "why, in one line" }.
+//                    "confirmed": true }
+//   With no dated source for the executive, set "executive": { "missing": "why, in one line", "confirmed": false }.
 //
 // Checks: exactly 1 page, the score math (score.js rules), no em or en dashes, no
 // unfilled placeholders like "[name]", and every file in "files" exists. Exits 1 on a
@@ -29,7 +32,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { execFileSync } = require("child_process");
-const { score, validate, LABEL } = require("./score");
+const { score, validate, mustHaves, LABEL } = require("./score");
 
 function parseArgs(argv) {
   const a = {};
@@ -64,7 +67,7 @@ function buildHtml(d, before, after, outDir) {
     : `<li>${esc(f.label)} <span class="path">(${esc(f.note || "not built yet")})</span></li>`).join("");
   const ex = d.executive || {};
   const exec = ex.name
-    ? `<b>${esc(ex.name)}</b>, ${esc(ex.title)}${ex.since ? ` since ${esc(ex.since)}` : ""}. Source: ${ex.url ? `<a href="${esc(ex.url)}">${esc(ex.source)}</a>` : esc(ex.source)}${ex.sourceDate ? `, ${esc(ex.sourceDate)}` : ""}.`
+    ? `<b>${esc(ex.name)}</b>, ${esc(ex.title)}${ex.since ? ` since ${esc(ex.since)}` : ""}. ${ex.confirmed === false ? "Not confirmed: no dated source yet." : `Confirmed. Source: ${ex.url ? `<a href="${esc(ex.url)}">${esc(ex.source)}</a>` : esc(ex.source)}${ex.sourceDate ? `, ${esc(ex.sourceDate)}` : ""}.`}`
     : `Not confirmed: ${esc(ex.missing || "no dated source found")}.`;
   const scores = after ? scoreBox("Before", before) + `<div class="arrow">to</div>` + scoreBox("After", after) : scoreBox("Match Score", before);
   return `<!doctype html><html><head><meta charset="utf-8"><style>
@@ -97,7 +100,7 @@ function buildHtml(d, before, after, outDir) {
 </style></head><body>
 <h1>${esc(d.name)}: Match report</h1>
 <div class="sub">${esc(d.title)}, ${esc(d.company)}. ${esc(d.date)}.</div>
-<div class="scores">${scores}<div class="kw">${(d.keywords || []).map(esc).join("<br>")}</div></div>
+<div class="scores">${scores}<div class="kw">${[mustHaves(final).line, ...(d.keywords || []).filter((k) => !/^required skills covered/i.test(k))].map(esc).join("<br>")}</div></div>
 <h2>What the posting asks for</h2>
 <table>${reqRows}</table>
 <h2>Evidence check</h2>
@@ -166,6 +169,21 @@ async function main() {
 
   const problems = [];
   if (!before) problems.push('"before" (the Step 1 match.json) is required');
+  // "Required skills covered" is never taken from elsewhere: it counts Met must-haves only.
+  const m = mustHaves(after || before || {});
+  for (const k of d.keywords || []) {
+    const hit = String(k).match(/^required skills covered:\s*(\d+)\s+of\s+(\d+)/i);
+    if (hit && (Number(hit[1]) !== m.met || Number(hit[2]) !== m.total)) problems.push(`"${k}" disagrees with the must-haves (${m.line}); leave it out, the report computes it`);
+  }
+  // The hiring executive must match the outreach contact, with the same confirmed label.
+  if (d.outreach && !fs.existsSync(path.resolve(d._base, d.outreach))) problems.push(`outreach file not found: ${d.outreach}`);
+  else if (d.outreach) {
+    const o = load(d._base, d.outreach) || {};
+    const c = o.contact || {};
+    const ex = d.executive || {};
+    if ((ex.name || "") !== (c.name || "")) problems.push(`hiring executive "${ex.name || "none"}" does not match the outreach contact "${c.name || "none"}"`);
+    if (!!ex.confirmed !== !!c.confirmed) problems.push(`hiring executive is ${ex.confirmed ? "confirmed" : "not confirmed"} but the outreach contact is ${c.confirmed ? "confirmed" : "not confirmed"}`);
+  }
   for (const [label, m] of [["before", before], ["after", after]]) if (m) problems.push(...validate(m).map((p) => `${label}: ${p}`));
   for (const f of d.files || []) {
     if (!f.path && !f.note) problems.push(`file "${f.label}": give a path, or a note such as "waiting for a photo"`);

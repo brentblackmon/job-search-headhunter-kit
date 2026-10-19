@@ -67,6 +67,19 @@ function score(m) {
   return { score: value, band: band(value), earned, possible };
 }
 
+// "Required skills covered" for the report: only must-haves rated Met count. Partly met and
+// Not shown do not, so it can never read "10 of 10" while a must-have falls short.
+function mustHaves(m) {
+  const musts = (m.requirements || []).filter((r) => r.kind === "must");
+  const met = musts.filter((r) => r.rating === "met").length;
+  return { met, total: musts.length, line: `Required skills covered: ${met} of ${musts.length}` };
+}
+
+// Must-haves the resume does not show: the build asks "Build anyway?" before a package.
+function blockers(m) {
+  return (m.requirements || []).filter((r) => r.kind === "must" && r.rating === "not").map((r) => r.text);
+}
+
 function summary(m) {
   const s = score(m);
   return `Match Score: ${s.score} of 100 (${s.band})`;
@@ -88,10 +101,13 @@ if (require.main === module) {
   }
   const vague = (m.evidence || []).filter((e) => e.rating === "vague").length;
   console.log(`Evidence: ${(m.evidence || []).length - vague} well backed, ${vague} vague`);
+  console.log(mustHaves(m).line + " (must-haves rated Met)");
+  const b = blockers(m);
+  if (b.length) console.log(`Not on the resume (ask "Build anyway?" before a package): ${b.join("; ")}`);
   if (problems.length) {
     console.error("Fix match.json: " + problems.join("; "));
     process.exit(1);
   }
 }
 
-module.exports = { score, band, validate, summary, LABEL, POINTS, EARNED };
+module.exports = { score, band, validate, summary, mustHaves, blockers, LABEL, POINTS, EARNED };
