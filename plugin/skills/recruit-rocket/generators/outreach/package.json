@@ -1,0 +1,11 @@
+{
+  "name": "recruit-rocket-outreach",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Writes the outreach Word file (email, LinkedIn note, alumni notes) from outreach.json and checks it.",
+  "main": "build-outreach.js",
+  "scripts": {
+    "test": "node test/run-tests.js"
+  },
+  "license": "UNLICENSED"
+}

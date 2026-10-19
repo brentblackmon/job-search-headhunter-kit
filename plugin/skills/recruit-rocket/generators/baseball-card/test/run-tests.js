@@ -72,6 +72,15 @@ function expect(caseName, actual, wanted) {
 }
 
 fs.rmSync(work, { recursive: true, force: true });
+// The proof line must not repeat the card title.
+{
+  const { repeatsTitle } = require("../render-card");
+  expect('"Services revenue up" over "Up 25%" is caught', repeatsTitle("Services revenue up", "Up 25%"), true);
+  expect('"On time, every day" over "91% to 98.5% on time." is caught', repeatsTitle("On time, every day", "91% to 98.5% on time."), true);
+  expect('"Faster go-lives" over "16 weeks to 9 weeks." passes', repeatsTitle("Faster go-lives", "16 weeks to 9 weeks."), false);
+  expect('"Fewer defects" over "Go-live defects down 45%." passes', repeatsTitle("Fewer defects", "Go-live defects down 45%."), false);
+}
+
 let failed = 0;
 for (const r of results) {
   console.log(`${r.ok ? "ok  " : "FAIL"} ${r.caseName}${r.ok ? "" : ` (got ${r.actual}, wanted ${r.wanted})`}`);

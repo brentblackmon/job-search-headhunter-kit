@@ -18,7 +18,7 @@ For every number, percentage, dollar amount, team size, title, company name, and
 - Compare to the **approved phrasing**, not just the number. "Cut ticket wait time 40%" is wrong if the approved phrasing is "cut average resolution time 40%."
 - Rounding up is an error. "Nearly $50M" when the fact is $46M is an error.
 - Anything marked `UNCONFIRMED` in the facts file is an error until the user confirms it.
-- Anything marked `FROM RESUME` needs a one-line yes before it goes out. Ask it as a click, for example: "Your resume says you cut resolution time from 31 to 12 hours. Still exactly right?" with choices "Yes, exactly right", "Close, let me fix it", "Leave it out". One number per question, all of them for one draft in a row. On yes, change the status in `facts.md` to `CONFIRMED`. This is how the facts file gets verified without a long interview.
+- Anything marked `FROM RESUME` needs a yes before it goes out. Ask **one batch question** for all of them (across every draft in the package): list each number word for word as the resume says it, then the choices "All correct" and "Fix one". "All correct" marks exactly those listed numbers `CONFIRMED` in `facts.md`. "Fix one" asks which number and the right figure, fixes `facts.md` and the drafts, and shows the batch again. This is how the facts file gets verified without a long interview.
 - A claim with no match in the facts file is an error. Do not guess. Ask.
 - A tool or skill listed under `## Not used` in `facts.md` is an error anywhere in a draft. Cut it.
 - Dates for a role listed under `## Open date checks` in `facts.md` need a click before they go out, the same way as a `FROM RESUME` number. Fix the role in `facts.md` and remove it from the list once answered.

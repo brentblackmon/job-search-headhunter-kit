@@ -43,22 +43,23 @@ Hiring clusters
 
 Checked: Indeed, ZipRecruiter, and web search for 2 titles in the last 7 days; 41 postings read, 6 kept, 35 dropped (22 off-target, 9 under your pay floor, 4 duplicates). Your current employer was left out.
 ```
-Rules for the card:
-- **Top picks:** up to 5 A-grade roles, freshest first. Each has the posted date and age, pay (or "pay not posted"), the link, one line on why they win, the main gap, and **Apply today** if it is under 48 hours old. With fewer than 5 A's, fill with the best B's and label them "B". With none, say "No A or B roles in the last 7 days" and lean on the signals.
-- **Hiring signals:** the top 3 from signal search, each with a dated source link and the person to approach (or "person not confirmed").
-- **Recruiters running searches now:** up to 3 search firms or recruiters with a matching search posted in the last 14 days, with the firm or recruiter name, the posting date, and a link to the posting. A posting with no visible date does not count. With none dated, write "None with a dated posting in the last 14 days". Never a guessed name.
-- **Hiring clusters:** up to 3 companies hiring heavily in the user's role family (3 or more open roles) after a raise or acquisition in the last 6 months, with the source.
-- **Checked:** one line with the sources, the time window, and the counts kept and dropped, with why.
-- "Not graded" postings never go on the card. In the scan file, see `roles/talent-scout.md`.
+Rules for the card (the results script, `generators/results/build-results.js`, writes the card from `results.json` and enforces them; see `roles/talent-scout.md`):
+- **Already applied first:** postings at companies the user already applied to (Gmail confirmations from the last 60 days, and the tracker) never appear; one line lists them: "Already applied, skipped: ...".
+- **Top picks:** up to 5 A-grade roles, freshest first, then B's labeled "B". Each has the posted date and age, pay (or "pay not posted"), the link, one line on why they win, the main gap, and **Apply today** under 48 hours. **Gates:** older than 30 days or undated never A or B ("Older but still open"); a hard requirement the user cannot meet caps at C; below the target level or under the pay floor is C.
+- **Hiring signals:** up to 3, each with a dated source and a named contact confirmed by a dated source. Others go to "Also seen". Fewer than 3: say so plainly; never pad.
+- **Recruiters running searches now:** up to 3 retained search firms or recruiters with a matching search posted in the last 30 days, with the posting date and link. None: "Checked: none found" and what was checked.
+- **Hiring clusters:** up to 3: 2 or more target-family openings at one company or one PE portfolio, with the source. None: "Checked: none found" and what was checked.
+- **Checked:** one line with the sources (a failed source shows as "ZipRecruiter: partial", never a raw error), the window, and the counts kept and dropped, with why. Then "Search took X min."
+- "Not graded" postings never go on the card; at most 10 lines of them in the scan file view.
 - No internal codes or file paths (rule 16).
 
-Then ask **one multi-select question: "Build the package for which ones?"** Options: each top pick and each signal company by name, plus "None for now". For each pick, run `roles/match-and-package.md`: post its one-line Match Score ("Acme Manufacturing: Match Score 84 (Shortlist)"), then go straight into its package steps (the pick is the go; no second question per company). The photo is asked the first time a card is built. Number the steps over the whole batch ("Step 3 of 12: building the Acme resume (1 of 2 packages)"). After the packages (or "None for now"), send the Sharpen your results message from `roles/intake.md`, then offer the daily scan at the very end.
+Then ask **one multi-select question: "Build the package for which ones?"** Options: each top pick and each signal company by name, plus "None for now". For each pick, run `roles/match-and-package.md`: post its one-line Match Score ("Acme Manufacturing: Match Score 84 (Shortlist)"). **If a must-have is Not shown, or the posting has a gate issue (hard requirement, below level, under the floor, older than 30 days), stop and ask one question first: "This one needs [X], which isn't on your resume. Build anyway?" with "No, skip it" (the default, listed first) and "Yes, build it".** Otherwise go straight into its package steps (the pick is the go). At the end, report the time: "Search took 3 min. Package took 6 min." The photo is asked the first time a card is built. Number the steps over the whole batch ("Step 3 of 12: building the Acme resume (1 of 2 packages)"). After the packages (or "None for now"), send the Sharpen your results message from `roles/intake.md`, then offer the daily scan at the very end.
 
 **Never build a package, card, cover letter, or outreach the user did not pick.**
 
 ### The package review
 After packages are built, show one review screen: a short card per company (role, Match Score, who to contact, the two keyword numbers, and links to the resume, card, and email). If a card is waiting for a photo, say so on that line. Then:
-- Ask the number confirmations, one per question, with choices ("Yes, exactly right", "Close, let me fix it", "Leave it out"). Fix drafts to match the answers.
+- Ask the number confirmations as **one batch question** listing every `FROM RESUME` number the drafts use, with "All correct" and "Fix one" (rule 12). Fix drafts to match the answers.
 - If any required skills are covered only in the user's words, ask once, in one multi-select: "The ATS may look for the posting's exact term. Use the exact term for these?" (see step 3 of the ATS keyword check in `roles/resume-builder.md`).
 - Ask about missing required skills in at most 2 questions: one multi-select list ("The posting asks for these. Check every one you have used:"), then one question about where they used the ones they checked. Never ask about preferred skills. The final card repeats both keyword numbers from the last run.
 - For each company, offer: "Looks good, I'll send it", "Change something", "Skip this one".

@@ -1,0 +1,11 @@
+{
+  "name": "recruit-rocket-results",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Builds the results card and the signals file from results.json, with the grading gates.",
+  "main": "build-results.js",
+  "scripts": {
+    "test": "node test/run-tests.js"
+  },
+  "license": "UNLICENSED"
+}

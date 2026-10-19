@@ -51,6 +51,7 @@ const req = (kind, rating) => ({ kind, rating, text: `${kind} ${rating}`, reason
   const text = spawnSync("pdftotext", [out, "-"], { encoding: "utf8" }).stdout || "";
   expect("the report names the executive and the dated source", text.includes("Priya Natarajan") && text.includes("2026-01-14") ? "yes" : "no", "yes");
   const waiting = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "report.json"), "utf8"));
+  waiting.outreach = path.join(root, "..", "outreach", "sample-data", "outreach.json");
   waiting.before = path.join(root, "sample-data", "match.json");
   waiting.after = path.join(root, "sample-data", "match-after.json");
   waiting.files = waiting.files.map((f) => (f.label === "Baseball card" ? { label: f.label, note: "waiting for a photo" } : { ...f, path: path.join(root, "sample-data", f.path) }));
@@ -63,6 +64,7 @@ const req = (kind, rating) => ({ kind, rating, text: `${kind} ${rating}`, reason
   expect("the report offers the two next steps", text.includes("Find more jobs like this one") && text.includes("Set up my full search") ? "yes" : "no", "yes");
 
   const bad = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "report.json"), "utf8"));
+  bad.outreach = path.join(root, "..", "outreach", "sample-data", "outreach.json");
   bad.before = path.join(root, "sample-data", "match.json");
   bad.after = null;
   bad.executive = { missing: "no dated source \u2014 checked the site" };
@@ -71,6 +73,26 @@ const req = (kind, rating) => ({ kind, rating, text: `${kind} ${rating}`, reason
   fs.writeFileSync(badPath, JSON.stringify(bad));
   const b = spawnSync("node", [path.join(root, "build-report.js"), "--data", badPath, "--out", path.join(work, "bad.pdf")], { encoding: "utf8" });
   expect("a dash or a missing file fails the report QA", b.status === 1 && /dash/.test(b.stderr) && /file not found/.test(b.stderr) ? "fails" : "passes", "fails");
+}
+
+// 4. Required skills covered counts Met must-haves only; executive matches the outreach.
+{
+  const { mustHaves, blockers } = require("../score");
+  const allPartly = { requirements: Array.from({ length: 5 }, (_, i) => ({ kind: "must", rating: i ? "met" : "partly", text: `m${i}`, reason: "r", quote: "q" })) };
+  expect("4 Met and 1 Partly met reads 4 of 5, never 5 of 5", mustHaves(allPartly).line, "Required skills covered: 4 of 5");
+  expect("Not shown must-haves are listed for the Build anyway question", blockers({ requirements: [{ kind: "must", rating: "not", text: "Gainsight" }, { kind: "nice", rating: "not", text: "Jira" }] }).join(), "Gainsight");
+  const base = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "report.json"), "utf8"));
+  const fix = (o) => ({ ...base, before: path.join(root, "sample-data", "match.json"), after: path.join(root, "sample-data", "match-after.json"), outreach: path.join(root, "..", "outreach", "sample-data", "outreach.json"), files: base.files.map((f) => ({ ...f, path: path.join(root, "sample-data", f.path) })), ...o });
+  const runR = (name, data) => { const p = path.join(work, name + ".json"); fs.writeFileSync(p, JSON.stringify(data)); return spawnSync("node", [path.join(root, "build-report.js"), "--data", p, "--out", path.join(work, name + ".pdf")], { encoding: "utf8" }); };
+  const claim = runR("claim", fix({ keywords: ["Required skills covered: 5 of 5", "Exact-term matches: 4 of 11"] }));
+  expect("a keyword line claiming 5 of 5 with a Partly met must-have fails QA", claim.status === 1 && /disagrees with the must-haves/.test(claim.stderr) ? "fails" : "passes", "fails");
+  const ok = runR("ok", fix({}));
+  const okText = spawnSync("pdftotext", [path.join(work, "ok.pdf"), "-"], { encoding: "utf8" }).stdout || "";
+  expect("the report prints the computed must-haves line", `${ok.status} ${okText.includes("Required skills covered: 4 of 5")}`, "0 true");
+  const other = runR("other", fix({ executive: { name: "Sam Lee", title: "CEO", source: "x", sourceDate: "2026-01-01", confirmed: true } }));
+  expect("an executive that differs from the outreach contact fails QA", other.status === 1 && /does not match the outreach contact/.test(other.stderr) ? "fails" : "passes", "fails");
+  const label = runR("label", fix({ executive: { ...base.executive, confirmed: false } }));
+  expect("confirmed on one side and not the other fails QA", label.status === 1 && /not confirmed/.test(label.stderr) ? "fails" : "passes", "fails");
 }
 
 fs.rmSync(work, { recursive: true, force: true });

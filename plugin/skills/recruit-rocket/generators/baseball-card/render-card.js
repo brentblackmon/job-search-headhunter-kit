@@ -112,8 +112,22 @@ function buildCard(d) {
     </footer>`;
 }
 
+// A card's proof line must add a fact, not repeat its title: "Services revenue up" over
+// "Up 25%" says "up" twice. Fails when every word in the proof (numbers aside) is already in
+// the title, or when the proof only restates the title's direction word.
+const DIRECTION = new Set(["up", "down", "more", "less", "higher", "lower", "faster", "slower", "grew", "growth", "cut", "rose", "fell"]);
+function repeatsTitle(title, proof) {
+  const words = (s) => String(s || "").toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).filter((w) => w.length > 1 && !["to", "of", "in", "the", "a", "and", "from", "per", "by"].includes(w));
+  const t = new Set(words(title)), p = words(proof);
+  if (!p.length) return false;
+  return p.every((w) => t.has(w)) || p.some((w) => DIRECTION.has(w) && t.has(w));
+}
+
 function checkShape(d) {
   const problems = [];
+  (d.sections || []).forEach((s, i) => (s.cards || []).forEach((c, j) => {
+    if (repeatsTitle(c.title, c.proof)) problems.push(`section ${i + 1} card ${j + 1}: the proof "${c.proof}" repeats the title "${c.title}"; give the number its own fact`);
+  }));
   if (useTiles(d)) {
     if (d.tiles.length !== 4) problems.push(`expected 4 tiles, found ${d.tiles.length}`);
   } else if (!d.stats || d.stats.length !== 4) problems.push(`expected 4 stats (or 4 tiles for a student card), found ${(d.stats || []).length}`);
@@ -308,4 +322,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { buildCard, normalize, checkLengths, LIMITS };
+module.exports = { buildCard, normalize, checkLengths, checkShape, repeatsTitle, LIMITS };

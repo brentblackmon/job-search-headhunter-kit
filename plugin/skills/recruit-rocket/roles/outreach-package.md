@@ -35,30 +35,15 @@ If `facts.md` lists `Schools`, alumni at the company come first in every outreac
    1. Open the company's LinkedIn page and click **People**.
    2. In "Where they studied", pick the school (or type it in the search box on that page).
    3. Pick 2 or 3 alumni in or near the user's function. Prefer people who posted or were active recently.
-2. Write a short alumni connection note, under 300 characters, counted: the shared school, one line on the user's target role, and a soft ask ("Would you be open to a quick chat about the team?"). No attachments, no links, no pitch.
-3. List alumni first, then the hiring executive, in `outreach.md` and in the tracker contacts.
+2. Write **one alumni note per school** the user picked, under 300 characters, counted: the shared school by name, one line on the user's target role, and a soft ask ("Would you be open to a quick chat about the team?"). No attachments, no links, no pitch. Each note uses only its own school's name and nickname: never "Tar Heel" for NC State or Wharton alumni (the build script checks this).
+3. List alumni first, then the hiring executive, in the outreach file and in the tracker contacts.
 
 ## Output
+Write `companies/<company-slug>/outreach.json` in the shape of `generators/outreach/sample-data/outreach.json`: the contact (with `confirmed: true` only when a dated source confirms them), the email (to, address status: `VERIFIED`, `PATTERN GUESS, NOT VERIFIED`, or `not found`; subject; body), the LinkedIn note, one alumni entry per school (school, steps, note), and the sources. Then build the Word file the user opens, from a work copy of `generators/outreach/` (it uses the resume generator's `docx` package):
 ```
-To: Name <email>  [VERIFIED | PATTERN GUESS, NOT VERIFIED]
-Subject: ...
-
-Body...
-
----
-LinkedIn note (N characters):
-...
-
----
-Alumni steps (if the user has a school on file):
-1. ...
-Alumni note (N characters):
-...
-
----
-Sources used: quote/date list
-Facts used: facts.md lines
+node build-outreach.js --data <company folder>/outreach.json --out <company folder>/<First_Last>_Outreach_<Company>.docx
 ```
+It fails on a note over 300 characters, an email over 200 words, two notes for one school, a note that does not name its school or uses another school's nickname, a dash, or a placeholder; fix `outreach.json` and run it again. The `.json` is working data; the user gets the `.docx`. If Node cannot run, write the same sections into a .docx by hand.
 
 Then run `fact-check`. If an address is a pattern guess, include: "After you send, check for a bounce in about 2 minutes."
 

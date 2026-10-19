@@ -57,6 +57,8 @@ If a request fits no row, use `roles/headhunter-chief-of-staff.md`.
 - `templates/`: facts file, tracker, scan prompt, email, LinkedIn note, cover letter, follow-ups, negotiation, interview prep.
 - `generators/resume/`: the locked resume layout (`build-resume.js`, `qa.js`, sample data) the ATS keyword check (`keyword-check.js`), the copy check against the posting (`copy-check.js`), and the AI-tell word check (`voice.js`).
 - `generators/match/`: the Match Score (`score.js`) and the one-page results report (`build-report.js`).
+- `generators/results/`: the results card and signals file from `results.json`, with the grading gates (`build-results.js`).
+- `generators/outreach/`: the outreach Word file (email, LinkedIn note, alumni notes) from `outreach.json`, with its checks (`build-outreach.js`).
 - `generators/links/`: builds `links.md`, the LinkedIn search links the user clicks (last 24 hours, last hour, remote, recruiters). It never logs in to or reads LinkedIn.
 - `generators/baseball-card/`: the locked card layout (`render-card.js`, `card-template.html`, sample data).
 - `STANDING_RULES.md`: the full rules and the `My Job Search/` folder layout.
