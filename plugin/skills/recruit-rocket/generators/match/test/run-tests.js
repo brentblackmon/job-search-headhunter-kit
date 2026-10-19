@@ -65,7 +65,7 @@ const req = (kind, rating) => ({ kind, rating, text: `${kind} ${rating}`, reason
   const bad = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "report.json"), "utf8"));
   bad.before = path.join(root, "sample-data", "match.json");
   bad.after = null;
-  bad.executive = { missing: "no dated source — checked the site" };
+  bad.executive = { missing: "no dated source \u2014 checked the site" };
   bad.files = [{ label: "Tailored resume", path: path.join(work, "missing.pdf") }];
   const badPath = path.join(work, "bad.json");
   fs.writeFileSync(badPath, JSON.stringify(bad));

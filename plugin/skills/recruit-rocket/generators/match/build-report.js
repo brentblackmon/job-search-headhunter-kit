@@ -172,7 +172,7 @@ async function main() {
     else if (f.path && !fs.existsSync(path.resolve(d._base, f.path))) problems.push(`file not found: ${f.path}`);
   }
   const raw = JSON.stringify([d, before, after]);
-  if (/[–—]/.test(raw)) problems.push("em or en dash in the report text (use a comma, colon, or \"to\")");
+  if (/[\u2013\u2014]/.test(raw)) problems.push("em or en dash in the report text (use a comma, colon, or \"to\")");
   const placeholders = [...new Set(raw.match(/\[[^\[\]"]{1,40}\]/g) || [])];
   if (placeholders.length) problems.push(`unfilled placeholders: ${placeholders.join(", ")}`);
   if (!before) { console.error(problems.join("\n")); process.exit(1); }
