@@ -12,10 +12,9 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 ## Autopilot (first run after setup, and each morning)
 The user should never have to name the next step, and **nothing is built until the user picks it.** Show progress the whole way (rule 15): a numbered status line before each step, counted over the whole run, and a one-line "Done:" with what it found.
 
-**First run** (continues from setup, which was "Step 1 of 4: reading your resume"). Aim for the results card within 5 minutes of the user's first message:
-2. "Step 2 of 4: quick job scan". The quick pass in `roles/talent-scout.md`: last 7 days, each target title, connected job boards or web search, about 2 minutes at most. "Done: 23 postings found, 6 fit, 17 dropped (off-target or under your pay floor)."
-3. "Step 3 of 4: hiring signals and recruiters". The quick version of `roles/signal-search.md`: the top 3 hiring signals, recruiters running matching searches now, and hiring clusters, about 90 seconds at most. "Done: 3 signals, 2 recruiters, 1 hiring cluster."
-4. "Step 4 of 4: your results card". Show the results card below, then ask the build question.
+**First run** (continues from setup, which was "Step 1 of 3: reading your resume"). Aim for the results card within 5 minutes of the user's first message. Post each of these lines word for word, as its own message, before the step starts, and never skip one:
+2. "Step 2 of 3: scanning jobs and hiring signals". The quick pass in `roles/talent-scout.md` (last 7 days, each target title, connected job boards or web search, about 2 minutes at most) and the quick version of `roles/signal-search.md` (the top 3 hiring signals, recruiters running matching searches now, and hiring clusters, about 90 seconds at most). On a long step, post a short update ("Still searching: jobs done, now hiring signals"). "Done: 23 postings found, 6 fit, 17 dropped; 3 hiring signals, 2 recruiters."
+3. "Step 3 of 3: your results card". Show the results card below, then ask the build question.
 
 **Each morning** (scheduled or "what should I do today?"): the Daily briefing items below first, then the quick pass for the last 24 hours, then the deep pass (careers pages, startup and VC boards), signals on Mondays, and the results card for anything new. Same rule: show, then ask; never build unasked.
 
@@ -47,7 +46,7 @@ Checked: Indeed, ZipRecruiter, and web search for 2 titles in the last 7 days; 4
 Rules for the card:
 - **Top picks:** up to 5 A-grade roles, freshest first. Each has the posted date and age, pay (or "pay not posted"), the link, one line on why they win, the main gap, and **Apply today** if it is under 48 hours old. With fewer than 5 A's, fill with the best B's and label them "B". With none, say "No A or B roles in the last 7 days" and lean on the signals.
 - **Hiring signals:** the top 3 from signal search, each with a dated source link and the person to approach (or "person not confirmed").
-- **Recruiters running searches now:** up to 3 search firms or recruiters with a matching search posted in the last 14 days, with the firm or recruiter name and a link to the posting. Only ones you found with a dated public posting; never a guessed name.
+- **Recruiters running searches now:** up to 3 search firms or recruiters with a matching search posted in the last 14 days, with the firm or recruiter name, the posting date, and a link to the posting. A posting with no visible date does not count. With none dated, write "None with a dated posting in the last 14 days". Never a guessed name.
 - **Hiring clusters:** up to 3 companies hiring heavily in the user's role family (3 or more open roles) after a raise or acquisition in the last 6 months, with the source.
 - **Checked:** one line with the sources, the time window, and the counts kept and dropped, with why.
 - "Not graded" postings never go on the card. In the scan file, see `roles/talent-scout.md`.

@@ -7,20 +7,20 @@ Facts file is the source of truth; never invent or round. Store approved phrasin
 
 ## What to read (new user safety)
 - **Only what the user shares or points to**: resume, LinkedIn PDF, cover letters, work samples. Never browse the rest of their folder or drive on your own.
-- **Build the facts file only from those documents and the user's answers.** Never fill it from Claude's memory, earlier chats, other installed skills, or anything you know about someone with the same name. If memory or another skill offers a fact, ignore it.
+- **Build the facts file only from those documents and the user's answers.** Never fill it from Claude's memory, earlier chats, other installed skills, or anything you know about someone with the same name. If memory or another skill offers a fact, ignore it. The job seeker is the person named in the resume; never use or mention the Claude account holder's name or email, or the skill's copyright owner.
 - **Email:** if an email tool is connected, do not read it during setup. The "Sharpen your results" step asks once whether to read job alert emails.
 - If they shared nothing, ask once: "Could you drop in your resume? A LinkedIn PDF works too." If they have nothing, ask them to describe their last role in a few sentences.
 - If `facts.md` already exists in the job search folder, you are updating. Ask one question: "What's changed since we last set this up?"
 
 ## Before the first question (silent, no output beyond the status line)
-Post "Step 1 of 4: reading your resume" first. Then draft `facts.md` in the job search folder from their documents, using the `templates/facts.md` headings:
+Post "Step 1 of 3: reading your resume" first. Then draft `facts.md` in the job search folder from their documents, using the `templates/facts.md` headings:
 - Every role: company, title, MM/YYYY dates, location, scope.
 - Every number becomes a metric whose approved phrasing matches **their own words exactly**. Mark it `FROM RESUME`. Do not round, combine, or improve anything.
 - Note conflicts between documents. **Check the timeline** for overlapping full-time roles (one ends more than a month after the next starts; part-time, contract, board, volunteer, and promotions inside one company do not count) and gaps over 6 months. Do not ask about them now: list every one in `facts.md` under `## Open date checks` (role, dates, what looks wrong). The Fact Checker asks about each one the first time a draft uses those dates.
 - **Contact details.** Note whether the documents give a phone number and an email address. Do not ask now; the resume builder asks once, the first time it builds a resume.
 - **Never write placeholders** such as "[phone]" or "[degree and year to confirm]" into `facts.md`.
 - Work out the user's **country and city**, their likely target titles, and their level from the documents. These prefill the 3 questions.
-- **Exclusions:** add their current employer from the resume to `Exclusions` by default, and say so once in the results ("I left out your current employer"). The Sharpen step lets them change it.
+- **Exclusions:** add their current employer from the resume to `Exclusions` by default, and say so once in the results ("I left out your current employer"). For students, skip this and do not mention it: a part-time job outside their field (a coffee shop, a store) is not an employer to avoid. The Sharpen step lets them change it.
 
 ## The 3 questions
 **One question per message, answered by clicking.** Use the app's multiple-choice question tool when available (2 to 4 options plus "Something else"). If there is none, show numbered options and accept a single number. Every option is built from their documents, so the right answer is usually already there. Number them "(1 of 3)". Accept short typed answers too. React briefly ("Got it.") and move on. **Never ask a fourth setup question.**
@@ -33,11 +33,11 @@ Post "Step 1 of 4: reading your resume" first. Then draft `facts.md` in the job 
 When the resume shows a current student (an expected graduation date, "Class of", current enrollment) or the user asks for an internship, the 3 questions are:
 1. **Field and roles.** "What kind of internship are you after?" Options from their major and jobs (for example "Sports broadcast production", "Sports media and social video"), plus "Something else". Allow more than one.
 2. **Term.** "Which internship term?" Options: the next terms that fit their calendar (for example "Summer 2027", "Fall 2027"), plus "Something else".
-3. **Location.** "Where could you work that term?" Options: "Near school ([school city])", "Near home ([home city] if the resume shows one)", "Anywhere", "Something else".
+3. **Location.** "Where could you work that term?" Options: "Near school ([school city])", "Near home ([home city])" only if the resume shows a different home city, "Anywhere", "Something else". Never show two options for the same place.
 Take graduation, GPA, and job details from the resume as written. Set `Mode: student` under `Targets` so the other roles use the student layout and the internship search. Skip pay for students unless they bring it up.
 
 ### Example
-> **Claude:** Step 1 of 4: reading your resume
+> **Claude:** Step 1 of 3: reading your resume
 > **Claude:** Done: read your resume. 12 years in IT, most recently IT Manager at a manufacturer in Columbus. (1 of 3) What roles should I look for?
 > [IT Manager or IT Director] [IT Operations Manager] [Infrastructure Manager] [Something else]
 > **User:** *clicks IT Manager or IT Director*
@@ -48,7 +48,7 @@ Take graduation, GPA, and job details from the resume as written. Set `Mode: stu
 1. Update `facts.md` with the answers and a `Last reviewed: YYYY-MM-DD` line. Every metric stays `FROM RESUME`. Record `Headshot file: none yet`, `Open to startups: not asked`, `Daily scan: not asked`.
 2. Create `tracker.md` from `templates/tracker.md` if it does not exist.
 3. **Build the fresh-job links.** Write `links-input.json` (target job titles only, the user's city and country the way LinkedIn writes locations, for example "Columbus, Ohio, United States", `remote: true` if they are open to remote, and for students `student: true` and the term) and run `node build-links.js --input <that file> --out <job search folder>/links.md` from a work copy of this skill's `generators/links/` folder. Add 2 recruiter search titles for their field and their city as `recruiterTitles` and `recruiterCity`. If the script cannot run, write the same links by hand.
-4. Say one line: "Done: you're set up. Next I'll find your first results; this takes about 3 minutes." Then **continue immediately** with the first run in `roles/headhunter-chief-of-staff.md` (quick scan, signals, then one results card). Never build a package before the user picks one.
+4. **Your reply to the third answer starts with these two lines, before any file write, search, or command:** "Got it. Done: you're set up." and "Step 2 of 3: scanning jobs and hiring signals (about 2 minutes)". Then do steps 1 to 3 above (they are part of Step 2, not separate steps) and **continue immediately** with the first run in `roles/headhunter-chief-of-staff.md` (quick scan, signals, then one results card). Never build a package before the user picks one.
 
 ## Sharpen your results (one optional message, after the first results)
 After the first results card (and after any packages the user picked), send **one** message. Everything in it is optional; the user can answer any line, several at once, or skip:
@@ -66,7 +66,7 @@ Sharpen your results (all optional; answer any, or say Skip):
 Add these lines only when they apply:
 - **Outside the US:** "How soon could you start? (Immediately / 15 days / 30 days / 60 to 90 days)"
 - **Email connected:** "Read your job alert emails for jobs you'd otherwise miss? (Yes / No)" Never read email before a yes.
-- **Students:** "Want your GPA on your resume? (Only if it's 3.0 or higher)" and, per current job, "At [job], what do you do and on what equipment?"
+- **Students:** leave out lines 2 and 6 (avoid list and contract work) and the pay questions. Add "Want your GPA on your resume? (Only if it's 3.0 or higher)", and, only for jobs in their field whose resume lines lack detail, "At [job], what do you do and on what equipment?" Never ask about jobs outside their field.
 
 Record each answer in `facts.md`:
 - Names already applied to or in talks: add them to the tracker as `Sent` or `Replied` (as the user says) so no scan or outreach repeats them.
@@ -76,7 +76,7 @@ Record each answer in `facts.md`:
 - Skipped lines stay as they are; never ask them again unless the user brings them up.
 If they added target companies or said yes to startups, run the deep pass in `roles/talent-scout.md` now and post any new A-grade finds in one short update.
 
-**Then, at the very end, offer the daily scan (one click):** "Scan for new jobs every weekday morning (recommended)", "Not now". On yes, create the scheduled task the way "Put it on a schedule" in `roles/headhunter-chief-of-staff.md` describes, record `Daily scan: on, weekdays at 7am`, and say once that it runs while the computer is on and the Claude app is open.
+**Then, at the very end, offer the daily scan (one click), in its own message after the user has answered or skipped Sharpen.** Never put the daily scan offer in the Sharpen message, and never read "Skip" as a no to the daily scan: "Scan for new jobs every weekday morning (recommended)", "Not now". On yes, create the scheduled task the way "Put it on a schedule" in `roles/headhunter-chief-of-staff.md` describes, record `Daily scan: on, weekdays at 7am`, and say once that it runs while the computer is on and the Claude app is open.
 
 **The photo** is never asked in setup or Sharpen. It is asked the first time the user asks for a baseball card or picks a package (see `roles/baseball-card.md`).
 
