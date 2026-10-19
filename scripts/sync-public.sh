@@ -9,6 +9,9 @@ git archive HEAD | tar -x -C "$TMP"
 rm -f "$TMP/docs/BUILD_BRIEF.md" "$TMP/marketing/linkedin-preview.png" "$TMP/scripts/sync-public.sh"
 # Workshop-only automation stays out of the public repo
 rm -rf "$TMP/.github"
+# The paid skill zip is never published; it ships as a release asset on the private repo.
+# version.json stays public so installed copies can check for updates.
+rm -f "$TMP/dist/recruit-rocket.zip"
 python3 - "$TMP" <<'PY'
 import sys, pathlib, json
 root = pathlib.Path(sys.argv[1])

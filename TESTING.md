@@ -1,6 +1,6 @@
 # Test Recruit Rocket
 
-Recruit Rocket, Copyright (c) 2026 Brent Blackmon. All rights reserved. Personal use by invited testers only.
+Recruit Rocket 1.0.0. Copyright (c) 2026 the Licensor. All rights reserved. Single-user license: see [LICENSE](LICENSE).
 
 Thanks for testing. Recruit Rocket is a team of ten AI agents that runs your job search like a small recruiting firm with one client: you. **Nothing is ever sent for you.** It drafts. You decide and send.
 
@@ -21,7 +21,9 @@ Setup takes about 5 minutes if you already have Claude, plus a 10-minute intervi
 - Any companies not to contact (for example your current employer).
 
 ## Set up in 5 minutes
-1. **Download** https://github.com/brentblackmon/recruit-rocket/raw/main/dist/recruit-rocket.zip (one file; do not unzip it).
+**You need:** a Claude Pro or Max plan, the Claude desktop app with Cowork, and a folder on your computer. The Gmail connector is optional but recommended.
+
+1. **Download** recruit-rocket.zip from your purchase email (one file; do not unzip it).
 2. **Upload it.** In the Claude app, click **Customize** (in some versions, **Settings**), then **Skills**, then **Upload skill**, and pick **recruit-rocket.zip**. If it shows an on/off switch, turn it on.
 3. **Switch to Cowork** in the Claude app.
 4. **Pick a folder.** When it asks, choose a folder on your computer for your job search (for example a new folder in Documents called **Recruit Rocket**).
@@ -37,7 +39,7 @@ Each morning after that, just say **"What should I do today?"**
 **Found a job on a board Claude can't search** (for example Naukri or LinkedIn Jobs)? Paste the link or the job text and say: **"Build my package for this job."**
 
 ## Getting updates
-Delete Recruit Rocket in **Skills**, download recruit-rocket.zip again, and upload it. Your **My Job Search** folder is not touched.
+When a new version is out, Recruit Rocket says so in one line at setup or during a scan. Download the new recruit-rocket.zip from your purchase email, delete Recruit Rocket in **Skills**, and upload the new one. Your **My Job Search** folder is not touched.
 
 ## Send your feedback
 After your first run, and again after about a week, reply to Brent on LinkedIn with your answers. Short answers are perfect.

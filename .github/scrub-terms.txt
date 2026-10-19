@@ -1,0 +1,19 @@
+# Terms that must never appear in the release zip (case-insensitive, whole words).
+# Kept in .github/ so it never reaches the public repo. One term per line.
+Brent
+Blackmon
+brent.blackmon025
+WM Synergy
+WMSynergy
+Velosio
+Aspire Software
+Valsoft
+ServicePower
+Velotic
+N-iX
+Sourcepass
+InMotion
+Tagalakis
+Saliem
+Michael Assi
+Mohan
