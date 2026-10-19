@@ -61,6 +61,7 @@ Evidence check: 6 well backed, 2 vague
    Every evidence line quotes the resume, Well backed ones too, and quotes the whole bullet or sentence, never a one- or two-word fragment ("Treasurer" is a title, not a claim).
    Then offer: "Fix the gaps first (about 2 minutes, recommended)", "Build my package now", "Stop here". With nothing Vague or Partly met, skip the first choice.
    **Always stop here**, even when the user asked for the package ("build my package for this job"): the score and the offer end this turn, and "Build my package now" is one click away. Never start the package in the same turn as the score; the user must see the score first.
+   **Exception: picks from the results card.** When the user picked roles in "Build the package for which ones?", the pick is the go. For each pick, post its one-line score ("Acme Manufacturing: Match Score 84 (Shortlist)") and go straight into Step 3 for it, without the table or the offer. Number the steps over the whole batch.
 
 ## Step 2. Guided fix (optional)
 For each Vague claim and each Partly met requirement, ask one question at a time, Partly met must-haves first, at most 6 questions in all. Each question shows the resume line beside it and asks only for the missing detail (number, scope, timeframe, or result). Choices are built only from what is already known, never a made-up number:

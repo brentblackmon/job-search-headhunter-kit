@@ -100,4 +100,6 @@ If Node is not available, or the PDF or QA tools are missing: still use the gene
 7. If QA fails, fix and rerun. Common fixes: trim an older role's bullets, shorten the summary, drop one achievement.
 
 ## Output
+**Phone and email.** If `facts.md` has no phone number or no email address, ask once, the first time you build a resume: "What phone and email should go on your resume?" (a typed answer). Never print placeholders.
+
 Tell the user: file paths, page count, what was tailored (old vs. new headline and summary paragraph), and QA results. Remind them the resume PDF is for ATS uploads; the baseball card is for direct email.

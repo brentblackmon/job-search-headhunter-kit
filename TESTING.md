@@ -30,7 +30,7 @@ Setup takes about 5 minutes if you already have Claude, plus a 10-minute intervi
 7. **For the full search, say:** **Set me up with Recruit Rocket. I am job hunting in [your city, your country].**
    For example: "Set me up with Recruit Rocket. I am job hunting in Tulsa, Oklahoma, United States." or "Set me up with Recruit Rocket. I am job hunting in Hyderabad, India."
 
-Then click **Allow** or **Approve** when Claude asks, and answer about five quick questions (most are one click). It runs on its own from there: it finds jobs that fit, spots companies about to hire, builds your resume, stat sheet, cover letter, and outreach for the best ones, checks every number, and shows you one review screen.
+Then click **Allow** or **Approve** when Claude asks, and answer 3 one-click questions: the roles you want, your pay floor, and where you want to work. In about 5 minutes you get one results card: your top job picks with posted dates and pay, hiring signals with the person to approach, recruiters running matching searches, and companies hiring in clusters. You pick which ones get a full package (resume, stat sheet, and outreach), and nothing is built until you do. After that, one optional "Sharpen your results" message lets you add more, then it offers a daily scan.
 
 Each morning after that, just say **"What should I do today?"**
 
@@ -66,7 +66,7 @@ All ten live inside the one Recruit Rocket skill. You never have to name them; j
 
 | Agent | What it does |
 |---|---|
-| Intake Agent | Reads your resume, asks about five questions, builds your facts file |
+| Intake Agent | Reads your resume, asks 3 one-click questions, builds your facts file |
 | Head Headhunter | Daily briefing, tracker, follow-ups, runs the whole pipeline |
 | Talent Scout | Finds jobs and grades them A, B, or C on what you can prove |
 | Market Intel Analyst | Finds companies likely to hire before they post |

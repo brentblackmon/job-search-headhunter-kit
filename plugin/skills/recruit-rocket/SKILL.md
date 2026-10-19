@@ -21,10 +21,11 @@ If the user pastes a job posting (text, file, or link), or says "score my resume
 
 ## Setup ("Set me up with Recruit Rocket")
 Do this yourself. Never ask the user to download or unzip anything.
-1. Use the folder the user picked in Cowork (or the current working folder). Create `My Job Search/` in it if it does not exist. If a `My Job Search/` folder already exists anywhere in that folder, use it; never make a second one.
-2. Copy every file from this skill's `templates/` folder into `My Job Search/templates/`. Skip files that already exist there, so the user's edits are kept.
-3. Find the user's resume: files they attached, or a resume or LinkedIn PDF in the picked folder. Read only those files.
-4. Go straight into `roles/intake.md`. Intake ends by starting the Autopilot in `roles/headhunter-chief-of-staff.md`, which builds full packages for the best matches and shows one review screen.
+Goal: credible first results within 5 minutes, for a brand new user with nothing connected.
+1. **The job search folder.** If the user names a folder ("save it in my Recruit Rocket folder"), that folder is the job search folder: save everything directly in it, and never create `My Job Search/` inside it. Otherwise use `My Job Search/` in the folder the user picked in Cowork (or the current working folder); if a `My Job Search/` folder already exists there, use it. Never make a second one. Every `My Job Search/` path in the roles means this folder.
+2. Copy every file from this skill's `templates/` folder into `templates/` in the job search folder. Skip files that already exist there, so the user's edits are kept.
+3. Find the user's resume: files they attached, or a resume or LinkedIn PDF in the picked folder. Read only those files. **Build the user's facts only from their documents and their answers**: never from Claude's memory, earlier chats, or other installed skills. If an email tool is connected, never read it until the user says yes (the Sharpen step asks once).
+4. Go straight into `roles/intake.md`: 3 one-click questions at most. Intake continues into the first run in `roles/headhunter-chief-of-staff.md`: a quick scan, hiring signals, and one results card, then "Build the package for which ones?". Nothing is built until the user picks it. Then one optional "Sharpen your results" message, then the daily scan offer.
 
 If the setup message also includes a job posting, run `roles/match-and-package.md` first, then offer the full setup. If `My Job Search/facts.md` already exists, the user is already set up: say so in one line and go to the daily briefing instead, unless they asked to update their facts.
 
