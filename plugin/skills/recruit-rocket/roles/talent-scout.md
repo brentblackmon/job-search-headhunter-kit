@@ -11,6 +11,9 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
 - Sources: whatever job search tools are connected (job board connectors, web search, LinkedIn in a browser). If none are connected, ask the user to paste postings.
 - **Gmail job alerts, in every scan** when Gmail is connected and `facts.md` says `Job alert emails: yes`: LinkedIn (jobalerts-noreply@linkedin.com, jobs-noreply@linkedin.com), Indeed, ZipRecruiter, and Glassdoor alert emails from the last 14 days. These are often the freshest, best-matched postings the user has, so they are a source like any job board: every in-family job in them is graded or listed under "Not graded", never skipped silently. Never read email without that yes.
 
+## Version check
+At the start of every scan, run the version check in `SKILL.md`: one line if a newer version is out, nothing otherwise, and never stop the scan for it.
+
 ## Already applied, first (before grading anything)
 Build the "already applied" list before the scan grades a single posting:
 - **Gmail** (with `Job alert emails: yes`): application confirmations from the last 60 days, from **job boards, company sites, and applicant tracking systems**. Search by subject ("application sent", "your application was sent", "application received", "thank you for applying", "thanks for applying", "we received your application", "thank you for your interest") **and** by sender: Greenhouse (greenhouse.io, greenhouse-mail.io), Lever (hire.lever.co), Ashby (ashbyhq.com), Workday (myworkday.com, myworkdayjobs.com), iCIMS (icims.com), Workable (workablemail.com, workable.com), SmartRecruiters, Jobvite, and LinkedIn and Indeed "application sent" notices. Take the company (and title) from the sender name, subject, or first line. A company the user applied to directly on its own site counts the same as a job board application.

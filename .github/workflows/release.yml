@@ -1,0 +1,45 @@
+# Builds recruit-rocket.zip and attaches it to a release on this private repo, for upload to
+# the store. Run it from Actions > Release > Run workflow, or push a tag like v1.0.0.
+# The tag must match plugin/skills/recruit-rocket/VERSION.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read the version
+        id: v
+        run: |
+          v="$(tr -d '[:space:]' < plugin/skills/recruit-rocket/VERSION)"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "${GITHUB_REF_NAME}" != "v$v" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match VERSION $v"; exit 1
+          fi
+          j="$(python3 -c 'import json;print(json.load(open("version.json"))["version"])')"
+          if [ "$j" != "$v" ]; then echo "::error::version.json says $j but VERSION says $v"; exit 1; fi
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
+      - name: Build the zip (with the scrub check)
+        run: ./scripts/package-skills.sh
+
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ steps.v.outputs.version }}
+        run: |
+          if gh release view "v$V" >/dev/null 2>&1; then
+            gh release upload "v$V" dist/recruit-rocket.zip --clobber
+          else
+            gh release create "v$V" dist/recruit-rocket.zip --target "$GITHUB_SHA" \
+              --title "Recruit Rocket $V" \
+              --notes "Recruit Rocket $V. Upload recruit-rocket.zip to the store. Not for public download."
+          fi

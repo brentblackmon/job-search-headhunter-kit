@@ -3,3 +3,6 @@ My Job Search/
 my-search/
 node_modules/
 .DS_Store
+# The skill zip is built by scripts/package-skills.sh and attached to a private release.
+dist/recruit-rocket.zip
+build/

@@ -1,6 +1,6 @@
 # Recruit Rocket
 
-Recruit Rocket, Copyright (c) 2026 Brent Blackmon. All rights reserved. Personal use by invited testers only.
+Recruit Rocket 1.0.0. Copyright (c) 2026 the Licensor. All rights reserved. Single-user license: see [LICENSE](LICENSE).
 
 **A full-service AI recruiting team that works for the job seeker.** It's one Claude skill that runs your whole search like a small recruiting firm with one client: you. It finds openings and grades them on real fit, spots companies about to hire before they post, builds a tailored ATS-ready resume, a cover letter, and a one-page stat sheet (a "baseball card") that puts your best numbers up front, writes the email and LinkedIn connect note to the right person, preps you for interviews, and tracks every follow-up.
 
@@ -68,10 +68,16 @@ Full text: [STANDING_RULES.md](plugin/skills/recruit-rocket/STANDING_RULES.md)
 - Claude Pro or higher and the Claude desktop app from claude.com/download (Cowork is not on the free plan). Claude Code works too.
 - Optional but helpful connectors: **Gmail** (so Claude can save drafts for you to send), **Google Drive** (to keep your job search folder), a browser connection for **LinkedIn**, and any **job board** connectors available to you.
 
+## Requirements
+- A **Claude Pro or Max** plan.
+- The **Claude desktop app** with **Cowork**.
+- A **folder on your computer** for your job search.
+- Optional but recommended: the **Gmail connector**, so Recruit Rocket can read your job alerts and skip jobs you already applied to. It asks once before reading any email.
+
 ### Option A: The Claude app (Cowork)
 Testers can follow [TESTING.md](TESTING.md) step by step.
 
-1. Download https://github.com/brentblackmon/job-search-headhunter-kit/raw/main/dist/recruit-rocket.zip (one file; leave it zipped).
+1. Download **recruit-rocket.zip** from your purchase email (one file; leave it zipped). QUICKSTART.pdf inside the zip has the same steps on one page.
 2. In Claude, click **Customize** (in some versions, **Settings**), then **Skills**, then **Upload skill**, and pick **recruit-rocket.zip**.
 3. Switch to **Cowork** and pick a folder for your job search.
 4. Attach your resume (or your LinkedIn PDF if you have no current resume) and say: **Set me up with Recruit Rocket. I am job hunting in [your city, your country].** For example: "I am job hunting in Tulsa, Oklahoma, United States."
@@ -132,12 +138,12 @@ plugin/                   the Claude plugin: manifest + the recruit-rocket skill
                            STANDING_RULES.md, templates/, generators/ (resume and card)
 examples/jordan-rivera/   full fictional sample run
 marketing/                org chart graphic + LinkedIn post draft
-dist/recruit-rocket.zip   the one file to upload in Customize > Skills
-scripts/                  package-skills.sh rebuilds dist/recruit-rocket.zip
+version.json              the current version; installed copies check it and show one line when a newer one is out
+scripts/                  package-skills.sh builds dist/recruit-rocket.zip (not committed; the private Release workflow attaches it to a release)
 ```
 
 ## Privacy
 Your facts file and tracker hold personal information. Keep your `My Job Search/` folder private. Never commit it to a public repository. This repo contains only fictional sample data.
 
 ## License
-Copyright (c) 2026 Brent Blackmon. All rights reserved. Licensed for personal, non-commercial use by invited testers only. See [LICENSE](LICENSE).
+Copyright (c) 2026 the Licensor. All rights reserved. Single-user license: one buyer, personal job search use, no resale or redistribution, no warranty, drafts only (you send everything). See [LICENSE](LICENSE).
