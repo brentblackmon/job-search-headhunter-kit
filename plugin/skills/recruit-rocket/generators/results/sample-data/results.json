@@ -1,32 +1,211 @@
 {
   "_note": "FICTIONAL SAMPLE. Every company, person, and link is invented.",
   "today": "2026-10-20",
-  "applied": ["Northwind Plastics"],
+  "applied": [
+    "Northwind Plastics"
+  ],
   "postings": [
-    { "title": "IT Director", "company": "Acme Manufacturing", "location": "Columbus, OH", "link": "https://example.com/acme-it-director", "posted": "2026-10-19", "pay": "$135K to $150K", "grade": "A", "why": "you ran IT for 3 plants and 640 users, and they are consolidating 4 sites.", "gap": "they want Azure administration; your resume shows on-premises servers.", "source": "Gmail alert (LinkedIn)" },
-    { "title": "IT Manager", "company": "Buckeye Freight", "location": "Grove City, OH", "link": "https://example.com/buckeye-it-manager", "posted": "2026-10-12", "pay": "$120K to $130K", "grade": "B", "why": "multi-site distribution IT, like your Midland Freight work.", "gap": "asks for SAP; not on your resume.", "source": "Indeed" },
-    { "title": "Director of IT", "company": "Lakeview Health", "location": "Columbus, OH", "link": "https://example.com/lakeview", "posted": "2026-09-01", "pay": "Pay not posted", "grade": "A", "why": "healthcare IT background.", "gap": "", "source": "web search" },
-    { "title": "IT Manager", "company": "Northwind Plastics", "location": "Dublin, OH", "link": "https://example.com/northwind", "posted": "2026-10-18", "pay": "$125K", "grade": "A", "why": "plastics manufacturing.", "gap": "", "source": "Gmail alert (Indeed)" },
-    { "title": "Head of IT", "company": "Thames Logistics", "location": "London, UK", "link": "https://example.com/thames", "posted": "2026-10-17", "pay": "GBP 90K", "grade": "A", "why": "logistics IT.", "gap": "", "source": "web search", "hardRequirement": "UK work authorization" },
-    { "title": "IT Support Lead", "company": "Scioto Clinics", "location": "Columbus, OH", "link": "https://example.com/scioto", "posted": "2026-10-16", "pay": "$70K", "grade": "B", "why": "service desk work.", "gap": "", "source": "ZipRecruiter", "belowLevel": true, "underFloor": true }
+    {
+      "title": "IT Director",
+      "company": "Acme Manufacturing",
+      "location": "Columbus, OH",
+      "link": "https://example.com/acme-it-director",
+      "posted": "2026-10-19",
+      "pay": "$135K to $150K",
+      "grade": "A",
+      "why": "you ran IT for 3 plants and 640 users, and they are consolidating 4 sites.",
+      "gap": "they want Azure administration; your resume shows on-premises servers.",
+      "source": "Gmail alert (LinkedIn)"
+    },
+    {
+      "title": "IT Manager",
+      "company": "Buckeye Freight",
+      "location": "Grove City, OH",
+      "link": "https://example.com/buckeye-it-manager",
+      "posted": "2026-10-12",
+      "pay": "$120K to $130K",
+      "grade": "B",
+      "why": "multi-site distribution IT, like your Midland Freight work.",
+      "gap": "asks for SAP; not on your resume.",
+      "source": "Indeed"
+    },
+    {
+      "title": "Director of IT",
+      "company": "Lakeview Health",
+      "location": "Columbus, OH",
+      "link": "https://example.com/lakeview",
+      "posted": "2026-09-01",
+      "pay": "Pay not posted",
+      "grade": "A",
+      "why": "healthcare IT background.",
+      "gap": "",
+      "source": "web search"
+    },
+    {
+      "title": "IT Manager",
+      "company": "Northwind Plastics",
+      "location": "Dublin, OH",
+      "link": "https://example.com/northwind",
+      "posted": "2026-10-18",
+      "pay": "$125K",
+      "grade": "A",
+      "why": "plastics manufacturing.",
+      "gap": "",
+      "source": "Gmail alert (Indeed)"
+    },
+    {
+      "title": "Head of IT",
+      "company": "Thames Logistics",
+      "location": "London, UK",
+      "link": "https://example.com/thames",
+      "posted": "2026-10-17",
+      "pay": "GBP 90K",
+      "grade": "A",
+      "why": "logistics IT.",
+      "gap": "",
+      "source": "web search",
+      "hardRequirement": "UK work authorization"
+    },
+    {
+      "title": "IT Support Lead",
+      "company": "Scioto Clinics",
+      "location": "Columbus, OH",
+      "link": "https://example.com/scioto",
+      "posted": "2026-10-16",
+      "pay": "$70K",
+      "grade": "B",
+      "why": "service desk work.",
+      "gap": "",
+      "source": "ZipRecruiter",
+      "belowLevel": true,
+      "underFloor": true
+    },
+    {
+      "title": "VP of IT",
+      "company": "Granite Systems",
+      "location": "Columbus, OH",
+      "link": "https://example.com/granite/careers/vp-it-4471",
+      "posted": "2026-10-17",
+      "pay": "$150K to $170K",
+      "grade": "A",
+      "why": "multi-site manufacturing IT, like your 3-plant role.",
+      "gap": "wants ERP migration lead experience.",
+      "source": "target careers page",
+      "target": true
+    }
   ],
   "signals": [
-    { "company": "Riverbend Foods", "signal": "opened a new plant in Groveport with 300 jobs", "source": "Columbus Business Daily", "sourceDate": "2026-10-02", "url": "https://example.com/riverbend-plant", "contact": { "name": "Dana Ruiz", "title": "VP Operations", "source": "Riverbend press release", "date": "2026-09-15" } },
-    { "company": "Granite Systems", "signal": "named a new CIO from inside the company", "source": "Granite press release", "sourceDate": "2026-10-05", "url": "https://example.com/granite-cio", "contact": null }
+    {
+      "company": "Riverbend Foods",
+      "signal": "opened a new plant in Groveport with 300 jobs",
+      "source": "Columbus Business Daily",
+      "sourceDate": "2026-10-02",
+      "url": "https://example.com/riverbend-plant",
+      "contact": {
+        "name": "Dana Ruiz",
+        "title": "VP Operations",
+        "source": "Riverbend press release",
+        "date": "2026-09-15"
+      }
+    },
+    {
+      "company": "Granite Systems",
+      "signal": "named a new CIO from inside the company",
+      "source": "Granite press release",
+      "sourceDate": "2026-10-05",
+      "url": "https://example.com/granite-cio",
+      "contact": null
+    }
   ],
   "recruiters": [
-    { "name": "Hartwell Search Partners", "search": "retained search: Director of IT, manufacturing, Central Ohio", "posted": "2026-10-08", "url": "https://example.com/hartwell-search" },
-    { "name": "Old Firm", "search": "IT Manager", "posted": "2026-07-01", "url": "https://example.com/old" }
+    {
+      "name": "Hartwell Search Partners",
+      "search": "retained search: Director of IT, manufacturing, Central Ohio",
+      "posted": "2026-10-08",
+      "url": "https://example.com/hartwell-search"
+    },
+    {
+      "name": "Old Firm",
+      "search": "IT Manager",
+      "posted": "2026-07-01",
+      "url": "https://example.com/old"
+    }
   ],
   "clusters": [],
   "checked": {
-    "sources": [ { "name": "Gmail job alerts", "status": "ok", "found": 14 }, { "name": "Indeed", "status": "ok", "found": 12 }, { "name": "ZipRecruiter", "status": "partial" }, { "name": "web search", "status": "ok", "found": 9 } ],
+    "sources": [
+      {
+        "name": "Gmail job alerts",
+        "status": "ok",
+        "found": 14
+      },
+      {
+        "name": "Indeed",
+        "status": "ok",
+        "found": 12
+      },
+      {
+        "name": "ZipRecruiter",
+        "status": "partial"
+      },
+      {
+        "name": "web search",
+        "status": "ok",
+        "found": 9
+      }
+    ],
     "window": "last 7 days (alerts: 14 days)",
     "found": 35,
-    "dropped": { "off-target": 18, "duplicates": 4 },
+    "dropped": {
+      "off-target": 18,
+      "duplicates": 4
+    },
     "excluded": "Your current employer was left out",
     "recruitersChecked": "Searched retained search firm postings for IT Director and IT Manager in Ohio, last 30 days.",
-    "clustersChecked": "Looked for 2 or more IT openings at one company or one PE portfolio in Central Ohio."
+    "clustersChecked": "Looked for 2 or more IT openings at one company or one PE portfolio in Central Ohio.",
+    "targets": [
+      {
+        "company": "Granite Systems",
+        "careersPage": "https://example.com/granite/careers",
+        "inFamily": 1
+      }
+    ],
+    "signalQueries": [
+      {
+        "type": "new CEO",
+        "query": "new CEO appointed manufacturing Ohio October 2026"
+      },
+      {
+        "type": "new CEO",
+        "query": "names chief executive distribution company Columbus 2026"
+      },
+      {
+        "type": "PE investment",
+        "query": "private equity investment manufacturer Ohio 2026"
+      },
+      {
+        "type": "acquisition",
+        "query": "completes acquisition manufacturing company Ohio 2026"
+      },
+      {
+        "type": "acquisition",
+        "query": "acquires logistics company Columbus closed 2026"
+      },
+      {
+        "type": "C-suite exit",
+        "query": "CIO steps down manufacturer Ohio interim 2026"
+      }
+    ]
   },
-  "timing": { "searchMinutes": 2.5 }
+  "timing": {
+    "searchMinutes": 2.5
+  },
+  "notGraded": [
+    {
+      "title": "IT Operations Manager",
+      "company": "Delaware Valley Mills",
+      "link": "https://example.com/dvm-it-ops",
+      "careersSearch": "searched dvmills.example/careers and its Workday site; full text not posted"
+    }
+  ]
 }

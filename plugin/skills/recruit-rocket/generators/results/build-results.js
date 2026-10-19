@@ -32,6 +32,23 @@
 // Signals need a named contact with a dated source, or they go to "Also seen".
 // Recruiter postings must be dated within 30 days. Clusters need 2 or more openings.
 // Exits 1 if any text has an em or en dash, a spaced hyphen used as a dash, or a placeholder.
+//
+// Search depth (checked; exits 1 when short):
+//   checked.signalQueries  [{ type, query }]  at least 6 news searches covering all 4 signal
+//                          types: "new CEO" (90 days), "PE investment" (6 months),
+//                          "acquisition" (closed, 12 months), "C-suite exit" (no replacement,
+//                          90 days). The queries are written into the signals file.
+//   checked.targets        [{ company, careersPage, inFamily }]  every target careers page
+//                          checked; each in-family opening must be in postings[] with
+//                          target: true, so it is graded with the same gates.
+//   notGraded              [{ title, company, link, careersSearch }]  a last resort: each one
+//                          needs careersSearch (what was searched on the company's own careers
+//                          page or ATS for the full text). The card shows at most 3, under "More".
+//   Links must be the posting itself. A generic page (linkedin.com/jobs/, a bare careers page)
+//   fails; use "" and the card says "link not found".
+// --scan writes the scan file from the same data, so every section count matches its list.
+// --check-scan FILE checks a hand-written scan file: "(N ...)" in a heading must equal the
+// items under it, and no generic links.
 
 const fs = require("fs");
 const path = require("path");
@@ -67,6 +84,30 @@ function gate(p, today) {
   return { grade, old, days: d, capped: why };
 }
 
+const SIGNAL_TYPES = ["new CEO", "PE investment", "acquisition", "C-suite exit"];
+const GENERIC_LINK = /^https?:\/\/(www\.)?([a-z0-9.-]+\.)?(linkedin\.com\/jobs\/?(search\/?)?|indeed\.com\/?(jobs\/?)?|glassdoor\.com\/?(Job\/?|Jobs\/?)?|ziprecruiter\.com\/?(jobs\/?|candidate\/search\/?)?|[a-z0-9.-]+\.[a-z]{2,}\/(careers|jobs|career|join-us|join)\/?)(\?[^#]*)?$/i;
+const isGeneric = (u) => !!u && GENERIC_LINK.test(String(u).trim());
+
+function validate(r) {
+  const p = [];
+  const ck = r.checked || {};
+  const q = ck.signalQueries || [];
+  if (q.length < 6) p.push(`only ${q.length} signal news searches logged (run at least 6 across the 4 signal types)`);
+  const missing = SIGNAL_TYPES.filter((t) => !q.some((x) => String(x.type || "").toLowerCase() === t.toLowerCase()));
+  if (missing.length) p.push(`no signal search logged for: ${missing.join(", ")}`);
+  for (const t of ck.targets || []) {
+    const n = Number(t.inFamily) || 0;
+    const have = (r.postings || []).filter((x) => x.target && norm(x.company) === norm(t.company)).length;
+    if (have < n) p.push(`${t.company}: ${n} in-family opening${n === 1 ? "" : "s"} on its careers page, but ${have} in postings with target: true (grade every one)`);
+  }
+  for (const x of r.notGraded || []) if (!String(x.careersSearch || "").trim()) p.push(`not graded "${x.title}, ${x.company}" has no careersSearch: search the company's careers page or ATS for the full text first`);
+  for (const x of [...(r.postings || []), ...(r.notGraded || [])]) if (isGeneric(x.link)) p.push(`"${x.title}, ${x.company}" has a generic link (${x.link}); use the posting link or "" for link not found`);
+  for (const x of r.recruiters || []) if (isGeneric(x.url)) p.push(`recruiter "${x.name}" has a generic link (${x.url})`);
+  return p;
+}
+
+const linkOf = (u) => (u && String(u).trim() ? u : "link not found");
+
 function build(r) {
   const today = r.today;
   const applied = (r.applied || []).map(norm).filter(Boolean);
@@ -96,15 +137,15 @@ function build(r) {
   if (!picks.length) L.push("None this time: no A or B role in the window passed the checks.");
   picks.forEach((p, i) => {
     const fresh = p.days <= 2 ? " **Apply today.**" : "";
-    L.push(`${i + 1}. **${p.title}**, ${p.company}, ${p.location}. ${p.grade}. Posted ${fmtDate(p.posted)} (${ageText(p.days)}).${fresh}`);
-    L.push(`   ${p.pay || "Pay not posted"}. ${p.link}`);
+    L.push(`${i + 1}. **${p.title}**, ${p.company}, ${p.location}. ${p.grade}${p.target ? ", target company" : ""}. Posted ${fmtDate(p.posted)} (${ageText(p.days)}).${fresh}`);
+    L.push(`   ${p.pay || "Pay not posted"}. ${linkOf(p.link)}`);
     L.push(`   Why you win: ${p.why}`);
     L.push(`   Main gap: ${p.gap || "none found"}`);
   });
   if (skipped.length) L.push("", `Already applied, skipped: ${[...new Set(skipped.map((p) => p.company))].join(", ")}.`);
   if (older.length) {
     L.push("", "**Older but still open** (over 30 days, so not graded A or B)");
-    older.slice(0, 5).forEach((p) => L.push(`- ${p.title}, ${p.company}. Posted ${fmtDate(p.posted)} (${ageText(p.days)}). ${p.link}`));
+    older.slice(0, 5).forEach((p) => L.push(`- ${p.title}, ${p.company}. Posted ${fmtDate(p.posted)} (${ageText(p.days)}). ${linkOf(p.link)}`));
   }
 
   L.push("", "**Hiring signals**");
@@ -126,13 +167,22 @@ function build(r) {
   const srcs = (ck.sources || []).map((s) => (s.status === "ok" ? `${s.name}${s.found != null ? ` (${s.found})` : ""}` : `${s.name}: ${s.status}`));
   const drops = Object.entries(ck.dropped || {}).filter(([, n]) => n).map(([k, n]) => `${n} ${k}`);
   const cappedNote = capped.length ? `${capped.length} capped at C (${[...new Set(capped.flatMap((p) => p.capped))].join("; ")})` : "";
+  const nq = (ck.signalQueries || []).length;
+  const targetsChecked = (ck.targets || []).length;
   const parts = [
     `Checked: ${srcs.join(", ") || "web search"}, ${ck.window || "last 7 days"}.`,
+    targetsChecked ? `${targetsChecked} target careers page${targetsChecked === 1 ? "" : "s"}, ${(r.postings || []).filter((x) => x.target).length} in-family opening${(r.postings || []).filter((x) => x.target).length === 1 ? "" : "s"} graded.` : "",
+    nq ? `${nq} news searches for hiring signals.` : "",
     ck.found != null ? `${ck.found} postings read, ${picks.length} picked.` : "",
     drops.length || cappedNote ? `Dropped: ${[...drops, cappedNote].filter(Boolean).join(", ")}.` : "",
     undated.length ? `${undated.length} with no posting date left out.` : "",
     ck.excluded ? `${ck.excluded}.` : "",
   ].filter(Boolean);
+  const notGraded = (r.notGraded || []).filter((x) => String(x.careersSearch || "").trim());
+  if (notGraded.length) {
+    L.push("", `**More** (${Math.min(3, notGraded.length)} not graded: the full posting was not found on the company's own site)`);
+    notGraded.slice(0, 3).forEach((x) => L.push(`- ${x.title}, ${x.company}. ${linkOf(x.link)}`));
+  }
   L.push("", parts.join(" "));
   if (r.timing && (r.timing.searchMinutes != null || r.timing.packageMinutes != null)) {
     const t = [];
@@ -161,9 +211,40 @@ function build(r) {
     clusters.forEach((c) => S.push(`- **${c.company}**: ${c.openings} openings. ${c.note}. Source: ${c.source}, ${c.date}, ${c.url}`));
   }
   S.push("", parts.join(" "));
+  const queries = ck.signalQueries || [];
+  if (queries.length) S.push(`News searches run (${queries.length}): ${queries.map((x) => `${x.type}: "${x.query}"`).join("; ")}.`);
   const signals = S.join("\n") + "\n";
 
-  return { card, signals, picks, skipped, older, realSignals, alsoSeen, recruiters, clusters, capped };
+  // The scan file: every section count is the length of its own list.
+  const sec = (title, items, line) => (items.length ? ["", `## ${title} (${items.length})`, ...items.map(line)] : []);
+  const C = [`# Scan ${today} (${ck.window || "last 7 days"})`];
+  C.push(...sec("Top picks", picks, (p) => `- ${p.grade}${p.target ? ", target company" : ""}: **${p.title}**, ${p.company}, ${p.location}. Posted ${p.posted}. ${p.pay || "Pay not posted"}. ${linkOf(p.link)}. Why: ${p.why} Gap: ${p.gap || "none found"}`));
+  C.push(...sec("Also A or B (beyond the top 5)", top.slice(5), (p) => `- ${p.grade}: ${p.title}, ${p.company}. Posted ${p.posted}. ${linkOf(p.link)}`));
+  C.push(...sec("Older but still open", older, (p) => `- ${p.title}, ${p.company}. Posted ${p.posted}. ${linkOf(p.link)}`));
+  C.push(...sec("Capped at C", capped, (p) => `- ${p.title}, ${p.company}: ${p.capped.join("; ")}. ${linkOf(p.link)}`));
+  C.push(...sec("Already applied, skipped", skipped, (p) => `- ${p.title}, ${p.company}`));
+  C.push(...sec("Not graded (full posting not found on the company's site)", notGraded, (x) => `- ${x.title}, ${x.company}. ${linkOf(x.link)}. Searched: ${x.careersSearch}`));
+  C.push(...sec("No posting date", undated, (p) => `- ${p.title}, ${p.company}. ${linkOf(p.link)}`));
+  C.push("", parts.join(" "));
+  const scan = C.join("\n") + "\n";
+
+  return { card, signals, scan, picks, skipped, older, realSignals, alsoSeen, recruiters, clusters, capped, notGraded };
+}
+
+// A hand-written scan file: "(N ...)" in a heading must match the items under it, and a
+// sentence like "3 need relocation" must match the list that follows it.
+function lintCounts(md) {
+  const p = [];
+  const lines = String(md).split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    const h = lines[i].match(/^#{2,}\s.*\((\d+)\b[^)]*\)/) || lines[i].match(/^(?:#{2,}\s.*?|\*\*[^*]+\*\*\s*|[A-Za-z][^.]*?\s)?(\d+)\s+(?:need|needs|are|were|postings?|roles?|jobs?)\b[^.]*:?\s*$/);
+    if (!h) continue;
+    let n = 0;
+    for (let j = i + 1; j < lines.length && !/^#{1,6}\s/.test(lines[j]); j++) if (/^\s*(?:[-*]|\d+\.)\s/.test(lines[j]) && !/^\s{2,}/.test(lines[j])) n++;
+    if (n !== Number(h[1])) p.push(`"${lines[i].trim()}" says ${h[1]} but lists ${n}`);
+  }
+  for (const u of String(md).match(/https?:\/\/[^\s)>\]]+/g) || []) if (isGeneric(u.replace(/[.,;]+$/, ""))) p.push(`generic link ${u}; use the posting link or "link not found"`);
+  return p;
 }
 
 function lint(text) {
@@ -180,13 +261,20 @@ function lint(text) {
 if (require.main === module) {
   const args = {};
   for (let i = 2; i < process.argv.length; i++) if (process.argv[i].startsWith("--")) args[process.argv[i].slice(2)] = process.argv[++i];
+  if (args["check-scan"]) {
+    const p = lintCounts(fs.readFileSync(args["check-scan"], "utf8"));
+    if (p.length) { console.error("Fix the scan file: " + p.join("; ")); process.exit(1); }
+    console.log("Scan file counts and links check out.");
+    process.exit(0);
+  }
   if (!args.data) {
-    console.error("Usage: node build-results.js --data results.json [--card results-card.md] [--signals signals/YYYY-MM-DD.md]");
+    console.error("Usage: node build-results.js --data results.json [--card results-card.md] [--signals signals/YYYY-MM-DD.md] [--scan scans/YYYY-MM-DD.md] | --check-scan scans/YYYY-MM-DD.md");
     process.exit(2);
   }
   const r = JSON.parse(fs.readFileSync(args.data, "utf8"));
   const out = build(r);
-  const problems = [...lint(out.card).map((p) => `card: ${p}`), ...lint(out.signals).map((p) => `signals: ${p}`)];
+  const problems = [...validate(r), ...lint(out.card).map((p) => `card: ${p}`), ...lint(out.signals).map((p) => `signals: ${p}`), ...lintCounts(out.scan).map((p) => `scan: ${p}`)];
+  if (args.scan) { fs.mkdirSync(path.dirname(path.resolve(args.scan)), { recursive: true }); fs.writeFileSync(args.scan, out.scan); }
   if (args.card) { fs.mkdirSync(path.dirname(path.resolve(args.card)), { recursive: true }); fs.writeFileSync(args.card, out.card); }
   if (args.signals) { fs.mkdirSync(path.dirname(path.resolve(args.signals)), { recursive: true }); fs.writeFileSync(args.signals, out.signals); }
   process.stdout.write(out.card);
@@ -196,4 +284,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { build, gate, lint };
+module.exports = { build, gate, lint, validate, lintCounts, isGeneric };
