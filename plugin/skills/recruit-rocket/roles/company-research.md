@@ -20,7 +20,12 @@ Facts file is the source of truth; never invent or round. Use approved phrasing.
    - `VERIFIED`: published by the company or person. Cite where.
    - `PATTERN GUESS, NOT VERIFIED`: built from a pattern with evidence (for example, two other published addresses at the domain use first.last). Cite the evidence.
    - Otherwise: `Not found. Use LinkedIn.`
-8. **Fit map.** Match 3 to 5 of the company's priorities to specific lines in `facts.md`, using approved phrasing.
+8. **Connectors (up to 2).** Besides the hiring executive and alumni, find up to 2 people who can point the user to the right person, each confirmed by a dated source from the last 12 months:
+   - **Investor or board member:** the PE or VC partner who led the company's funding or acquisition, or sits on its board (the deal press release, the firm's portfolio page with a date, a filing).
+   - **Vendor or partner executive** who works with the company's C-suite (named in a dated press release, joint announcement, or case study).
+   - **Leader at a competitor** in the user's function (a dated press release or interview).
+   Record name, title, company, type, why they would know who to talk to, source, date, and the email with the same labels as step 7. No dated source, no connector. None found: "Checked: no connector with a dated source" and what was searched.
+9. **Fit map.** Match 3 to 5 of the company's priorities to specific lines in `facts.md`, using approved phrasing, and name the **best-fit value statement** (from `## Value statements` in `facts.md`): the one whose problem matches their event or top priority.
 
 ## Output
 Save to `My Job Search/companies/<company-slug>/research.md`:
@@ -44,11 +49,16 @@ Save to `My Job Search/companies/<company-slug>/research.md`:
 Name, Title. Confirmed current: "Title," Publisher, YYYY-MM-DD, URL
 Email: address (VERIFIED | PATTERN GUESS, NOT VERIFIED | Not found) + evidence
 
+## Connectors (up to 2)
+- Name, Title, Company (investor | board member | vendor | partner | competitor). Why: ... Confirmed: "Title," Publisher, YYYY-MM-DD, URL
+  Email: address (VERIFIED | PATTERN GUESS, NOT VERIFIED | not found) + evidence
+
 ## Fit map
+Best-fit value statement: #N, "..."
 | Their priority | Your proof (approved phrasing) | facts.md line |
 ```
 
 Keep it to one page. Writers need the quotes and the fit map, not an essay.
 
 ## QA before delivery
-Every quote has a source and date. The executive confirmation is dated inside 12 months. The fit map uses approved phrasing only. Inferences are labeled.
+Every quote has a source and date. The executive confirmation and every connector's source are dated inside 12 months; no more than 2 connectors, each email labeled. The fit map uses approved phrasing only. Inferences are labeled.

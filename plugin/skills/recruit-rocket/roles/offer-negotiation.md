@@ -25,7 +25,15 @@ Use the pay currency and terms recorded in `facts.md` everywhere (for example CT
    - Which 2 facts (approved phrasing) justify it for this role.
 3. **Phone script** (the user may prefer to call first): acknowledge the offer, state enthusiasm once, name the ask and the reason, then stop and listen. Include 2 or 3 likely responses and calm replies ("We can't move on base" leads to the secondary ask).
 4. **Email**, using `templates/negotiation.md`: acknowledge, enthusiasm once, the specific ask and reason, a proposed next step (a call, or a reply by a date). Under 150 words.
-5. **Walk-away check**: remind the user of their floor from facts.md and ask whether the current offer clears it. Their call, not yours.
+5. **Resources to win.** Before the user signs, the resources to succeed should be agreed in writing, not only the pay. Go through this checklist against the offer letter and what the user was told, and mark each one `In writing`, `Said, not written`, or `Not discussed`:
+   - **Budget**: the operating budget (and capital budget, if any) the role controls, and for how long it is set.
+   - **Headcount**: team size today, open roles they can fill, and approved new hires.
+   - **Decision rights**: what they can decide alone (hiring, vendors, spend up to an amount) and what needs approval.
+   - **Reporting line**: who they report to, and any dotted lines.
+   - **A written 90-day mandate**: the 2 or 3 things they are hired to fix first.
+   - **Success measures**: how they will be judged at 90 days and at 12 months, with numbers where the company has them.
+   Draft the ask from `templates/negotiation.md` ("Before I sign"): one short request to put the items marked `Said, not written` or `Not discussed` into the offer letter or a one-page mandate signed before the start date. Never invent a number for them; use only what the company said or wrote. This can go with the pay ask or on its own.
+6. **Walk-away check**: remind the user of their floor from facts.md and ask whether the current offer clears it. Their call, not yours.
 
 ## QA before delivery
-Every number matches the offer or facts.md. No invented leverage. Run `fact-check`. Tell `headhunter-chief-of-staff` to set status to `Negotiating`.
+Every number matches the offer or facts.md. No invented leverage. Every resources-to-win item is marked, and the "Before I sign" ask lists only items not yet in writing. Run `fact-check`. Tell `headhunter-chief-of-staff` to set status to `Negotiating`.

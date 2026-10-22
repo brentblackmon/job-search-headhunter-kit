@@ -37,6 +37,16 @@ This is the single source of truth for Recruit Rocket. Every skill reads it. Not
 - Target companies: see target-companies.md
 - Daily scan: (on, weekdays at 7am / off)
 
+## Value statements
+3 to 5, drafted after intake from this file only, checked by `generators/value/value-check.js`, and approved by the user. The card headline and intro, the first line of every outreach email, connector notes, and each signal's fit come from the one that best fits that company. Copy the block for each.
+
+### V1
+- Problem: (a business problem a hiring executive would recognize, in plain words)
+- How I solve it: (the user's own way of solving it, from their roles, scope, and what drove their results)
+- Result: (a metric ID, e.g. M1, or a fact quoted word for word from this file)
+- Statement: "(one or two sentences: the problem, how the user solves it, and the result in approved phrasing; 45 words at most)"
+- Status: DRAFT | APPROVED
+
 ## Exclusions
 Companies and people the kit must never contact.
 | Company or person | Reason | Until |

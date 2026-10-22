@@ -96,6 +96,17 @@ fs.rmSync(work, { recursive: true, force: true });
   expect("the student sample card has no slogans", noSlogans(require("../sample-data/card-student.json")).length, 0);
 }
 
+// The headline and intro come from the best-fit value statement.
+{
+  const { valueProblems } = require("../render-card");
+  const card = require("../sample-data/card.json");
+  expect("the sample card carries its value statement", valueProblems(card).length, 0);
+  expect("the student sample card carries its value statement", valueProblems(require("../sample-data/card-student.json")).length, 0);
+  expect("a card with no valueStatement fails", valueProblems({ ...card, valueStatement: undefined }).some((p) => p.includes("no valueStatement")), true);
+  expect("an intro without the statement's result fails", valueProblems({ ...card, intro: "Most recently Director of Operations at Tidewater Freight Systems." }).some((p) => p.includes("result")), true);
+  expect("a headline and intro unrelated to the statement fail", valueProblems({ ...card, headline: "Freight software operations", headlineAccent: "for growing carriers.", intro: "Director of Operations at Tidewater Freight Systems since 2019." }).some((p) => p.includes("do not come from")), true);
+}
+
 let failed = 0;
 for (const r of results) {
   console.log(`${r.ok ? "ok  " : "FAIL"} ${r.caseName}${r.ok ? "" : ` (got ${r.actual}, wanted ${r.wanted})`}`);

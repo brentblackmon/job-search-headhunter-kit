@@ -21,6 +21,30 @@ Last reviewed: 2026-08-14
 - Locations: Remote (US), or hybrid in Charlotte, Raleigh, Atlanta, Nashville. No relocation.
 - Work authorization / travel limits: US citizen. Up to 30% travel.
 
+## Value statements
+Approved by Jordan. The card headline and intro, the first line of every outreach email, and each signal's fit come from the one that best fits that company.
+
+### V1
+- Problem: Long implementations delay revenue and put the first renewal at risk.
+- How I solve it: one standard implementation playbook, with customer training built into every go-live.
+- Result: T1
+- Statement: "Long implementations delay revenue. I run implementation on one standard playbook with customer training built into every go-live, and cut average implementation time from 16 weeks to 9 weeks."
+- Status: APPROVED
+
+### V2
+- Problem: Acquisitions lose customers while two support platforms run side by side.
+- How I solve it: one integration plan that moves the acquired team and its customers onto one support platform.
+- Result: T5
+- Statement: "Acquisitions lose customers while two support platforms run side by side. I integrated an acquired company's 38 employees and 120 customers onto one support platform in 7 months and kept 97% of acquired customers through year one."
+- Status: APPROVED
+
+### V3
+- Problem: Slow ticket resolution wears down customers before renewal.
+- How I solve it: support, implementation and training run as one post-sale team with one view of each customer's tickets.
+- Result: T3
+- Statement: "Slow ticket resolution wears down customers before renewal. I run support, implementation and training as one post-sale team, and cut average ticket resolution time from 31 hours to 12 hours."
+- Status: APPROVED
+
 ## Exclusions
 | Company or person | Reason | Until |
 |---|---|---|

@@ -10,7 +10,10 @@
 //   or, for a student card with no numbers yet, tiles[4] {title, detail} (skills and experience
 //   tiles, for example {"title": "Replay operator", "detail": "Home football and basketball games"}),
 //   sections[2] {eyebrow, title, cards[4] {tag, title, proof, body}},
-//   footer {tagline, accent}, contact[] (phone, email, LinkedIn)
+//   footer {tagline, accent}, contact[] (phone, email, LinkedIn),
+//   valueStatement {id, text}: the approved value statement from facts.md that best fits this
+//   company's signal or posting (the master card uses the strongest one). The headline and
+//   intro come from it: they must carry its number and at least 3 of its words.
 //
 // Writes the PDF and a PNG preview next to it, then checks: exactly 1 page,
 // 4 stats (or 4 skill tiles), 2 sections of 4 cards, no text overflow, no unfilled placeholders
@@ -150,8 +153,25 @@ function repeatsTitle(title, proof) {
   return p.every((w) => t.has(w)) || p.some((w) => DIRECTION.has(w) && t.has(w));
 }
 
+// The headline and intro come from the value statement that best fits the company.
+const VS_STOP = new Set("that this with from into onto over their they them then than have were what when where which while your about after also and the for are was".split(" "));
+const vsWords = (t) => [...new Set(String(t || "").toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter((w) => w.length >= 4 && !/^\d/.test(w) && !VS_STOP.has(w)))];
+const vsNumbers = (t) => (String(t || "").match(/\d[\d,.]*%?/g) || []).map((n) => n.replace(/[,.]$/, ""));
+function valueProblems(d) {
+  const v = d.valueStatement || {};
+  if (!v.text) return ["no valueStatement: copy the value statement (id and text) from facts.md that best fits this company; the headline and intro come from it"];
+  const top = `${d.headline || ""} ${d.headlineAccent || ""} ${d.intro || ""}`;
+  const have = new Set(vsWords(top));
+  const shared = vsWords(v.text).filter((w) => have.has(w));
+  const p = [];
+  if (shared.length < 3) p.push(`the headline and intro do not come from value statement ${v.id || ""}: only ${shared.length} of its words (${shared.join(", ") || "none"})`.replace("  ", " "));
+  const nums = vsNumbers(v.text);
+  if (nums.length && !nums.some((n) => vsNumbers(top).includes(n))) p.push(`the headline or intro must carry value statement ${v.id || ""}'s result (${nums.join(", ")})`.replace("  ", " "));
+  return p;
+}
+
 function checkShape(d) {
-  const problems = [...noSlogans(d)];
+  const problems = [...noSlogans(d), ...valueProblems(d)];
   (d.sections || []).forEach((s, i) => (s.cards || []).forEach((c, j) => {
     if (repeatsTitle(c.title, c.proof)) problems.push(`section ${i + 1} card ${j + 1}: the proof "${c.proof}" repeats the title "${c.title}"; give the number its own fact`);
   }));
@@ -349,4 +369,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { buildCard, normalize, checkLengths, checkShape, repeatsTitle, noSlogans, sloganProblems, LIMITS };
+module.exports = { buildCard, normalize, checkLengths, checkShape, repeatsTitle, noSlogans, sloganProblems, valueProblems, LIMITS };

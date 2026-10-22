@@ -11,6 +11,31 @@ Used by `offer-negotiation`. One specific ask. No invented competing offers. The
 5. **If they say base is fixed**: "I understand. Would you be open to [secondary ask: a $N sign-on / a compensation review at 6 months / N more PTO days]?"
 6. **If they need time**: "Of course. When would be a good time to reconnect?"
 
+## Resources to win checklist
+Agree these before signing, in the offer letter or a one-page mandate. Mark each: In writing / Said, not written / Not discussed.
+
+| Item | What to get agreed | Status |
+|---|---|---|
+| Budget | Operating (and capital) budget the role controls, and for how long | |
+| Headcount | Team today, open roles to fill, approved new hires | |
+| Decision rights | What the role decides alone (hiring, vendors, spend up to $N) and what needs approval | |
+| Reporting line | Who the role reports to, and any dotted lines | |
+| 90-day mandate | The 2 or 3 things to fix first, written down | |
+| Success measures | How the role is judged at 90 days and 12 months | |
+
+## Email: before I sign (resources to win)
+
+**Subject:** [Role] offer: agreeing the first 90 days
+
+[First name],
+
+Thank you again. Before I sign, I'd like us to put a few things in writing so I can deliver from day one: [the items marked Said, not written or Not discussed, e.g. "the team I'll inherit and the two open roles", "the budget I'll own", "what I can approve on my own", "who I report to", "the 90-day priorities", "how we'll measure success at 90 days and a year"].
+
+Could we add these to the offer letter, or to a one-page mandate we both sign before my start date? I'm glad to draft the first version.
+
+Best,
+[Full name]
+
 ## Email
 
 **Subject:** [Role] offer: one question

@@ -55,7 +55,7 @@ Rules for the card (the results script, `generators/results/build-results.js`, w
 - The signals file's "Checked" line lists the news searches run (at least 6, across the 4 signal types).
 - No internal codes or file paths (rule 16).
 
-Then ask **one multi-select question: "Build the package for which ones?"** Options: each top pick and each signal company by name, plus "None for now". For each pick, run `roles/match-and-package.md`: post its one-line Match Score ("Acme Manufacturing: Match Score 84 (Shortlist)"). First run Step 0 (hard gates, with `gates.js`) and the pipeline question (the company and its parent or portfolio group) from `roles/match-and-package.md`; a gate the user does not meet means C and no build, and a warm contact means a warm note instead of a cold email. **If a must-have is Not shown, or the posting has a gate issue (hard requirement, below level, under the floor, older than 30 days), stop and ask one question first: "This one needs [X], which isn't on your resume. Build anyway?" with "No, skip it" (the default, listed first) and "Yes, build it".** Otherwise go straight into its package steps (the pick is the go). At the end, report the time: "Search took 3 min. Package took 6 min." The photo is asked the first time a card is built. Number the steps over the whole batch ("Step 3 of 12: building the Acme resume (1 of 2 packages)"). After the packages (or "None for now"), send the Sharpen your results message from `roles/intake.md`, then offer the daily scan at the very end.
+Then, the first time, ask the value statements approval from `roles/intake.md` ("Here's how I'll pitch you"). Then ask **one multi-select question: "Build the package for which ones?"** Options: each top pick and each signal company by name, plus "None for now". For each pick, run `roles/match-and-package.md`: post its one-line Match Score ("Acme Manufacturing: Match Score 84 (Shortlist)"). First run Step 0 (hard gates, with `gates.js`) and the pipeline question (the company and its parent or portfolio group) from `roles/match-and-package.md`; a gate the user does not meet means C and no build, and a warm contact means a warm note instead of a cold email. **If a must-have is Not shown, or the posting has a gate issue (hard requirement, below level, under the floor, older than 30 days), stop and ask one question first: "This one needs [X], which isn't on your resume. Build anyway?" with "No, skip it" (the default, listed first) and "Yes, build it".** Otherwise go straight into its package steps (the pick is the go). At the end, report the time: "Search took 3 min. Package took 6 min." The photo is asked the first time a card is built. Number the steps over the whole batch ("Step 3 of 12: building the Acme resume (1 of 2 packages)"). After the packages (or "None for now"), send the Sharpen your results message from `roles/intake.md`, then offer the daily scan at the very end.
 
 **Never build a package, card, cover letter, or outreach the user did not pick.**
 
@@ -80,7 +80,7 @@ Whenever the user mentions an interview ("I have an interview with X on Thursday
 If a step fails (no postings found, a generator is missing), say so in one line, do what you can, and keep going.
 
 ## Daily briefing ("what should I do today?")
-1. Read the tracker. List, in this order:
+1. Read the tracker. Start with one line: "Conversations booked this week: N (last week: M)." from `## Conversations booked (weekly)` in `tracker.md`. Then list, in this order:
    - **Due today or overdue**: follow-ups whose `Next follow-up` date is today or past, and `Watching` entries whose `Reminder` date is today or past ("The [program] internship opens next week", "The [program] deadline is in 7 days").
    - **Waiting on the user**: drafts ready for approval.
    - **New from the pipeline**: A-grade postings from the latest scan and new signal companies not yet in the tracker. Target-company openings and postings marked **Apply today** go first.
@@ -97,6 +97,7 @@ When the user says they sent something:
 3. Record date sent, channel (email, LinkedIn, application portal), recipient, and whether the address was verified or a pattern guess.
 4. If the address was a pattern guess, remind the user: "Check for a bounce in about 2 minutes."
 5. Set `Next follow-up` using the cadence below.
+6. **When a reply books a call or meeting** (an interview, an intro call, a coffee with a connector), add 1 to this week's row in `## Conversations booked (weekly)` (start a new row on Mondays) with who it is with, and say: "That's N conversations booked this week."
 
 ## Preventing double contact
 Before any skill drafts outreach, check:

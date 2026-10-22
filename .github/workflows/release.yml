@@ -1,5 +1,5 @@
 # Builds recruit-rocket.zip and attaches it to a release on this private repo, for upload to
-# the store. Run it from Actions > Release > Run workflow, or push a tag like v1.0.0.
+# the store. Run it from Actions > Release > Run workflow, or push a tag like v1.1.0.
 # The tag must match plugin/skills/recruit-rocket/VERSION.
 name: Release
 
@@ -36,10 +36,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           V: ${{ steps.v.outputs.version }}
         run: |
+          # This version's section of RELEASE_NOTES.md, then the upload note.
+          awk -v v="$V" '/^## /{p = index($0, "## " v " ") == 1} p' plugin/skills/recruit-rocket/RELEASE_NOTES.md > release-notes.md
+          [ -s release-notes.md ] || { echo "::error::RELEASE_NOTES.md has no section for $V"; exit 1; }
+          printf '\nUpload recruit-rocket.zip to the store. Not for public download.\n' >> release-notes.md
           if gh release view "v$V" >/dev/null 2>&1; then
             gh release upload "v$V" dist/recruit-rocket.zip --clobber
           else
             gh release create "v$V" dist/recruit-rocket.zip --target "$GITHUB_SHA" \
               --title "Recruit Rocket $V" \
-              --notes "Recruit Rocket $V. Upload recruit-rocket.zip to the store. Not for public download."
+              --notes-file release-notes.md
           fi

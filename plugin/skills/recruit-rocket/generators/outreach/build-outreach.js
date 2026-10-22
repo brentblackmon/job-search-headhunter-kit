@@ -16,11 +16,20 @@
 //   signature  { name, phone, email, linkedin, website }  website only if facts.md has one
 //   linkedinNote  under 300 characters
 //   alumni     [{ school, steps, note }]  one per school the user picked
+//   valueStatement { id, text }  the approved value statement from facts.md that best fits this
+//              company's signal or posting; the email's opening carries it
+//   connectors [{ name, title, company, type, why, source, date, url, email, addressStatus, note }]
+//              up to 2 people who can point the user to the right person: type "investor" or
+//              "board member" (a PE or VC partner), "vendor" or "partner" (an executive who works
+//              with the C-suite), or "competitor" (a leader at a competitor). Each needs a dated
+//              source from the last 12 months; addressStatus "VERIFIED", "PATTERN GUESS, NOT
+//              VERIFIED", or "not found". The note names the company's event (with its month and
+//              year), carries the value statement, and asks "who should I talk to there?"
 //   sources    ["Title, Publisher, YYYY-MM-DD", ...]
 //
 // The email follows the user's template, checked line by line:
 //   subject plain and naming the role (no slogan); line 1 a researched, dated company fact,
-//   then "That's work I've done."; "Quick on me:" and 4 to 6 bullets with bold "I've..."
+//   then the value statement (its result and at least 3 of its words); "Quick on me:" and 4 to 6 bullets with bold "I've..."
 //   hooks; one line asking for 20 minutes; "Resume attached."; "Regards," then name, phone,
 //   email, LinkedIn (and the website, if set). No stock lines. Under 200 words.
 // The recipient: a contact whose only source is over 12 months old is not confirmed, and an
@@ -67,6 +76,19 @@ const STOCK = [
   /i came across/i, /i'?m (so |very )?excited/i, /game[ -]changer/i, /\bsynerg/i, /\bfast[ -]paced\b/i, /\bpassionate\b/i,
   /i would love to/i, /touch base/i, /circle back/i, /pick your brain/i,
 ];
+// The value statement carried into a draft: its number and at least 3 of its words.
+const VS_STOP = new Set("that this with from into onto over their they them then than have were what when where which while your about after also and the for are was".split(" "));
+const vsWords = (t) => [...new Set(String(t || "").toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter((w) => w.length >= 4 && !/^\d/.test(w) && !VS_STOP.has(w)))];
+const vsNumbers = (t) => (String(t || "").match(/\d[\d,.]*%?/g) || []).map((n) => n.replace(/[,.]$/, ""));
+function carriesValue(text, v) {
+  const have = new Set(vsWords(text));
+  const shared = vsWords(v.text).filter((w) => have.has(w)).length;
+  const nums = vsNumbers(v.text);
+  return shared >= 3 && (!nums.length || nums.some((n) => vsNumbers(text).includes(n)));
+}
+const CONNECTOR_TYPES = ["investor", "board member", "vendor", "partner", "competitor"];
+const ADDRESS = ["VERIFIED", "PATTERN GUESS, NOT VERIFIED", "not found"];
+
 const DATED = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2},?\s+)?\d{4}\b|\b\d{4}-\d{2}-\d{2}\b|\b(in|since|this|last)\s+(January|February|March|April|May|June|July|August|September|October|November|December)\b|\bQ[1-4]\s+\d{4}\b/;
 
 function checkAlumni(alumni) {
@@ -121,11 +143,17 @@ function emailProblems(d) {
     const parts = subject.split(/[.!?]+/).map((x) => x.trim()).filter(Boolean);
     if (/,\s*not\s+[a-z]|\bnot\b[^.]{0,40}\bbut\b/i.test(subject) || (parts.length >= 2 && parts.every((x) => x.split(/\s+/).length <= 5))) p.push(`subject "${subject}" reads like a slogan`);
   }
-  // Opening: a dated company fact, then "That's work I've done."
+  // Opening: a dated company fact, then the value statement that best fits the company.
   const open = lines.findIndex((x) => !/^(hi|hello|dear)\b/i.test(x));
   const first = lines[open] || "";
   if (!DATED.test(first)) p.push("the first line after the greeting needs a researched, dated company fact (a month and year or a date)");
-  if (!/That'?s work I'?ve done\./.test(first) && !/^That'?s work I'?ve done\./.test(lines[open + 1] || "")) p.push(`the opening fact must be followed by "That's work I've done."`);
+  const v = d.valueStatement || {};
+  if (!v.text) p.push("no valueStatement: copy the value statement (id and text) from facts.md that best fits this company");
+  else {
+    const q = lines.findIndex((x) => /^Quick on me:/.test(x));
+    const opening = lines.slice(open, q > open ? q : open + 2).join(" ");
+    if (!carriesValue(opening, v)) p.push(`the opening must carry value statement ${v.id || ""} after the company fact (its result and its words)`.replace("  ", " "));
+  }
   // Body.
   if (!lines.some((x) => /^Quick on me:/.test(x))) p.push('missing "Quick on me:"');
   const hooks = lines.filter((x) => /^(?:[-*•]\s*)?\*\*I'?ve\b/.test(x)).length;
@@ -151,6 +179,31 @@ function emailProblems(d) {
   return p;
 }
 
+function connectorProblems(d) {
+  const list = d.connectors || [];
+  const p = [];
+  if (list.length > 2) p.push(`${list.length} connectors (2 at most)`);
+  for (const x of list) {
+    const who = x.name || "a connector";
+    if (!x.name || !x.title || !x.company) p.push(`${who}: needs a name, title, and company`);
+    if (!CONNECTOR_TYPES.includes(String(x.type || "").toLowerCase())) p.push(`${who}: type "${x.type || ""}" must be one of ${CONNECTOR_TYPES.join(", ")}`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(x.date || "")) || !x.source) p.push(`${who}: needs a dated source (source and YYYY-MM-DD date)`);
+    else if (d.today && (new Date(d.today) - new Date(x.date)) / 86400000 > 366) p.push(`${who}: the source from ${x.date} is over 12 months old`);
+    const st = String(x.addressStatus || "");
+    if (!ADDRESS.includes(st)) p.push(`${who}: addressStatus "${st}" must be VERIFIED, PATTERN GUESS, NOT VERIFIED, or not found`);
+    else if (x.email && st === "not found") p.push(`${who}: an email address needs VERIFIED or PATTERN GUESS, NOT VERIFIED`);
+    else if (!x.email && st !== "not found") p.push(`${who}: marked ${st} with no email address`);
+    if ((d.contact || {}).name && x.name === d.contact.name) p.push(`${who} is the hiring executive; a connector is someone else`);
+    const n = String(x.note || "");
+    if (!n) { p.push(`${who}: no connector note`); continue; }
+    if (n.length > 300) p.push(`${who}: the connector note is ${n.length} characters (under 300)`);
+    if (!DATED.test(n)) p.push(`${who}: the connector note must name the company's event with its month and year`);
+    if (d.valueStatement && d.valueStatement.text && !carriesValue(n, d.valueStatement)) p.push(`${who}: the connector note must carry the value statement (its result and its words)`);
+    if (!/who should I talk to/i.test(n)) p.push(`${who}: the connector note must ask "Who should I talk to there?"`);
+  }
+  return p;
+}
+
 function check(d) {
   const problems = [];
   const note = String(d.linkedinNote || "");
@@ -169,6 +222,7 @@ function check(d) {
     problems.push(...emailProblems(d));
   }
   problems.push(...checkAlumni(d.alumni));
+  problems.push(...connectorProblems(d));
   const text = JSON.stringify(d).replace(/https?:\/\/[^"\s]+/g, "");
   if (/[\u2013\u2014]/.test(text)) problems.push("em or en dash");
   if (/\S - \S/.test(text)) problems.push('a spaced hyphen used as a dash (" - ")');
@@ -214,6 +268,14 @@ async function writeDocx(d, out) {
     (a.steps || []).forEach((s, i) => kids.push(P(`${i + 1}. ${s}`)));
     kids.push(P(String(a.note || "")));
   }
+  for (const x of d.connectors || []) {
+    kids.push(H(`Connector: ${x.name}, ${x.title}, ${x.company} (${x.type})`));
+    if (x.why) kids.push(P(`Why: ${x.why}`));
+    kids.push(P(`Confirmed: ${x.source}, ${x.date}${x.url ? `, ${x.url}` : ""}`, { color: "555555" }));
+    kids.push(P(x.email ? `Email: ${x.email}   [${x.addressStatus}]` : "Email: not found. Use LinkedIn.", { color: "555555" }));
+    kids.push(P(`Note (${String(x.note || "").length} characters):`, { bold: true }));
+    kids.push(P(String(x.note || "")));
+  }
   if ((d.sources || []).length) {
     kids.push(H("Sources"));
     d.sources.forEach((s) => kids.push(P(s, { color: "555555" })));
@@ -233,7 +295,7 @@ if (require.main === module) {
   const d = JSON.parse(fs.readFileSync(args.data, "utf8"));
   const problems = check(d);
   writeDocx(d, args.out).then(() => {
-    console.log(`Wrote ${args.out}. ${d.mode === "warm" ? `Warm note to ${d.warm.name}. ` : ""}LinkedIn note: ${String(d.linkedinNote || "").length} characters. Alumni notes: ${(d.alumni || []).map((a) => `${a.school} (${a.note.length})`).join(", ") || "none"}.`);
+    console.log(`Wrote ${args.out}. ${d.mode === "warm" ? `Warm note to ${d.warm.name}. ` : ""}LinkedIn note: ${String(d.linkedinNote || "").length} characters. Alumni notes: ${(d.alumni || []).map((a) => `${a.school} (${a.note.length})`).join(", ") || "none"}. Connectors: ${(d.connectors || []).map((x) => `${x.name} (${x.type})`).join(", ") || "none"}.`);
     if (problems.length) { console.error("QA failed:\n- " + problems.join("\n- ")); process.exit(1); }
     console.log("QA passed.");
   }).catch((err) => { console.error(err.message); process.exit(1); });

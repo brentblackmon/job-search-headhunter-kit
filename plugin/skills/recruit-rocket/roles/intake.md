@@ -13,7 +13,7 @@ Facts file is the source of truth; never invent or round. Store approved phrasin
 - If `facts.md` already exists in the job search folder, you are updating. Ask one question: "What's changed since we last set this up?"
 
 ## Before the first question (silent, no output beyond the status line)
-Post "Recruit Rocket 1.0.0. Step 1 of 3: reading your resume" first. Run the version check in `SKILL.md` while you read. In the "Done:" message that follows, add one line with the requirements: "Recruit Rocket runs on a Claude Pro or Max plan in the Claude desktop app with Cowork, saving to a folder on your computer. Gmail is optional but recommended." Add the update line there too if a newer version is out. Then draft `facts.md` in the job search folder from their documents, using the `templates/facts.md` headings:
+Post "Recruit Rocket 1.1.0. Step 1 of 3: reading your resume" first. Run the version check in `SKILL.md` while you read. In the "Done:" message that follows, add one line with the requirements: "Recruit Rocket runs on a Claude Pro or Max plan in the Claude desktop app with Cowork, saving to a folder on your computer. Gmail is optional but recommended." Add the update line there too if a newer version is out. Then draft `facts.md` in the job search folder from their documents, using the `templates/facts.md` headings:
 - Every role: company, title, MM/YYYY dates, location, scope.
 - Every number becomes a metric whose approved phrasing matches **their own words exactly**. Mark it `FROM RESUME`. Do not round, combine, or improve anything.
 - Note conflicts between documents. **Check the timeline** for overlapping full-time roles (one ends more than a month after the next starts; part-time, contract, board, volunteer, and promotions inside one company do not count) and gaps over 6 months. Do not ask about them now: list every one in `facts.md` under `## Open date checks` (role, dates, what looks wrong). The Fact Checker asks about each one the first time a draft uses those dates.
@@ -37,7 +37,7 @@ When the resume shows a current student (an expected graduation date, "Class of"
 Take graduation, GPA, and job details from the resume as written. Set `Mode: student` under `Targets` so the other roles use the student layout and the internship search. Skip pay for students unless they bring it up.
 
 ### Example
-> **Claude:** Recruit Rocket 1.0.0. Step 1 of 3: reading your resume
+> **Claude:** Recruit Rocket 1.1.0. Step 1 of 3: reading your resume
 > **Claude:** Done: read your resume. 12 years in IT, most recently IT Manager at a manufacturer in Columbus. (1 of 3) What roles should I look for?
 > [IT Manager or IT Director] [IT Operations Manager] [Infrastructure Manager] [Something else]
 > **User:** *clicks IT Manager or IT Director*
@@ -48,10 +48,14 @@ Take graduation, GPA, and job details from the resume as written. Set `Mode: stu
 1. Update `facts.md` with the answers and a `Last reviewed: YYYY-MM-DD` line. Every metric stays `FROM RESUME`. Record `Headshot file: none yet`, `Open to startups: not asked`, `Daily scan: not asked`.
 2. Create `tracker.md` from `templates/tracker.md` if it does not exist.
 3. **Build the fresh-job links.** Write `links-input.json` (target job titles only, the user's city and country the way LinkedIn writes locations, for example "Columbus, Ohio, United States", `locations` with their city for any choice except "Remote only", `remote: true` if they are open to remote (so "Remote or hybrid near Columbus" gets both the Columbus links and the remote links), and for students `student: true` and the term) and run `node build-links.js --input <that file> --out <job search folder>/links.md` from a work copy of this skill's `generators/links/` folder. Add 2 recruiter search titles for their field and their city as `recruiterTitles` and `recruiterCity`. If the script cannot run, write the same links by hand.
-4. **Your reply to the third answer starts with these two lines, before any file write, search, or command:** "Got it. Done: you're set up." and "Step 2 of 3: scanning jobs and hiring signals (about 2 minutes)". Then do steps 1 to 3 above (they are part of Step 2, not separate steps) and **continue immediately** with the first run in `roles/headhunter-chief-of-staff.md` (quick scan, signals, then one results card). Never build a package before the user picks one.
+4. **Draft the value statements (silent, no question now).** Write 3 to 5 under `## Value statements` in `facts.md` (template: `templates/facts.md`), each marked `Status: DRAFT`. Each one names a business problem a hiring executive would recognize, the user's own way of solving it (from their roles, scope, and what drove their results), and a result backed by a metric or a fact in `facts.md`, in approved phrasing. Spread them across different metrics and different problems. Then run `node value-check.js --facts <job search folder>/facts.md` from a work copy of this skill's `generators/value/` folder: it fails on buzzwords (storytelling, drive growth, transform, synergy, passionate, results-driven, and the rule 6 words), on a statement with no result or a number that is not in `facts.md`, and on a statement any candidate could say. Fix what it names and run it again until it passes. If Node cannot run, apply the same checks by hand.
+5. **Your reply to the third answer starts with these two lines, before any file write, search, or command:** "Got it. Done: you're set up." and "Step 2 of 3: scanning jobs and hiring signals (about 2 minutes)". Then do steps 1 to 4 above (they are part of Step 2, not separate steps) and **continue immediately** with the first run in `roles/headhunter-chief-of-staff.md` (quick scan, signals, then one results card). Never build a package before the user picks one.
+
+## Approve your value statements (one message, after the first results)
+Right after the first results card, before any package is built, show the drafts in one message, one line each, numbered: "Here's how I'll pitch you. Each line goes at the top of your emails and your card." Choices: "All good", "Change one", "Show me later". "All good" marks every one `Status: APPROVED`; only a specific yes to the list approves it (rule 12). "Change one" asks which and what to change (with choices built from their facts), runs `value-check.js` again, and shows the list again. "Show me later" keeps them as drafts. A package built before approval uses the best-fit draft, and its review screen asks for approval of that line in the same batch as the number check; a change there reaches every file (rule 19).
 
 ## Sharpen your results (one optional message, after the first results)
-After the first results card (and after any packages the user picked), send **one** short message: at most 3 items, one line each, and a "More" choice for the rest. Never ask about jobs already applied to here: the scan already found those (Gmail and the tracker) before grading.
+After the value statements and the first results card (and after any packages the user picked), send **one** short message: at most 3 items, one line each, and a "More" choice for the rest. Never ask about jobs already applied to here: the scan already found those (Gmail and the tracker) before grading.
 
 ```
 Sharpen your results (optional):
@@ -83,6 +87,7 @@ Offer 3 questions per role about a result they are proud of that is **not** in t
 - Every `FROM RESUME` phrasing matches the source document exactly. No number rounded, combined, or invented.
 - Nothing in `facts.md` came from memory, earlier chats, other skills, or email.
 - Exclusions has the current employer (or "none"). Overlaps and gaps are under `## Open date checks`.
+- 3 to 5 value statements under `## Value statements` pass `value-check.js`; every number in them is in an approved phrasing.
 - Pay is in the user's own currency and terms. Country and city are filled in.
 - No placeholder in square brackets anywhere in `facts.md`.
 - The daily scan was offered once, at the very end.

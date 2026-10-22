@@ -10,6 +10,7 @@ For the results card in `roles/headhunter-chief-of-staff.md`, run these three se
 1. **Top 3 hiring signals** (the signal table below, matched to the user's level and city).
    - **Drop** internal promotions at companies larger than the user's target size range (a new CIO promoted from inside a 20,000-person company creates no opening for them), and non-operating hires (CIO, CTO, CISO, CMO) unless the user targets those roles.
    - **Every signal needs a named contact confirmed by a dated source** from the last 12 months (press release, interview, dated bio). No named, dated contact: it goes to "Also seen", not the top 3.
+   - **Fit and timing:** every signal with a named contact gets `fitsValue` (the number of the value statement in `facts.md` whose problem matches the signal) and `whyNow` (one sentence on why this company needs the user now, from the dated event). The results script fails without them and shows "Fits value statement #N. Why now: ..." under each one.
    - **Fewer than 3 real signals:** say so plainly ("Only 1 real signal this time"). Never pad the list.
 2. **Recruiters running searches now.** Actually search: retained search firms and recruiters with a posted search for the user's target titles in their area, dated in the last 30 days (search firm job pages, "retained search" plus the title and city, the firm's LinkedIn job posts found by web search). Record the firm or recruiter, the search, the posting date, and the link. A posting with no visible date does not count. Never guess a recruiter's name.
 3. **Hiring clusters.** Actually search: 2 or more open roles in the user's role family at one company, or across one PE firm's portfolio companies, ideally after a raise or acquisition. Record the company or portfolio, the number of openings and where you saw them, and the dated source.
@@ -38,6 +39,8 @@ For the results card in `roles/headhunter-chief-of-staff.md`, run these three se
    - The signal, in one line.
    - **Source title, publisher, date, and URL.** No date, no signal.
    - Why it matters for the user's function specifically.
+   - **Fits value statement #N**: the approved value statement in `facts.md` whose problem matches the signal.
+   - **Why now**: one sentence tying the dated event to the user's value (for example "A plant that opens with 300 new jobs needs its systems running before the first shift.").
    - The likely hiring executive, confirmed current by a source dated in the last 12 months. For a new or expanding tech center or GCC, that is the **center head** (site leader, managing director, or head of the India or regional center), or the head of the user's function at that center. For a new site, plant, data center, or headquarters, it is the **site IT lead or site manager** (plant manager, data center operations manager, or the head of IT for that location). If you cannot confirm, write `Executive not confirmed` and do not name a guess.
 4. Drop excluded companies and anything already in the tracker (or mark `(in tracker #N)`).
 5. Rank the top 5 by strength of signal times fit.
@@ -50,8 +53,10 @@ Save to `My Job Search/signals/YYYY-MM-DD.md`:
 Signal: ...
 Source: "Title," Publisher, YYYY-MM-DD, URL
 Why it matters for you: ...
+Fits value statement #N
+Why now: one sentence
 Who to approach: Name, Title (confirmed: "Title," Publisher, YYYY-MM-DD)
-Suggested angle: one line tying a fact from facts.md to their situation
+Suggested angle: the value statement above, tied to their event
 Next: company-research, then outreach-package
 ```
 
@@ -90,4 +95,4 @@ Status: not started | applied on portal YYYY-MM-DD | recruiter contacted YYYY-MM
 Add each firm to the tracker as a `Researching` entry with its portal link, so follow-ups are scheduled like any other contact.
 
 ## QA before delivery
-Every signal has a date inside its window and a source URL. Every named executive has a dated confirmation. No excluded company. Suggested angles use approved phrasing.
+Every signal has a date inside its window and a source URL, a "Fits value statement #N" line, and a one-sentence "Why now". Every named executive has a dated confirmation. No excluded company. Suggested angles use approved phrasing.
