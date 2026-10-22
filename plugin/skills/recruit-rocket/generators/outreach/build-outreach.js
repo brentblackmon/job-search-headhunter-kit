@@ -152,6 +152,7 @@ function emailProblems(d) {
   else {
     const q = lines.findIndex((x) => /^Quick on me:/.test(x));
     const opening = lines.slice(open, q > open ? q : open + 2).join(" ");
+    if (/That'?s work I'?ve done/i.test(body)) p.push(`drop "That's work I've done."; the value statement replaces it`);
     if (!carriesValue(opening, v)) p.push(`the opening must carry value statement ${v.id || ""} after the company fact (its result and its words)`.replace("  ", " "));
   }
   // Body.

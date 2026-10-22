@@ -45,6 +45,7 @@ const note = (school, text) => checkAlumni([{ school, note: text }]);
   // The opening carries the best-fit value statement.
   expect("an email with no valueStatement fails", has({ ...sample, valueStatement: undefined }, /no valueStatement/), true);
   expect("an opening without the value statement fails", has(withBody((b) => b.replace("Slow go-lives delay revenue. I run implementation, support and training as one post-sale team, and cut average implementation from 16 weeks to 9 weeks.", "That's work I've done.")), /carry value statement/), true);
+  expect('"That\'s work I\'ve done." fails (the value statement replaces it)', has(withBody((b) => b.replace("in 60 days. Slow", "in 60 days. That's work I've done. Slow")), /value statement replaces it/), true);
   // Connectors: up to 2, dated, labeled, with the event, the value statement, and the ask.
   const conn = sample.connectors[0];
   const withConn = (x) => ({ ...sample, connectors: [{ ...conn, ...x }] });
