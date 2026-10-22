@@ -52,6 +52,7 @@ Never grade on title alone, and never skip a senior title in my role family with
 Flag likely fake postings (no real company named, no company description, generic boilerplate with no product, region or pay) as "Likely fake, skip".
 
 **Output**
+- Start the reply with one line from the tracker's "Conversations booked (weekly)" table: "Conversations booked this week: N (last week: M)."
 - Save the full list to `[path]/My Job Search/scans/YYYY-MM-DD-[am|mid|pm].md`.
 - In your reply, show only A and B postings (title, company, location, posted date, range, link, Proves, Gap) and a count of C postings.
 - Mark any company already in the tracker as "(in tracker #N)".

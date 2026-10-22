@@ -6,6 +6,13 @@ Status values: Watching, Researching, Drafted, Sent, Replied, Interviewing, Offe
 
 `Watching` is for an internship program whose application window has not opened yet, or is open with a deadline coming. Add `- Window: opens YYYY-MM-DD, deadline YYYY-MM-DD (source, date read)` and `- Reminder: YYYY-MM-DD`.
 
+## Conversations booked (weekly)
+A conversation is a call or meeting the user booked with someone at a target company, a recruiter, or a connector (a reply that set a time). Count the week it was booked, Monday to Sunday. The daily briefing shows this week's count and last week's.
+
+| Week of (Monday) | Conversations booked | With |
+|---|---|---|
+| YYYY-MM-DD | 0 | |
+
 ## Summary
 | # | Company | Status | Contact | Last touch | Next follow-up |
 |---|---|---|---|---|---|

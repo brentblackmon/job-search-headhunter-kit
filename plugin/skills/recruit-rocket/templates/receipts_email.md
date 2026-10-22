@@ -8,7 +8,7 @@ Used by `outreach-package`. Under 200 words in the body. The user sends it. `gen
 
 [First name], (or "Hello," when no contact is confirmed by a source from the last 12 months)
 
-[One researched, dated fact about the company, in one or two sentences: what they announced, posted, or said, with the month and year.] That's work I've done.
+[One researched, dated fact about the company, in one or two sentences: what they announced, posted, or said, with the month and year.] [The approved value statement from facts.md that best fits this company, in its own words: the problem, how you solve it, and the result.]
 
 Quick on me: [current or last title], [years] years in [domain].
 
@@ -32,7 +32,8 @@ Regards,
 
 Checklist before handing to the user:
 - [ ] Subject names the role, plainly; no slogan
-- [ ] Line 1 is a researched, dated company fact, followed by "That's work I've done."
+- [ ] Line 1 is a researched, dated company fact, followed by the best-fit value statement (its result and its words)
+- [ ] The bullets add proof the opening did not already use
 - [ ] No stock lines or general observations ("Most services teams...", "I hope this finds you well")
 - [ ] 4 to 6 bullets, each starts with a bold "I've", each has a number credited to its real cause
 - [ ] Every number matches approved phrasing in facts.md

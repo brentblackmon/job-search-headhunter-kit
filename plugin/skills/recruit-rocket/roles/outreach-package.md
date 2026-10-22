@@ -9,12 +9,14 @@ Facts file is the source of truth; **never invent or round**. **Use approved phr
 1. **Tracker check**: the company **and its parent or portfolio group** not already contacted in the last 14 days, not excluded. If the user already applied or is talking to someone there (the pipeline question, rule 20), **route through the warm contact first**: write a short note to that person asking about the role (`mode: "warm"`), not a cold email to the hiring executive.
 2. **Research**: `companies/<company-slug>/research.md` exists with quotes, a dated executive confirmation, and an email status. If not, run `company-research`.
 3. **Voice sample**: read the voice sample in `facts.md` and match its sentence length and warmth.
+4. **Value statement**: pick the approved value statement in `facts.md` that best fits this company's signal or posting (the problem that matches their event or stated priority). If none is approved yet, use the best-fit draft and get it approved on the review screen (see `roles/intake.md`). Put it in `outreach.json` as `valueStatement` (`{ "id", "text" }`).
 
 ## The receipts email
 Template: `templates/receipts_email.md`. Follow it exactly; the build script checks each line.
 - **Recipient:** only an executive confirmed by a dated source from the last 12 months (rule 3). If the only source is older, search for a current one (leadership page, a press release from the last 12 months, the parent company's news). None found: no recipient (`to` empty, greeting "Hello,"), and name the best verified alternative or say "apply first, then use LinkedIn".
 - **Subject:** plain and specific to the role ("Chief Operating Officer role at Northpeak Software"). Never a slogan.
-- **Opening:** one researched, dated fact about the company (what they announced, posted, or said, with the month and year), then "That's work I've done." No general observations or stock lines ("Most services teams get faster with AI before they get more profitable.").
+- **Opening:** one researched, dated fact about the company (what they announced, posted, or said, with the month and year), then the value statement, in its approved words (trim only to fit the sentence). No general observations or stock lines ("Most services teams get faster with AI before they get more profitable."). The build script fails when the opening does not carry the statement's result and at least 3 of its words.
+- **Bullets** then add proof the opening did not already use.
 - **"Quick on me:"** one line of background (current or last title, years, domain).
 - **4 to 6 bullets**, each starting with a bold "I've..." hook and a number in approved phrasing, credited to its real drivers from `facts.md` (rule 18). Choose the bullets that match the opening fact.
 - **Close:** one line asking for 20 minutes. Then "Resume attached." on its own line (attach the tailored resume PDF).
@@ -40,12 +42,19 @@ If `facts.md` lists `Schools`, alumni at the company come first in every outreac
 2. Write **one alumni note per school** the user picked, under 300 characters, counted: the shared school by name, one line on the user's target role, and a soft ask ("Would you be open to a quick chat about the team?"). No attachments, no links, no pitch. Each note uses only its own school's name and nickname: never "Tar Heel" for NC State or Wharton alumni (the build script checks this).
 3. List alumni first, then the hiring executive, in the outreach file and in the tracker contacts.
 
+## Connectors (up to 2)
+Besides the hiring executive and alumni, add up to 2 people who can point the user to the right person, from `companies/<company-slug>/research.md` (see "Connectors" in `roles/company-research.md`):
+- an **investor or board member** (the PE or VC partner who led the deal or sits on the board),
+- a **vendor or partner executive** who works with the company's C-suite (a named partner in a press release, case study, or joint announcement),
+- or a **leader at a competitor**.
+Each needs a dated source from the last 12 months; no dated source, no connector. Email labels follow rule 4: `VERIFIED` (published, cite where), `PATTERN GUESS, NOT VERIFIED` (with evidence), or `not found` (use LinkedIn). Write one **connector note** each from `templates/connector_note.md`: the company's event with its month and year, the user's value statement, and the ask "Who should I talk to there?" Under 300 characters, counted, so it works as a LinkedIn note or a short email. List connectors after alumni and the hiring executive. None found: say "Checked: no connector with a dated source" and what was searched.
+
 ## Output
-Write `companies/<company-slug>/outreach.json` in the shape of `generators/outreach/sample-data/outreach.json`: the contact (with `confirmed: true` only when a dated source confirms them), the email (to, address status: `VERIFIED`, `PATTERN GUESS, NOT VERIFIED`, or `not found`; subject; body), the LinkedIn note, one alumni entry per school (school, steps, note), and the sources. Then build the Word file the user opens, from a work copy of `generators/outreach/` (it uses the resume generator's `docx` package):
+Write `companies/<company-slug>/outreach.json` in the shape of `generators/outreach/sample-data/outreach.json`: the contact (with `confirmed: true` only when a dated source confirms them), the email (to, address status: `VERIFIED`, `PATTERN GUESS, NOT VERIFIED`, or `not found`; subject; body), the value statement used (`valueStatement`), the LinkedIn note, one alumni entry per school (school, steps, note), up to 2 `connectors` (name, title, company, type, why, source, date, url, email, address status, note), and the sources. Then build the Word file the user opens, from a work copy of `generators/outreach/` (it uses the resume generator's `docx` package):
 ```
 node build-outreach.js --data <company folder>/outreach.json --out <company folder>/<First_Last>_Outreach_<Company>.docx
 ```
-It fails on a note over 300 characters, an email over 200 words, two notes for one school, a note that does not name its school or uses another school's nickname, a dash, or a placeholder; fix `outreach.json` and run it again. The `.json` is working data; the user gets the `.docx`. If Node cannot run, write the same sections into a .docx by hand.
+It fails on an opening that does not carry the value statement, more than 2 connectors, a connector without a dated source from the last 12 months or a valid address label, a connector note missing the event, the value statement, or "Who should I talk to there?", a note over 300 characters, an email over 200 words, two notes for one school, a note that does not name its school or uses another school's nickname, a dash, or a placeholder; fix `outreach.json` and run it again. The `.json` is working data; the user gets the `.docx`. If Node cannot run, write the same sections into a .docx by hand.
 
 Then run `fact-check`. If an address is a pattern guess, include: "After you send, check for a bounce in about 2 minutes."
 

@@ -1,5 +1,5 @@
 {
-  "_note": "FICTIONAL SAMPLE. Jordan Rivera, Harborline Software and Priya Natarajan are not real.",
+  "_note": "FICTIONAL SAMPLE. Jordan Rivera, Harborline Software, Priya Natarajan, Saltmarsh Capital and Elena Brooks are not real.",
   "name": "Jordan Rivera",
   "company": "Harborline Software",
   "contact": {
@@ -9,11 +9,15 @@
     "source": "Harborline press release",
     "date": "2026-01-14"
   },
+  "valueStatement": {
+    "id": "V1",
+    "text": "Slow go-lives delay revenue. I run implementation, support and training as one post-sale team, and cut average implementation from 16 weeks to 9 weeks."
+  },
   "email": {
     "to": "Priya Natarajan <priya.natarajan@harborline.example>",
     "addressStatus": "PATTERN GUESS, NOT VERIFIED",
     "subject": "VP Operations role at Harborline Software",
-    "body": "Hi Priya,\n\nIn August 2026 Harborline posted a VP Operations role to run implementation, support, and training as one team, with a promise of live in 60 days. That's work I've done.\n\nQuick on me: Director of Operations at Tidewater Freight Systems, 14 years in logistics software.\n\n- **I've cut go-live time:** average implementation from 16 weeks to 9 weeks.\n- **I've raised retention:** helped raise gross revenue retention from 89% to 95% in three years.\n- **I've run the whole post-sale team:** 64 people and an $11.2M operating budget.\n- **I've integrated an acquisition:** 38 people and 120 customers onto one platform in 7 months, keeping 97%.\n\nWould you have 20 minutes in the next two weeks?\n\nResume attached.\n\nRegards,\nJordan Rivera\n(704) 555-0142\njordan.rivera@example.com\nlinkedin.com/in/jordan-rivera-example"
+    "body": "Hi Priya,\n\nIn August 2026 Harborline posted a VP Operations role to run implementation, support, and training as one team, with a promise of live in 60 days. Slow go-lives delay revenue. I run implementation, support and training as one post-sale team, and cut average implementation from 16 weeks to 9 weeks.\n\nQuick on me: Director of Operations at Tidewater Freight Systems, 14 years in logistics software.\n\n- **I've cut the support backlog:** open tickets from 1,150 to 420 in 12 months.\n- **I've raised retention:** helped raise gross revenue retention from 89% to 95% in three years.\n- **I've run the whole post-sale team:** 64 people and an $11.2M operating budget.\n- **I've integrated an acquisition:** 38 people and 120 customers onto one platform in 7 months, keeping 97%.\n\nWould you have 20 minutes in the next two weeks?\n\nResume attached.\n\nRegards,\nJordan Rivera\n(704) 555-0142\njordan.rivera@example.com\nlinkedin.com/in/jordan-rivera-example"
   },
   "linkedinNote": "Priya, Harborline's live in 60 days promise caught my eye. I cut go-live time from 16 weeks to 9 at Tidewater Freight Systems. Open to a short chat about the VP Operations role?",
   "alumni": [
@@ -27,9 +31,25 @@
       "note": "Hi, fellow Carolina Lakes grad here. I'm looking at the VP Operations role at Harborline and would value your view of the team. Open to a quick chat?"
     }
   ],
+  "connectors": [
+    {
+      "name": "Elena Brooks",
+      "title": "Partner",
+      "company": "Saltmarsh Capital",
+      "type": "investor",
+      "why": "led Saltmarsh Capital's investment in Harborline and sits on its board",
+      "source": "Saltmarsh Capital invests in Harborline Software, Harborline press release",
+      "date": "2026-05-12",
+      "url": "https://harborline.example/news/saltmarsh-investment",
+      "email": "",
+      "addressStatus": "not found",
+      "note": "Hi Elena, I saw Saltmarsh Capital invested in Harborline in May 2026. I run implementation, support and training as one post-sale team, and cut average implementation from 16 weeks to 9 weeks. Who should I talk to there about the VP Operations role?"
+    }
+  ],
   "sources": [
     "VP Operations posting, Harborline Software, 2026-08-14",
-    "Harborline names Priya Natarajan COO, Harborline press release, 2026-01-14"
+    "Harborline names Priya Natarajan COO, Harborline press release, 2026-01-14",
+    "Saltmarsh Capital invests in Harborline Software, Harborline press release, 2026-05-12"
   ],
   "today": "2026-10-20",
   "role": "VP Operations",

@@ -42,6 +42,23 @@ const note = (school, text) => checkAlumni([{ school, note: text }]);
   expect("an unconfirmed contact cannot be the email's recipient", has(none, /not confirmed; leave "to" empty/), true);
   const noneOk = { ...none, email: { ...sample.email, to: "", addressStatus: "no recipient", body: sample.email.body.replace("Hi Priya,", "Hello,") } };
   expect("an unconfirmed contact with no recipient and a plain greeting passes", check(noneOk).length, 0);
+  // The opening carries the best-fit value statement.
+  expect("an email with no valueStatement fails", has({ ...sample, valueStatement: undefined }, /no valueStatement/), true);
+  expect("an opening without the value statement fails", has(withBody((b) => b.replace("Slow go-lives delay revenue. I run implementation, support and training as one post-sale team, and cut average implementation from 16 weeks to 9 weeks.", "That's work I've done.")), /carry value statement/), true);
+  expect('"That\'s work I\'ve done." fails (the value statement replaces it)', has(withBody((b) => b.replace("in 60 days. Slow", "in 60 days. That's work I've done. Slow")), /value statement replaces it/), true);
+  // Connectors: up to 2, dated, labeled, with the event, the value statement, and the ask.
+  const conn = sample.connectors[0];
+  const withConn = (x) => ({ ...sample, connectors: [{ ...conn, ...x }] });
+  expect("3 connectors fail (2 at most)", has({ ...sample, connectors: [conn, { ...conn, name: "Sam Ortiz" }, { ...conn, name: "Lee Park" }] }, /2 at most/), true);
+  expect("a connector type outside the list fails", has(withConn({ type: "friend" }), /must be one of/), true);
+  expect("a connector with an undated source fails", has(withConn({ date: "" }), /dated source/), true);
+  expect("a connector source over 12 months old fails", has(withConn({ date: "2024-02-01" }), /over 12 months old/), true);
+  expect("a connector email marked not found fails", has(withConn({ email: "elena@saltmarsh.example" }), /needs VERIFIED or PATTERN GUESS/), true);
+  expect("a pattern-guess connector email passes", check(withConn({ email: "elena.brooks@saltmarsh.example", addressStatus: "PATTERN GUESS, NOT VERIFIED" })).length, 0);
+  expect('a connector note without "who should I talk to" fails', has(withConn({ note: conn.note.replace(/Who should I talk to there about/, "Could we talk about") }), /Who should I talk to/), true);
+  expect("a connector note without the event's date fails", has(withConn({ note: conn.note.replace(" in May 2026", "") }), /month and year/), true);
+  expect("a connector note without the value statement fails", has(withConn({ note: "Hi Elena, I saw Saltmarsh Capital invested in Harborline in May 2026. Who should I talk to there?" }), /carry the value statement/), true);
+  expect("the hiring executive cannot be a connector", has(withConn({ name: "Priya Natarajan" }), /is the hiring executive/), true);
   // Warm mode.
   const warm = JSON.parse(fs.readFileSync(path.join(root, "sample-data", "outreach-warm.json"), "utf8"));
   expect("the warm sample passes", check(warm).length, 0);

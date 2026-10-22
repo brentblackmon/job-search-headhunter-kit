@@ -1,6 +1,6 @@
 # Recruit Rocket
 
-Recruit Rocket 1.0.0. Copyright (c) 2026 the Licensor. All rights reserved. Single-user license: see [LICENSE](LICENSE).
+Recruit Rocket 1.1.0. Copyright (c) 2026 the Licensor. All rights reserved. Single-user license: see [LICENSE](LICENSE).
 
 **A full-service AI recruiting team that works for the job seeker.** It's one Claude skill that runs your whole search like a small recruiting firm with one client: you. It finds openings and grades them on real fit, spots companies about to hire before they post, builds a tailored ATS-ready resume, a cover letter, and a one-page stat sheet (a "baseball card") that puts your best numbers up front, writes the email and LinkedIn connect note to the right person, preps you for interviews, and tracks every follow-up.
 
@@ -135,7 +135,7 @@ docs/BUILD_BRIEF.md       the original build brief
 docs/course-outline.md    draft course modules mapped to the team
 plugin/                   the Claude plugin: manifest + the recruit-rocket skill
   skills/recruit-rocket/   SKILL.md (routes each request), roles/ (one file per role),
-                           STANDING_RULES.md, templates/, generators/ (resume and card)
+                           STANDING_RULES.md, templates/, generators/, RELEASE_NOTES.md (what changed in each version)
 examples/jordan-rivera/   full fictional sample run
 marketing/                org chart graphic + LinkedIn post draft
 version.json              the current version; synced to the public brentblackmon/recruit-rocket-updates repo, which installed copies check to show one line when a newer one is out

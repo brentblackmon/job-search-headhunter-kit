@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
-const { build, gate, lint } = require("../build-results");
+const { build, gate, lint, validate } = require("../build-results");
 
 const sample = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "sample-data", "results.json"), "utf8"));
 const results = [];
@@ -85,6 +85,21 @@ const posting = (o) => ({ title: "IT Director", company: "Co", location: "Columb
   expect('a heading "(3)" over 2 items fails', lintCounts("## Older but still open (3)\n- a\n- b\n").length, 1);
   expect("a generic link in a hand-written scan fails", lintCounts("## Picks (1)\n- IT Manager, Co. https://www.linkedin.com/jobs/\n").some((p) => /generic link/.test(p)), true);
   expect("the signals file lists the queries run", /News searches run \(6\): new CEO: "/.test(out.signals), true);
+}
+
+// Each signal fits a value statement and says why now.
+{
+  const out = build(sample);
+  expect('the card shows "Fits value statement #1" and "Why now"', /Fits value statement #1\. Why now: A plant/.test(out.card), true);
+  expect('the signals file shows "Fits value statement #1" and "Why now"', /Fits value statement #1\. Why now: A plant/.test(out.signals), true);
+  const sig = (o) => ({ ...sample, signals: [{ ...sample.signals[0], ...o }] });
+  const has = (r, re) => validate(r).some((p) => re.test(p));
+  expect("the sample passes", validate(sample).length, 0);
+  expect("a signal with no fitsValue fails", has(sig({ fitsValue: undefined }), /needs fitsValue/), true);
+  expect("fitsValue past the number of value statements fails", has({ ...sig({ fitsValue: 4 }), valueStatements: ["a", "b", "c"] }, /needs fitsValue/), true);
+  expect("a signal with no whyNow fails", has(sig({ whyNow: "" }), /needs whyNow/), true);
+  expect("a whyNow of two sentences fails", has(sig({ whyNow: "They opened a plant. They need IT." }), /more than one sentence/), true);
+  expect('an "Also seen" signal needs neither', validate({ ...sample, signals: [sample.signals[1]] }).length, 0);
 }
 
 let failed = 0;

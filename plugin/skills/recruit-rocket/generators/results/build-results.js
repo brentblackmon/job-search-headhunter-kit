@@ -14,7 +14,11 @@
 //                      belowLevel, underFloor (true when it is), hardRequirement ("" or what the
 //                      user cannot meet, e.g. "UK work authorization", "relocation to Denver") }
 //   signals[]        { company, signal, source, sourceDate, url,
-//                      contact: { name, title, source, date } or null }
+//                      contact: { name, title, source, date } or null,
+//                      fitsValue (the number of the value statement in facts.md it fits, 1 to 5),
+//                      whyNow (one sentence: why this company needs the user now) }
+//   valueStatements  ["statement 1", ...]  the value statements from facts.md, in order (optional;
+//                    when given, fitsValue must point at one of them)
 //   recruiters[]     { name, search, posted, url }      retained or staffing search postings
 //   clusters[]       { company, openings, note, source, date, url }   2+ target-family openings
 //                    at one company or one PE portfolio
@@ -29,7 +33,8 @@
 //   - a hard requirement the user cannot meet: C at most
 //   - below the target level, or under the pay floor: C
 //   - a company in "applied": skipped, listed under "Already applied, skipped"
-// Signals need a named contact with a dated source, or they go to "Also seen".
+// Signals need a named contact with a dated source, or they go to "Also seen". Each of those
+// needs fitsValue and a one-sentence whyNow, shown as "Fits value statement #N" and "Why now".
 // Recruiter postings must be dated within 30 days. Clusters need 2 or more openings.
 // Exits 1 if any text has an em or en dash, a spaced hyphen used as a dash, or a placeholder.
 //
@@ -103,9 +108,19 @@ function validate(r) {
   for (const x of r.notGraded || []) if (!String(x.careersSearch || "").trim()) p.push(`not graded "${x.title}, ${x.company}" has no careersSearch: search the company's careers page or ATS for the full text first`);
   for (const x of [...(r.postings || []), ...(r.notGraded || [])]) if (isGeneric(x.link)) p.push(`"${x.title}, ${x.company}" has a generic link (${x.link}); use the posting link or "" for link not found`);
   for (const x of r.recruiters || []) if (isGeneric(x.url)) p.push(`recruiter "${x.name}" has a generic link (${x.url})`);
+  const nValues = (r.valueStatements || []).length;
+  for (const s of (r.signals || []).filter(isReal)) {
+    const n = Number(s.fitsValue);
+    if (!Number.isInteger(n) || n < 1 || n > (nValues || 5)) p.push(`signal "${s.company}" needs fitsValue: the number of the value statement it fits (1 to ${nValues || 5})`);
+    const why = String(s.whyNow || "").trim();
+    if (!why) p.push(`signal "${s.company}" needs whyNow: one sentence on why they need the user now`);
+    else if ((why.match(/[.!?](\s|$)/g) || []).length > 1) p.push(`signal "${s.company}" whyNow is more than one sentence`);
+  }
   return p;
 }
 
+const isReal = (s) => !!(s.contact && s.contact.name && isDate(s.contact.date) && isDate(s.sourceDate));
+const fitLine = (s) => `Fits value statement #${s.fitsValue}. Why now: ${String(s.whyNow || "").trim()}`;
 const linkOf = (u) => (u && String(u).trim() ? u : "link not found");
 
 function build(r) {
@@ -125,7 +140,7 @@ function build(r) {
   top.sort((a, b) => (a.grade === b.grade ? a.days - b.days : a.grade === "A" ? -1 : 1));
   const picks = top.slice(0, 5);
 
-  const realSignals = (r.signals || []).filter((s) => s.contact && s.contact.name && isDate(s.contact.date) && isDate(s.sourceDate));
+  const realSignals = (r.signals || []).filter(isReal);
   const alsoSeen = (r.signals || []).filter((s) => !realSignals.includes(s));
   const recruiters = (r.recruiters || []).filter((x) => isDate(x.posted) && daysBetween(x.posted, today) <= 30);
   const clusters = (r.clusters || []).filter((c) => Number(c.openings) >= 2 && isDate(c.date));
@@ -152,6 +167,7 @@ function build(r) {
   if (!realSignals.length) L.push("None with a named, dated contact this time.");
   realSignals.slice(0, 3).forEach((s, i) => {
     L.push(`${i + 1}. **${s.company}**: ${s.signal} (${s.source}, ${fmtDate(s.sourceDate)}, ${s.url}). Approach: ${s.contact.name}, ${s.contact.title} (confirmed: ${s.contact.source}, ${fmtDate(s.contact.date)}).`);
+    L.push(`   ${fitLine(s)}`);
   });
   if (realSignals.length && realSignals.length < 3) L.push(`Only ${realSignals.length} real signal${realSignals.length === 1 ? "" : "s"} this time. I did not pad the list.`);
   if (alsoSeen.length) L.push(`Also seen (no named, dated contact yet): ${alsoSeen.map((s) => s.company).join(", ")}.`);
@@ -196,7 +212,7 @@ function build(r) {
   const S = [`# Signals ${today}`];
   if (realSignals.length) {
     S.push("", "## Hiring signals");
-    realSignals.forEach((s) => S.push(`- **${s.company}**: ${s.signal}. Source: ${s.source}, ${s.sourceDate}, ${s.url}. Approach: ${s.contact.name}, ${s.contact.title} (confirmed: ${s.contact.source}, ${s.contact.date}).`));
+    realSignals.forEach((s) => S.push(`- **${s.company}**: ${s.signal}. Source: ${s.source}, ${s.sourceDate}, ${s.url}. Approach: ${s.contact.name}, ${s.contact.title} (confirmed: ${s.contact.source}, ${s.contact.date}).`, `  ${fitLine(s)}`));
   }
   if (alsoSeen.length) {
     S.push("", "## Also seen (no named, dated contact yet)");
