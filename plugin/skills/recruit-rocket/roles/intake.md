@@ -13,7 +13,7 @@ Facts file is the source of truth; never invent or round. Store approved phrasin
 - If `facts.md` already exists in the job search folder, you are updating. Ask one question: "What's changed since we last set this up?"
 
 ## Before the first question (silent, no output beyond the status line)
-Post "Recruit Rocket 1.1.0. Step 1 of 3: reading your resume" first. Run the version check in `SKILL.md` while you read. In the "Done:" message that follows, add one line with the requirements: "Recruit Rocket runs on a Claude Pro or Max plan in the Claude desktop app with Cowork, saving to a folder on your computer. Gmail is optional but recommended." Add the update line there too if a newer version is out. Then draft `facts.md` in the job search folder from their documents, using the `templates/facts.md` headings:
+Post "Recruit Rocket 1.1.1. Step 1 of 3: reading your resume" first. Run the version check in `SKILL.md` while you read. In the "Done:" message that follows, add one line with the requirements: "Recruit Rocket runs on a Claude Pro or Max plan in the Claude desktop app with Cowork, saving to a folder on your computer. Gmail is optional but recommended." Add the update line there too if a newer version is out. Then draft `facts.md` in the job search folder from their documents, using the `templates/facts.md` headings:
 - Every role: company, title, MM/YYYY dates, location, scope.
 - Every number becomes a metric whose approved phrasing matches **their own words exactly**. Mark it `FROM RESUME`. Do not round, combine, or improve anything.
 - Note conflicts between documents. **Check the timeline** for overlapping full-time roles (one ends more than a month after the next starts; part-time, contract, board, volunteer, and promotions inside one company do not count) and gaps over 6 months. Do not ask about them now: list every one in `facts.md` under `## Open date checks` (role, dates, what looks wrong). The Fact Checker asks about each one the first time a draft uses those dates.
@@ -37,7 +37,7 @@ When the resume shows a current student (an expected graduation date, "Class of"
 Take graduation, GPA, and job details from the resume as written. Set `Mode: student` under `Targets` so the other roles use the student layout and the internship search. Skip pay for students unless they bring it up.
 
 ### Example
-> **Claude:** Recruit Rocket 1.1.0. Step 1 of 3: reading your resume
+> **Claude:** Recruit Rocket 1.1.1. Step 1 of 3: reading your resume
 > **Claude:** Done: read your resume. 12 years in IT, most recently IT Manager at a manufacturer in Columbus. (1 of 3) What roles should I look for?
 > [IT Manager or IT Director] [IT Operations Manager] [Infrastructure Manager] [Something else]
 > **User:** *clicks IT Manager or IT Director*

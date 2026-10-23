@@ -71,6 +71,15 @@ function expect(caseName, actual, wanted) {
   expect("3 tiles fail the layout check", three.check("Layout"), "FAIL");
 }
 
+// Both sample cards are labeled as fictional samples, in the file and on the printed card.
+{
+  for (const f of ["card.json", "card-student.json"]) {
+    const d = require(`../sample-data/${f}`);
+    expect(`${f} has a FICTIONAL SAMPLE note`, /^FICTIONAL SAMPLE\./.test(d._note || ""), true);
+  }
+  expect("the student card says fictional on the printed card", /fictional/i.test(require("../sample-data/card-student.json").intro), true);
+}
+
 // No intro or card body ends with a last line of 1 or 2 words.
 {
   const { shortLastLines } = require("../render-card");
