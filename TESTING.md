@@ -1,6 +1,6 @@
 # Test Recruit Rocket
 
-Recruit Rocket 1.1.0. Copyright (c) 2026 the Licensor. All rights reserved. Single-user license: see [LICENSE](LICENSE).
+Recruit Rocket 1.1.1. Copyright (c) 2026 the Licensor. All rights reserved. Single-user license: see [LICENSE](LICENSE).
 
 Thanks for testing. Recruit Rocket is a team of ten AI agents that runs your job search like a small recruiting firm with one client: you. **Nothing is ever sent for you.** It drafts. You decide and send.
 

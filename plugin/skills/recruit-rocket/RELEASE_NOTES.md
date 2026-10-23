@@ -1,5 +1,9 @@
 # Recruit Rocket release notes
 
+## 1.1.1 (2026-10-23)
+
+Resume and card QA now catch bullets that end on a 1 or 2 word line. When a resume bullet, the card intro, or a card's body wraps onto a last line of only 1 or 2 words, the check names it, and Recruit Rocket shortens that text (cutting filler, never a number or a fact) until it takes one line less, then rebuilds and checks again.
+
 ## 1.1.0 (2026-10-22)
 
 **Value statements.** After setup, Recruit Rocket drafts 3 to 5 value statements from your facts file. Each one names a business problem, your own way of solving it, and a result backed by a number or fact in your facts file. A new check (`generators/value/value-check.js`) fails a statement that uses buzzwords (storytelling, drive growth, transform, synergy, passionate, results-driven), has no result, uses a number that is not in your facts file, or could be said by any candidate. You approve them in one click, and they are saved under "Value statements" in your facts file.
