@@ -17,7 +17,8 @@
 //
 // Writes the PDF and a PNG preview next to it, then checks: exactly 1 page,
 // 4 stats (or 4 skill tiles), 2 sections of 4 cards, no text overflow, no unfilled placeholders
-// like "[phone]" or "[email]", and a headshot photo (required).
+// like "[phone]" or "[email]", a headshot photo (required), and no intro or card body that
+// wraps onto a last line of only 1 or 2 words.
 //
 // Renderer: Playwright (Chromium) when a browser is available. If Playwright or its
 // browser is missing (common in sandboxes that block the browser download), it falls
@@ -221,6 +222,49 @@ function countPages(pdfPath) {
   return (pdf.match(/\/Type\s*\/Page[^s]/g) || []).length;
 }
 
+// Every text line in the PDF: { x, y, words: [text] }. Empty when pdftotext is missing.
+function pdfLines(pdfPath) {
+  let xml;
+  try { xml = execFileSync("pdftotext", ["-bbox-layout", pdfPath, "-"], { encoding: "utf8" }); } catch { return []; }
+  const unescape = (t) => t.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+  return [...xml.matchAll(/<line xMin="([\d.]+)" yMin="([\d.]+)"[^>]*>([\s\S]*?)<\/line>/g)]
+    .map((m) => ({ x: Number(m[1]), y: Number(m[2]), words: [...m[3].matchAll(/<word[^>]*>([^<]*)<\/word>/g)].map((w) => unescape(w[1])) }))
+    .filter((l) => l.words.length);
+}
+
+// Body text must not end with a short last line: when the intro or a card's body wraps,
+// its last line needs 3 words or more. Finds each text's lines in the PDF (same left edge,
+// one under the other, words in order) and returns a problem for each 1 or 2 word ending.
+// The fix is to shorten that text (cut filler, never a number or a fact) until it takes
+// one line less, then render again.
+function shortLastLines(lines, texts) {
+  const key = (w) => String(w).toLowerCase().replace(/[^a-z0-9%$]/g, "");
+  const out = [];
+  for (const { label, text } of texts) {
+    const want = String(text || "").split(/\s+/).map(key).filter(Boolean);
+    if (!want.length) continue;
+    for (const start of lines) {
+      const words = (l) => l.words.map(key).filter(Boolean);
+      const fits = (l, at) => { const w = words(l); return w.length && w.every((x, i) => want[at + i] === x); };
+      if (!fits(start, 0)) continue;
+      const mine = [start];
+      let at = words(start).length;
+      while (at < want.length) {
+        const prev = mine[mine.length - 1];
+        const next = lines.find((l) => Math.abs(l.x - start.x) < 3 && l.y > prev.y + 1 && l.y < prev.y + 25 && fits(l, at));
+        if (!next) break;
+        mine.push(next);
+        at += words(next).length;
+      }
+      if (at !== want.length) continue;
+      const last = mine[mine.length - 1];
+      if (mine.length > 1 && words(last).length <= 2) out.push(`${label} ends with "${last.words.join(" ")}" on its last line; shorten it (cut filler, never a number or fact) until it takes one line less`);
+      break;
+    }
+  }
+  return out;
+}
+
 // Any text in square brackets ("[phone]", "[email]") is a draft gap, not card text.
 // Reads the PDF text with pdftotext when it is installed, otherwise the card data.
 function findPlaceholders(pdfPath, data) {
@@ -349,6 +393,10 @@ async function main() {
   const pages = countPages(outPdf);
   if (pages !== 1) problems.push(`expected 1 page, found ${pages}`);
   const placeholders = findPlaceholders(outPdf, data);
+  const bodyTexts = [{ label: "intro", text: data.intro }];
+  (data.sections || []).forEach((sec, i) => (sec.cards || []).forEach((c, j) => bodyTexts.push({ label: `section ${i + 1} card ${j + 1} body`, text: c.body })));
+  const lines = pdfLines(outPdf);
+  const short = shortLastLines(lines, bodyTexts);
 
   console.log(`Rendered with ${result.renderer}`);
   console.log("Wrote " + outPdf);
@@ -357,9 +405,10 @@ async function main() {
   console.log(`  [${pages === 1 ? "PASS" : "FAIL"}] Page count: ${pages} (landscape 11 x 8.5 in)`);
   console.log(`  [${problems.length ? "FAIL" : "PASS"}] Layout: ${problems.join("; ") || `4 ${useTiles(data) ? "skill tiles" : "stats"}, 2 sections of 4 cards, no overflow`}`);
   console.log(`  [${placeholders.length ? "FAIL" : "PASS"}] No unfilled placeholders: ${placeholders.join(", ") || "none"}`);
+  console.log(`  [${short.length ? "FAIL" : "PASS"}] No body text ends with 1 or 2 words on its last line: ${short.join("; ") || (lines.length ? "clean" : "not checked (pdftotext not installed)")}`);
   console.log(`  [${headshot ? "FAIL" : "PASS"}] Headshot: ${headshot || "photo embedded"}`);
   console.log("  Look at the preview PNG before sending.");
-  process.exit(problems.length || placeholders.length || headshot ? 1 : 0);
+  process.exit(problems.length || placeholders.length || short.length || headshot ? 1 : 0);
 }
 
 if (require.main === module) {
@@ -369,4 +418,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { buildCard, normalize, checkLengths, checkShape, repeatsTitle, noSlogans, sloganProblems, valueProblems, LIMITS };
+module.exports = { buildCard, normalize, checkLengths, checkShape, repeatsTitle, noSlogans, sloganProblems, valueProblems, shortLastLines, pdfLines, LIMITS };

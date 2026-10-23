@@ -4,7 +4,7 @@ Two small tools that turn your facts into finished documents. Recruit Rocket run
 
 | Tool | Input | Output |
 |---|---|---|
-| `resume/build-resume.js` | `resume.json` (+ optional `tailor.json`) | ATS-safe `.docx` and `.pdf`, page images, `-QA.md` report |
+| `resume/build-resume.js` | `resume.json` (+ optional `tailor.json`) | ATS-safe `.docx` and `.pdf`, page images, `-QA.md` report (includes the check that no bullet ends on a line of 1 or 2 words) |
 | `resume/keyword-check.js` | `keywords.json` (the posting's required and preferred skills) + the resume PDF | `keyword-check.md`: required skills covered (variants and the user's own wording count; preferred skills listed, not counted) |
 | `resume/copy-check.js` | the posting + the resume PDF or cover letter | flags any sentence sharing 6 or more words in a row with the posting (tool, product, company, and title names do not count) |
 | `resume/voice.js` | a resume PDF or a text file | AI-tell words in every form (leveraged, spearheaded) and weak verbs; company and product names are skipped |
@@ -14,7 +14,7 @@ Two small tools that turn your facts into finished documents. Recruit Rocket run
 | `results/build-results.js` | `results.json` (applied list, postings with dates and gate flags, signals, recruiters, clusters, sources checked) | The results card and `signals/YYYY-MM-DD.md`. Gates: over 30 days or undated never A or B; a hard requirement the user cannot meet, below level, or under the floor is C; applied companies skipped; signals need a named, dated contact. Also writes the scan file (`--scan`) with counts that match its lists, fails on generic links, on fewer than 6 signal searches across the 4 types, on a target opening left out, or a not-graded posting with no careers search; `--check-scan` checks a hand-written scan file |
 | `value/value-check.js` | `facts.md` (3 to 5 value statements under "Value statements") | Pass or a list of problems: buzzwords, no result, a number not in `facts.md`, or a statement any candidate could say |
 | `outreach/build-outreach.js` | `outreach.json` (contact, value statement, email, LinkedIn note, one alumni note per school, up to 2 connectors) | `First_Last_Outreach_Company.docx`, checked for the value statement in the opening, note lengths, one note per school, the right school name and nickname, connectors (dated, labeled, the event, the value statement and the ask), no dashes or placeholders |
-| `baseball-card/render-card.js` | `card.json` | one-page landscape `.pdf` and a `-preview.png` |
+| `baseball-card/render-card.js` | `card.json` | one-page landscape `.pdf` and a `-preview.png`, checked for overflow, placeholders, the headshot, and no intro or card body that ends on a line of 1 or 2 words |
 
 ## One-time setup
 

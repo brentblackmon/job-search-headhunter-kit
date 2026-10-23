@@ -11,6 +11,9 @@
 //   5. Key achievements summarize; none copies a role bullet word for word.
 //   6. No unfilled placeholders like "[phone]" or "[degree and year to confirm]".
 //   7. Dates on every layout read "Jan 2021 to Present" or "Mar 2019 to Dec 2020".
+//   8. No bullet ends with a short last line: a wrapped bullet whose last line holds only
+//      1 or 2 words fails. The fix is to shorten that bullet (cut filler, never a number or
+//      a fact) until it takes one line less, then rebuild and rerun.
 // Writes <name>-QA.md next to the PDF.
 
 const fs = require("fs");
@@ -28,6 +31,46 @@ const GRAD_DATE = new RegExp(`^(Expected )?${MON} \\d{4}$`);
 const { aiTells } = require("./voice");
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: "utf8" });
+
+// Every text line in the PDF, in reading order: { page, x, y, words: [{ t, x }] }.
+function pdfLines(pdfPath) {
+  const xml = sh("pdftotext", ["-bbox-layout", pdfPath, "-"]);
+  const unescape = (t) => t.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+  const out = [];
+  xml.split(/<page\b/).slice(1).forEach((pg, i) => {
+    for (const m of pg.matchAll(/<line xMin="([\d.]+)" yMin="([\d.]+)"[^>]*>([\s\S]*?)<\/line>/g)) {
+      const words = [...m[3].matchAll(/<word xMin="([\d.]+)"[^>]*>([^<]*)<\/word>/g)].map((w) => ({ t: unescape(w[2]), x: Number(w[1]) }));
+      if (words.length) out.push({ page: i + 1, x: Number(m[1]), y: Number(m[2]), words });
+    }
+  });
+  return out;
+}
+
+// Wrapped bullets whose last line holds only 1 or 2 words. A bullet starts with the "•"
+// glyph; its next lines start at the same indent as the text after the glyph.
+const countWords = (ws) => ws.filter((w) => /[A-Za-z0-9]/.test(w.t)).length;
+function shortBulletEndings(lines) {
+  const found = [];
+  let cur = null;
+  const close = () => {
+    if (cur && cur.lines.length > 1) {
+      const last = cur.lines[cur.lines.length - 1];
+      if (countWords(last) <= 2) found.push({ start: cur.lines[0].slice(0, 6).map((w) => w.t).join(" "), last: last.map((w) => w.t).join(" "), lines: cur.lines.length });
+    }
+    cur = null;
+  };
+  for (const l of lines) {
+    if (l.words[0].t === "\u2022" || l.words[0].t.startsWith("\u2022")) {
+      close();
+      const rest = l.words[0].t === "\u2022" ? l.words.slice(1) : [{ ...l.words[0], t: l.words[0].t.slice(1) }, ...l.words.slice(1)];
+      if (rest.length) cur = { textX: rest[0].x, lines: [rest] };
+    } else if (cur && Math.abs(l.x - cur.textX) < 3) {
+      cur.lines.push(l.words);
+    } else close();
+  }
+  close();
+  return found;
+}
 const norm = (s) => s.replace(/\s+/g, " ").trim();
 
 function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
@@ -141,6 +184,10 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   const badDates = [...roleDates.filter((d) => !DATE_RANGE.test(d)), ...eduDates.filter((d) => !DATE_RANGE.test(d) && !GRAD_DATE.test(d))];
   add("Date format", badDates.length === 0, badDates.length ? [...new Set(badDates)].map((d) => `"${d}"`).join(", ") + ' (write "Jan 2021 to Present" or "Mar 2019 to Dec 2020", graduation "Expected May 2028"; never a dash)' : "clean");
 
+  // 8. Short last lines: a wrapped bullet must not end with a line of 1 or 2 words.
+  const short = shortBulletEndings(pdfLines(pdfPath));
+  add("No bullet ends with 1 or 2 words on its last line", short.length === 0, short.length ? short.map((b) => `"${b.start}..." ends with "${b.last}"`).join("; ") + ". Shorten each one (cut filler, never a number or fact) until it takes one line less, then rebuild and rerun" : "clean");
+
   // Report
   const allPass = results.every((r) => r.pass);
   const lines = [
@@ -163,4 +210,4 @@ function runQa({ pdfPath, targetPages, data, paper = "letter" }) {
   return allPass;
 }
 
-module.exports = { runQa };
+module.exports = { runQa, shortBulletEndings, pdfLines };

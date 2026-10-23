@@ -85,7 +85,7 @@ This writes the .docx and the PDF, then runs QA. The PDF step needs LibreOffice 
 
 If Node is not available, or the PDF or QA tools are missing: still use the generator for the .docx if you can, then make the PDF with whatever tools you have. If you cannot run the generator at all, build the .docx yourself and copy the layout in `generators/resume/build-resume.js` exactly (fonts, sizes, colors, order of sections, single column, shaded stat line). Then do the QA checks by looking at the result. Never stop to ask the user to install anything.
 
-## QA before delivery (the generator runs 1 to 4 and the AI-tell check; you do 5 to 7)
+## QA before delivery (the generator runs 1 to 4, 8, and the AI-tell check; you do 5 to 7)
 1. The page count is reported, not targeted. Only if the user asked for a set length (`--pages`) must it match.
 2. Each page rendered to PNG. Look at them. No orphan lines (a heading or 1 to 2 lines alone at the top or bottom of a page).
 3. `pdftotext` output reads in the right order: name, headline, contact, stats, summary, and so on.
@@ -93,6 +93,7 @@ If Node is not available, or the PDF or QA tools are missing: still use the gene
 5. Run `fact-check` on the tailored text.
 6. File name: `First_Last_Resume_Company.pdf` for a tailored resume, `First_Last_Resume.pdf` for the master. No "final," "v3," or dates.
 7. If QA fails, fix and rerun. Common fixes: trim an older role's bullets, shorten the summary, drop one achievement.
+8. **No short last lines.** A bullet that wraps must not end on a line of only 1 or 2 words. When the check names a bullet, shorten that one (cut filler: an extra adjective, "the", a repeated word, a lead that repeats the bullet, or a longer way of saying the same thing; never a number, a name, or any other fact, and keep approved phrasing word for word) until it takes one line less, then rebuild and rerun. Repeat until the check passes. If it cannot get shorter without losing a fact, ask the user once which words to cut.
 
 ## Output
 **Phone and email.** If `facts.md` has no phone number or no email address, ask once, the first time you build a resume: "What phone and email should go on your resume?" (a typed answer). Never print placeholders.

@@ -41,6 +41,7 @@ If Node is not available at all, copy `generators/baseball-card/card-template.ht
 
 ## QA before delivery
 1. PDF is exactly 1 page, landscape, with no overflow (the script checks the header, stat tiles, every card, and the footer, and fails if any text runs long), no placeholders, and the headshot embedded. If it fails, fix what it names and rerun.
-2. Look at the PNG preview the script writes. It should look like a finished design: headline on one line, cards evenly filled, photo framed and not stretched.
-3. Run `fact-check` on every number.
-4. Tell the user: use this with direct email and in person, not in application portals.
+2. **No short last lines.** When the intro or a card's body wraps, its last line needs 3 words or more. When the script names one, shorten that one (cut filler: an extra adjective, "the", a repeated word, a word the card title already says, or a longer way of saying the same thing; never a number, a name, or any other fact, and keep approved phrasing word for word) until it takes one line less, then rebuild and rerun. Repeat until the check passes. If it cannot get shorter without losing a fact, ask the user once which words to cut.
+3. Look at the PNG preview the script writes. It should look like a finished design: headline on one line, cards evenly filled, photo framed and not stretched.
+4. Run `fact-check` on every number.
+5. Tell the user: use this with direct email and in person, not in application portals.

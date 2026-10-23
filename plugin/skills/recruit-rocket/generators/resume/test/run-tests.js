@@ -279,6 +279,29 @@ function expect(caseName, actual, wanted) {
   expect("--pages 1 on 2 pages of content fails the page check", asked.pagePass, false);
 }
 
+// Short last lines: a wrapped bullet must not end with 1 or 2 words.
+{
+  const { shortBulletEndings } = require("../qa");
+  const L = (x, text, page = 1) => ({ page, x, y: 0, words: text.split(" ").map((t, i) => ({ t, x: x + i * 20 })) });
+  // "•" at x 49, its text at 60; continuation lines start at 60.
+  const bulletLine = (text) => { const l = L(49, `\u2022 ${text}`); l.words[1].x = 60; return l; };
+  expect("a bullet whose last line is 1 word fails", shortBulletEndings([bulletLine("Raised on-time shipment rate across two centers at Brightpine"), L(60, "Distribution.")]).length, 1);
+  expect("a bullet whose last line is 2 words fails", shortBulletEndings([bulletLine("Raised on-time shipment rate across two centers at"), L(60, "Brightpine Distribution.")]).length, 1);
+  expect("a bullet whose last line is 3 words passes", shortBulletEndings([bulletLine("Raised on-time shipment rate across two centers"), L(60, "at Brightpine Distribution.")]).length, 0);
+  expect("a one-line bullet of 2 words passes", shortBulletEndings([bulletLine("Cut costs.")]).length, 0);
+  expect("a 3-line bullet ending in 1 word fails", shortBulletEndings([bulletLine("one two three four"), L(60, "five six seven eight"), L(60, "nine.")]).length, 1);
+  expect("a heading after a bullet is not its last line", shortBulletEndings([bulletLine("Raised on-time shipment rate across two centers"), L(45, "CORE COMPETENCIES")]).length, 0);
+  expect("a bullet that wraps onto the next page is still checked", shortBulletEndings([bulletLine("Raised on-time shipment rate across two centers at"), L(60, "Brightpine Distribution.", 2)]).length, 1);
+  // Real PDFs: the old sample bullet wrapped onto "Brightpine Distribution." alone.
+  const widow = build("short-last-line", (d) => {
+    d.achievements[d.achievements.length - 1] = { lead: "On time, every day.", text: "Raised on-time shipment rate from 91% to 98.5% across two distribution centers at Brightpine Distribution." };
+  });
+  expect("a resume bullet ending in 2 words fails QA", widow.check("No bullet ends with 1 or 2 words on its last line"), "FAIL");
+  expect("the failure names the short last line", widow.text.includes('ends with "Brightpine Distribution."') ? "named" : "missing", "named");
+  const ok = build("short-last-line-ok", () => {});
+  expect("the sample resume has no short last lines", ok.check("No bullet ends with 1 or 2 words on its last line"), "PASS");
+}
+
 fs.rmSync(work, { recursive: true, force: true });
 let failed = 0;
 for (const r of results) {
