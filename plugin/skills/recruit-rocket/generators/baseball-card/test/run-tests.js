@@ -71,6 +71,23 @@ function expect(caseName, actual, wanted) {
   expect("3 tiles fail the layout check", three.check("Layout"), "FAIL");
 }
 
+// No intro or card body ends with a last line of 1 or 2 words.
+{
+  const { shortLastLines } = require("../render-card");
+  const L = (x, y, text) => ({ x, y, words: text.split(" ") });
+  const body = [{ label: "section 2 card 2 body", text: "Grew the implementation team and hired the first two managers from within." }];
+  expect("a body whose last line is 1 word fails", shortLastLines([L(229, 640, "Grew the implementation team and hired the first"), L(229, 651, "two managers from"), L(229, 662, "within.")], body).length, 1);
+  expect("a body whose last line is 2 words fails", shortLastLines([L(229, 640, "Grew the implementation team and hired the first two managers"), L(229, 651, "from within.")], body).length, 1);
+  expect("a body whose last line is 3 words passes", shortLastLines([L(229, 640, "Grew the implementation team and hired the first two"), L(229, 651, "managers from within.")], body).length, 0);
+  expect("a one-line body passes", shortLastLines([L(46, 343, "Cut game packages in Adobe Premiere Pro.")], [{ label: "b", text: "Cut game packages in Adobe Premiere Pro." }]).length, 0);
+  expect("a line in another column is not part of the body", shortLastLines([L(229, 640, "Grew the implementation team and hired the first two managers from"), L(412, 651, "within.")], body).length, 0);
+  const real = render("short-last-line", (d) => { d.sections[1].cards[1].body = "Grew the implementation team at Kestrel Route Software and hired the first two managers from within."; });
+  expect("a card body ending in 1 word fails QA", real.check("No body text ends with 1 or 2 words on its last line"), "FAIL");
+  expect("the failure names the card and the short line", real.text.includes('section 2 card 2 body ends with "within."') ? "named" : "missing", "named");
+  expect("a short last line makes the script exit with an error", real.status === 0 ? "exit 0" : "exit 1", "exit 1");
+  expect("the sample card has no short last lines", render("short-ok", () => {}).check("No body text ends with 1 or 2 words on its last line"), "PASS");
+}
+
 fs.rmSync(work, { recursive: true, force: true });
 // The proof line must not repeat the card title.
 {

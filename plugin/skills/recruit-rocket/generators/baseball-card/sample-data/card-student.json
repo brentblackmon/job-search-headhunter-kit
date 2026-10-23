@@ -3,7 +3,7 @@
   "role": "Sports Broadcast Intern, Summer 2027",
   "headline": "Replay, camera and graphics",
   "headlineAccent": "for live college sports.",
-  "intro": "Junior in sports media at Lakeview State University (fictional). I run replay and camera for live college broadcasts and pick up new gear fast.",
+  "intro": "Junior in sports media at Lakeview State University. I run replay and camera for live college broadcasts and pick up new gear fast.",
   "valueStatement": {
     "id": "V1",
     "text": "Small crews miss replays on live broadcasts. I run replay and camera for live college football and basketball broadcasts."
@@ -43,19 +43,19 @@
           "tag": "Camera",
           "title": "Sideline camera",
           "proof": "12 matches.",
-          "body": "Shoot handheld sideline camera for soccer and volleyball."
+          "body": "Shoot sideline camera for soccer and volleyball."
         },
         {
           "tag": "Graphics",
           "title": "Lower thirds",
           "proof": "9 games.",
-          "body": "Build lower-third graphics in Chyron for women's basketball."
+          "body": "Build Chyron graphics for women's basketball."
         },
         {
           "tag": "Switcher",
           "title": "Ross Carbonite",
           "proof": "Trained on the student truck.",
-          "body": "Learned the switcher on the student crew's truck."
+          "body": "Learned the switcher on the student truck."
         }
       ]
     },
@@ -67,7 +67,7 @@
           "tag": "Field",
           "title": "Friday night football",
           "proof": "10 broadcasts.",
-          "body": "Set up cameras and audio for the high school football show."
+          "body": "Set up cameras and audio for prep games."
         },
         {
           "tag": "Logging",
@@ -85,7 +85,7 @@
           "tag": "Audio",
           "title": "Wireless audio",
           "proof": "Coursework.",
-          "body": "Set up wireless mics for sideline and studio segments."
+          "body": "Set up wireless mics for sideline and studio."
         }
       ]
     }
